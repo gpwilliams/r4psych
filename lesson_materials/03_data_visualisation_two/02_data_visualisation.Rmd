@@ -1,0 +1,85 @@
+---
+title: "Lesson 2 - Data Visualisation"
+output: html_notebook
+---
+
+# Load libraries and Data
+
+Load the libraries and data necessary to complete the exercises associated with this lesson. You may have to install the `languageR` library if you don't have it installed already.
+
+```{r}
+library(tidyverse)
+library(ggpirate)
+library(cowplot)
+
+# install.packages("languageR")
+library(languageR)
+
+data <- lexdec %>% select(c("Subject", "Sex", "NativeLanguage",
+                            "Trial", "Word", "Class", "RT")
+                          )
+```
+
+# Exercises
+
+Enter your code in the code blocks in response to the [exercises for Chapter 2 of r4psych](http://glennwilliams.me/r4psych/data-visualisation.html#exercises). Run your code and then save your document once completed.
+
+## Question 1
+
+```{r Question 1}
+
+```
+
+## Question 2
+
+```{r Question 2}
+
+```
+
+## Question 3
+
+```{r Question 3}
+
+```
+
+## Question 4
+
+```{r Question 4}
+
+```
+
+## Question 5
+
+```{r Question 5}
+
+```
+
+## Question 6
+
+```{r Question 6}
+
+```
+
+## Question 7
+
+```{r Question 7}
+
+```
+
+## Question 8
+
+```{r Question 8}
+
+```
+
+## Question 9
+
+```{r Question 9}
+
+```
+
+## Question 10
+
+```{r Question 10}
+
+```

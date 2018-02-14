@@ -1,0 +1,5 @@
+# Simulation and Calculating Power
+
+How to simualte data and perform power analyses.
+
+Content to follow.

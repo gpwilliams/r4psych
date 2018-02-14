@@ -1,0 +1,101 @@
+---
+title: "Lesson 1 - Introduction"
+output: html_notebook
+---
+
+# A Note on Notebooks
+
+This notebook can be used for completing the exercises from the [r4psych](http://glennwilliams.me/r4psych/) course by Glenn Williams. 
+
+This, and other notebooks are [R Markdown](http://rmarkdown.rstudio.com) notebooks. When you execute code contained within the chunks (in grey) within the notebook, the results appear beneath the code. This way, you can easily see how your r code works on first glance.
+
+To run the code within a chunk, click the *Run* button within the chunk in RStudio or place your cursor inside it and press *Ctrl+Shift+Enter*. 
+
+For this project, you needn't include any new chunks as I've structured them to each question. But if you want to add a new chunk, bdo so by clicking the *Insert Chunk* button on the toolbar in RStudio or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button in RStudio or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. The last code ran within a chunk will be displayed when you preview your HTML file.
+
+# Exercises
+
+Enter your code in the code blocks in response to the [exercises for Chapter 1 of r4psych](http://glennwilliams.me/r4psych/introduction.html#exercises). Run your code and then save your document once completed.
+
+1. What's wrong with the following code? Fix it in the second block below.
+```{r question 1}
+# create a sequence from 0 to 40 in intervals of 2
+sequence < - seq(from = 0, to = 40, by = 2)
+```
+
+```{r answer 1}
+# type your answer here
+
+```
+
+2. Why doesn't this return anything? Change the code to make it run.
+```{r question 2}
+# draw 100 times from a uniform distribution between 1 and 10
+uniform_distribution <- runif(n = 100, min = 1, max = 10)
+uniform_distrbiution
+```
+
+```{r answer 2}
+# type your answer here
+
+```
+
+3. Lets pretend we have 100 participants. Create a variable that will store participant IDs. Their IDs can be anything you like, but some sort of logical numbering looks best. *Hint*: `seq()` is your friend here!
+```{r answer 3}
+participants <- 
+
+```
+
+4. Create a variable that will store their scores on some test. Let's assume participant scores are drawn from a normal distribution with a mean of 10 and an SD of 0.75. *Hint*: `rnorm()` is a wonderful thing.
+```{r answer 4}
+scores <- 
+
+```
+
+5. Finally, create some ages for your participants. Here, you'll have to use a new command called `sample()`. See if you can figure out how to use this command. If you're lost, remember to use ? on the function.
+```{r answer 5}
+ages <-
+
+```
+
+6. Create a data frame consisting of your participant IDs, their ages, and test scores.
+```{r answer 6}
+data <- 
+
+```
+
+7. Take a look at the start and the end of your data frame. Do the values look reasonable? (Don't worry about outliers or missing values etc., we'll check those in later classes.)
+```{r answer 7}
+# type your answer here
+
+```
+
+8. Access the row (and all columns) for participant 20. What do the scores look like? Are they the same as the person sitting next to you? Why or why not, might this be the case?
+```{r answer 8}
+# type your answer here
+
+```
+
+9. Access just the test score for participant 73.
+```{r answer 9}
+# type your answer here
+
+```
+
+10. Output some simple descriptive statistics from your sample. We want to know:
+
+- Mean age
+- Mean score
+- SD score (Hint: Use sd())
+
+It may be useful to store these descriptives in another data frame for further use later on. Can you do that?
+```{r answer 10}
+# type your answer here
+
+```
+
+If you need any help with these questions, feel free to chat amongst yourselves or to contact me where necessary.

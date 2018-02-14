@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Psych" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  
+  <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="github-repo" content="gpwilliams/r4psych" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Psych" />
+  
+  <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
+  
+
+<meta name="author" content="Glenn Williams">
+
+
+<meta name="date" content="2018-02-14">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="introduction.html">
+<link rel="next" href="data-visualisation-2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R for Psych</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
+<li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
+<li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
+<li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.2</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
+<li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
+<li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
+<li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-manipulation.html"><a href="data-manipulation.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation</a></li>
+<li class="chapter" data-level="5" data-path="summarising-data.html"><a href="summarising-data.html"><i class="fa fa-check"></i><b>5</b> Summarising Data</a></li>
+<li class="chapter" data-level="6" data-path="traditional-tests.html"><a href="traditional-tests.html"><i class="fa fa-check"></i><b>6</b> Traditional Tests</a></li>
+<li class="chapter" data-level="7" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>7</b> Simulation and Calculating Power</a></li>
+<li class="chapter" data-level="8" data-path="mixed-effects-models-1.html"><a href="mixed-effects-models-1.html"><i class="fa fa-check"></i><b>8</b> Mixed Effects Models 1</a></li>
+<li class="chapter" data-level="9" data-path="mixed-effects-models-2.html"><a href="mixed-effects-models-2.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models 2</a></li>
+<li class="chapter" data-level="10" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>10</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>10.1</b> The Final Lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Psych</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-visualisation-1" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Data Visualisation 1</h1>
+<p>In this session we’ll look at data visualisation using the <strong>ggplot2</strong> package. As with most R stats courses, we’re focusing on data visualisation early on as this allows you to get a good grasp of your data and any general patterns within those data prior running any inferential tests.</p>
+<p>We’ll follow Hadley Wickham’s approach in <a href="http://r4ds.had.co.nz/data-visualisation.html">R for Data Science</a> by getting you working on producing some pretty graphs from the outset to see how ggplot works. After that, we’ll look at how ggplot can handle several data types. Along the way, we’ll add some customisation to our graphs so you can see the flexibility of this package.</p>
+<div id="getting-started" class="section level2">
+<h2><span class="header-section-number">2.1</span> Getting Started</h2>
+<p>First, we’ll load the packages necessary for this class. Nicely, ggplot2 is part of the tidyverse family, so we don’t need to load this separately to the other packages in our library.</p>
+<p>Sorry to have made you create your own data frames before, but R and it’s packages often come with in-built data sets. We’ll use the <code>starwars</code> data set from <code>dplyr()</code> which loaded with the <code>tidyverse</code> package. Why star wars? It’s convenient, and I’m a big nerd, so indulge me. Because this is built into R, you won’t see it in your Data pane in the <strong>Global Environment</strong>. That doesn’t matter for us, but rest assured it is there. Let’s get a sense of how this data looks. How about printing the first 10 entries?</p>
+<div id="the-star-wars-tibble" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> The Star Wars Tibble</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># look at first 10 entries</span>
+starwars</code></pre></div>
+<pre><code>## # A tibble: 87 x 13
+##    name     height  mass hair_color skin_color eye_color birth_year gender
+##    &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+##  1 Luke Sk~    172  77.0 blond      fair       blue            19.0 male  
+##  2 C-3PO       167  75.0 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+##  3 R2-D2        96  32.0 &lt;NA&gt;       white, bl~ red             33.0 &lt;NA&gt;  
+##  4 Darth V~    202 136   none       white      yellow          41.9 male  
+##  5 Leia Or~    150  49.0 brown      light      brown           19.0 female
+##  6 Owen La~    178 120   brown, gr~ light      blue            52.0 male  
+##  7 Beru Wh~    165  75.0 brown      light      blue            47.0 female
+##  8 R5-D4        97  32.0 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+##  9 Biggs D~    183  84.0 black      light      brown           24.0 male  
+## 10 Obi-Wan~    182  77.0 auburn, w~ fair       blue-gray       57.0 male  
+## # ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
+## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<p>I know that the starwars data set is saved as a tibble. That allowed me to just print its name to see the first 10 entries. But be wary of this with large data sets where you don’t know how it’s stored. You don’t want to flood your console if your data is stored as a <code>data.frame</code>!</p>
+<p>Let’s plot the mass and height of our characters against each other to see if there’s a trend.</p>
+</div>
+<div id="plotting-in-ggplot2" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> Plotting in ggplot2</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> starwars) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height))</code></pre></div>
+<pre><code>## Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
+<p><img src="R_for_Psych_files/figure-html/2_simple_point_plot-1.png" width="672" /></p>
+<p>So, we can see just how easy it is to create a plot of points in ggplot. Well done! There seems to be a positive relationship between mass and height in the starwars data set. We also got a couple of surprises: (1) a warning about 28 rows that contain missing values, and (2) a really big outlier. First, we’ll explore how ggplot works, then we’ll look into these surprises.</p>
+<p>The <code>ggplot()</code> function always needs to take a data set. This data set should hold everything you want to plot. Crucially, ggplot builds up the plots in layers. So making the first call <code>ggplot(data = starwars)</code> tells ggplot where it should look for data, but it doesn’t do much else aside from making a grey background.</p>
+<p>After this, you need to add some layers to your plot in the form of geometric objects (or geoms, for short). We decided that because we want to look at the link between mass and height, two continuous variables, that adding some points to the plot will be most useful for getting an idea of how the data are related. To do this, we used the <code>geom_point()</code> function. There are other geoms we could add, but for now we’ll focus on points.</p>
+<p>Crucially, geom functions take as an argument the mapping in your data. That is, how the visuals of the plot are mapped to your data. This mapping is always defined in terms of the aesthetics of your plot <code>aes()</code>, e.g. which variables to map onto the x and y axis, in this case.</p>
+<p>You can see how this makes ggplot so flexible:</p>
+<ol style="list-style-type: decimal">
+<li>Your data argument is flexible, so you can pass different data sets to the same chunk of code by changing out what you pass to the <code>data =</code> argument.</li>
+<li>Your aesthetics are flexible, so you can pass different columns to your x and y axis</li>
+<li>Your aesthetics are even more flexible because they can take aesthetics other than just what to plot on the x and y axes</li>
+</ol>
+<p>Let’s see the flexibility of your aesthetics in action</p>
+</div>
+<div id="cleaning-before-plotting" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> Cleaning Before Plotting</h3>
+<p>We saw before that R gave us a warning that we have rows containing missing values. In this instance, this just means that 28 people weren’t plotted because they didn’t have height and/or mass values. I’ll save filtering data properly (and what the <code>%&gt;%</code> (read pipe) symbol does) for another lesson, but we’ll get rid of them for now by running this code, below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars &lt;-<span class="st"> </span>starwars %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">drop_na</span>(height, mass)</code></pre></div>
+</div>
+<div id="changing-your-aesthetics" class="section level3">
+<h3><span class="header-section-number">2.1.4</span> Changing Your Aesthetics</h3>
+<p>Let’s say we’re interested in showing the relationship between mass and height within genders. How can we do this? One way would be to add colour to our the points on the plot in order to highlight the different genders.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
+                           <span class="dt">y =</span> height, 
+                           <span class="dt">colour =</span> gender
+                           )
+             )</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_simple_point_plot_with_colour-1.png" width="672" /></p>
+<p>We don’t get that warning now that we removed the NAs and passed the filtered data as an argument. That wasn’t really necessary as ggplot can handle that for us, but it stops the horrible warning from popping up! Warnings in R are there to tell you that the output of your code may not contain what you wanted it to contain. In the previous plot, ggplot dropped those with missing heights and masses, even though we didn’t explictly tell it to do so. Here, because we filtered those entried with missing values before plotting, we don’t get a warning. Warnings are different to errors in that your code will still work, but you need to check out whether it did what you wanted it to do. On the other hand, errors indicate you did something wrong and your code will fail to run.</p>
+<p>Now, we now have colour to see the relationship between mass and height across the genders in the data set. But it’s a little difficult to see this relationship given the outlier. Let’s see what that outlier is, and whether we should remove it from our data.</p>
+<p>Again, you’ll learn how this filtering works in later lessons, for now, I just want to show you how it’s useful to understand your data prior to creating a final plot of your data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars %&gt;%<span class="st"> </span><span class="kw">filter</span>(mass &gt;<span class="st"> </span><span class="dv">1000</span>)</code></pre></div>
+<pre><code>## # A tibble: 1 x 13
+##   name     height  mass hair_color skin_color  eye_color birth_year gender
+##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+## 1 Jabba D~    175  1358 &lt;NA&gt;       green-tan,~ orange           600 herma~
+## # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># overwrite data to remove outlier (keep all with mass below 1000)</span>
+<span class="co"># filtered_starwars &lt;- filtered_starwars %&gt;% filter(mass &lt; 1000) # not run</span></code></pre></div>
+<p>Of course, it’s Jabba the Hutt. We could choose to throw Jabba out of our data by using the code above to overwrite the data (commented out), but for now, we’ll see just how powerful ggplot is without throwing away our data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
+                           <span class="dt">y =</span> height, 
+                           <span class="dt">colour =</span> gender
+                           )
+             ) +
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_replot_point_plot_with_colour-1.png" width="672" /></p>
+<p>This time we added a function <code>coord_cartesian()</code> to the end of our <code>ggplot</code> call. We defined the limits of the x axis to be between 0 and 180. This way, we can get a better look at the trends in our data. Why do we define limits inside this function? Well, we could have also manually defined the scale with <code>scale_x_continuous(limits = c(0, 180))</code>. This may seem more inuitive, but it throws out the data points outside the limits prior to plotting. Why is this a problem? ggplot has some nice functionalities such as drawing lines of best fit for you based on the data in the plot. If you throw data away while plotting, your line of best fit will shift. So, if you decide that you want to change your scale but keep your model fits for all data, use <code>coord_cartesian()</code>. Given this is an outlier, your choice doesn’t matter if you’re just trying to show trends like this, but your choice is important if you want to show any inferential statistics associated with the data.</p>
+<p>Next up, we’ll look at changing a few components of the points on the plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
+                           <span class="dt">y =</span> height, 
+                           <span class="dt">colour =</span> gender
+                           ),
+             <span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="co"># opacity</span>
+             <span class="dt">shape =</span> <span class="dv">17</span>, <span class="co"># triangles</span>
+             <span class="dt">size =</span> <span class="dv">4</span>) +<span class="st"> </span><span class="co"># bigger points</span>
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_adding_constant_visual_changes_to_plots-1.png" width="672" /></p>
+<p>We’ve added 3 variables outside of the <code>aes()</code> mappings. This means that all of the points within the plot are changed in the same way: They all become a little bit transparent through the <code>alpha</code> variable definition; they all take a triangle shape through the <code>shape</code> variable definition (and the number associated), and they are all the same size due to the <code>size</code> variable definition.</p>
+<p>If we put these variables within the <code>aes()</code> mappings and associated them with a variable within the data set, such as gender, then each point would be affected differently depending on which level of the gender factor the individual data points belong to. It’s important to remember that everything within <code>aes()</code> is mapped onto variables with which to display your data. So, the x location, y location, and anything else that you define within <code>aes()</code> can vary by your data set. Everything outside of it will affect all levels of your data.</p>
+<p>Here, we’ll define colour both within and outside the <code>aes()</code> mapping, causing a clash. Try this plot below to see how clashes are resolved in <code>ggplot</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
+                           <span class="dt">y =</span> height, 
+                           <span class="dt">colour =</span> gender
+                           ),
+             <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_clashes_with_aes_and_constants_within_plots-1.png" width="672" /></p>
+<p>The different colours for each level of gender are now gone, along with the legend! Our variable definition for <code>colour</code> outside of the <code>aes()</code> mappings overrides that within <code>aes()</code>. This is because we’ve manually set the aesthetic properties of our plot by defining colour as an argument of the geom function, rather than of the aethetic mapping.</p>
+<p>R has some built in shapes that we can define within our plots. For shapes, these are divided into three categories:</p>
+<ul>
+<li>Colour border with hollow fill (0 - 14)</li>
+<li>Colourless border with colour fill (15 - 18)</li>
+<li>Colour border with colour fill (21 - 24)</li>
+</ul>
+<p>Bear in mind that colour and fill are different properties that we can control within our plots. Below, I’ve used hex values to specify the exact colours that I’d like for the colour (around the border) and the fill for our points. You can find a nice hex selector at <a href="http://htmlcolorcodes.com/">htmlcolorcodes.com</a> which will allow you to customise your plot colours to your liking. Just change the letters and numbers after the <code>#</code> in the <code>colour</code> call, and you can change the colours to your liking.</p>
+<p>In the example below I chose my colours based on the diverging colourblind safe selection of colours from <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">Color Brewer</a>. I’d recommend that you use this if you’re going to include colour in any plots for papers/presentations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
+                           <span class="dt">y =</span> height, 
+                           <span class="dt">colour =</span> gender
+                           ),
+             <span class="dt">colour =</span> <span class="st">&quot;#af8dc3&quot;</span>,
+             <span class="dt">fill =</span> <span class="st">&quot;#7fbf7b&quot;</span>,
+             <span class="dt">shape =</span> <span class="dv">21</span>,
+             <span class="dt">size =</span> <span class="dv">8</span>,
+             <span class="dt">stroke =</span> <span class="dv">3</span>
+             ) +
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_colour_and_fill-1.png" width="672" /></p>
+<p>Try to mess about with the different definitions that we provided above. Change the colour, size, and stroke values to see how these variables work.</p>
+<p>We’ve used the aesthetics above to define categorical data by colour. But what happens if we use continuous data?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) +
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
+                           <span class="dt">y =</span> height, 
+                           <span class="dt">colour =</span> birth_year
+                           )
+             ) +
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_colour_gradient-1.png" width="672" /></p>
+<p>You can see that we get a sliding scale for the hue of the points. Pretty neat, but also quite difficult to get a real idea of where on the scale the points lie.</p>
+<p>There are many inbuilt plots that you can create with ggplot2 by mapping your data to different geoms. To get an idea of all of different types of geoms, type <code>??geom</code>. This should give you an index of all of the geom types available to ggplot2 in your Help pane of RStudio.</p>
+</div>
+</div>
+<div id="exploring-different-geoms" class="section level2">
+<h2><span class="header-section-number">2.2</span> Exploring Different Geoms</h2>
+<p>You’ve already learned about <code>geom_point()</code> above, but now we’ll explore the other geom types.</p>
+<p>For this exploration, we’ll use a different data set with a limited number of groups for ease of visualisation. I’ve simulated some data for this exercise. You can find this data in the inputs folder for this lesson. (If you’re interested, you can also find the script for generating this data in the data_generation folder). Let’s load this data into R. Here, we use the function <code>read_csv</code> rather than the base R <code>read.csv</code>. This is because <code>read_csv</code> is faster, typically does a better job at guessing the data types for your columns of data, and saves the output as a tibble.</p>
+<p><em>Note</em>: <code>read_csv</code> will try to guess the types of data in each column for a data set loaded into R, but sometimes it can fail. We’ll cover instances where this fails, and how to remedy it, in the next lesson.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</code></pre></div>
+<p>How should we interpret this data? Imagine that we ran a lexical decision task on two groups of participants. In one condition, participants responded to sentences such as “Eric turned down the volume”, and had to indicate whether this sentence made sense by turning a knob. In the match condition, agreement matched the motion indicated in the sentence (e.g. left = yes, it makes sense), and in the mismatch condition agreement did not match the motion indicated in the sentence (e.g. right = yes, it makes sense). <a href="http://psycnet.apa.org/record/2006-01956-001">Zwaan and Taylor (2006, Experiment 4)</a> hypothesised that when the action and response are matched, resposne times should be quicker than if they do not match.</p>
+<p>The <code>participant</code> column indicates individual participants, the <code>gender</code> column indicates the gender of our participants, <code>response_condition</code> indicates whether participants took part in the match or mismatch conditions, and <code>reaction_time</code>, our dependent variable, represents the average reaction time in milliseconds for each participant to respond to whether or not the sentences made sense.</p>
+<div id="bar-plots" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Bar Plots</h3>
+<p>Bar plots are one of the most common plots you’ll come across in Psychology. They’re most useful for representing counts of data that are divided into categories. For example, you could use a bar plot to show the number of male and female participants in your study. Using our simulated data set, we can use a bar plot to show the counts of males and females in our data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> gender)
+       ) +
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_bar_plot-1.png" width="672" /></p>
+<p>You’ll often find that psychologists like to plot continuous data in a bar plot. I’ve done this myself, but we can do better. One alternative would be to use a boxplot, a violin plot, or even a pirate plot (well, we are plotting with Rrrrrrrrr…).</p>
+<p>Since we’ve got data which represents mean scores for each participant, this will be suitable for plotting straight away. If, however, you have raw data, remember to aggregate by participants or items prior to plotting. We’ll cover this in later classes.</p>
+</div>
+<div id="box-plots" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Box Plots</h3>
+<p>Box plots provide a better way to represent continuous outcomes (such as reaction times) than bar plots as they give you more information about the variance within your data set.</p>
+<div id="how-to-read-a-box-plot" class="section level4">
+<h4><span class="header-section-number">2.2.2.1</span> How to read a box plot</h4>
+<ul>
+<li>The middle line represents the median</li>
+<li>The upper white section of the box the upper quartile: 75% of scores fall below this.</li>
+<li>The lower white section the lower quartile: 25% of scores fall below this.</li>
+<li>Together the quartiles represent the interquartile range: The middle 50% of scores.</li>
+<li>The limits of the whiskers (black lines) for the upper and lower parts of the graph represent the smallest and largest observations that are equal to the upper or lower quartiles minus or plus 1.5 times the interquartile range. Effectively, this is most of the rest of the data, apart from outliers.</li>
+<li>The dots represent outliers (i.e. those values outside of the whiskers)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
+                     <span class="dt">y =</span> reaction_time
+                     )
+       ) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_box_plot-1.png" width="672" /></p>
+<p>We can see that the median reaction time is highest for those in the mismatch condition. Notice also that the interquartile range is larger, and so is the upper limit of the whiskers. This all suggests that those in the mismatch group vary more from each other than those in the match condition.</p>
+<p>Also, notice the outlier in the match group. Someone obviously has a very slow reaction time compared to the rest of the cohort. I wonder why that could be? Perhaps it’s because they misinterpreted the instructions, accidentally putting themselves into the mismatch condition. Or, it could be because I simulated this data and didn’t control for how outliers were distributed.</p>
+</div>
+</div>
+<div id="violin-plots" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Violin Plots</h3>
+<p>Additionally, we have violin plots which show you the density of the mean scores. The wider the section of the violin, the more scores around that area. We set <code>trim</code> to <code>FALSE</code> within the violin plot so that we see the full tails of the data. If we set this to <code>TRUE</code>, then the tails are trimmed to the range of the data.</p>
+<p>It’s also useful to draw quantiles on the violin plot, so we can see the quantiles as with the box plot using <code>draw_quantiles</code> and by specifying where we want these quantiles. Here, we chose the upper and lower 25% and the interquartile range.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
+                     <span class="dt">y =</span> reaction_time
+                     )
+       ) +
+<span class="st">  </span><span class="kw">geom_violin</span>(
+    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
+    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)
+    )</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_violin_plot-1.png" width="672" /></p>
+</div>
+<div id="density-plots" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Density Plots</h3>
+<p>Now we’ll look at ways to check for the distribution of your continuous variables. This is a good way to get an eye for whether or not your data are skewed and require a transformation on the data, or a non-parametric test when it comes to inferential statistics. Again, we’ll return to what this means in regards to statistics later in this course, but for now it’s a good idea to understand how you can check the distribution of your data prior to computing any statistics.</p>
+<p>Again, only the first two lines here are necessary to make the plot. The additional lines change the axis labels, set the limits and break points on the x-axis label, change the title of the legend, and set the theme to black and white.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
+                     <span class="dt">fill =</span> response_condition
+                     )
+       )</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_density_plot-1.png" width="672" /></p>
+<p>Did you notice how now that we have reaction time plotted on the x-axis (vs. the y-axis in the pirate plot), we had to change to using <code>scale_x_continuous()</code> and changing the limits and breaks within it? Also, we changed the title of our legend to allow for capitalisation and to remove the underscore between words by using <code>guides(fill = guide_legend(title = &quot;Response Condition&quot;))</code>.</p>
+</div>
+<div id="histograms" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> Histograms</h3>
+<p>If you have relatively few observations, a histogram may be more appropriate than a density plot. But, we’ll just stick to the same data as before to see how this works.</p>
+<p>Here, it’s often useful to set the <code>binwidth</code> prior to plotting. <code>ggplot</code> will try to set it to a default if it can, but this may not be what you want. Here, we’ve set the <code>binwidth</code> to 50, so we count how many observations we have for reaction times in 50ms bins, i.e. from 225 to 275ms, from 275 to 325ms etc.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
+                 <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
+                 )</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/2_histogram_plot-1.png" width="672" /></p>
+</div>
+</div>
+<div id="exercises-1" class="section level2">
+<h2><span class="header-section-number">2.3</span> Exercises</h2>
+<p>Try out the exercises below, we’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary.</p>
+<div id="main-exercises" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Main Exercises</h3>
+<ol style="list-style-type: decimal">
+<li></li>
+</ol>
+</div>
+<div id="additional-exercise" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> Additional Exercise</h3>
+<p>Try loading a different data set from the packages you have installed in R. If you’re not sure of the names and content of these data sets in order to load them, then run <code>data()</code> in the command line. You can attempt to map out the data using any of the geoms discussed above.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-visualisation-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

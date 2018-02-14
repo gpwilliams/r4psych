@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Psych" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  
+  <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="github-repo" content="gpwilliams/r4psych" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Psych" />
+  
+  <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
+  
+
+<meta name="author" content="Glenn Williams">
+
+
+<meta name="date" content="2018-02-14">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="data-visualisation-1.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R for Psych</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
+<li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
+<li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
+<li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.2</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
+<li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
+<li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
+<li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-manipulation.html"><a href="data-manipulation.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation</a></li>
+<li class="chapter" data-level="5" data-path="summarising-data.html"><a href="summarising-data.html"><i class="fa fa-check"></i><b>5</b> Summarising Data</a></li>
+<li class="chapter" data-level="6" data-path="traditional-tests.html"><a href="traditional-tests.html"><i class="fa fa-check"></i><b>6</b> Traditional Tests</a></li>
+<li class="chapter" data-level="7" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>7</b> Simulation and Calculating Power</a></li>
+<li class="chapter" data-level="8" data-path="mixed-effects-models-1.html"><a href="mixed-effects-models-1.html"><i class="fa fa-check"></i><b>8</b> Mixed Effects Models 1</a></li>
+<li class="chapter" data-level="9" data-path="mixed-effects-models-2.html"><a href="mixed-effects-models-2.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models 2</a></li>
+<li class="chapter" data-level="10" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>10</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>10.1</b> The Final Lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Psych</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<p>You can write citations, too. For example, we are using the <strong>bookdown</strong> package <span class="citation">(Xie <a href="#ref-R-bookdown">2018</a>)</span> in this sample book, which was built on top of R Markdown and <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span>.</p>
+<div id="installation-and-setup" class="section level2">
+<h2><span class="header-section-number">1.1</span> Installation and Setup</h2>
+<p>To get started, at the very least you’ll have to download R from <a href="https://cran.r-project.org/">CRAN</a>. Select the correct distribution for your operating system and then click through to <em>install R for the first time</em>.</p>
+<p>For Windows users, you’ll see a new page; at the top click on “Download R <strong>[version number]</strong> for Windows.” Click on that and follow the prompts in the installer. If you have a 64 bit system, install the 64 bit version of R as you’ll be able to take advantage of having more than 4Gb RAM. (This is useful in instances where you’re working with very large data sets.)</p>
+<p>In R, you don’t want to type commands directly to the console. Instead, you should use a text editor to write your script and send it to the console as and when you want. This way, you’ll have a document of what you did, and any minor changes you have to make are very easy to implement (vs. writing it all out from scratch again).</p>
+<p>One of the most popular ways to work on your R scripts is to use an Integrated Development Environment (IDE). The most popular IDE for R is RStudio, which you can download from the <a href="https://www.rstudio.com/">RStudio website</a>. In the navigation panel, select <strong>products</strong> and choose <strong>RStudio</strong>. Scroll down until you see <strong>Download RStudio Desktop</strong>. Finally, for the Free tier, click the <strong>Download</strong> button and select the correct installer for your operating system. For Windows users, you should select RStudio <strong>[version number]</strong> - Windows Vista/7/8/10. Follow the prompts on the installer, and your system should automatically pick up that you already have R on your system. From there, be sure to open the RStudio program to get started. This is the logo that looks like this:</p>
+<div class="figure" style="text-align:center">
+<img style="width:30%;" src="img\r_studio_logo.png" alt="An image of the RStudio logo">
+<p class="caption">
+The RStudio logo
+</p>
+</div>
+<p>Once open, you’ll see something that should look like this. Only, you won’t have the top pane unless you choose to start a new script (File, New File, R script) or if you’ve opened an existing script already.</p>
+<div class="figure" style="text-align:center">
+<img style="width:100%;" src="img\r_studio.png" alt="An image of the RStudio environment, with colour highlights around the sections of the IDE">
+<p class="caption">
+The RStudio environment, with added highlights
+</p>
+</div>
+<p>RStudio can be split into 4 main panes:</p>
+<ol style="list-style-type: decimal">
+<li>The <span style="color:#ff0000"><strong>editor</strong></span>: Type, edit, and save scripts as you would in any text editor.</li>
+<li>The <span style="color:#ff9900"><strong>console</strong></span>: Execute scripts by typing and pressing enter.</li>
+<li>The <span style="color:#4da6ff"><strong>environment and history</strong></span>: View objects (e.g. values, variables, and user-defined functions etc.) stored in memory for this working session. You can also see a history of your commands in the <em>History</em> tab.</li>
+<li>The <span style="color:#0000ff"><strong>viewer</strong></span>: view any <em>files</em> in your working directory, see your last <em>plot</em> from this session, view installed <em>packages</em> on your machine (you can also load them here), view the <em>help</em> documentation for any R commands, in the <em>viewer</em> you can view (surprise, surprise) markdown/other documents.</li>
+</ol>
+<p>All of these panes are very useful when developing your R scripts, but RStudio has some other features such as syntax highlighting, code completion, and an easy interface for compiling your reproducible R-markdown notebooks. For advanced users, you can also set up projects that play nicely with <a href="https://github.com/">Github</a> for version control of your work.</p>
+<p>Finally, RStudio defaults to giving you the option to save your workspace (e.g. all of the data you’ve created) when you close the program and to restore this workspace once you restart RStudio. I’d advise you to change RStudio’s defaults to never do this as this could cause unforseen errors when, for example, you want to change parts of script and you accidentally delete the stage to create a variable that is crucial later on. This deletion may not be obvious if you reload your workspace, but you won’t have a record of how you created said variable. To make these changes, go to <strong>Tools, Global Options</strong> then deselect <strong>Restore .RData into workspace at startup</strong> and from the dropdown menu on <strong>Save workspace to .RData on exit:</strong> to <strong>Never</strong>.</p>
+</div>
+<div id="working-directory-and-file-paths" class="section level2">
+<h2><span class="header-section-number">1.2</span> Working Directory and File Paths</h2>
+<p>When you create an R file (File, New File, R Script), where that file sits is its <strong>working directory</strong>. This is where R interprets any commands that go outside of your R session. For example, if you want to read data into R, or output a graph, R will do so in respect to the working directory. You can <em>get</em> your <em>working directory</em> like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getwd</span>()</code></pre></div>
+<p>You should see something along the lines of “C:/Users/<em>YOUR_NAME</em>/FOLDER/<em>RFILE</em>.R”</p>
+<p>Now, you can set your working directory to any folder on your computer with an absolute file path. Often, people use absolute file paths in order read inputs and send outputs to different folders on their computer, telling R exactly where to look.</p>
+<p>However, I recommend against this. That’s because if you change computers or pass your code over to someone else R will kick out an error saying it can’t find that folder; other computers are highly unlikely to have the same folder structure or even username as you, and fixing this can be frustrating. Also, it can be a pain having to type out your full file path, so let’s avoid that. Below, I’ve outlined one method for working that will allow you to use relative filepaths (relatively) easily.</p>
+<p>If you want to keep your folder from getting cluttered, keep your R script(s) in a folder, with an Inputs and Outputs folder at that same level, like so:</p>
+<div class="figure" style="text-align:center">
+<img style="width:100%;" src="img\folder_structure.png" alt="An image showing a folder structure with an R file and an inputs and outputs folder">
+<p class="caption">
+Potential Folder Structure for Your Projects
+</p>
+</div>
+<p>This way, when you want to read in raw data, or output a graph (or something else) you can use a <strong>relative file path</strong> rather than an absolute file path to define where your files are taken from/should go. This saves you a lot of typing of file paths, and it means your R scripts will work on someone else’s computer if you just send the entire folder containing the R script, Inputs, and Outputs folders.</p>
+<p>To read in or save data using a relative file path, do this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reads a CSV file from the Inputs folder</span>
+my_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;Inputs/my_data.csv&quot;</span>) 
+
+<span class="co"># writes a CSV file to the Outputs folder</span>
+my_data &lt;-<span class="st"> </span><span class="kw">write.csv</span>(my_data, <span class="st">&quot;Outputs/my_data_again.csv&quot;</span>) </code></pre></div>
+<p>You just have to type in the folder name and a slash (to indicate to go below that folder) and the name of your data. This saves you from all of the hassle of using an abosolute file path described above.</p>
+</div>
+<div id="packages" class="section level2">
+<h2><span class="header-section-number">1.3</span> Packages</h2>
+<p>Next, while you can do a lot in base R, if you can think of some task that is reasonably laborious there’s probably a package out there that can help you to achieve a certain goal. For us, the whole data processing, analysis, and presentation workflow can be made so much simpler by using a set of packages from the tidyverse library. This package is required for what we’re about to do next, so install tidyverse (using <code>install.packages(&quot;tidyverse&quot;)</code>). Once installed, you needn’t do it again. But on each new session you have to define which packages you want to load into R using the <code>library()</code> command. Make sure to uncomment the <code>install.packages(&quot;tidyverse&quot;)</code> line if you haven’t installed this package yet.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;tidyverse&quot;) # do this only once to install the package</span>
+<span class="kw">library</span>(tidyverse) <span class="co"># do this to load your package every time you open R</span></code></pre></div>
+<pre><code>## -- Attaching packages ---------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 2.2.1     v purrr   0.2.4
+## v tibble  1.4.2     v dplyr   0.7.4
+## v tidyr   0.8.0     v stringr 1.2.0
+## v readr   1.1.1     v forcats 0.2.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<p>By default, R installs packages from CRAN, which is essentially a centralised network for all things R. However, some useful packages may not have been submitted here, and you can install them from other places, like <a href="https://github.com/">github</a>. We won’t install packages from github or other repositories in this course. But it’s worth knowing that you can install packages from just about anywhere!</p>
+<p>Most of the time, you won’t have any trouble using functions from a loaded package. However, there can be cases when you have two packages installed that use the same function name. To tell R exactly which version of a function to use, we can specify both the package and function name in the form <code>package::function_name()</code>. For example, we can use the <code>group_by()</code> function from the package <code>dplyr</code> by typing <code>dplyr::group_by()</code>. You won’t come across this in this course, as we’ll be using packages that have functions with unique names, but it’s worth bearing in mind if you come across problems with functions you <em>know</em> should work in the future.</p>
+<p><em>Note:</em> You may notice that in my code chunks I have some green text following a #. These are comments in R and are not read when you execute your code. Comments are very useful for telling you what each section of your code does, and how. I tend to comment quite heavily, as there’s always a chance you’ll forget what you’ve done when you go back to it after a few months away from the code.</p>
+</div>
+<div id="objects-and-functions" class="section level2">
+<h2><span class="header-section-number">1.4</span> Objects and Functions</h2>
+<p>You can use R like a calculator, e.g.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span><span class="dv">4</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>You can execute this directly in the console, or run it from your R script by selecting that line of code (or highlighting several lines) and pressing Ctrl + Enter (for mac, this is probably Cmd + Enter). While I said you shouldn’t use the console when writing scripts, you can use it to test out a bit of code, or to quickly use R as a calculator when you’re in a meeting and feeling like mental arithmetic is a step too far. You can see that once the code is run, the R console returns the result back to you. You see a history of what you asked, and what was returned.</p>
+<p>*Top <a href="tip:*" class="uri">tip:*</a> use the up arrow key from the console and R will automatically fill in the last line/block of code you ran. Press up again to cycle back to older inputs, and down to back to the most recent ones.</p>
+<p>R always waits for you to finish an expression before it runs your code. So, if you ended your line with a +, it’ll wait for the next number. This is useful for complex expressions that can take up multiple lines, e.g.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span><span class="dv">2</span> +<span class="st"> </span><span class="dv">3</span> +<span class="st"> </span><span class="dv">4</span> +<span class="st"> </span><span class="dv">5</span> +<span class="st"> </span><span class="dv">6</span> +<span class="st"> </span><span class="dv">7</span> +
+<span class="st">  </span><span class="dv">8</span> +<span class="st"> </span><span class="dv">9</span></code></pre></div>
+<pre><code>## [1] 45</code></pre>
+<p>Watch the console when you type this out. You’ll notice that if you press enter after typing <code>7 +</code> on the new line you will no longer see <code>&gt;</code> but you’ll see +. The same happens even if you pass a different mathematical operator (e.g. <code>-</code>, <code>%</code>, <code>^</code>). This is there to tell you that R is not waiting for a new statement, but is waiting for you to finish off the current statement. If you see <code>&gt;</code> it means that whatever you can start a new statement.</p>
+<p>R also parses text if included in quotes. The same rule applies about finishing expressions here; if you don’t close your quote, then R will wait for you to do so. This means you can spread your text over several lines (by pressing Enter) and R will parse that as one expression. Note with our output we get which indicates that a new line follows the comma.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Hello, world!&quot;</span></code></pre></div>
+<pre><code>## [1] &quot;Hello, world!&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Hello, world (except you Donald Trump,</span>
+<span class="st">  nobody want&#39;s to talk to you)&quot;</span></code></pre></div>
+<pre><code>## [1] &quot;Hello, world (except you Donald Trump,\n  nobody want&#39;s to talk to you)&quot;</code></pre>
+<p>Crucially, you can store this sort of information in a variable. Variables are useful because you may want to use the results of a calculation and do some further operations on that result. This is especially useful if you’re not sure what that first result could be. We assign values to a variable using the assignment operator <code>&lt;-</code> (read this as create from).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summed_numbers &lt;-<span class="st"> </span><span class="dv">5</span> +<span class="st"> </span><span class="dv">8</span></code></pre></div>
+<p>We can then output this variable later on, like so: (This is often useful for checking that your variables store what you think they store.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summed_numbers</code></pre></div>
+<pre><code>## [1] 13</code></pre>
+<p>Or we can perform operations on the variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summed_numbers*<span class="dv">5</span></code></pre></div>
+<pre><code>## [1] 65</code></pre>
+<p><em>Note</em>: You cannot start variables with a number, you cannot use special characters (e.g. %!*) and you cannot include spaces in your variable name. Also, note that your capitalisation matters, so Summed_numbers is not summed_numbers. (I often get errors due to this issue…)</p>
+<p>R has the simple arithmetic operations you’d expect from any program. For example, you can:</p>
+<ul>
+<li>add <code>x + y</code>,</li>
+<li>subtract <code>x - y</code>,</li>
+<li>multiply <code>x * y</code></li>
+<li>divide <code>x/y</code>,</li>
+<li>exponentiate <code>x^y</code></li>
+<li>find the modulus <code>x %% y</code>, (e.g. 5 mod 2 = 1; i.e. the remainder from how many times 2 goes into 5)</li>
+<li>and conduct integer division <code>x %/% y</code> (e.g. 5 int div 2 = 2)</li>
+</ul>
+<p>R also has some logical operations built in. For example:</p>
+<ul>
+<li>less than <code>x &lt; y</code></li>
+<li>less than or equal to <code>x &lt;= y</code></li>
+<li>greater than <code>x &gt; y</code></li>
+<li>greater than or equal to <code>x &gt;= y</code></li>
+<li>exactly equal to <code>x == y</code></li>
+<li>not equal to <code>x != y</code></li>
+<li>not x <code>!x</code></li>
+<li>x OR y <code>x | y</code></li>
+<li>x AND y <code>x &amp; y</code></li>
+<li>test if X is true <code>isTRUE(x)</code></li>
+</ul>
+<p>These come in pretty handy for performing most operations on our data. If you’re unfamiliar with these, don’t worry. We’ll cover how you might use some of these in a staggered format as you progress through this course. Nicely, R also has a number of functions built in. This means you don’t need to write your own function if you want to sum a sequence of numbers. I’m sure I couldn’t provide an exhaustive list here, but as stated above we’ll cover most of the common functions as you get to grips with some data. Still, lets get an idea of how these functions work.</p>
+<p>Below, we will sum the numbers 1 to 4. This function is built into R already, so we don’t have to write a whole lot of code for this.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<p>What if we want to calculate the mean score from this set of numbers? That’s also built into R.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>Notice that whenever we want to run a function, these functions always have a name and are followed by parentheses (e.g. <code>mean()</code>, <code>sum()</code>). What goes in the parentheses? The argument you want to pass to the function. These can have default values, or not (requiring you to specify the argument). Above, we passed the values 1 through 4 as the arguments to the <code>mean()</code> function. Later, we’ll look at functions that ask for arguments from separate data types (e.g. numbers and characters). If you’re unsure what an argument does, you can always ask R what it does, how it does it, and what to pass to it by using <code>?</code>, e.g. <code>?mean()</code>. This will bring up a document in the Help window of RStudio.</p>
+<p>Typing out all of these numbers each time we want to perform some operation is a little tedious. To fix this, we can use what we learned above and store these numbers into a variable. In order to save these into their own variable, we use the <code>c</code> function. Think of this as <strong>c</strong>oncatenation. When we combine values into a variable, this variable is stored in our global environment. This means that we can perform operations on the variable later on, without the worry of typing our the values again. This is particularly useful if you want to store values from one function (say a statistical test) that you cannot pre-define but that you want to use later on.</p>
+<p>Let’s give that a go. First, we’ll concatenate our values into a variable using the <code>c()</code> function described above. Here, we simply define that we want to concatenate some values, and list each value separated by a comma.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stored_values &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</code></pre></div>
+<p>If we then call a function that works with a set of numbers, it should also work if we call that function on the variable storing those numbers. Let’s see how this works with the <code>mean()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(stored_values)</code></pre></div>
+<pre><code>## [1] 2.5</code></pre>
+<p>Great! That’ll save is a lot of time writing and rewriting code later on. This also allows our code to be flexible, in that we can write a script that performs operations on variables that can take any range of values. This, to me, is one of the nicest things about doing your analyses in R. While you may spend more time getting your script up and running in the first place when compared to using point-and-click methods (e.g. in SPSS), if you gain new data or run a new experiment, it’s likely that your script can simply be re-run with no (or few) changes at very little cost to your time.</p>
+<p>Now, this part is pretty important but may only be obvious if you’ve programmed in other languages. R is a <strong>vectorised</strong> language, which means that, as with the <code>sum()</code> function above, R can perform operations on the entire variable So, if you want to increment all values in your variable by 1, you can simply tell R to do so in one line of code, without the need for loops or other complex methods.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stored_values +<span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>## [1] 2 3 4 5</code></pre>
+</div>
+<div id="creating-and-accessing-data" class="section level2">
+<h2><span class="header-section-number">1.5</span> Creating and Accessing Data</h2>
+<p>So, you’ve made it through all of the boring stuff. Now we can look at manipulating some data in R.</p>
+<p>Let’s pretend we’ve administered IQ tests to 100 participants. For some reason, we’re interested in whether dog and cat owners have different IQs. I’m sure some of you can come up with some incredibly biased hypotheses here, but we’ll leave that out for now.</p>
+<p>We’ll create this data in R, then take a look at it using some of the packages from the <code>tidyverse</code> library that you installed and loaded above. If the functions below don’t work, be sure to load the tidyverse library (using <code>library(tidyverse)</code>) before running the code below.</p>
+<p>First, we’ll create a variable containing the numbers 1 to 100, using the <code>seq()</code> function; this can be our participant ID variable. Next, we’ll use the <code>sample()</code> function to sample randomly (and with replacement) from the two labels “cat” and “dog” which acts as our factor for pet ownership. (Note that here I use the <code>sample()</code> function on the concatenated values of “cat” and “dog”, but this would work equally well with a variable containing these labels.) Finally, we’ll use the <code>rnorm()</code> function to generate some random numbers (sampled from the normal distribution) with a mean of 150, and a standard deviation of 15 to act as our IQ scores.</p>
+<p>Remember how I said we’d look at functions that take several arguments? Well, thats what all of these functions below do. We define each parameter of the argument within the function call. So, if we want to generate a sequence of numbers from 1 to 100 , in increments of 1s (e.g. <code>seq(from = 1, to = 100, by = 1)</code>), then we define each argument with its name (e.g. from/to/by) and tell R which values to set for these arguments using <code>=</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create participant IDs</span>
+participant &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">100</span>, <span class="dt">by =</span> <span class="dv">1</span>)
+
+<span class="co"># create pet ownership codes</span>
+<span class="kw">set.seed</span>(<span class="dv">88</span>)
+pet &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>), <span class="dv">100</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># create IQ scores</span>
+<span class="kw">set.seed</span>(<span class="dv">88</span>)
+IQ_score &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">150</span>, <span class="dt">sd =</span> <span class="dv">15</span>)</code></pre></div>
+<p><em>Note:</em> I’ve overspecified the functions above. You can simply run <code>seq(1: 100)</code> and <code>rnorm(100, 150, 15)</code> to get the same results, but it’s a little less readable. Here, and throughout, I’ll use the most readable version so you have the best idea of what you’re doing. Because we’re using random sampling, I’ve also set a seed, so that you’ll sample the same values as me. If you want people to be able to reproduce your random sampling so they get the same data, set a seed!</p>
+<p>Finally, it’s important to note that you can call a function on the result of another function in R.</p>
+<p>Right now, each number in the participant variable is unique. We can see how many participants are in the study by asking R “how long is the variable, participant?”. We do this like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(participant)</code></pre></div>
+<pre><code>## [1] 100</code></pre>
+<p>Cool, we have 100 participants! But what if we have several observations for one participant? I’ll define that (very simply) in the code below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">participant[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># assign the second value of participant the integer 1</span>
+<span class="kw">head</span>(participant) <span class="co"># return the first 6 values of the participant variable</span></code></pre></div>
+<pre><code>## [1] 1 1 3 4 5 6</code></pre>
+<p>Now, using <code>length(participant)</code> will return 100, because there’s still 100 values in the <code>participant</code> variable. How do we find how many <strong>unique</strong> numbers are in the <code>participant</code> variable? We simply nest the <code>unique()</code> function within the <code>length()</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(<span class="kw">unique</span>(participant))</code></pre></div>
+<pre><code>## [1] 99</code></pre>
+<p>This asks R how many unique values are in the variable participant. That’s 99!</p>
+<div id="data-frames-and-tibbles" class="section level4">
+<h4><span class="header-section-number">1.5.0.1</span> Data Frames and Tibbles</h4>
+<p>Now, in the real world, if you tested IQs you’d typically have this data stored in a table somewhere prior to reading it into R. So lets pair the data together into a table in R. The most useful way to do this is to create a <code>data.frame</code>. But, since we’ve already loaded the tidyverse, we may as well use the built in <strong>tibbles</strong>. These are like data frames, but they have some different defaults that make working in the tidyverse easier.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data &lt;-<span class="st"> </span>tibble::<span class="kw">tibble</span>(
+  <span class="dt">participant_number =</span> participant, 
+  <span class="dt">pet_id =</span> pet, 
+  <span class="dt">IQ =</span> IQ_score
+  )</code></pre></div>
+<p>What’s the main advantage of using a tibble over a <code>data.frame</code> here? Tibbles don’t automatically convert certain data types. With <code>data.frame</code>, character data is automatically converted to a factor. This can be useful, but not always. The thing I like most is that tibbles show the data type under the column name. This is taken from <code>str()</code> which tells you the <strong>str</strong>ucture of your data. Also, tibbles default to printing the first 10 rows of data when you type their name in the console. This will stop you from getting overwhelmed by a massive printout if you have a lot of data. Let’s see all of this in action.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data</code></pre></div>
+<pre><code>## # A tibble: 100 x 3
+##    participant_number pet_id    IQ
+##                 &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1               1.00 cat      147
+##  2               1.00 cat      160
+##  3               3.00 dog      185
+##  4               4.00 cat      122
+##  5               5.00 dog      157
+##  6               6.00 dog      152
+##  7               7.00 cat      152
+##  8               8.00 dog      119
+##  9               9.00 dog      131
+## 10              10.0  dog      160
+## # ... with 90 more rows</code></pre>
+<p>If you want more than 10 rows, or a specific number of columns, tell R that’s what you’d like. Here, we’ve asked for the first 12 rows, and the width of the table to be infinity so that R prints out all columns even if they don’t fit on 1 row in the console. However, with only 3 columns, that isn’t an issue here.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(IQ_data, <span class="dt">n =</span> <span class="dv">12</span>, <span class="dt">width =</span> <span class="ot">Inf</span>)</code></pre></div>
+<pre><code>## # A tibble: 100 x 3
+##    participant_number pet_id    IQ
+##                 &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1               1.00 cat      147
+##  2               1.00 cat      160
+##  3               3.00 dog      185
+##  4               4.00 cat      122
+##  5               5.00 dog      157
+##  6               6.00 dog      152
+##  7               7.00 cat      152
+##  8               8.00 dog      119
+##  9               9.00 dog      131
+## 10              10.0  dog      160
+## 11              11.0  dog      138
+## 12              12.0  dog      165
+## # ... with 88 more rows</code></pre>
+<p>Unfortunately, some older functions in R won’t allow you to use a tibble. If this is the case, simply convert your tibble to a <code>data.frame</code> using the <code>as.data.frame()</code> function. Note, we use <code>head()</code> to see the head of our data frame, or the first 6 values. This is necessary here to avoid printing out each row, as we’re not in using a tibble any more. Notice that We’ve assigned the <code>data.frame</code> version of our IQ data to a new variable, rather than overwriting the previous variable. This is good practice when testing your code, as you never know what might break, resulting in data loss. (Although this wansn’t strictly necessary here.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(IQ_data)
+<span class="kw">head</span>(IQ_data_df)</code></pre></div>
+<pre><code>##   participant_number pet_id       IQ
+## 1                  1    cat 146.6062
+## 2                  1    cat 159.6985
+## 3                  3    dog 185.1909
+## 4                  4    cat 122.3157
+## 5                  5    dog 156.8954
+## 6                  6    dog 151.8567</code></pre>
+</div>
+<div id="accessing-tibble-information" class="section level4">
+<h4><span class="header-section-number">1.5.0.2</span> Accessing Tibble Information</h4>
+<p>With tibbles and <code>data.frames</code>, you often want to access a specific column in order to perform some calculation. Let’s say we want to calculate the mean IQ score in our data set. Why doesn’t the code below work?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(IQ_data)</code></pre></div>
+<pre><code>## Warning in mean.default(IQ_data): argument is not numeric or logical:
+## returning NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>R gives us a warning, saying that the argument to our function (i.e. the tibble, IQ_data) is not numeric or logical. Therefore, R cannot calculate the mean on something that isn’t a number (or set of numbers). Instead, we have to point R to the correct column within the tibble. This is often done by name using <code>$</code> , or by name/position in the tibble using <code>[[</code> and the name/position followed by <code>]]</code>.</p>
+<p>First, let’s see that we’re accessing everything correctly here.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># by name</span>
+IQ_data$IQ
+IQ_data[[<span class="st">&quot;IQ&quot;</span>]]
+
+<span class="co"># by position</span>
+IQ_data[[<span class="dv">3</span>]]</code></pre></div>
+<pre><code>## [1] 146.6062 159.6985 185.1909 122.3157 156.8954 151.8567</code></pre>
+<p>Tibbles are stricter than data frames, in that they’ll always return a tibble. For example, with a <code>data.frame</code> if you ask for a value in a specific row of a specific column under the format <code>data_frame[row, column]</code>, R will return a vector of the value at that position in the <code>data.frame</code>. With tibbles, your single value will be returned as a tibble.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tibble output</span>
+IQ_data[<span class="dv">1</span>, <span class="dv">3</span>] <span class="co"># row 1, col 3</span></code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##      IQ
+##   &lt;dbl&gt;
+## 1   147</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data.frame output</span>
+IQ_data_df[<span class="dv">1</span>, <span class="dv">3</span>]</code></pre></div>
+<pre><code>## [1] 146.6062</code></pre>
+<p>Now, lets calculate the mean on the correct column in the tibble. Personally, I prefer using <code>$</code> for cases like this. But, feel free to use any of the above methods.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(IQ_data$IQ)</code></pre></div>
+<pre><code>## [1] 150.1567</code></pre>
+<p>We can combine what we learned above about <code>c()</code> to access multiple columns at once:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[, <span class="kw">c</span>(<span class="st">&quot;participant_number&quot;</span>, <span class="st">&quot;IQ&quot;</span>)]</code></pre></div>
+<pre><code>## # A tibble: 100 x 2
+##    participant_number    IQ
+##                 &lt;dbl&gt; &lt;dbl&gt;
+##  1               1.00   147
+##  2               1.00   160
+##  3               3.00   185
+##  4               4.00   122
+##  5               5.00   157
+##  6               6.00   152
+##  7               7.00   152
+##  8               8.00   119
+##  9               9.00   131
+## 10              10.0    160
+## # ... with 90 more rows</code></pre>
+<p>or a range of values by defining specific rows by specifying the row number we’d like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;participant_number&quot;</span>, <span class="st">&quot;IQ&quot;</span>)]</code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   participant_number    IQ
+##                &lt;dbl&gt; &lt;dbl&gt;
+## 1               1.00   147
+## 2               1.00   160
+## 3               3.00   185
+## 4               4.00   122
+## 5               5.00   157</code></pre>
+<p>or, to save typing, we can just define this from a starting to an ending value for the rows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[<span class="dv">1</span>:<span class="dv">5</span>, <span class="kw">c</span>(<span class="st">&quot;participant_number&quot;</span>, <span class="st">&quot;IQ&quot;</span>)]</code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##   participant_number    IQ
+##                &lt;dbl&gt; &lt;dbl&gt;
+## 1               1.00   147
+## 2               1.00   160
+## 3               3.00   185
+## 4               4.00   122
+## 5               5.00   157</code></pre>
+</div>
+<div id="manipulating-tibble-information" class="section level4">
+<h4><span class="header-section-number">1.5.0.3</span> Manipulating Tibble Information</h4>
+<p>We can use these same principles to edit the information within our data. Say, we’d like to change participant number in row 2 back to 2, we just need to do this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># specifying row and column by index</span>
+IQ_data[<span class="dv">2</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">2</span>
+
+<span class="co"># specifying row by index and column by name</span>
+IQ_data[<span class="dv">2</span>, <span class="st">&quot;participant_number&quot;</span>] &lt;-<span class="st"> </span><span class="dv">2</span>
+
+<span class="co"># specifying index within a column</span>
+IQ_data$participant_number[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">2</span></code></pre></div>
+<p>You can see how all of this combined can result in some pretty powerful flexibility in how you access and manipulate your data in R. Later, we’ll look into a set of functions for data wrangling that are part of the tidyverse family of functions. These make selecting and running functiosn on sub-sections of your data so much easier when compared to base R.</p>
+<p>Finally, a word on data types: For most purposes, you’ll only need vectors and data frames/tibbles when you want to work with your data. But it’s worth being aware of other data types, such as lists and matrices.</p>
+</div>
+<div id="other-data-types" class="section level4">
+<h4><span class="header-section-number">1.5.0.4</span> Other Data Types</h4>
+<p>With lists, you can define a vector that contains other objects. Think of this as nesting vectors within vectors (very meta).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_quality &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">glenn =</span> <span class="kw">c</span>(<span class="st">&quot;handsome&quot;</span>, <span class="st">&quot;smart&quot;</span>, <span class="st">&quot;modest&quot;</span>),
+                       <span class="dt">not_glenn =</span> <span class="kw">c</span>(<span class="st">&quot;less_handsome&quot;</span>, <span class="st">&quot;less_smart&quot;</span>, <span class="st">&quot;less_modest&quot;</span>)
+                       )</code></pre></div>
+<p>We can then access the elements of a list similarly to how we access vectors, but the name associated with the list will also be returned:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_quality[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## $glenn
+## [1] &quot;handsome&quot; &quot;smart&quot;    &quot;modest&quot;</code></pre>
+<p>If, instead, we just want the values associated with that entry, we can use <code>[[your list name]]</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_quality[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## [1] &quot;handsome&quot; &quot;smart&quot;    &quot;modest&quot;</code></pre>
+<p>We can edit these values in a similar way to how we did with a data frame. This time, we just need to tell R which vector to access first (here, it’s the first vector, using double brackets so we can access the values stored there, and not the name (as would happen if we just had 1 bracket)), and then specify which location in the vector you’d like to assign a new value using a separate bracket here:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_quality[[<span class="dv">1</span>]][<span class="dv">4</span>] &lt;-<span class="st"> &quot;liar&quot;</span>
+person_quality[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## $glenn
+## [1] &quot;handsome&quot; &quot;smart&quot;    &quot;modest&quot;   &quot;liar&quot;</code></pre>
+<p>An advantage to using lists over data frames or tibbles is that the data need not be square. That is, you can have uneven lengths for your entries. Notice how glenn and not_glenn have different numbers of elements in the list. With a data frame, this is problematic. Let’s try adding another participant number to our IQ_data tibble.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[<span class="dv">101</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">101</span>
+<span class="kw">tail</span>(IQ_data)</code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   participant_number pet_id    IQ
+##                &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1               96.0 cat      148
+## 2               97.0 dog      178
+## 3               98.0 dog      156
+## 4               99.0 cat      165
+## 5              100   dog      150
+## 6              101   &lt;NA&gt;      NA</code></pre>
+<p>Did you notice that R automatically introduced NA values in the final cells for the pet_id and IQ columns?</p>
+<p>Matrices work very similarly to data frames and tibbles, but they’re even stricter. They can only contain the same data type throughout, so we can’t mix columns containing characters and numbers without converting them all to the same data type (hint: it’s a character!). I’ll show you how to make a matrix, but we won’t linger on that as I haven’t found them all that useful in my own work.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matrix_example &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>:<span class="st"> </span><span class="dv">25</span>),
+                         <span class="dt">nrow =</span> <span class="dv">5</span>,
+                         <span class="dt">ncol =</span> <span class="dv">5</span>
+                         )
+matrix_example</code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    6   11   16   21
+## [2,]    2    7   12   17   22
+## [3,]    3    8   13   18   23
+## [4,]    4    9   14   19   24
+## [5,]    5   10   15   20   25</code></pre>
+</div>
+</div>
+<div id="good-practice" class="section level2">
+<h2><span class="header-section-number">1.6</span> Good Practice</h2>
+<div id="data-checking-tips" class="section level3">
+<h3><span class="header-section-number">1.6.1</span> Data Checking Tips</h3>
+<p>Finally, a few tips on checking your data before you manipulate your data:</p>
+<ol style="list-style-type: decimal">
+<li>If you’re unsure what you have in your working directory, use either check your environment (the panel in light blue in the RStudio screenshot above) or type <code>ls()</code> in the console. This will list everything currently in the global environment.</li>
+<li>If you want to know the data class for some object, use the <code>class()</code> function (e.g. <code>class(IQ_data)</code>).</li>
+<li>If you want to know the structure (including object classes) for some object, use the <code>str()</code> function (e.g. <code>str(IQ_data)</code>. Nicely, <code>str()</code> also tells you how many variables are in the object, and how many observations you have in total.</li>
+</ol>
+<p>Most importantly with anything in R, if you aren’t sure how a function works, or what it’s done to your data, check how that function works! You can do this with any function by typing <code>?</code> followed by the function name into the console (e.g. <code>?str()</code>).</p>
+</div>
+<div id="style" class="section level3">
+<h3><span class="header-section-number">1.6.2</span> Style</h3>
+<p>I strongly recommend that you choose a style guide and stick to it throughout when you write your R code. This will make it easier to notice any errors in your code, and increases readability for you and others. Consistency is key here. Since we’re using a tidyverse first approach to teaching R in this course, I recommend this one by the creator of the tidyverse:</p>
+<p><a href="http://adv-r.had.co.nz/Style.html">R Style Guide by Hadley Wickham</a></p>
+<p>The important things to take home are that:</p>
+<ul>
+<li>Use sensible variable names: if a column shows, e.g. participant weight, call it participant_weight</li>
+<li>Use verbs to describe user-defined functions: if you write a function to make all the descriptive statistics you could ever want, call it something like make_descriptives()</li>
+<li>use a consistent style, like snake_case_here, or even camelCase, but don’t mix_snake_and_camelCase.</li>
+<li>comment your code with descriptions of why you’ve done something: you can often work out how you did it by following your code, but the why is easily lost!</li>
+</ul>
+</div>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">1.7</span> Exercises</h2>
+<p>Try out the exercises below, we’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary. First, I want you to figure out why some code doesn’t work, then we’ll move on to you manipulating data.</p>
+<ol style="list-style-type: decimal">
+<li>What’s wrong with the following code?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a sequence from 0 to 40 in intervals of 2</span>
+sequence &lt;<span class="st"> </span>-<span class="st"> </span><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">40</span>, <span class="dt">by =</span> <span class="dv">2</span>)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Why doesn’t this return anything?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># draw 100 times from a uniform distribution between 1 and 10</span>
+uniform_distribution &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">min =</span> <span class="dv">1</span>, <span class="dt">max =</span> <span class="dv">10</span>)
+uniform_distrbiution</code></pre></div>
+<p>Now, we’ll work with a data set. But I’d like you to produce it. We’ll break this down into steps for now.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Lets pretend we have 100 participants. Create a variable that will store participant IDs. Their IDs can be anything you like, but some sort of logical numbering looks best.</li>
+</ol>
+<p><em>Hint</em>: <code>seq()</code> is your friend here!</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Create a variable that will store their scores on some test. Let’s assume participant scores are drawn from a <strong>normal distribution</strong> with a <strong>mean</strong> of 10 and an <strong>SD</strong> of 0.75.</li>
+</ol>
+<p><em>Hint</em>: <code>rnorm()</code> is a wonderful thing.</p>
+<ol start="5" style="list-style-type: decimal">
+<li><p>Finally, create some ages for your participants. Here, you’ll have to use a new command called <code>sample()</code>. See if you can figure out how to use this command. If you’re lost, remember to use <code>?</code> on the function.</p></li>
+<li><p>Create a data frame consisting of your participant IDs, their ages, and test scores.</p></li>
+<li><p>Take a look at the start and the end of your data frame. Do the values look reasonable? (Don’t worry about outliers or missing values etc., we’ll check those in later classes.)</p></li>
+<li><p>Access the row (and all columns) for participant 20. What do the scores look like? Are they the same as the person sitting next to you? Why or why not, might this be the case?</p></li>
+<li><p>Access just the test score for participant 73.</p></li>
+<li><p>Output some simple descriptive statistics from your sample. We want to know:</p></li>
+</ol>
+<ul>
+<li>Mean age</li>
+<li>Mean score</li>
+<li>SD score (<em>Hint</em>: Use <code>sd()</code>)</li>
+</ul>
+<p>It may be useful to store these descriptives in another data frame for further use later on. Can you do that?</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-bookdown">
+<p>Xie, Yihui. 2018. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown" class="uri">https://CRAN.R-project.org/package=bookdown</a>.</p>
+</div>
+<div id="ref-xie2015">
+<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/" class="uri">http://yihui.name/knitr/</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-visualisation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

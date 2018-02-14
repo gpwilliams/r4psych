@@ -1,0 +1,48 @@
+--- 
+title: "R for Psych"
+author: "Glenn Williams"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [references.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: gpwilliams/r4psych
+url: 'http\://glennwilliams.me/r4psych/'
+description: "An introduction to data management and analysis for psychological research using R."
+---
+
+# Preface & Overview {-}
+
+In this course you'll learn how to use R for data analysis and presentation. This course has a particular focus on using R for psychology (hence the name), but it should be applicable to most cases in the social sciences. Here, we'll primarily take a [tidyverse](https://www.tidyverse.org/) first approach to R. This means we'll be relying primarily on a collection of packages designed to get things done quickly, with highly readable syntax. We will still cover some of the base R functions and the basics of programming, but our aim is to quickly and efficiently use R for managing and processing data. Along the way, we'll look into how R encourages open and reproducible science, and how R can be useful for managing your research projects as a whole.
+
+By the time you're finished, you will be able to tell R how (and where) to read input files (e.g. raw data from an experiment), how to perform operations on your data (e.g. data wrangling and aggregation), and how to produce and save ouputs based on your data (e.g. graphs and test statistics). You'll also be able to produce documents that incorporate your R code with formatted text so every time you update your code, your written statistics, tables, and graphs update automatically. For this, we'll explore R-markdown, specifically using R notebooks.
+
+We will rely on the [R for Data Science (R4DS)](http://r4ds.had.co.nz/) textbook by Garrett Grolemund and Hadley Wickham as a core text. Follow the link for a free online version of the book uploaded by the authors.
+
+<div class="figure" style="text-align:center">
+  <img style="width:30%;" src="img\R4DS_cover.png" alt="Front cover of the R for Data Science book by Wickham & Grolemund">
+  <p class="caption">R4DS by Wickham & Grolemund</p>
+</div>
+
+The above book assumes some familiarity with programming and/or R at the outset, but covers the basics in Chapter 4. As in this course, the aim here is to get you doing productive things (e.g. producing a graph) as quickly as possible. If, however, you feel like you'd prefer a basic grounding in R prior to doing so, you can check out [R for Beginners](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf) by Emmanuel Paradis. This is a short introduction to all of the core concepts required for working with your data in R (including reading, manipulating, and saving data).
+
+As this course focuses on using R for psychologists, we'll cover a range of traditional parameteric and non-parametric analyses, such as:
+
+  * Correlations
+  * *t*-tests
+  * ANOVA
+
+We will also cover topics such as *power analysis*, particularly using simulation based methods (which are scalable for any set of tests), before we move on to more advanced methods, such as *hierarchical mixed effects modelling* (or linear mixed effects models; LMM). Throughout, we will use examples and assignments to entrench the concepts taught in this module. 
+
+Finally, we will focus on creating reproducible analyses and write-ups using R markdown. 
+
+To join the rest of your class in discussing this course, please join the [R @ Abertay](https://rabertay.slack.com/) Slack channel. We will use this channel for all communications about the course, including help, hints, and tips about the course content.
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

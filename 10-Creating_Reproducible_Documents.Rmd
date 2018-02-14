@@ -1,0 +1,11 @@
+# Creating Reproducible Documents
+
+How to create Rmarkdown documents for reproducible documentation of analyses.
+
+Content to follow.
+
+## The Final Lesson
+
+Congratulations, you've made it!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HuYUoLM8BNA?rel=0&amp;showinfo=0&amp;start=12" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>

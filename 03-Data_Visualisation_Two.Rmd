@@ -1,0 +1,279 @@
+# Data Visualisation 2
+
+In this section we'll cover more advanced plotting methods in ggplot2. We'll look at customising plots, making **pirate plots**, installing packages from GitHub, faceting, and stitching plots together.
+
+To get started, as always we'll load our packages and saved data.
+
+```{r 3_load_packages, include = FALSE}
+library(tidyverse)
+```
+
+```{r 3_load_simulated_data, echo = FALSE, message = FALSE}
+rt_data <- read_csv("lesson_materials/03_data_visualisation_two/inputs/rt_data.csv")
+```
+
+```{r 3_class_load_simulated_data, eval = FALSE}
+rt_data <- read_csv("inputs/rt_data.csv")
+```
+
+## Customising Your Plots
+
+Take the desnity plot below, this is functional, but it's pretty ugly. We'll look at ways to change the looks of a plot aside from simply changing your mapped aesthetics from the data.
+
+```{r 3_density_plot}
+ggplot(data = rt_data, mapping = aes(x = reaction_time, 
+                                     fill = response_condition)
+       ) +
+  geom_density(alpha = 0.5) +
+  labs(x = "Reaction Time (ms)", y = "Density") +
+  scale_x_continuous(limits = c(200, 600), 
+                     breaks = seq(from = 200, to = 600, by = 100)
+                     ) +
+  guides(fill = guide_legend(title = "Response Condition")) +
+  theme_bw()
+```
+
+
+
+```{r 3_histogram_plot}
+ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
+  geom_histogram(binwidth = 50, 
+                 fill = "white", 
+                 colour = "black"
+                 ) +
+  scale_x_continuous(limits = c(200, 600),
+                     breaks = seq(from = 200, to = 600, by = 25)
+                     ) +
+  labs(x = "Reaction Time (ms)", y = "Count")
+```
+
+## Pirate Plots
+
+Now, pirate plots are a great choice of plot for the indecisive. Pirate plots are essentially the individual points of data, a bar plot, a violin plot, and a confidence interval interval all in one. This way, you get to see the raw, descriptive, and inferential data on one plot!
+
+This is a nice way to show data that are grouped by categories but with a continuous dependent variable. 
+
+We could make these ourselves by doing some calculations and combining `geoms` in ggplot2. Or, we could just install a package from [Github](https://github.com/mikabr/ggpirate) which will do that for us. First, we'll have to install `devtools` in R which will allow us to install packages from Github. (For packages on CRAN, this isn't necessary, but unfortunately ggpirate isn't on CRAN at the time of writing.)
+
+To install `devtools` and the `ggpirate` package, uncomment and run the code below. Then as always, use `library(ggpirate)` to load the package.
+
+```{r 3_install_pirate_plot, include = FALSE}
+# install.packages("devtools")
+# devtools::install_github("mikabr/ggpirate")
+library(ggpirate)
+```
+
+Below, we'll make a pirate plot. Note that you only need the first two calls (lines 1-6) to create the plot: The first to set up how you're going to map your data (and the source of your data), and the second to add the `geom` for the pirate plot itself. We added the aethetics of colour and fill to match our conditions within this call, so the two levels of `response_condition` have different colours.
+
+For the additional lines:
+
+- `labs` allows you to manually change the x and y axis labels
+- `scale_x_discrete` allows you to manipulate your x scale. Within this, we change the labels of the columns using `labels`. We changed them to Impaired (vs. impaired) and Intact (vs. intact) for stylisitc reasons.
+- `scale_y_continuous` allows you to manipulate your y scale. Here, we set the `limits`, i.e. how far to extend our y-axis to between 0 and 600ms. Additionally, we set our `breaks` to increment in the sequence (`seq`) from 0 to 600 by 100ms. This way, we've added more granularity to our axis ticks.
+- We use `theme_bw()` to change to a black and white theme. There are other themes in `ggplot2`, but this one is nice and clean.
+- Finally, `theme` allows you to manually specify other aspects of how your plot should look. Here, we used `panel.grid.major.x` and set this to nothing (`element_blank()`) because we don't need vertical lines in our plot.
+
+```{r 3_pirate_plot}
+ggplot(data = rt_data, mapping = aes(x = response_condition, 
+                                     y = reaction_time)
+       ) +
+  geom_pirate(aes(colour = response_condition, 
+                  fill = response_condition)
+              ) +
+  labs(x = "Motor Skill", y = "Reaction Time (ms)") +
+  scale_x_discrete(labels = c("Impaired", "Intact")) +
+  scale_y_continuous(limits = c(0, 600), 
+                     breaks = seq(from = 0, to = 600, by = 100)
+                     ) +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank())
+```
+
+In this plot, we have coloured bars and lines indicating the mean scores, a box representing the 95% confidence interval assuming a normal sampling distribution, violins indicating density, and the raw data points. 
+
+If the 95% confidence interval between the two groups doesn't overlap, we can be fairly sure there is a significant difference between the groups. So, here we can be fairly certain the two groups differ in reaction times.
+
+## Faceting
+
+Another useful part of plotting in `ggplot2` is that you can make facets of plots, or subplots. This is a good way to display your data if you have multiple categorical variables. Essentially, you'll get a plot for each category in your data.
+
+### Facet Wrap
+
+If you want to create facets from one variable then use `facet_wrap()`.
+
+```{r 3_facet_wrap}
+ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
+  geom_histogram(binwidth = 50, 
+                 fill = "white", 
+                 colour = "black"
+                 ) +
+  facet_wrap(~ response_condition)
+```
+
+In this plot, we've specified a histogram as we normally would. However, we use `facet_wrap()` and a tilde (`~`) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the `~`, and `ggplot` automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.
+
+### Facet Grid
+
+If we wanted to make a facet by two variables, then we would use `facet_grid()` instead. In this case, we just add each variable to either side of the `~` and `ggplot` will do the splitting for us. 
+
+Let's see how this works if we split our data by gender and response condition.
+
+```{r 3_facet_grid}
+ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
+  geom_histogram(binwidth = 50, 
+                 fill = "white", 
+                 colour = "black"
+                 ) +
+  facet_grid(gender ~ response_condition)
+```
+
+The order in which you specify the two variables matters. Try swapping around between `facet_wrap(gender ~ response_condition)` and `facet_wrap(response_condition ~ gender)` to see how this works.
+
+## Calculating Statisitcs in ggplot2
+
+Sometimes, plotting just the means isn't enough. We saw how useful the 95% confidence interval from `ggpirate` is for making inferences about the differences between groups. Nicely, we can get standard errors or confidence intervals around our data points within `ggplot` for other geoms. 
+
+### Means and Error Bars
+
+Let's say you wanted a bar plot with error bars showing the standard error. You can create this in `ggplot` using the `stat_summary` function. In the first instance here, we tell it that we want to run the function `mean` over our data that make up the y-axis; hence `fun.y = mean`. We also need to specify which geom we want to return from this. 
+
+Try changing the geom to `point` in the first `stat_summary` call to see what happens when you run this plot with `geom = "point"`. 
+
+Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is `fun.data = "mean_se"`. That's because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the `width` argument to stop `ggplot` returning super wide error bars.
+
+```{r 3_error_bars}
+ggplot(data = rt_data, 
+       mapping = aes(
+         x = response_condition,
+         y = reaction_time, 
+         fill = response_condition
+         )
+       ) + 
+  stat_summary(fun.y = mean, geom = "bar") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.25)
+```
+
+I don't often use `stat_summary` in my own plots, as I often want to know exactly how I've calculated things like the standard error. Doing things by hand allows you to change error bar sizes appropriately for within- and between-subject designs. But, this is useful if you want to create a plot rapidly, or want to avoid the hassle of writing extra code.
+
+### Model Fits
+
+Here' we'll switch again to a different data set that has two continuous variables. The `starwars` data set is useful for this exercise.
+
+We can use the `geom_smooth()` function to fit a model to our data. This defaults to a loess method, but we can change this to a linear model (or other alternatives) as in the second plot below. By default, these smoothed plots display a ribbon around the fit which indicates the confidence interval (95% by default).
+
+```{r 3_smooth_starwars}
+# remove NA and mass above 1000
+filtered_starwars <- starwars %>% 
+  drop_na(height, mass) %>% 
+  filter(mass < 1000)
+
+# plot
+ggplot(data = filtered_starwars, mapping = aes(x = mass, y = height)) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+Next, we'll change the defaults in order to fit a linear model. We do this in the `geom_smooth` function, `method = "lm"`. We can additionally specify a function, so we can change how we fit the data. Currently, our formula is `y ~ x`, which is a regular linear model. We could, however, fit a quadratic function to the data by using `y ~ poly(x, 2)`. The function `poly(x, 2)` calculates orthogonal polynomials to a certain degree. The first being linear, second quadratic (think curved lines with 1 inflection point), the third cubic (think curved lines with 2 inflection points), etc.. For now, we'll just fit the linear model.
+
+```{r 3_linear_starwars}
+ggplot(data = filtered_starwars, mapping = aes(x = mass, y = height)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm', formula = y ~ x)
+```
+
+Alternatively, if we have a fitted model saved from our analyses, we can add the fitted line directly using the `stat_summary` function. However, this requires some insight into the models fitted, so we'll save this for later classes.
+
+## Combining Plots
+
+Finally, while it's all well and good plotting one model at a time, often if you're writing a paper you want several plots together to save space. You could do this by hand in certain image editing packages, but luckily there's a package for this on CRAN; `cowplot`. First, we need to install and load the package. Intall this by running the commented out code below. After that, load `cowplot` each time you want to use it. 
+
+```{r 3_load_cowplot, include = FALSE}
+# install.packages("cowplot")
+library(cowplot) # run this each time
+```
+
+So far, we've just been running the code to produce plots, but we haven't saved them in our environment. But, in order to stich two plots together, we need to save our plots as objects so they're available to the R environment. 
+
+If we assign our plotting code to an object, then every time we run the name of the object, we'll get the output of that code back.
+
+For keeping several plots in my environemnt at once, I often save them to an object. In this instance, we'll save a plot of just the points to the name `point_plot`. That's because we want to overlay a linear fit and a quadratic fit on this plot separately, but we don't want to type the full code out twice. Instead, we fit the plot of points to `point_plot`, then add a linear or quadratic fit by adding the `geom_smooth` argument to `point_plot` and saving both under new names. We can do this like so:
+
+```{r 3_save_linear_plot}
+# create a plot of points
+point_plot <- ggplot(data = filtered_starwars, 
+                     mapping = aes(x = mass, y = height)
+                     ) +
+  geom_point()
+
+# create a linear plot by adding the fit to the plot of points
+linear_plot <-  point_plot + 
+  geom_smooth(method = 'lm', formula = y ~ x)
+```
+
+When you do this, you won't automatically see the plot once you run the code unless you run the object assigned to the plot. Let's try this for a quadratic fit of the same data.
+
+```{r 3_save_quadratic_plot}
+# create a quadratic plot by adding the fit to the plot of points
+quadratic_plot <- point_plot + 
+  geom_smooth(method = 'lm', formula = y ~ poly(x, 2)) # fit quadratic
+
+# return the plot
+quadratic_plot
+```
+
+You can see that we've got the quadratic fit and the 95% confidence interval around this fit from the above code. Why does the plot look different to the base plots in ggplot2? `cowplot` loads some defaults for all plots outputted by `ggplot` to save you on typing out your own theme arguments.
+
+Now, we can combine these two plots into a single plot using the new functionalities from `cowplot`.
+
+```{r 3_combine_plots}
+combined_plots <- plot_grid(linear_plot, 
+                            quadratic_plot, 
+                            labels = c("A", "B"), # label plots
+                            align = "h" # align axes
+                            ) 
+combined_plots
+```
+
+What if we want a title for our plots? We first have to define our title with a combination of `ggdraw()` and `draw_label()`. Inside `draw_label()` we used a new function, `paste()` to paste two strings of text together (with a space between the two strings). We could simply input the entire string, but we broke it down into two bits so we don't exceed the 80 character width limit from our style guide! 
+
+We further specify a bold `fontface` in the `draw_label()` command outside our pasted title.
+
+Finally, we display the plot by creating a `plot_grid()` of our plot and the title in this order so the title displays underneath the plot. We specify that we just want 1 column so the plot and title are stacked together, and we specify the relative heights of the title and plot separately so that the title is smaller than the plot so it doesn't take up an equal amount of space as the plot.
+
+```{r 3_add_plot_title}
+# create title
+title <- ggdraw() + 
+  draw_label(paste("Linear (A) and Quadratic",
+                   "(B) fits of Height and Weight"
+                   ), 
+             fontface = "bold"
+             )
+
+# print plot as a grid
+combined_plots <- plot_grid(combined_plots, 
+                            title, 
+                            ncol = 1, 
+                            rel_heights = c(1, 0.1)
+                            )
+combined_plots
+```
+
+You can find further information on adding joint titles, annotations, etc. in [this article](https://htmlpreview.github.io/?https://github.com/wilkelab/cowplot/blob/master/inst/doc/plot_annotations.html) by Claus O. Wilke.
+
+## Saving Plots
+
+Finally, if you've went to the work of producing a nice plot, then it'll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we'll use `ggsave`. You can name your plot anything you like, but remember to add a file extension at the end. I've used .png as this format suffers from fewer artifacts when comapred to JPEG, and it's a pretty common filetype.
+
+```{r 3_save_plots_class, eval = FALSE}
+ggsave(filename = "outputs/starwars_mass_by_height.png", 
+       plot = combined_plots
+       )
+```
+
+You can do a whole bunch of other things with `ggplot`, like adding vertical and horizontal lines (often useful for identifying chance performance in participants), and annotating plots directly (useful for adding statistics, or commenting on interesting sections of the data). We'll cover these in the exercises, however, as these are just additional flavour to our plots!
+
+## Exercises
+
+Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
+
+1. 
