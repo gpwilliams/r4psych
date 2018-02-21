@@ -1,5 +1,8 @@
 ---
 title: "01 - Introduction"
+subtitle: R Basics
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: ioslides_presentation
 ---
 
@@ -7,22 +10,550 @@ output: ioslides_presentation
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## This Course
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Code along with me as I explain concepts. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Finish session with exercises. Feel free to work together!
 
-```{r cars}
-summary(cars)
+- Detailed notes available at [r4psych](glennwilliams.me/r4psych/)
+
+- Download exercises from my [GitHub repo](https://github.com/gpwilliams/r4psych/tree/master/lesson_materials)
+
+- Join our [Slack Channel](https://rabertay.slack.com/)
+
+Have fun!
+
+## Installation and Setup
+
+To get started, at the very least you'll have to download R from [CRAN](https://cran.r-project.org/). 
+
+Select the correct distribution for your operating system and then click through to *install R for the first time*. 
+
+For Windows users, you'll see a new page; at the top click on "Download R **[version number]** for Windows."
+
+I can help here if needed!
+
+## RStudio
+
+- IDE for R: RStudio
+- Download from the [RStudio website](https://www.rstudio.com/)
+
+In the navigation panel:
+
+1. Select **products** and choose **RStudio**.
+2. Scroll down until you see **Download RStudio Desktop**. 
+3. Click the **Download** button in the free tier and select the correct installer for your OS. 
+
+## R Studio
+
+<div class="figure" style="text-align:center">
+  <img style="width:100%;" src="..\..\..\img\r_studio.png" alt="An image of the RStudio environment, with colour highlights around the sections of the IDE">
+  <p class="caption">The RStudio environment, with added highlights</p>
+</div>
+
+## Get your Working Directory
+
+```{r 1_working_directory, results="hide"}
+getwd()
 ```
 
-## Including Plots
+This tells you where your current session is on your PC. It should look like C:/Users/YOUR_NAME/FOLDER/RFILE.R
 
-You can also embed plots, for example:
+## Load (Read) and Save (Write) Data
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+Use relative file paths to read and write data.
+
+```{r 1_read_data_example, eval = FALSE}
+# reads a CSV file from the Inputs folder
+my_data <- read.csv("Inputs/my_data.csv") 
+
+# writes a CSV file to the Outputs folder
+my_data <- write.csv(my_data, "Outputs/my_data_again.csv") 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+More on this in later lessons.
+
+## Install Packages
+
+In all classes we'll rely on the `tidyverse` family of functions. 
+
+To install and load packages, run this code:
+
+```{r 1_install_packages_example, eval = FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+This library has a number of packages which help with the entire data processing cycle.
+
+## Objects and Functions
+
+You can use R like a calculator, e.g.
+
+```{r 1_calculator}
+1 + 4
+```
+
+Enter directly in the console, or highlight and press Cntrl + Enter to execute.
+
+*Top tip*: use the up and down arrow keys to cycle commands.
+
+## Finishing Expressions
+
+### + at the End of a Line
+
+R will wait for you to finish an expression if you end a line with a +
+
+```{r 1_looooooong_calculator}
+1 + 2 + 3 + 4 + 5 + 6 + 7 +
+  8 + 9
+```
+
+## Finishing Expressions
+
+### Parsing Text (Quotes)
+
+It'll also wait for you to close a quotation for strings.
+
+```{r 1_parsing_text}
+"Hello, world!"
+"Hello, world (except you Donald Trump,
+  nobody want's to talk to you)"
+```
+
+## Creating and Returning Variables
+
+### Creating Variables
+
+```{r 1_creating_variables}
+summed_numbers <- 5 + 8
+```
+*Note*: You cannot include special characters or have numbers at the start of a name
+
+### Returning Variables
+
+```{r 1_returning_variables}
+summed_numbers
+```
+
+## Creating and Returning Variables
+
+### Performing Operations on Variables
+
+R can work with your objects to perform functions. Here, multiplying `summed_numbers` by 5 is the same as multiplying (5 + 8) by 5.
+
+```{r 1_performing_operations_on_variables}
+summed_numbers*5
+```
+
+## Operations
+
+R has the simple arithmetic operations, e.g.:  
+
+* add `x + y`, 
+* subtract `x - y`,
+* multiply `x * y`
+* divide `x/y`, 
+
+R also has some logical operations built in. For example:
+
+* less than or equal to `x <= y`
+* exactly equal to `x == y`
+* not equal to `x != y`
+* x OR y `x | y`
+* x AND y `x & y`
+
+## Functions
+
+R has a number of inbuilt functions, which can be expanded by loading new packages. 
+
+Some basic arithmetic can be seen below:
+
+```{r 1_sum_function}
+sum(1, 2, 3, 4)
+```
+
+```{r 1_mean_function}
+mean(1, 2, 3, 4)
+```
+
+## Functions
+
+Functions are always followed by parentheses (e.g. `mean(), sum()`)
+
+These functions work on raw numbers or stored numbers:
+
+```{r 1_concatenating_values_in_a_variable}
+stored_values <- c(1, 2, 3, 4)
+mean(stored_values)
+```
+
+## R is Vectorised
+
+If you perform an operation on an entire object, it will apply to all elements within the object.
+
+```{r 1_vectorised_work}
+stored_values
+
+stored_values + 1
+
+stored_values / 10
+```
+
+## Creating and Accessing Data
+
+We can create data using some inbuilt functions in R. 
+
+Don't worry if this doesn't make sense; this is meant for other examples.
+
+```{r 1_create_IQ_data}
+# create participant IDs
+participant <- seq(from = 1, to = 100, by = 1)
+
+# create pet ownership codes
+set.seed(88)
+pet <- sample(c("cat", "dog"), 100, replace = TRUE)
+
+# create IQ scores
+set.seed(88)
+IQ_score <- rnorm(n = 100, mean = 150, sd = 15)
+IQ_score <- round(IQ_score) # round IQ scores
+```
+
+## Creating and Accessing Data
+
+### Exploring Data
+
+How many participants do we have?
+
+```{r 1_length_function}
+length(participant)
+```
+
+What if we have several observations?
+
+```{r 1_non-unique_participant}
+# assign the second value of participant the integer 1
+participant[2] <- 1 
+
+# return the first 6 values of the participant variable
+head(participant) 
+```
+
+## Creating and Accessing Data
+
+We can combine functions:
+
+```{r 1_find_unique_participant}
+length(unique(participant))
+```
+
+This asks R "how many unique values are in the variable participant?" 
+
+**Answer**: 99.
+
+## Creating and Accessing Data
+
+#### Data Frames and Tibbles
+
+We can store data together as a data frame or a tibble.
+
+```{r 1_create_IQ_tibble}
+IQ_data <- tibble::tibble(
+  participant_number = participant, 
+  pet_id = pet, 
+  IQ = IQ_score
+  )
+```
+
+Tibbles...
+
+- don't automatically convert certain data types (e.g. string to factor).
+- show the data type under the column name. 
+- default to printing the first 10 rows of data when you type their name in the console. 
+
+```{r 1_print_tibble}
+IQ_data
+```
+
+## Converting to a data frame
+
+Why? Some functions don't work with newer tibbles.
+
+```{r 1_tibble_as_data_frame}
+IQ_data_df <- as.data.frame(IQ_data)
+head(IQ_data_df)
+```
+
+## Accessing Tibble Information
+
+How do we calculate the mean? Not like this...
+
+```{r 1_incorrect_mean_on_tibble}
+mean(IQ_data)
+```
+
+Why? We didn't specify a column! Instead...
+
+```{r 1_accessing_tibble_data, eval = FALSE}
+# by name
+IQ_data$IQ
+IQ_data[["IQ"]]
+
+# by position
+IQ_data[[3]]
+```
+
+## Strict Tibbles
+
+Tibbles always return a tibble.
+
+```{r 1_rows_and_cols}
+# tibble output
+IQ_data[1, 3] # row 1, col 3
+
+# data.frame output
+IQ_data_df[1, 3]
+```
+
+## Working with Tibbles
+
+### Calculate the mean
+
+Be sure to select the correct column. I like to use `$` notation to do this.
+
+```{r 1_correct_mean_on_tibble}
+mean(IQ_data$IQ)
+```
+
+## Working with Tibbles
+
+### Access multiple columns
+
+R works with square brackets, i.e. `data[row, column]`, e.g.:
+
+```{r 1_access_multiple_columns}
+IQ_data[, c("participant_number", "IQ")]
+```
+
+## Working with Tibbles
+
+### Access a range of values
+
+```{r 1_access_rows_by_index}
+IQ_data[c(1, 2, 3, 4, 5), c("participant_number", "IQ")]
+```
+
+## Working with Tibbles
+
+### Access a range of values
+
+Save on some typing...
+
+```{r 1_access_rows_by_range}
+IQ_data[1:5, c("participant_number", "IQ")]
+```
+
+More on this in *Session 4*.
+
+## Manipulating Tibble Information
+
+### Changing Values
+
+Let's look at the data again.
+
+```{r 1_view_tibble_data}
+IQ_data
+```
+
+## Manipulating Tibble Information
+
+### Changing Values
+
+```{r 1_change_participant_number_back, eval = FALSE}
+# specifying row and column by index
+IQ_data[2, 1] <- 2
+
+# specifying row by index and column by name
+IQ_data[2, "participant_number"] <- 2
+
+# specifying index within a column
+IQ_data$participant_number[2] <- 2
+```
+
+## Manipulating Tibble Information
+
+### Changing Values
+
+We can do it this way.
+
+```{r 1_change_participant_number_back_run}
+IQ_data[2, 1] <- 2
+head(IQ_data, 3)
+```
+
+## Adding and Removing Columns
+
+Imagine we have data on operating systems used by our participants. Don't worry if this doesn't make sense yet; this is just for further examples.
+
+```{r 1_sample_names}
+set.seed(1000) # make the sampling procedure the same for us all
+
+operating_system <- sample(c("windows", "mac", "linux"), 
+                           size = 100, 
+                           replace = TRUE,
+                           prob = c(0.5, 0.3, 0.2)
+                           )
+```
+
+## Adding and Removing Columns
+
+### Add Column 
+
+Set the column name to something you want to call it, then assign your data.
+
+```{r 1_add_column}
+IQ_data$operating_system <- operating_system
+head(IQ_data)
+```
+
+## Adding and Removing Columns
+
+### Remove Column
+
+Set the column to nothing (NULL).
+
+```{r 1_new_remove_column}
+IQ_data$operating_system <- NULL # remove new column
+head(IQ_data)
+```
+
+## Adding and Removing Rows
+
+### Add Row
+
+- Must have values for every cell
+- We _need_ square data, so if you have missing rows, add an NA
+
+```{r 1_add_new_row}
+IQ_data[101, ] <- c(101, "dog", NA) # add new row with values
+tail(IQ_data) # see last 6 rows
+```
+
+## Adding and Removing Rows
+
+### Remove Row
+
+Create the data from itself, minus the row you want to remove.
+
+```{r 1_remove_new_row}
+IQ_data <- IQ_data[-101, ] # remove the new row
+tail(IQ_data) # see last 6 rows
+```
+
+More in *Session 4*...
+
+## Other Data Types
+
+### Lists
+
+```{r 1_lists}
+person_quality <- list(glenn = c("handsome", 
+                                 "smart", 
+                                 "modest"
+                                 ),
+                       not_glenn = c("less_handsome", 
+                                     "less_smart", 
+                                     "less_modest"
+                                     )
+                       )
+```
+
+## Other Data Types
+
+### Lists
+
+#### Access elements of a list:
+
+```{r 1_access}
+person_quality[1]
+```
+
+#### Access the values associated with an entry:
+
+```{r 1_list_value_access}
+person_quality[[1]]
+```
+
+## Other Data Types
+
+### Lists
+
+#### Edit list values
+
+```{r 1_list_addition}
+person_quality[[1]][4] <- "liar"
+person_quality[1]
+```
+
+## Other Data Types
+
+### Lists
+
+- Why use lists? Data needn't be square, e.g.: 
+
+```{r 1_add_to_list}
+IQ_data[101, 1] <- 101
+tail(IQ_data)
+```
+
+## Other Data Types
+
+### Matrices
+
+Can't mix data type.
+
+```{r 1_matrix}
+matrix_example <- matrix(rep(1: 25),
+                         nrow = 5,
+                         ncol = 5
+                         )
+matrix_example
+```
+
+I don't know why you'd use these...
+
+## Good Practice
+
+### Data Checking Tips
+
+Use...
+
+1. `ls()` or check global environment to see what you've created.
+2. `class()` to find the class of an object(e.g. `class(IQ_data)`)
+3. `str()` to see data types, structure, and observations (e.g. `str(IQ_data)`).
+
+Check how your functions work if you're having difficulty:
+
+- `?function_name()`, e.g. `?str()`
+- Google, StackOverflow, etc...
+
+## Good Practice
+
+### Style
+
+Use a style guide, it keeps you consistent and helps people to figure out your code:
+
+[R Style Guide by Hadley Wickham](http://adv-r.had.co.nz/Style.html)
+
+- Use sensible variable names
+- Use verbs to describe user-defined functions
+- use a consistent style, like snake_case_here
+- comment your code with descriptions of _why_ you've done something (how should be obvious)
+
+## Exercises
+
+Follow the exercises from the website **glennwilliams.me/r4psych/**
+
+Download the files for the exercises from my GitHub repo linked at the end of the Preface & Overview page.

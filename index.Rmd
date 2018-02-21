@@ -40,6 +40,8 @@ Finally, we will focus on creating reproducible analyses and write-ups using R m
 
 To join the rest of your class in discussing this course, please join the [R @ Abertay](https://rabertay.slack.com/) Slack channel. We will use this channel for all communications about the course, including help, hints, and tips about the course content.
 
+To download the course content, get the lesson materials from my [GitHub repo](https://github.com/gpwilliams/r4psych/tree/master/lesson_materials). You can follow along with the slides using the R notebooks.
+
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(

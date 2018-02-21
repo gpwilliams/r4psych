@@ -143,7 +143,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("02_data_visualisation.Rmd");
+  window.initializeSourceEmbed("02_data_visualisation_one.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
@@ -175,13 +175,12 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <div id="load-libraries-and-data" class="section level1">
 <h1>Load libraries and Data</h1>
-<p>Load the libraries and data necessary to complete the exercises associated with this lesson. You may have to install the <code>languageR</code> library if you don’t have it installed already.</p>
+<p>Load the libraries and data necessary to complete the exercises associated with this lesson.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGdncGlyYXRlKVxubGlicmFyeShjb3dwbG90KVxuYGBgIn0= -->
-<pre class="r"><code>library(tidyverse)
-library(ggpirate)
-library(cowplot)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpICMgbG9hZCBwYWNrYWdlc1xuZGF0YShjaGlja3d0cykgIyBsb2FkIGRhdGFcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse) # load packages
+data(chickwts) # load data</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -191,6 +190,7 @@ library(cowplot)</code></pre>
 <p>Enter your code in the code blocks in response to the <a href="http://glennwilliams.me/r4psych/data-visualisation.html#exercises">exercises for Chapter 2 of r4psych</a>. Run your code and then save your document once completed.</p>
 <div id="question-1" class="section level2">
 <h2>Question 1</h2>
+<p>Take a look at the first 6 rows of the data set. How does the data look? Is this appopriate for plotting?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -198,6 +198,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
+<p>Calculate the overall means for the chick weights.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -205,6 +206,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
+<p>Calculate the overall standard deviation for the chick weights.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -212,6 +214,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
+<p>Create the basis of a ggplot by defining the <code>chickwts</code> data as the data argument. Assign this all to the object <code>chick_plot</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -219,6 +222,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-5" class="section level2">
 <h2>Question 5</h2>
+<p>Make a box plot of the chick weights by feed. To do this, use your <code>chick_plot</code> object and assign it the function for creating a boxplot.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -226,6 +230,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-6" class="section level2">
 <h2>Question 6</h2>
+<p>Add colour to your box plot by the feed type. Set the colour to anything you’d like. Remember, you can use the Color Brewer website to find some nice colours using hex values.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -233,6 +238,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-7" class="section level2">
 <h2>Question 7</h2>
+<p>Create a density distribution of the chick weights by feed type. Set different colours by the feed type. To make all densities visible, set the transparency for all distributions to 0.6.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -240,6 +246,7 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-8" class="section level2">
 <h2>Question 8</h2>
+<p>Make a bar plot to show the counts of each feed type.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
@@ -247,20 +254,31 @@ library(cowplot)</code></pre>
 </div>
 <div id="question-9" class="section level2">
 <h2>Question 9</h2>
+<p>Pick 6 hex colours from the Colour Brewer website. Put these together in a variable, <code>bar_colours</code>. Create your bar plot again, but this time make the fill of the bars the same as those stored in <code>bar_colours</code>.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Why do we not get a legend when we specify colours this way, but we do if we specify colours as in <strong>Question 7</strong>?</p>
+</div>
+<div id="question-10" class="section level2">
+<h2>Question 10</h2>
+<p>Make a histogram showing the overall distribution of the chick weights. Set the bin width to 50, and make the bars have a white fill and black border.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="question-10" class="section level2">
-<h2>Question 10</h2>
+<div id="bonus-question" class="section level2">
+<h2>Bonus Question</h2>
+<p>Make a point plot from a data set of your choosing. Check out the inbuilt data sets in R by typing <code>data()</code> in the console. Customise this plot to your liking.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxlc3NvbiAyIC0gRGF0YSBWaXN1YWxpc2F0aW9uIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBMb2FkIGxpYnJhcmllcyBhbmQgRGF0YQ0KDQpMb2FkIHRoZSBsaWJyYXJpZXMgYW5kIGRhdGEgbmVjZXNzYXJ5IHRvIGNvbXBsZXRlIHRoZSBleGVyY2lzZXMgYXNzb2NpYXRlZCB3aXRoIHRoaXMgbGVzc29uLiBZb3UgbWF5IGhhdmUgdG8gaW5zdGFsbCB0aGUgYGxhbmd1YWdlUmAgbGlicmFyeSBpZiB5b3UgZG9uJ3QgaGF2ZSBpdCBpbnN0YWxsZWQgYWxyZWFkeS4NCg0KYGBge3J9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkoZ2dwaXJhdGUpDQpsaWJyYXJ5KGNvd3Bsb3QpDQoNCiMgaW5zdGFsbC5wYWNrYWdlcygibGFuZ3VhZ2VSIikNCmxpYnJhcnkobGFuZ3VhZ2VSKQ0KDQpkYXRhIDwtIGxleGRlYyAlPiUgc2VsZWN0KGMoIlN1YmplY3QiLCAiU2V4IiwgIk5hdGl2ZUxhbmd1YWdlIiwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAiVHJpYWwiLCAiV29yZCIsICJDbGFzcyIsICJSVCIpDQogICAgICAgICAgICAgICAgICAgICAgICAgICkNCmBgYA0KDQojIEV4ZXJjaXNlcw0KDQpFbnRlciB5b3VyIGNvZGUgaW4gdGhlIGNvZGUgYmxvY2tzIGluIHJlc3BvbnNlIHRvIHRoZSBbZXhlcmNpc2VzIGZvciBDaGFwdGVyIDIgb2YgcjRwc3ljaF0oaHR0cDovL2dsZW5ud2lsbGlhbXMubWUvcjRwc3ljaC9kYXRhLXZpc3VhbGlzYXRpb24uaHRtbCNleGVyY2lzZXMpLiBSdW4geW91ciBjb2RlIGFuZCB0aGVuIHNhdmUgeW91ciBkb2N1bWVudCBvbmNlIGNvbXBsZXRlZC4NCg0KIyMgUXVlc3Rpb24gMQ0KDQpgYGB7ciBRdWVzdGlvbiAxfQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gMg0KDQpgYGB7ciBRdWVzdGlvbiAyfQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gMw0KDQpgYGB7ciBRdWVzdGlvbiAzfQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gNA0KDQpgYGB7ciBRdWVzdGlvbiA0fQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gNQ0KDQpgYGB7ciBRdWVzdGlvbiA1fQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gNg0KDQpgYGB7ciBRdWVzdGlvbiA2fQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gNw0KDQpgYGB7ciBRdWVzdGlvbiA3fQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gOA0KDQpgYGB7ciBRdWVzdGlvbiA4fQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gOQ0KDQpgYGB7ciBRdWVzdGlvbiA5fQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gMTANCg0KYGBge3IgUXVlc3Rpb24gMTB9DQoNCmBgYA0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxlc3NvbiAyIC0gRGF0YSBWaXN1YWxpc2F0aW9uIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBMb2FkIGxpYnJhcmllcyBhbmQgRGF0YQ0KDQpMb2FkIHRoZSBsaWJyYXJpZXMgYW5kIGRhdGEgbmVjZXNzYXJ5IHRvIGNvbXBsZXRlIHRoZSBleGVyY2lzZXMgYXNzb2NpYXRlZCB3aXRoIHRoaXMgbGVzc29uLg0KDQpgYGB7ciBsb2FkX2xpYnJhcmllc19kYXRhLCBtZXNzYWdlcyA9IEZBTFNFfQ0KbGlicmFyeSh0aWR5dmVyc2UpICMgbG9hZCBwYWNrYWdlcw0KZGF0YShjaGlja3d0cykgIyBsb2FkIGRhdGENCmBgYA0KDQojIEV4ZXJjaXNlcw0KDQpFbnRlciB5b3VyIGNvZGUgaW4gdGhlIGNvZGUgYmxvY2tzIGluIHJlc3BvbnNlIHRvIHRoZSBbZXhlcmNpc2VzIGZvciBDaGFwdGVyIDIgb2YgcjRwc3ljaF0oaHR0cDovL2dsZW5ud2lsbGlhbXMubWUvcjRwc3ljaC9kYXRhLXZpc3VhbGlzYXRpb24uaHRtbCNleGVyY2lzZXMpLiBSdW4geW91ciBjb2RlIGFuZCB0aGVuIHNhdmUgeW91ciBkb2N1bWVudCBvbmNlIGNvbXBsZXRlZC4NCg0KIyMgUXVlc3Rpb24gMQ0KDQpUYWtlIGEgbG9vayBhdCB0aGUgZmlyc3QgNiByb3dzIG9mIHRoZSBkYXRhIHNldC4gSG93IGRvZXMgdGhlIGRhdGEgbG9vaz8gSXMgdGhpcyBhcHBvcHJpYXRlIGZvciBwbG90dGluZz8NCmBgYHtyIGFuc3dlcl8xfQ0KDQpgYGANCg0KIyMgUXVlc3Rpb24gMg0KDQpDYWxjdWxhdGUgdGhlIG92ZXJhbGwgbWVhbnMgZm9yIHRoZSBjaGljayB3ZWlnaHRzLg0KYGBge3IgYW5zd2VyXzJ9DQoNCmBgYA0KDQojIyBRdWVzdGlvbiAzDQoNCkNhbGN1bGF0ZSB0aGUgb3ZlcmFsbCBzdGFuZGFyZCBkZXZpYXRpb24gZm9yIHRoZSBjaGljayB3ZWlnaHRzLg0KYGBge3IgYW5zd2VyXzN9DQoNCmBgYA0KDQojIyBRdWVzdGlvbiA0DQoNCkNyZWF0ZSB0aGUgYmFzaXMgb2YgYSBnZ3Bsb3QgYnkgZGVmaW5pbmcgdGhlIGBjaGlja3d0c2AgZGF0YSBhcyB0aGUgZGF0YSBhcmd1bWVudC4gQXNzaWduIHRoaXMgYWxsIHRvIHRoZSBvYmplY3QgYGNoaWNrX3Bsb3RgLg0KYGBge3IgYW5zd2VyXzR9DQoNCmBgYA0KDQojIyBRdWVzdGlvbiA1DQoNCk1ha2UgYSBib3ggcGxvdCBvZiB0aGUgY2hpY2sgd2VpZ2h0cyBieSBmZWVkLiBUbyBkbyB0aGlzLCB1c2UgeW91ciBgY2hpY2tfcGxvdGAgb2JqZWN0IGFuZCBhc3NpZ24gaXQgdGhlIGZ1bmN0aW9uIGZvciBjcmVhdGluZyBhIGJveHBsb3QuDQpgYGB7ciBhbnN3ZXJfNX0NCg0KYGBgDQoNCiMjIFF1ZXN0aW9uIDYNCg0KQWRkIGNvbG91ciB0byB5b3VyIGJveCBwbG90IGJ5IHRoZSBmZWVkIHR5cGUuIFNldCB0aGUgY29sb3VyIHRvIGFueXRoaW5nIHlvdSdkIGxpa2UuIFJlbWVtYmVyLCB5b3UgY2FuIHVzZSB0aGUgQ29sb3IgQnJld2VyIHdlYnNpdGUgdG8gZmluZCBzb21lIG5pY2UgY29sb3VycyB1c2luZyBoZXggdmFsdWVzLg0KYGBge3IgYW5zd2VyXzZ9DQoNCmBgYA0KDQojIyBRdWVzdGlvbiA3DQoNCkNyZWF0ZSBhIGRlbnNpdHkgZGlzdHJpYnV0aW9uIG9mIHRoZSBjaGljayB3ZWlnaHRzIGJ5IGZlZWQgdHlwZS4gU2V0IGRpZmZlcmVudCBjb2xvdXJzIGJ5IHRoZSBmZWVkIHR5cGUuIFRvIG1ha2UgYWxsIGRlbnNpdGllcyB2aXNpYmxlLCBzZXQgdGhlIHRyYW5zcGFyZW5jeSBmb3IgYWxsIGRpc3RyaWJ1dGlvbnMgdG8gMC42Lg0KYGBge3IgYW5zd2VyXzd9DQoNCmBgYA0KDQojIyBRdWVzdGlvbiA4DQoNCk1ha2UgYSBiYXIgcGxvdCB0byBzaG93IHRoZSBjb3VudHMgb2YgZWFjaCBmZWVkIHR5cGUuDQpgYGB7ciBhbnN3ZXJfOH0NCg0KYGBgDQoNCiMjIFF1ZXN0aW9uIDkNCg0KUGljayA2IGhleCBjb2xvdXJzIGZyb20gdGhlIENvbG91ciBCcmV3ZXIgd2Vic2l0ZS4gUHV0IHRoZXNlIHRvZ2V0aGVyIGluIGEgdmFyaWFibGUsIGBiYXJfY29sb3Vyc2AuIENyZWF0ZSB5b3VyIGJhciBwbG90IGFnYWluLCBidXQgdGhpcyB0aW1lIG1ha2UgdGhlIGZpbGwgb2YgdGhlIGJhcnMgdGhlIHNhbWUgYXMgdGhvc2Ugc3RvcmVkIGluIGBiYXJfY29sb3Vyc2AuIA0KYGBge3IgYW5zd2VyXzl9DQoNCmBgYA0KDQpXaHkgZG8gd2Ugbm90IGdldCBhIGxlZ2VuZCB3aGVuIHdlIHNwZWNpZnkgY29sb3VycyB0aGlzIHdheSwgYnV0IHdlIGRvIGlmIHdlIHNwZWNpZnkgY29sb3VycyBhcyBpbiAqKlF1ZXN0aW9uIDcqKj8NCg0KIyMgUXVlc3Rpb24gMTANCg0KTWFrZSBhIGhpc3RvZ3JhbSBzaG93aW5nIHRoZSBvdmVyYWxsIGRpc3RyaWJ1dGlvbiBvZiB0aGUgY2hpY2sgd2VpZ2h0cy4gU2V0IHRoZSBiaW4gd2lkdGggdG8gNTAsIGFuZCBtYWtlIHRoZSBiYXJzIGhhdmUgYSB3aGl0ZSBmaWxsIGFuZCBibGFjayBib3JkZXIuDQpgYGB7ciBhbnN3ZXJfMTB9DQoNCmBgYA0KDQojIyBCb251cyBRdWVzdGlvbg0KDQpNYWtlIGEgcG9pbnQgcGxvdCBmcm9tIGEgZGF0YSBzZXQgb2YgeW91ciBjaG9vc2luZy4gQ2hlY2sgb3V0IHRoZSBpbmJ1aWx0IGRhdGEgc2V0cyBpbiBSIGJ5IHR5cGluZyBgZGF0YSgpYCBpbiB0aGUgY29uc29sZS4gQ3VzdG9taXNlIHRoaXMgcGxvdCB0byB5b3VyIGxpa2luZy4NCg0KYGBge3IgYm9udXNfYW5zd2VyfQ0KDQpgYGANCg==</div>
 
 
 

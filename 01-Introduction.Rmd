@@ -1,6 +1,6 @@
 # Introduction
 
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+To begin with, we'll focus on getting you started in R. We'll look into installing our two key programs, R and RStudio. After that, we'll look into how R can communicate with files on your system. Finally, we'll look at the core packages for this course, how to do basic data manipulation using base R [@R-base], and tips for good practice when working with R. We'll complete some exercises at the end so you can get a handle of the key concepts introduced here. 
 
 ## Installation and Setup
 
@@ -72,18 +72,18 @@ You just have to type in the folder name and a slash (to indicate to go below th
 
 ## Packages
 
-Next, while you can do a lot in base R, if you can think of some task that is reasonably laborious there's probably a package out there that can help you to achieve a certain goal. For us, the whole data processing, analysis, and presentation workflow can be made so much simpler by using a set of packages from the tidyverse library. This package is required for what we're about to do next, so install tidyverse (using `install.packages("tidyverse")`). Once installed, you needn't do it again. But on each new session you have to define which packages you want to load into R using the `library()` command. Make sure to uncomment the `install.packages("tidyverse")` line if you haven't installed this package yet.
+Next, while you can do a lot in base R, if you can think of some task that is reasonably laborious there's probably a package out there that can help you to achieve a certain goal. For us, the whole data processing, analysis, and presentation workflow can be made so much simpler by using a set of packages from the tidyverse library [@R-tidyverse]. This package is required for what we're about to do next, so install tidyverse (using `install.packages("tidyverse")`). Once installed, you needn't do it again. But on each new session you have to define which packages you want to load into R using the `library()` command. Make sure to uncomment the `install.packages("tidyverse")` line if you haven't installed this package yet.
 
-```{r 1_install_packages_example}
+```{r 1_install_packages_example, messages = FALSE}
 # install.packages("tidyverse") # do this only once to install the package
 library(tidyverse) # do this to load your package every time you open R
 ```
 
-By default, R installs packages from CRAN, which is essentially a centralised network for all things R. However, some useful packages may not have been submitted here, and you can install them from other places, like [github](https://github.com/). We won't install packages from github or other repositories in this course. But it's worth knowing that you can install packages from just about anywhere! 
+By default, R installs packages from CRAN, which is essentially a centralised network for all things R. However, some useful packages may not have been submitted here, and you can install them from other places, like [GitHub](https://github.com/). We won't install packages from github or other repositories in this course. But it's worth knowing that you can install packages from just about anywhere! 
 
 Most of the time, you won't have any trouble using functions from a loaded package. However, there can be cases when you have two packages installed that use the same function name. To tell R exactly which version of a function to use, we can specify both the package and function name in the form `package::function_name()`. For example, we can use the `group_by()` function from the package `dplyr` by typing `dplyr::group_by()`. You won't come across this in this course, as we'll be using packages that have functions with unique names, but it's worth bearing in mind if you come across problems with functions you *know* should work in the future.
 
-*Note:* You may notice that in my code chunks I have some green text following a #. These are comments in R and are not read when you execute your code. Comments are very useful for telling you what each section of your code does, and how. I tend to comment quite heavily, as there's always a chance you'll forget what you've done when you go back to it after a few months away from the code.
+*Note*: You may notice that in my code chunks I have some green text following a #. These are comments in R and are not read when you execute your code. Comments are very useful for telling you what each section of your code does, and how. I tend to comment quite heavily, as there's always a chance you'll forget what you've done when you go back to it after a few months away from the code.
 
 ## Objects and Functions
 
@@ -95,7 +95,7 @@ You can use R like a calculator, e.g.
 
 You can execute this directly in the console, or run it from your R script by selecting that line of code (or highlighting several lines) and pressing Ctrl + Enter (for mac, this is probably Cmd + Enter). While I said you shouldn't use the console when writing scripts, you can use it to test out a bit of code, or to quickly use R as a calculator when you're in a meeting and feeling like mental arithmetic is a step too far. You can see that once the code is run, the R console returns the result back to you. You see a history of what you asked, and what was returned.
 
-*Top tip:* use the up arrow key from the console and R will automatically fill in the last line/block of code you ran. Press up again to cycle back to older inputs, and down to back to the most recent ones.
+*Top tip*: use the up arrow key from the console and R will automatically fill in the last line/block of code you ran. Press up again to cycle back to older inputs, and down to back to the most recent ones.
 
 R always waits for you to finish an expression before it runs your code. So, if you ended your line with a +, it'll wait for the next number. This is useful for complex expressions that can take up multiple lines, e.g.
 
@@ -218,6 +218,7 @@ pet <- sample(c("cat", "dog"), 100, replace = TRUE)
 # create IQ scores
 set.seed(88)
 IQ_score <- rnorm(n = 100, mean = 150, sd = 15)
+IQ_score <- round(IQ_score) # round IQ scores
 ```
 
 *Note:* I've overspecified the functions above. You can simply run `seq(1: 100)` and `rnorm(100, 150, 15)` to get the same results, but it's a little less readable. Here, and throughout, I'll use the most readable version so you have the best idea of what you're doing. Because we're using random sampling, I've also set a seed, so that you'll sample the same values as me. If you want people to be able to reproduce your random sampling so they get the same data, set a seed!
@@ -323,7 +324,7 @@ We can combine what we learned above about `c()` to access multiple columns at o
 IQ_data[, c("participant_number", "IQ")]
 ```
 
-or a range of values by defining specific rows by specifying the row number we'd like:
+Or we can access a range of values by specifying the rows we'd like to access:
 
 ```{r 1_access_rows_by_index}
 IQ_data[c(1, 2, 3, 4, 5), c("participant_number", "IQ")]
@@ -335,7 +336,11 @@ or, to save typing, we can just define this from a starting to an ending value f
 IQ_data[1:5, c("participant_number", "IQ")]
 ```
 
+In **Session 4** we'll look at more intuitive ways of accessing data from columns and rows in your data frames. However, for now we'll quickly look at ways to manipulate data using the base R functionality so you have some idea how indexing works in R.
+
 #### Manipulating Tibble Information
+
+##### Changing Values
 
 We can use these same principles to edit the information within our data. Say, we'd like to change participant number in row 2 back to 2, we just need to do this:
 
@@ -354,11 +359,85 @@ IQ_data$participant_number[2] <- 2
 IQ_data[2, 1] <- 2
 ```
 
-You can see how all of this combined can result in some pretty powerful flexibility in how you access and manipulate your data in R. Later, we'll look into a set of functions for data wrangling that are part of the tidyverse family of functions. These make selecting and running functiosn on sub-sections of your data so much easier when compared to base R.
+You can see how all of this combined can result in some pretty powerful flexibility in how you access and manipulate your data in R.
 
-Finally, a word on data types: For most purposes, you'll only need vectors and data frames/tibbles when you want to work with your data. But it's worth being aware of other data types, such as lists and matrices. 
+##### Adding and Removing Columns
+
+To add a row to a data frame, we simply need to specify what we want to add and assign it a new name. Let's say that we want to add a column that indicates the operating system used by each participant. 
+
+We may have this because we made assumptions that people who use Windows, macOS, or the Linux families of operating systems differ in their IQ. This is a silly example for several reasons, not only because you can use more than one system; but we'll stick with this for now.
+
+Imagine we already have a sample of operating systems to draw from. You don't need to understand how this works, but briefly I've used the inbuilt `sample()` function to pick from the three names with replacement, skewing the probabilities to select windows most often, followed by mac, then linux. All that matters is that we're assigning 100 names to a variable.
+
+```{r 1_sample_names}
+set.seed(1000) # make the sampling procedure the same for us all
+
+operating_system <- sample(c("windows", "mac", "linux"), 
+                           size = 100, 
+                           replace = TRUE,
+                           prob = c(0.5, 0.3, 0.2)
+                           )
+```
+
+In the `IQ_data` set, we can add a new column for the operating systems used by the participants like so:
+
+```{r 1_add_column}
+IQ_data$operating_system <- operating_system # add new column
+
+head(IQ_data) # view first 6 rows
+```
+
+Note that you can rename the column to anything you like. But, for consistency, I like to keep the same name as the variable which acts as the data source.
+
+Finally, we can remove the new column (and any column) by setting the entire column to nothing (`NULL`), like so:
+
+```{r 1_new_remove_column}
+IQ_data$operating_system <- NULL # remove new column
+
+head(IQ_data) # view first 6 rows
+```
+
+Now the data is back to its original format. 
+
+We'll look at another way to remove one or several columns from your data frame in **Session 4**, but for now this a quick way to get things done using base R.
+
+##### Adding and Removing Rows
+
+What if we want to add a new row to our data? This may be less common than adding a new column for data processing purposes, but it's good to know anyway. 
+
+First, we need to know what should go in each cell. Remember that we have to keep the data square, so you can't have missing values when you add a row. If you don't have any data, you can just put `NA` (with **no quotations**) to keep the data square but to show that you don't have any value for a given cell. 
+
+Let's assume we want to add a new participant, 101, who has a dog but an unknown IQ. 
+
+```{r 1_add_new_row}
+IQ_data[101, ] <- c(101, "dog", NA) # add new row with values
+
+tail(IQ_data) # see last 6 rows
+```
+
+Here, we have to define all our values to be added in parentheses, using the `c()` function:
+
+- participant number is `101`
+- pet_id is `"dog"`
+- IQ is `NA` (i.e. unknown)
+
+We then assign this to our data frame using the assignment operator (`<-`). 
+
+We have to tell R where these values should go in our data frame. Because we're adding a new row, we specify the data frame, with row 101, and all columns (remember, an empty value after the comma = all columns).
+
+We can then remove this row again setting our data frame to itself, minus the 101st row:
+
+```{r 1_remove_new_row}
+IQ_data <- IQ_data[-101, ] # remove the new row
+
+tail(IQ_data) # see last 6 rows
+```
+
+This is a pain as it isn't consistent with removing the rows. But, in **Session 4** we'll look at removing rows in a consistent way to removing columns. Still, it's useful to know how this process works.
 
 #### Other Data Types
+
+For most purposes, you'll only need vectors and data frames/tibbles when you want to work with your data. But it's worth being aware of other data types, such as lists and matrices. 
 
 With lists, you can define a vector that contains other objects. Think of this as nesting vectors within vectors (very meta).
 
@@ -433,7 +512,9 @@ The important things to take home are that:
 
 ## Exercises
 
-Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary. First, I want you to figure out why some code doesn't work, then we'll move on to you manipulating data.
+Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary. First, I want you to figure out why some code doesn't work, then we'll move on to you manipulating data. 
+
+For [the opener](https://youtu.be/yOI8NGJ6SdI), we'll look at the basics of solving issues with your code.
 
 1. What's wrong with the following code?
 
@@ -477,3 +558,11 @@ Now, we'll work with a data set. But I'd like you to produce it. We'll break thi
 - SD score (*Hint*: Use `sd()`)
 
 It may be useful to store these descriptives in another data frame for further use later on. Can you do that?
+
+11. Access all rows and columns where the test score is greater than 12.
+
+*Hint*: use quotations to define the column name, and perform a logical operation on this.
+
+12. Access all rows from the participant_number and IQ columns where the test score is greater than 13.
+
+*Hint*: use the `c()` function to select multiple columns.

@@ -8,6 +8,10 @@ To get started, as always we'll load our packages and saved data.
 library(tidyverse)
 ```
 
+```{r 3_load_packages_class, eval = FALSE}
+library(tidyverse)
+```
+
 ```{r 3_load_simulated_data, echo = FALSE, message = FALSE}
 rt_data <- read_csv("lesson_materials/03_data_visualisation_two/inputs/rt_data.csv")
 ```
@@ -18,38 +22,69 @@ rt_data <- read_csv("inputs/rt_data.csv")
 
 ## Customising Your Plots
 
-Take the desnity plot below, this is functional, but it's pretty ugly. We'll look at ways to change the looks of a plot aside from simply changing your mapped aesthetics from the data.
+Take the desnity plot below, this is functional, but it's pretty ugly.
 
-```{r 3_density_plot}
-ggplot(data = rt_data, mapping = aes(x = reaction_time, 
-                                     fill = response_condition)
+```{r 3_density_plot_boring}
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time, 
+                     fill = response_condition
+                     )
+       ) +
+  geom_density(alpha = 0.5)
+```
+
+You already know how to change the colours of your aesthetics across all conditions and split by condition, so now we'll look at other ways to improve the plot. 
+
+In this version of the plot, we use the same code as before, but we add labels to the axes using `labs()`, assigning a nicer looking version of our variables to the x and y axes. 
+
+Additionally, we change the scale of the x-axis using the `scale_x_continuous` function. To this function, we pass the **limits** that we want for our axis (between 200 and 600ms), and we identify the breaks, or where we want the ticks along the axis. We pass another function that we learned in the Lesson One, called `seq()`. This sets up a sequence of numbers for us without us having to type them all out. Here, it goes `from` 200 `to` 600 `by` ticks every 100ms; as a result, our axis gets labels of 200, 300, 400, 500, and 600. 
+
+On top of this, we also improved the label for our legend using the `guides()` function. As our legend is only there to identify different parts of the graph with a different colour (from `fill = response_condition` in `aes()`), then we have to tell the guide to change the legend that pops up because of the differnt coloured parts of the plot. So, we change our guide, and change the legend that comes up because of the change in colour (`guides(fill = guide_legend())`) and within the guide legend, we change the title (`title = "Response Condition"`. I know this sounds like a lot to take in, and you're very likely to forget how this works (I do all the time), but hopefully you can get a grip of it by seeing it in action.
+
+Finally, we've changed the theme of our plot to `theme_bw()`. This is one of many inbuilt themes in ggplot2, but I find it one of the cleanest.
+
+```{r 3_density_plot_improved}
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time, 
+                     fill = response_condition
+                     )
        ) +
   geom_density(alpha = 0.5) +
-  labs(x = "Reaction Time (ms)", y = "Density") +
+  labs(x = "Reaction Time (ms)", 
+       y = "Density"
+       ) +
   scale_x_continuous(limits = c(200, 600), 
-                     breaks = seq(from = 200, to = 600, by = 100)
+                     breaks = seq(from = 200, 
+                                  to = 600, 
+                                  by = 100
+                                  )
                      ) +
   guides(fill = guide_legend(title = "Response Condition")) +
   theme_bw()
 ```
 
-
+With the histrogram below, we don't have much new to introduce, expect this time we use `theme_classic()` instead of `theme_bw()`. This gets rid of the major and minor grid lines from the previous plot, and also keeps only the lines for the axes. However, we added the argument `expand` to the `scale_y_continuous()` function, and pass this the values 0 and 0. This makes removes the spacing between the plotted elements and the axes. These values simply indicate how much extra space should be added to the top and bottom of the plot.
 
 ```{r 3_histogram_plot}
 ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
   geom_histogram(binwidth = 50, 
-                 fill = "white", 
-                 colour = "black"
+                 fill = "#bcbddc",
+                 colour = "#756bb1"
                  ) +
   scale_x_continuous(limits = c(200, 600),
-                     breaks = seq(from = 200, to = 600, by = 25)
+                     breaks = seq(from = 200, 
+                                  to = 600, 
+                                  by = 25
+                                  )
                      ) +
-  labs(x = "Reaction Time (ms)", y = "Count")
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(x = "Reaction Time (ms)", y = "Count") +
+  theme_classic()
 ```
 
 ## Pirate Plots
 
-Now, pirate plots are a great choice of plot for the indecisive. Pirate plots are essentially the individual points of data, a bar plot, a violin plot, and a confidence interval interval all in one. This way, you get to see the raw, descriptive, and inferential data on one plot!
+Now we'll look at a new plot type that takes a bit of extra work to generate; pirate plots. Pirate plots are a great choice of plot for the indecisive. They are essentially the individual points of data, a bar plot, a violin plot, and a confidence interval interval all in one. This way, you get to see the raw, descriptive, and inferential data on one plot!
 
 This is a nice way to show data that are grouped by categories but with a continuous dependent variable. 
 
@@ -57,7 +92,11 @@ We could make these ourselves by doing some calculations and combining `geoms` i
 
 To install `devtools` and the `ggpirate` package, uncomment and run the code below. Then as always, use `library(ggpirate)` to load the package.
 
-```{r 3_install_pirate_plot, include = FALSE}
+```{r 3_load_pirate_plot, include = FALSE}
+library(ggpirate)
+```
+
+```{r 3_install_pirate_plot_class, eval = FALSE}
 # install.packages("devtools")
 # devtools::install_github("mikabr/ggpirate")
 library(ggpirate)
@@ -70,7 +109,7 @@ For the additional lines:
 - `labs` allows you to manually change the x and y axis labels
 - `scale_x_discrete` allows you to manipulate your x scale. Within this, we change the labels of the columns using `labels`. We changed them to Impaired (vs. impaired) and Intact (vs. intact) for stylisitc reasons.
 - `scale_y_continuous` allows you to manipulate your y scale. Here, we set the `limits`, i.e. how far to extend our y-axis to between 0 and 600ms. Additionally, we set our `breaks` to increment in the sequence (`seq`) from 0 to 600 by 100ms. This way, we've added more granularity to our axis ticks.
-- We use `theme_bw()` to change to a black and white theme. There are other themes in `ggplot2`, but this one is nice and clean.
+- We use `theme_bw()` to change to a black and white theme. There are other themes in ggplot2, but this one is nice and clean.
 - Finally, `theme` allows you to manually specify other aspects of how your plot should look. Here, we used `panel.grid.major.x` and set this to nothing (`element_blank()`) because we don't need vertical lines in our plot.
 
 ```{r 3_pirate_plot}
@@ -95,7 +134,7 @@ If the 95% confidence interval between the two groups doesn't overlap, we can be
 
 ## Faceting
 
-Another useful part of plotting in `ggplot2` is that you can make facets of plots, or subplots. This is a good way to display your data if you have multiple categorical variables. Essentially, you'll get a plot for each category in your data.
+Another useful part of plotting in ggplot2 is that you can make facets of plots, or subplots. This is a good way to display your data if you have multiple categorical variables. Essentially, you'll get a plot for each category in your data.
 
 ### Facet Wrap
 
@@ -110,11 +149,11 @@ ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
   facet_wrap(~ response_condition)
 ```
 
-In this plot, we've specified a histogram as we normally would. However, we use `facet_wrap()` and a tilde (`~`) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the `~`, and `ggplot` automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.
+In this plot, we've specified a histogram as we normally would. However, we use `facet_wrap()` and a tilde (`~`) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the `~`, and ggplot automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.
 
 ### Facet Grid
 
-If we wanted to make a facet by two variables, then we would use `facet_grid()` instead. In this case, we just add each variable to either side of the `~` and `ggplot` will do the splitting for us. 
+If we wanted to make a facet by two variables, then we would use `facet_grid()` instead. In this case, we just add each variable to either side of the `~` and ggplot will do the splitting for us. 
 
 Let's see how this works if we split our data by gender and response condition.
 
@@ -131,15 +170,15 @@ The order in which you specify the two variables matters. Try swapping around be
 
 ## Calculating Statisitcs in ggplot2
 
-Sometimes, plotting just the means isn't enough. We saw how useful the 95% confidence interval from `ggpirate` is for making inferences about the differences between groups. Nicely, we can get standard errors or confidence intervals around our data points within `ggplot` for other geoms. 
+Sometimes, plotting just the means isn't enough. We saw how useful the 95% confidence interval from `ggpirate` is for making inferences about the differences between groups. Nicely, we can get standard errors or confidence intervals around our data points within ggplot for other geoms. 
 
 ### Means and Error Bars
 
-Let's say you wanted a bar plot with error bars showing the standard error. You can create this in `ggplot` using the `stat_summary` function. In the first instance here, we tell it that we want to run the function `mean` over our data that make up the y-axis; hence `fun.y = mean`. We also need to specify which geom we want to return from this. 
+Let's say you wanted a bar plot with error bars showing the standard error. You can create this in ggplot using the `stat_summary()` function. In the first instance here, we tell it that we want to run the function `mean` over our data that make up the y-axis; hence `fun.y = mean`. We also need to specify which geom we want to return from this. 
 
-Try changing the geom to `point` in the first `stat_summary` call to see what happens when you run this plot with `geom = "point"`. 
+Try changing the geom to `point` in the first `stat_summary()` call to see what happens when you run this plot with `geom = "point"`. 
 
-Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is `fun.data = "mean_se"`. That's because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the `width` argument to stop `ggplot` returning super wide error bars.
+Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is `fun.data = "mean_se"`. That's because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the `width` argument to stop ggplot returning super wide error bars.
 
 ```{r 3_error_bars}
 ggplot(data = rt_data, 
@@ -182,6 +221,17 @@ ggplot(data = filtered_starwars, mapping = aes(x = mass, y = height)) +
 ```
 
 Alternatively, if we have a fitted model saved from our analyses, we can add the fitted line directly using the `stat_summary` function. However, this requires some insight into the models fitted, so we'll save this for later classes.
+
+Finally, we'll look at how we can combine these smoothed fits with averages of scores. This is often useful if you're looking at timecourse data and you want to summarise performance across a whole range of participants. We'll also look at adding a few of the graphical flourishes from above to make the plot look really nice.
+
+Next, we'll look at making continuous data look a little better. For this, we'll use another inbuilt data set from R, the `Orange` data set which shows the growth of orange trees by circumference (don't ask). The reason I've chosen this data set is that, like 
+
+**INPUT CONTINUOUS DATA**
+
+```{r 3_continuous_data_pretty}
+# code to go here
+```
+
 
 ## Combining Plots
 
@@ -262,7 +312,7 @@ You can find further information on adding joint titles, annotations, etc. in [t
 
 ## Saving Plots
 
-Finally, if you've went to the work of producing a nice plot, then it'll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we'll use `ggsave`. You can name your plot anything you like, but remember to add a file extension at the end. I've used .png as this format suffers from fewer artifacts when comapred to JPEG, and it's a pretty common filetype.
+Finally, if you've went to the work of producing a nice plot, then it'll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we'll use `ggsave()`. You can name your plot anything you like, but remember to add a file extension at the end. I've used .png as this format suffers from fewer artifacts when comapred to JPEG, and it's a pretty common filetype.
 
 ```{r 3_save_plots_class, eval = FALSE}
 ggsave(filename = "outputs/starwars_mass_by_height.png", 
@@ -270,7 +320,7 @@ ggsave(filename = "outputs/starwars_mass_by_height.png",
        )
 ```
 
-You can do a whole bunch of other things with `ggplot`, like adding vertical and horizontal lines (often useful for identifying chance performance in participants), and annotating plots directly (useful for adding statistics, or commenting on interesting sections of the data). We'll cover these in the exercises, however, as these are just additional flavour to our plots!
+You can do a whole bunch of other things with ggplot, like adding vertical and horizontal lines (often useful for identifying chance performance in participants), and annotating plots directly (useful for adding statistics, or commenting on interesting sections of the data). We'll cover these in the exercises, however, as these are just additional flavour to our plots!
 
 ## Exercises
 

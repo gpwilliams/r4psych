@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-02-14">
+<meta name="date" content="2018-02-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -181,7 +181,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>You can write citations, too. For example, we are using the <strong>bookdown</strong> package <span class="citation">(Xie <a href="#ref-R-bookdown">2018</a>)</span> in this sample book, which was built on top of R Markdown and <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span>.</p>
+<p>To begin with, we’ll focus on getting you started in R. We’ll look into installing our two key programs, R and RStudio. After that, we’ll look into how R can communicate with files on your system. Finally, we’ll look at the core packages for this course, how to do basic data manipulation using base R <span class="citation">(R Core Team <a href="#ref-R-base">2017</a>)</span>, and tips for good practice when working with R. We’ll complete some exercises at the end so you can get a handle of the key concepts introduced here.</p>
 <div id="installation-and-setup" class="section level2">
 <h2><span class="header-section-number">1.1</span> Installation and Setup</h2>
 <p>To get started, at the very least you’ll have to download R from <a href="https://cran.r-project.org/">CRAN</a>. Select the correct distribution for your operating system and then click through to <em>install R for the first time</em>.</p>
@@ -236,7 +236,7 @@ my_data &lt;-<span class="st"> </span><span class="kw">write.csv</span>(my_data,
 </div>
 <div id="packages" class="section level2">
 <h2><span class="header-section-number">1.3</span> Packages</h2>
-<p>Next, while you can do a lot in base R, if you can think of some task that is reasonably laborious there’s probably a package out there that can help you to achieve a certain goal. For us, the whole data processing, analysis, and presentation workflow can be made so much simpler by using a set of packages from the tidyverse library. This package is required for what we’re about to do next, so install tidyverse (using <code>install.packages(&quot;tidyverse&quot;)</code>). Once installed, you needn’t do it again. But on each new session you have to define which packages you want to load into R using the <code>library()</code> command. Make sure to uncomment the <code>install.packages(&quot;tidyverse&quot;)</code> line if you haven’t installed this package yet.</p>
+<p>Next, while you can do a lot in base R, if you can think of some task that is reasonably laborious there’s probably a package out there that can help you to achieve a certain goal. For us, the whole data processing, analysis, and presentation workflow can be made so much simpler by using a set of packages from the tidyverse library <span class="citation">(Wickham <a href="#ref-R-tidyverse">2017</a>)</span>. This package is required for what we’re about to do next, so install tidyverse (using <code>install.packages(&quot;tidyverse&quot;)</code>). Once installed, you needn’t do it again. But on each new session you have to define which packages you want to load into R using the <code>library()</code> command. Make sure to uncomment the <code>install.packages(&quot;tidyverse&quot;)</code> line if you haven’t installed this package yet.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;tidyverse&quot;) # do this only once to install the package</span>
 <span class="kw">library</span>(tidyverse) <span class="co"># do this to load your package every time you open R</span></code></pre></div>
 <pre><code>## -- Attaching packages ---------------------------------- tidyverse 1.2.1 --</code></pre>
@@ -247,9 +247,9 @@ my_data &lt;-<span class="st"> </span><span class="kw">write.csv</span>(my_data,
 <pre><code>## -- Conflicts ------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<p>By default, R installs packages from CRAN, which is essentially a centralised network for all things R. However, some useful packages may not have been submitted here, and you can install them from other places, like <a href="https://github.com/">github</a>. We won’t install packages from github or other repositories in this course. But it’s worth knowing that you can install packages from just about anywhere!</p>
+<p>By default, R installs packages from CRAN, which is essentially a centralised network for all things R. However, some useful packages may not have been submitted here, and you can install them from other places, like <a href="https://github.com/">GitHub</a>. We won’t install packages from github or other repositories in this course. But it’s worth knowing that you can install packages from just about anywhere!</p>
 <p>Most of the time, you won’t have any trouble using functions from a loaded package. However, there can be cases when you have two packages installed that use the same function name. To tell R exactly which version of a function to use, we can specify both the package and function name in the form <code>package::function_name()</code>. For example, we can use the <code>group_by()</code> function from the package <code>dplyr</code> by typing <code>dplyr::group_by()</code>. You won’t come across this in this course, as we’ll be using packages that have functions with unique names, but it’s worth bearing in mind if you come across problems with functions you <em>know</em> should work in the future.</p>
-<p><em>Note:</em> You may notice that in my code chunks I have some green text following a #. These are comments in R and are not read when you execute your code. Comments are very useful for telling you what each section of your code does, and how. I tend to comment quite heavily, as there’s always a chance you’ll forget what you’ve done when you go back to it after a few months away from the code.</p>
+<p><em>Note</em>: You may notice that in my code chunks I have some green text following a #. These are comments in R and are not read when you execute your code. Comments are very useful for telling you what each section of your code does, and how. I tend to comment quite heavily, as there’s always a chance you’ll forget what you’ve done when you go back to it after a few months away from the code.</p>
 </div>
 <div id="objects-and-functions" class="section level2">
 <h2><span class="header-section-number">1.4</span> Objects and Functions</h2>
@@ -257,7 +257,7 @@ my_data &lt;-<span class="st"> </span><span class="kw">write.csv</span>(my_data,
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span><span class="dv">4</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <p>You can execute this directly in the console, or run it from your R script by selecting that line of code (or highlighting several lines) and pressing Ctrl + Enter (for mac, this is probably Cmd + Enter). While I said you shouldn’t use the console when writing scripts, you can use it to test out a bit of code, or to quickly use R as a calculator when you’re in a meeting and feeling like mental arithmetic is a step too far. You can see that once the code is run, the R console returns the result back to you. You see a history of what you asked, and what was returned.</p>
-<p>*Top <a href="tip:*" class="uri">tip:*</a> use the up arrow key from the console and R will automatically fill in the last line/block of code you ran. Press up again to cycle back to older inputs, and down to back to the most recent ones.</p>
+<p><em>Top tip</em>: use the up arrow key from the console and R will automatically fill in the last line/block of code you ran. Press up again to cycle back to older inputs, and down to back to the most recent ones.</p>
 <p>R always waits for you to finish an expression before it runs your code. So, if you ended your line with a +, it’ll wait for the next number. This is useful for complex expressions that can take up multiple lines, e.g.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> +<span class="st"> </span><span class="dv">2</span> +<span class="st"> </span><span class="dv">3</span> +<span class="st"> </span><span class="dv">4</span> +<span class="st"> </span><span class="dv">5</span> +<span class="st"> </span><span class="dv">6</span> +<span class="st"> </span><span class="dv">7</span> +
 <span class="st">  </span><span class="dv">8</span> +<span class="st"> </span><span class="dv">9</span></code></pre></div>
@@ -336,7 +336,8 @@ pet &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw
 
 <span class="co"># create IQ scores</span>
 <span class="kw">set.seed</span>(<span class="dv">88</span>)
-IQ_score &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">150</span>, <span class="dt">sd =</span> <span class="dv">15</span>)</code></pre></div>
+IQ_score &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">150</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
+IQ_score &lt;-<span class="st"> </span><span class="kw">round</span>(IQ_score) <span class="co"># round IQ scores</span></code></pre></div>
 <p><em>Note:</em> I’ve overspecified the functions above. You can simply run <code>seq(1: 100)</code> and <code>rnorm(100, 150, 15)</code> to get the same results, but it’s a little less readable. Here, and throughout, I’ll use the most readable version so you have the best idea of what you’re doing. Because we’re using random sampling, I’ve also set a seed, so that you’ll sample the same values as me. If you want people to be able to reproduce your random sampling so they get the same data, set a seed!</p>
 <p>Finally, it’s important to note that you can call a function on the result of another function in R.</p>
 <p>Right now, each number in the participant variable is unique. We can see how many participants are in the study by asking R “how long is the variable, participant?”. We do this like so:</p>
@@ -395,13 +396,13 @@ IQ_score &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class
 <p>Unfortunately, some older functions in R won’t allow you to use a tibble. If this is the case, simply convert your tibble to a <code>data.frame</code> using the <code>as.data.frame()</code> function. Note, we use <code>head()</code> to see the head of our data frame, or the first 6 values. This is necessary here to avoid printing out each row, as we’re not in using a tibble any more. Notice that We’ve assigned the <code>data.frame</code> version of our IQ data to a new variable, rather than overwriting the previous variable. This is good practice when testing your code, as you never know what might break, resulting in data loss. (Although this wansn’t strictly necessary here.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(IQ_data)
 <span class="kw">head</span>(IQ_data_df)</code></pre></div>
-<pre><code>##   participant_number pet_id       IQ
-## 1                  1    cat 146.6062
-## 2                  1    cat 159.6985
-## 3                  3    dog 185.1909
-## 4                  4    cat 122.3157
-## 5                  5    dog 156.8954
-## 6                  6    dog 151.8567</code></pre>
+<pre><code>##   participant_number pet_id  IQ
+## 1                  1    cat 147
+## 2                  1    cat 160
+## 3                  3    dog 185
+## 4                  4    cat 122
+## 5                  5    dog 157
+## 6                  6    dog 152</code></pre>
 </div>
 <div id="accessing-tibble-information" class="section level4">
 <h4><span class="header-section-number">1.5.0.2</span> Accessing Tibble Information</h4>
@@ -418,7 +419,7 @@ IQ_data[[<span class="st">&quot;IQ&quot;</span>]]
 
 <span class="co"># by position</span>
 IQ_data[[<span class="dv">3</span>]]</code></pre></div>
-<pre><code>## [1] 146.6062 159.6985 185.1909 122.3157 156.8954 151.8567</code></pre>
+<pre><code>## [1] 147 160 185 122 157 152</code></pre>
 <p>Tibbles are stricter than data frames, in that they’ll always return a tibble. For example, with a <code>data.frame</code> if you ask for a value in a specific row of a specific column under the format <code>data_frame[row, column]</code>, R will return a vector of the value at that position in the <code>data.frame</code>. With tibbles, your single value will be returned as a tibble.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tibble output</span>
 IQ_data[<span class="dv">1</span>, <span class="dv">3</span>] <span class="co"># row 1, col 3</span></code></pre></div>
@@ -428,10 +429,10 @@ IQ_data[<span class="dv">1</span>, <span class="dv">3</span>] <span class="co">#
 ## 1   147</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data.frame output</span>
 IQ_data_df[<span class="dv">1</span>, <span class="dv">3</span>]</code></pre></div>
-<pre><code>## [1] 146.6062</code></pre>
+<pre><code>## [1] 147</code></pre>
 <p>Now, lets calculate the mean on the correct column in the tibble. Personally, I prefer using <code>$</code> for cases like this. But, feel free to use any of the above methods.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(IQ_data$IQ)</code></pre></div>
-<pre><code>## [1] 150.1567</code></pre>
+<pre><code>## [1] 150.17</code></pre>
 <p>We can combine what we learned above about <code>c()</code> to access multiple columns at once:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[, <span class="kw">c</span>(<span class="st">&quot;participant_number&quot;</span>, <span class="st">&quot;IQ&quot;</span>)]</code></pre></div>
 <pre><code>## # A tibble: 100 x 2
@@ -448,7 +449,7 @@ IQ_data_df[<span class="dv">1</span>, <span class="dv">3</span>]</code></pre></d
 ##  9               9.00   131
 ## 10              10.0    160
 ## # ... with 90 more rows</code></pre>
-<p>or a range of values by defining specific rows by specifying the row number we’d like:</p>
+<p>Or we can access a range of values by specifying the rows we’d like to access:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="kw">c</span>(<span class="st">&quot;participant_number&quot;</span>, <span class="st">&quot;IQ&quot;</span>)]</code></pre></div>
 <pre><code>## # A tibble: 5 x 2
 ##   participant_number    IQ
@@ -468,9 +469,12 @@ IQ_data_df[<span class="dv">1</span>, <span class="dv">3</span>]</code></pre></d
 ## 3               3.00   185
 ## 4               4.00   122
 ## 5               5.00   157</code></pre>
+<p>In <strong>Session 4</strong> we’ll look at more intuitive ways of accessing data from columns and rows in your data frames. However, for now we’ll quickly look at ways to manipulate data using the base R functionality so you have some idea how indexing works in R.</p>
 </div>
 <div id="manipulating-tibble-information" class="section level4">
 <h4><span class="header-section-number">1.5.0.3</span> Manipulating Tibble Information</h4>
+<div id="changing-values" class="section level5">
+<h5><span class="header-section-number">1.5.0.3.1</span> Changing Values</h5>
 <p>We can use these same principles to edit the information within our data. Say, we’d like to change participant number in row 2 back to 2, we just need to do this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># specifying row and column by index</span>
 IQ_data[<span class="dv">2</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">2</span>
@@ -480,11 +484,94 @@ IQ_data[<span class="dv">2</span>, <span class="st">&quot;participant_number&quo
 
 <span class="co"># specifying index within a column</span>
 IQ_data$participant_number[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">2</span></code></pre></div>
-<p>You can see how all of this combined can result in some pretty powerful flexibility in how you access and manipulate your data in R. Later, we’ll look into a set of functions for data wrangling that are part of the tidyverse family of functions. These make selecting and running functiosn on sub-sections of your data so much easier when compared to base R.</p>
-<p>Finally, a word on data types: For most purposes, you’ll only need vectors and data frames/tibbles when you want to work with your data. But it’s worth being aware of other data types, such as lists and matrices.</p>
+<p>You can see how all of this combined can result in some pretty powerful flexibility in how you access and manipulate your data in R.</p>
+</div>
+<div id="adding-and-removing-columns" class="section level5">
+<h5><span class="header-section-number">1.5.0.3.2</span> Adding and Removing Columns</h5>
+<p>To add a row to a data frame, we simply need to specify what we want to add and assign it a new name. Let’s say that we want to add a column that indicates the operating system used by each participant.</p>
+<p>We may have this because we made assumptions that people who use Windows, macOS, or the Linux families of operating systems differ in their IQ. This is a silly example for several reasons, not only because you can use more than one system; but we’ll stick with this for now.</p>
+<p>Imagine we already have a sample of operating systems to draw from. You don’t need to understand how this works, but briefly I’ve used the inbuilt <code>sample()</code> function to pick from the three names with replacement, skewing the probabilities to select windows most often, followed by mac, then linux. All that matters is that we’re assigning 100 names to a variable.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>) <span class="co"># make the sampling procedure the same for us all</span>
+
+operating_system &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;windows&quot;</span>, <span class="st">&quot;mac&quot;</span>, <span class="st">&quot;linux&quot;</span>), 
+                           <span class="dt">size =</span> <span class="dv">100</span>, 
+                           <span class="dt">replace =</span> <span class="ot">TRUE</span>,
+                           <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>)
+                           )</code></pre></div>
+<p>In the <code>IQ_data</code> set, we can add a new column for the operating systems used by the participants like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data$operating_system &lt;-<span class="st"> </span>operating_system <span class="co"># add new column</span>
+
+<span class="kw">head</span>(IQ_data) <span class="co"># view first 6 rows</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 4
+##   participant_number pet_id    IQ operating_system
+##                &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;           
+## 1               1.00 cat      147 windows         
+## 2               2.00 cat      160 mac             
+## 3               3.00 dog      185 windows         
+## 4               4.00 cat      122 mac             
+## 5               5.00 dog      157 mac             
+## 6               6.00 dog      152 windows</code></pre>
+<p>Note that you can rename the column to anything you like. But, for consistency, I like to keep the same name as the variable which acts as the data source.</p>
+<p>Finally, we can remove the new column (and any column) by setting the entire column to nothing (<code>NULL</code>), like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data$operating_system &lt;-<span class="st"> </span><span class="ot">NULL</span> <span class="co"># remove new column</span>
+
+<span class="kw">head</span>(IQ_data) <span class="co"># view first 6 rows</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   participant_number pet_id    IQ
+##                &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1               1.00 cat      147
+## 2               2.00 cat      160
+## 3               3.00 dog      185
+## 4               4.00 cat      122
+## 5               5.00 dog      157
+## 6               6.00 dog      152</code></pre>
+<p>Now the data is back to its original format.</p>
+<p>We’ll look at another way to remove one or several columns from your data frame in <strong>Session 4</strong>, but for now this a quick way to get things done using base R.</p>
+</div>
+<div id="adding-and-removing-rows" class="section level5">
+<h5><span class="header-section-number">1.5.0.3.3</span> Adding and Removing Rows</h5>
+<p>What if we want to add a new row to our data? This may be less common than adding a new column for data processing purposes, but it’s good to know anyway.</p>
+<p>First, we need to know what should go in each cell. Remember that we have to keep the data square, so you can’t have missing values when you add a row. If you don’t have any data, you can just put <code>NA</code> (with <strong>no quotations</strong>) to keep the data square but to show that you don’t have any value for a given cell.</p>
+<p>Let’s assume we want to add a new participant, 101, who has a dog but an unknown IQ.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[<span class="dv">101</span>, ] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">101</span>, <span class="st">&quot;dog&quot;</span>, <span class="ot">NA</span>) <span class="co"># add new row with values</span>
+
+<span class="kw">tail</span>(IQ_data) <span class="co"># see last 6 rows</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   participant_number pet_id IQ   
+##   &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt;
+## 1 96                 cat    148  
+## 2 97                 dog    178  
+## 3 98                 dog    156  
+## 4 99                 cat    165  
+## 5 100                dog    150  
+## 6 101                dog    &lt;NA&gt;</code></pre>
+<p>Here, we have to define all our values to be added in parentheses, using the <code>c()</code> function:</p>
+<ul>
+<li>participant number is <code>101</code></li>
+<li>pet_id is <code>&quot;dog&quot;</code></li>
+<li>IQ is <code>NA</code> (i.e. unknown)</li>
+</ul>
+<p>We then assign this to our data frame using the assignment operator (<code>&lt;-</code>).</p>
+<p>We have to tell R where these values should go in our data frame. Because we’re adding a new row, we specify the data frame, with row 101, and all columns (remember, an empty value after the comma = all columns).</p>
+<p>We can then remove this row again setting our data frame to itself, minus the 101st row:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data &lt;-<span class="st"> </span>IQ_data[-<span class="dv">101</span>, ] <span class="co"># remove the new row</span>
+
+<span class="kw">tail</span>(IQ_data) <span class="co"># see last 6 rows</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   participant_number pet_id IQ   
+##   &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt;
+## 1 95                 dog    188  
+## 2 96                 cat    148  
+## 3 97                 dog    178  
+## 4 98                 dog    156  
+## 5 99                 cat    165  
+## 6 100                dog    150</code></pre>
+<p>This is a pain as it isn’t consistent with removing the rows. But, in <strong>Session 4</strong> we’ll look at removing rows in a consistent way to removing columns. Still, it’s useful to know how this process works.</p>
+</div>
 </div>
 <div id="other-data-types" class="section level4">
 <h4><span class="header-section-number">1.5.0.4</span> Other Data Types</h4>
+<p>For most purposes, you’ll only need vectors and data frames/tibbles when you want to work with your data. But it’s worth being aware of other data types, such as lists and matrices.</p>
 <p>With lists, you can define a vector that contains other objects. Think of this as nesting vectors within vectors (very meta).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_quality &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">glenn =</span> <span class="kw">c</span>(<span class="st">&quot;handsome&quot;</span>, <span class="st">&quot;smart&quot;</span>, <span class="st">&quot;modest&quot;</span>),
                        <span class="dt">not_glenn =</span> <span class="kw">c</span>(<span class="st">&quot;less_handsome&quot;</span>, <span class="st">&quot;less_smart&quot;</span>, <span class="st">&quot;less_modest&quot;</span>)
@@ -505,14 +592,14 @@ person_quality[<span class="dv">1</span>]</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">IQ_data[<span class="dv">101</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">101</span>
 <span class="kw">tail</span>(IQ_data)</code></pre></div>
 <pre><code>## # A tibble: 6 x 3
-##   participant_number pet_id    IQ
-##                &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-## 1               96.0 cat      148
-## 2               97.0 dog      178
-## 3               98.0 dog      156
-## 4               99.0 cat      165
-## 5              100   dog      150
-## 6              101   &lt;NA&gt;      NA</code></pre>
+##   participant_number pet_id IQ   
+##   &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt;
+## 1 96                 cat    148  
+## 2 97                 dog    178  
+## 3 98                 dog    156  
+## 4 99                 cat    165  
+## 5 100                dog    150  
+## 6 101                &lt;NA&gt;   &lt;NA&gt;</code></pre>
 <p>Did you notice that R automatically introduced NA values in the final cells for the pet_id and IQ columns?</p>
 <p>Matrices work very similarly to data frames and tibbles, but they’re even stricter. They can only contain the same data type throughout, so we can’t mix columns containing characters and numbers without converting them all to the same data type (hint: it’s a character!). I’ll show you how to make a matrix, but we won’t linger on that as I haven’t found them all that useful in my own work.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">matrix_example &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>:<span class="st"> </span><span class="dv">25</span>),
@@ -556,6 +643,7 @@ matrix_example</code></pre></div>
 <div id="exercises" class="section level2">
 <h2><span class="header-section-number">1.7</span> Exercises</h2>
 <p>Try out the exercises below, we’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary. First, I want you to figure out why some code doesn’t work, then we’ll move on to you manipulating data.</p>
+<p>For <a href="https://youtu.be/yOI8NGJ6SdI">the opener</a>, we’ll look at the basics of solving issues with your code.</p>
 <ol style="list-style-type: decimal">
 <li>What’s wrong with the following code?</li>
 </ol>
@@ -590,16 +678,24 @@ uniform_distrbiution</code></pre></div>
 <li>SD score (<em>Hint</em>: Use <code>sd()</code>)</li>
 </ul>
 <p>It may be useful to store these descriptives in another data frame for further use later on. Can you do that?</p>
+<ol start="11" style="list-style-type: decimal">
+<li>Access all rows and columns where the test score is greater than 12.</li>
+</ol>
+<p><em>Hint</em>: use quotations to define the column name, and perform a logical operation on this.</p>
+<ol start="12" style="list-style-type: decimal">
+<li>Access all rows from the participant_number and IQ columns where the test score is greater than 13.</li>
+</ol>
+<p><em>Hint</em>: use the <code>c()</code> function to select multiple columns.</p>
 
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-R-bookdown">
-<p>Xie, Yihui. 2018. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown" class="uri">https://CRAN.R-project.org/package=bookdown</a>.</p>
+<div id="ref-R-base">
+<p>R Core Team. 2017. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</p>
 </div>
-<div id="ref-xie2015">
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/" class="uri">http://yihui.name/knitr/</a>.</p>
+<div id="ref-R-tidyverse">
+<p>Wickham, Hadley. 2017. <em>Tidyverse: Easily Install and Load the ’Tidyverse’</em>. <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a>.</p>
 </div>
 </div>
             </section>

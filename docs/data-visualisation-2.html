@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-02-14">
+<meta name="date" content="2018-02-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -183,45 +183,74 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">Chapter 3</span> Data Visualisation 2</h1>
 <p>In this section we’ll cover more advanced plotting methods in ggplot2. We’ll look at customising plots, making <strong>pirate plots</strong>, installing packages from GitHub, faceting, and stitching plots together.</p>
 <p>To get started, as always we’ll load our packages and saved data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</code></pre></div>
 <div id="customising-your-plots" class="section level2">
 <h2><span class="header-section-number">3.1</span> Customising Your Plots</h2>
-<p>Take the desnity plot below, this is functional, but it’s pretty ugly. We’ll look at ways to change the looks of a plot aside from simply changing your mapped aesthetics from the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
-                                     <span class="dt">fill =</span> response_condition)
+<p>Take the desnity plot below, this is functional, but it’s pretty ugly.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
+                     <span class="dt">fill =</span> response_condition
+                     )
+       ) +
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/3_density_plot_boring-1.png" width="672" /></p>
+<p>You already know how to change the colours of your aesthetics across all conditions and split by condition, so now we’ll look at other ways to improve the plot.</p>
+<p>In this version of the plot, we use the same code as before, but we add labels to the axes using <code>labs()</code>, assigning a nicer looking version of our variables to the x and y axes.</p>
+<p>Additionally, we change the scale of the x-axis using the <code>scale_x_continuous</code> function. To this function, we pass the <strong>limits</strong> that we want for our axis (between 200 and 600ms), and we identify the breaks, or where we want the ticks along the axis. We pass another function that we learned in the Lesson One, called <code>seq()</code>. This sets up a sequence of numbers for us without us having to type them all out. Here, it goes <code>from</code> 200 <code>to</code> 600 <code>by</code> ticks every 100ms; as a result, our axis gets labels of 200, 300, 400, 500, and 600.</p>
+<p>On top of this, we also improved the label for our legend using the <code>guides()</code> function. As our legend is only there to identify different parts of the graph with a different colour (from <code>fill = response_condition</code> in <code>aes()</code>), then we have to tell the guide to change the legend that pops up because of the differnt coloured parts of the plot. So, we change our guide, and change the legend that comes up because of the change in colour (<code>guides(fill = guide_legend())</code>) and within the guide legend, we change the title (<code>title = &quot;Response Condition&quot;</code>. I know this sounds like a lot to take in, and you’re very likely to forget how this works (I do all the time), but hopefully you can get a grip of it by seeing it in action.</p>
+<p>Finally, we’ve changed the theme of our plot to <code>theme_bw()</code>. This is one of many inbuilt themes in ggplot2, but I find it one of the cleanest.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
+                     <span class="dt">fill =</span> response_condition
+                     )
        ) +
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>) +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, 
+       <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>
+       ) +
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">600</span>), 
-                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, <span class="dt">to =</span> <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">100</span>)
+                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, 
+                                  <span class="dt">to =</span> <span class="dv">600</span>, 
+                                  <span class="dt">by =</span> <span class="dv">100</span>
+                                  )
                      ) +
 <span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Response Condition&quot;</span>)) +
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_density_plot-1.png" width="672" /></p>
+<p><img src="R_for_Psych_files/figure-html/3_density_plot_improved-1.png" width="672" /></p>
+<p>With the histrogram below, we don’t have much new to introduce, expect this time we use <code>theme_classic()</code> instead of <code>theme_bw()</code>. This gets rid of the major and minor grid lines from the previous plot, and also keeps only the lines for the axes. However, we added the argument <code>expand</code> to the <code>scale_y_continuous()</code> function, and pass this the values 0 and 0. This makes removes the spacing between the plotted elements and the axes. These values simply indicate how much extra space should be added to the top and bottom of the plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
-                 <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
+                 <span class="dt">fill =</span> <span class="st">&quot;#bcbddc&quot;</span>,
+                 <span class="dt">colour =</span> <span class="st">&quot;#756bb1&quot;</span>
                  ) +
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">600</span>),
-                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, <span class="dt">to =</span> <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">25</span>)
+                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, 
+                                  <span class="dt">to =</span> <span class="dv">600</span>, 
+                                  <span class="dt">by =</span> <span class="dv">25</span>
+                                  )
                      ) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>)</code></pre></div>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>) +
+<span class="st">  </span><span class="kw">theme_classic</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_histogram_plot-1.png" width="672" /></p>
 </div>
 <div id="pirate-plots" class="section level2">
 <h2><span class="header-section-number">3.2</span> Pirate Plots</h2>
-<p>Now, pirate plots are a great choice of plot for the indecisive. Pirate plots are essentially the individual points of data, a bar plot, a violin plot, and a confidence interval interval all in one. This way, you get to see the raw, descriptive, and inferential data on one plot!</p>
+<p>Now we’ll look at a new plot type that takes a bit of extra work to generate; pirate plots. Pirate plots are a great choice of plot for the indecisive. They are essentially the individual points of data, a bar plot, a violin plot, and a confidence interval interval all in one. This way, you get to see the raw, descriptive, and inferential data on one plot!</p>
 <p>This is a nice way to show data that are grouped by categories but with a continuous dependent variable.</p>
 <p>We could make these ourselves by doing some calculations and combining <code>geoms</code> in ggplot2. Or, we could just install a package from <a href="https://github.com/mikabr/ggpirate">Github</a> which will do that for us. First, we’ll have to install <code>devtools</code> in R which will allow us to install packages from Github. (For packages on CRAN, this isn’t necessary, but unfortunately ggpirate isn’t on CRAN at the time of writing.)</p>
 <p>To install <code>devtools</code> and the <code>ggpirate</code> package, uncomment and run the code below. Then as always, use <code>library(ggpirate)</code> to load the package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
+<span class="co"># devtools::install_github(&quot;mikabr/ggpirate&quot;)</span>
+<span class="kw">library</span>(ggpirate)</code></pre></div>
 <p>Below, we’ll make a pirate plot. Note that you only need the first two calls (lines 1-6) to create the plot: The first to set up how you’re going to map your data (and the source of your data), and the second to add the <code>geom</code> for the pirate plot itself. We added the aethetics of colour and fill to match our conditions within this call, so the two levels of <code>response_condition</code> have different colours.</p>
 <p>For the additional lines:</p>
 <ul>
 <li><code>labs</code> allows you to manually change the x and y axis labels</li>
 <li><code>scale_x_discrete</code> allows you to manipulate your x scale. Within this, we change the labels of the columns using <code>labels</code>. We changed them to Impaired (vs. impaired) and Intact (vs. intact) for stylisitc reasons.</li>
 <li><code>scale_y_continuous</code> allows you to manipulate your y scale. Here, we set the <code>limits</code>, i.e. how far to extend our y-axis to between 0 and 600ms. Additionally, we set our <code>breaks</code> to increment in the sequence (<code>seq</code>) from 0 to 600 by 100ms. This way, we’ve added more granularity to our axis ticks.</li>
-<li>We use <code>theme_bw()</code> to change to a black and white theme. There are other themes in <code>ggplot2</code>, but this one is nice and clean.</li>
+<li>We use <code>theme_bw()</code> to change to a black and white theme. There are other themes in ggplot2, but this one is nice and clean.</li>
 <li>Finally, <code>theme</code> allows you to manually specify other aspects of how your plot should look. Here, we used <code>panel.grid.major.x</code> and set this to nothing (<code>element_blank()</code>) because we don’t need vertical lines in our plot.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
@@ -243,7 +272,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="faceting" class="section level2">
 <h2><span class="header-section-number">3.3</span> Faceting</h2>
-<p>Another useful part of plotting in <code>ggplot2</code> is that you can make facets of plots, or subplots. This is a good way to display your data if you have multiple categorical variables. Essentially, you’ll get a plot for each category in your data.</p>
+<p>Another useful part of plotting in ggplot2 is that you can make facets of plots, or subplots. This is a good way to display your data if you have multiple categorical variables. Essentially, you’ll get a plot for each category in your data.</p>
 <div id="facet-wrap" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Facet Wrap</h3>
 <p>If you want to create facets from one variable then use <code>facet_wrap()</code>.</p>
@@ -254,11 +283,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                  ) +
 <span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>response_condition)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_facet_wrap-1.png" width="672" /></p>
-<p>In this plot, we’ve specified a histogram as we normally would. However, we use <code>facet_wrap()</code> and a tilde (<code>~</code>) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the <code>~</code>, and <code>ggplot</code> automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.</p>
+<p>In this plot, we’ve specified a histogram as we normally would. However, we use <code>facet_wrap()</code> and a tilde (<code>~</code>) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the <code>~</code>, and ggplot automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.</p>
 </div>
 <div id="facet-grid" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Facet Grid</h3>
-<p>If we wanted to make a facet by two variables, then we would use <code>facet_grid()</code> instead. In this case, we just add each variable to either side of the <code>~</code> and <code>ggplot</code> will do the splitting for us.</p>
+<p>If we wanted to make a facet by two variables, then we would use <code>facet_grid()</code> instead. In this case, we just add each variable to either side of the <code>~</code> and ggplot will do the splitting for us.</p>
 <p>Let’s see how this works if we split our data by gender and response condition.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
@@ -272,12 +301,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="calculating-statisitcs-in-ggplot2" class="section level2">
 <h2><span class="header-section-number">3.4</span> Calculating Statisitcs in ggplot2</h2>
-<p>Sometimes, plotting just the means isn’t enough. We saw how useful the 95% confidence interval from <code>ggpirate</code> is for making inferences about the differences between groups. Nicely, we can get standard errors or confidence intervals around our data points within <code>ggplot</code> for other geoms.</p>
+<p>Sometimes, plotting just the means isn’t enough. We saw how useful the 95% confidence interval from <code>ggpirate</code> is for making inferences about the differences between groups. Nicely, we can get standard errors or confidence intervals around our data points within ggplot for other geoms.</p>
 <div id="means-and-error-bars" class="section level3">
 <h3><span class="header-section-number">3.4.1</span> Means and Error Bars</h3>
-<p>Let’s say you wanted a bar plot with error bars showing the standard error. You can create this in <code>ggplot</code> using the <code>stat_summary</code> function. In the first instance here, we tell it that we want to run the function <code>mean</code> over our data that make up the y-axis; hence <code>fun.y = mean</code>. We also need to specify which geom we want to return from this.</p>
-<p>Try changing the geom to <code>point</code> in the first <code>stat_summary</code> call to see what happens when you run this plot with <code>geom = &quot;point&quot;</code>.</p>
-<p>Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is <code>fun.data = &quot;mean_se&quot;</code>. That’s because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the <code>width</code> argument to stop <code>ggplot</code> returning super wide error bars.</p>
+<p>Let’s say you wanted a bar plot with error bars showing the standard error. You can create this in ggplot using the <code>stat_summary()</code> function. In the first instance here, we tell it that we want to run the function <code>mean</code> over our data that make up the y-axis; hence <code>fun.y = mean</code>. We also need to specify which geom we want to return from this.</p>
+<p>Try changing the geom to <code>point</code> in the first <code>stat_summary()</code> call to see what happens when you run this plot with <code>geom = &quot;point&quot;</code>.</p>
+<p>Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is <code>fun.data = &quot;mean_se&quot;</code>. That’s because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the <code>width</code> argument to stop ggplot returning super wide error bars.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
        <span class="dt">mapping =</span> <span class="kw">aes</span>(
          <span class="dt">x =</span> response_condition,
@@ -311,6 +340,10 @@ filtered_starwars &lt;-<span class="st"> </span>starwars %&gt;%<span class="st">
 <span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span>x)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_linear_starwars-1.png" width="672" /></p>
 <p>Alternatively, if we have a fitted model saved from our analyses, we can add the fitted line directly using the <code>stat_summary</code> function. However, this requires some insight into the models fitted, so we’ll save this for later classes.</p>
+<p>Finally, we’ll look at how we can combine these smoothed fits with averages of scores. This is often useful if you’re looking at timecourse data and you want to summarise performance across a whole range of participants. We’ll also look at adding a few of the graphical flourishes from above to make the plot look really nice.</p>
+<p>Next, we’ll look at making continuous data look a little better. For this, we’ll use another inbuilt data set from R, the <code>Orange</code> data set which shows the growth of orange trees by circumference (don’t ask). The reason I’ve chosen this data set is that, like</p>
+<p><strong>INPUT CONTINUOUS DATA</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># code to go here</span></code></pre></div>
 </div>
 </div>
 <div id="combining-plots" class="section level2">
@@ -368,11 +401,11 @@ combined_plots</code></pre></div>
 </div>
 <div id="saving-plots" class="section level2">
 <h2><span class="header-section-number">3.6</span> Saving Plots</h2>
-<p>Finally, if you’ve went to the work of producing a nice plot, then it’ll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we’ll use <code>ggsave</code>. You can name your plot anything you like, but remember to add a file extension at the end. I’ve used .png as this format suffers from fewer artifacts when comapred to JPEG, and it’s a pretty common filetype.</p>
+<p>Finally, if you’ve went to the work of producing a nice plot, then it’ll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we’ll use <code>ggsave()</code>. You can name your plot anything you like, but remember to add a file extension at the end. I’ve used .png as this format suffers from fewer artifacts when comapred to JPEG, and it’s a pretty common filetype.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggsave</span>(<span class="dt">filename =</span> <span class="st">&quot;outputs/starwars_mass_by_height.png&quot;</span>, 
        <span class="dt">plot =</span> combined_plots
        )</code></pre></div>
-<p>You can do a whole bunch of other things with <code>ggplot</code>, like adding vertical and horizontal lines (often useful for identifying chance performance in participants), and annotating plots directly (useful for adding statistics, or commenting on interesting sections of the data). We’ll cover these in the exercises, however, as these are just additional flavour to our plots!</p>
+<p>You can do a whole bunch of other things with ggplot, like adding vertical and horizontal lines (often useful for identifying chance performance in participants), and annotating plots directly (useful for adding statistics, or commenting on interesting sections of the data). We’ll cover these in the exercises, however, as these are just additional flavour to our plots!</p>
 </div>
 <div id="exercises-2" class="section level2">
 <h2><span class="header-section-number">3.7</span> Exercises</h2>

@@ -17,7 +17,7 @@ When you save the notebook, an HTML file containing the code and output will be 
 
 The preview shows you a rendered HTML copy of the contents of the editor. The last code ran within a chunk will be displayed when you preview your HTML file.
 
-# Exercises
+# Main Exercises
 
 Enter your code in the code blocks in response to the [exercises for Chapter 1 of r4psych](http://glennwilliams.me/r4psych/introduction.html#exercises). Run your code and then save your document once completed.
 
@@ -30,8 +30,7 @@ sequence < - seq(from = 0, to = 40, by = 2)
 ```
 
 ```{r answer_1}
-
-
+sequence <- seq(from = 0, to = 40, by = 2)
 ```
 
 ## Question 2
@@ -40,68 +39,65 @@ Why doesn't this return anything? Change the code to make it run.
 ```{r question_2, eval = FALSE}
 # draw 100 times from a uniform distribution between 1 and 10
 uniform_distribution <- runif(n = 100, min = 1, max = 10)
-uniform_distrbiution
+
+head(uniform_distrbiution)
 ```
 
 ```{r answer_2}
-
-
+head(uniform_distribution)
 ```
 
 ## Question 3
 
 Lets pretend we have 100 participants. Create a variable, `participants`, that will store participant IDs. Their IDs can be anything you like, but some sort of logical numbering looks best. *Hint*: `seq()` is your friend here!
 ```{r answer_3}
-
+participants <- seq(from = 1, to = 100, by = 1)
 ```
 
 ## Question 4
 
 Create a variable, `scores` that will store their scores on some test. Let's assume participant scores are drawn from a normal distribution with a mean of 10 and an SD of 0.75. *Hint*: `rnorm()` is a wonderful thing.
 ```{r answer_4}
-
-
+scores <- rnorm(n = 100, mean = 10, sd = 0.75)
 ```
 
 ## Question 5
 
 Finally, create some ages for your participants and store them in the variable `ages`. Here, you'll have to use a new command called `sample()`. See if you can figure out how to use this command. If you're lost, remember to use ? on the function.
 ```{r answer_5}
-
-
+ages <- sample(18:65, 100, replace = TRUE)
 ```
 
 ## Question 6
 
 Create a data frame, `data`, consisting of your participant IDs, their ages, and test scores.
 ```{r answer_6}
-
-
+data <- data.frame(participants, ages, scores)
 ```
 
 ## Question 7
 
 Take a look at the start and the end of your data frame. Do the values look reasonable? (Don't worry about outliers or missing values etc., we'll check those in later classes.)
 ```{r answer_7}
-
-
+head(data)
+tail(data)
 ```
 
 ## Question 8
 
 Access the 20th row (and all columns). What do the scores look like? Are they the same as the person sitting next to you? Why or why not, might this be the case?
 ```{r answer_8}
-
-
+data[20, ]
 ```
 
 ## Question 9
 
 Access just the test score for row 73.
 ```{r answer_9}
-
-
+data[73, "scores"]
 ```
+
+# Bonus Exercises
 
 ## Question 10
 
@@ -113,8 +109,10 @@ Output some simple descriptive statistics from your sample. We want to know:
 
 It may be useful to store these descriptives in another data frame for further use later on. Can you do that?
 ```{r answer_10}
-
-
+descriptives <- data.frame(mean_age = mean(data$age),
+                           mean_scores = mean(data$scores),
+                           sd_scores = sd(data$scores)
+                           )
 ```
 
 ## Question 11
@@ -123,18 +121,16 @@ Access all rows and columns where the test score is greater than 12.
 
 *Hint*: use quotations to define the column name, and perform a logical operation on this.
 ```{r answer_11}
-
-
+data["scores" > 12, ]
 ```
 
 ## Question 12
 
-Access all rows from the participant_number and IQ columns where the test score is greater than 13.
+Access all rows from the participant_number and scores columns where the test score is greater than 13.
 
 *Hint*: use the `c()` function to select multiple columns.
 ```{r answer_12}
-
-
+data["scores" > 13, c("participants", "scores")]
 ```
 
 If you need any help with these questions, feel free to chat amongst yourselves or to contact me where necessary.

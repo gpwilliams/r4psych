@@ -7,7 +7,7 @@ output: html_notebook
 
 Load the libraries and data necessary to complete the exercises associated with this lesson. You may have to install the `languageR` library if you don't have it installed already.
 
-```{r}
+```{r load_libraries_and_data, messages = FALSE}
 library(tidyverse)
 library(ggpirate)
 library(cowplot)
