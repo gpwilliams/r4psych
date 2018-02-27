@@ -1,0 +1,490 @@
+---
+title: "02 - Data Visualisation 1"
+subtitle: Basic plotting in ggplot2
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=6, fig.height=4) 
+```
+
+# overview
+
+## Lesson Structure
+
+An early look at data visualisation -- see the power of R!
+
+We'll look at:
+
+- Reading data into R from external sources
+- Understanding the ggplot syntax
+- Plotting discrete and continuous data
+- Changing basic visual features of plots
+
+## Getting Started
+
+First, we'll load the packages necessary for this class. We'll use the inbuilt `starwars` data set for the first half of this class.
+
+```{r 2_load_packages, include = FALSE}
+library(tidyverse)
+```
+
+```{r 2_load_packages_class, eval = FALSE}
+library(tidyverse)
+```
+
+This doesn't appear in your **Global Environment**, but it's there.
+
+*Note*: This is one of many data sets built into the tidyverse package. R has a lot of these, useful for showing examples where your code doesn't work!
+
+## The Star Wars Tibble
+
+We know the data is a tibble, so we can just print the data name:
+
+```{r 2_load_starwars_data}
+# look at first 10 entries
+starwars
+```
+
+Anything else, and we should use `head()` to get an idea of the data!
+
+## Plotting in ggplot2
+
+### A Quick Plot
+
+Let's plot the height and mass of the Star Wars characters, how does it look?
+
+```{r 2_simple_point_plot_code_one, eval = FALSE}
+ggplot(data = starwars) +
+  geom_point(mapping = aes(x = mass, y = height))
+```
+
+## Plotting in ggplot2
+
+### A Quick Plot
+
+```{r 2_simple_point_plot, echo = FALSE}
+ggplot(data = starwars) +
+  geom_point(mapping = aes(x = mass, y = height))
+```
+
+1. A warning about 28 rows that contain missing values
+2. A really big outlier
+
+## Plotting in ggplot2
+
+### Understanding our Code
+
+```{r 2_simple_point_plot_code_two, eval = FALSE}
+ggplot(data = starwars) +
+  geom_point(mapping = aes(x = mass, y = height))
+```
+
+- ggplot function call, always takes a data argument
+- define our geom, e.g. `geom_point()`
+- geom's map your data onto the plot by aethetics (how should it look)
+- ggplot builts by layers
+
+## Plotting in ggplot2
+
+### Easy and Flexible
+
+You can see how this makes ggplot so flexible:
+
+1. **data**: pass different data sets to the same code
+2. **aethetics**: different columns to your x and y axis
+3. **aesthetics**: more than just what goes on the x and y axes
+
+## Plotting in ggplot2
+
+### Cleaning Before Plotting
+
+R gave us a warning that we have rows containing missing values; here 28 people weren't plotted because they didn't have height and/or mass values. 
+
+We'll cover filtering data prior to plotting in lesson 4, but for now try this:
+
+```{r 2_filter_missing_vals_code, eval = FALSE}
+filtered_starwars <- starwars %>% 
+  drop_na(height, mass)
+```
+
+```{r 2_filter_missing_vals, echo = FALSE}
+filtered_starwars <- starwars %>% 
+  drop_na(height, mass)
+```
+
+## Adding Aesthetics
+
+What's the relationship between mass and height within genders. 
+
+*Question*: How should we show gender? One option is <span style="color:red">colour</span>.
+
+```{r 2_simple_point_plot_with_colour_code, eval = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           )
+             )
+```
+
+## Adding Aesthetics
+
+```{r 2_simple_point_plot_with_colour, echo = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           )
+             )
+```
+
+*Note*: No more warning: Why? We removed the NAs. Warnings just tell us R did something we mightn't have expected. Errors are when our code fails.
+
+## Filtering within ggplot2
+
+It's hard to see any relationsip between height and mass due to the outlier. 
+
+Two options:
+
+- filter before we plot (lesson 4)
+- restrict our axes in gglot2 (here)
+
+```{r 2_replot_point_plot_with_colour_code, eval = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           )
+             ) +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+## Filtering within ggplot2
+
+```{r 2_replot_point_plot_with_colour, echo = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           )
+             ) +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+## Filtering within ggplot2
+
+### How to Restrict our Data Range
+
+- Added function `coord_cartesian()` 
+- Can take many arguments, but `xlim` sets the start and end value of your x-axis
+- Other options do the same job, but throw out data prior to plotting
+
+## Changing our Aethetics
+
+Next up, we'll look at changing a few components of the points on the plot. 
+
+```{r 2_adding_constant_visual_changes_to_plots_code, eval = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           ),
+             alpha = 0.7, # opacity
+             shape = 17, # triangles
+             size = 4) + # bigger points
+  coord_cartesian(xlim = c(0, 180))
+```
+
+- Varying Looks = within the aethetic mapping
+- Consistent Looks = outside the aethetic mapping
+
+## Changing our Aethetics
+
+```{r 2_adding_constant_visual_changes_to_plots, echo = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           ),
+             alpha = 0.7, # opacity
+             shape = 17, # triangles
+             size = 4) + # bigger points
+  coord_cartesian(xlim = c(0, 180))
+```
+
+## Resolving Clashes
+
+```{r 2_clashes_with_aes_and_constants_within_plots_code, eval = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           ),
+             colour = "red") +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+## Resolving Clashes
+
+```{r 2_clashes_with_aes_and_constants_within_plots, echo = FALSE}
+ggplot(data = filtered_starwars) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           ),
+             colour = "red") +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+All points are same colour and we have no legend.
+
+## Understanding the Values
+
+R has some built in shapes that we can define within our plots. For shapes, these are divided into three categories:
+
+- Colour border with hollow fill (0 - 14)
+- Colourless border with colour fill (15 - 18)
+- Colour border with colour fill (21 - 24)
+
+Colour is a border, fill is solid colour.
+
+## Understanding the Values
+
+### Specific Colours
+
+- Hex values or names for colours can specify what you want
+- Try using the Hex selector at [htmlcolorcodes.com](http://htmlcolorcodes.com/)
+- Define your colours with letters and numbers following a hash: `#af8dc3`
+
+I use [colorbrewer2.org](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) for colourblind safe presentations for serious work.
+
+## Understanding the Values
+
+### A Demonstration
+
+```{r 2_colour_and_fill_code, eval = FALSE}
+ggplot(data = filtered_starwars, na.rm = T) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           ),
+             colour = "#af8dc3",
+             fill = "#7fbf7b",
+             shape = 21,
+             size = 8,
+             stroke = 3
+             ) +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+## Understanding the Values
+
+### A Demonstration
+
+```{r 2_colour_and_fill, echo = FALSE}
+ggplot(data = filtered_starwars, na.rm = T) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = gender
+                           ),
+             colour = "#af8dc3",
+             fill = "#7fbf7b",
+             shape = 21,
+             size = 8,
+             stroke = 3
+             ) +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+Play around with these values to see how they work.
+
+## Continuous Colour
+
+We've used the aesthetics above to define categorical data by colour. But what happens if we use continuous data? 
+
+```{r 2_colour_gradient_code, eval = FALSE}
+ggplot(data = filtered_starwars, na.rm = T) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = birth_year
+                           )
+             ) +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+## Continuous Colour
+
+```{r 2_colour_gradient, echo = FALSE}
+ggplot(data = filtered_starwars, na.rm = T) +
+  geom_point(mapping = aes(x = mass, 
+                           y = height, 
+                           colour = birth_year
+                           )
+             ) +
+  coord_cartesian(xlim = c(0, 180))
+```
+
+You can see that we get a sliding scale for the hue of the points. Pretty neat, but also quite difficult to get a real idea of where on the scale the points lie.
+
+# Exploring Different Geoms
+
+## Loading Data
+
+Load the .csv file from the inputs folder. `read_csv()` is a quick way to load data as a tibble
+
+```{r 2_load_simulated_data, echo = FALSE, message = FALSE}
+rt_data <- read_csv("../inputs/rt_data.csv")
+```
+
+```{r 2_class_load_simulated_data, eval = FALSE}
+rt_data <- read_csv("inputs/rt_data.csv")
+```
+
+Look at the data:
+
+```{r data_peek_rt_data}
+head(rt_data, n = 2)
+```
+
+Sentence reading task, turn a knob to see the next word. Does turning direction match direction of action in story?
+
+## Bar Plots
+
+- Very common
+- Best for count data (less good for continuous, even if common) 
+
+How many participants from our recorded genders?
+
+## Bar Plots
+
+```{r 2_bar_plot}
+ggplot(data = rt_data, 
+       mapping = aes(x = gender)
+       ) +
+  geom_bar()
+```
+
+## Box Plots
+
+- Better for continuous outcomes (e.g. reaction time)
+- Show more than just averages
+
+```{r 2_box_plot_code, eval = FALSE}
+ggplot(data = rt_data, 
+       mapping = aes(x = response_condition, 
+                     y = reaction_time
+                     )
+       ) +
+  geom_boxplot()
+```
+
+## Box Plots
+
+```{r 2_box_plot, echo = FALSE}
+ggplot(data = rt_data, 
+       mapping = aes(x = response_condition, 
+                     y = reaction_time
+                     )
+       ) +
+  geom_boxplot()
+```
+
+## How to Read a Box Plot
+
+- Black line: median
+- Box top/bottom: upper and lower quartiles (middle 50% of scores)
+- Together the quartiles represent the interquartile range: The middle 50% of scores.
+- Whiskers: most of the remainder
+- Dots: outliers
+
+## Violin Plots
+
+- Like box plots, but shows the density of scores
+- Need to ask for quantiles, and where
+- To see full tails of the data, keep `trim` to `FALSE`
+
+```{r 2_violin_plot_code, eval = FALSE}
+ggplot(data = rt_data, 
+       mapping = aes(x = response_condition, 
+                     y = reaction_time
+                     )
+       ) +
+  geom_violin(
+    trim = FALSE,
+    draw_quantiles = c(0.25, 0.5, 0.75)
+    )
+```
+
+## Violin Plots
+
+```{r 2_violin_plot, echo = FALSE}
+ggplot(data = rt_data, 
+       mapping = aes(x = response_condition, 
+                     y = reaction_time
+                     )
+       ) +
+  geom_violin(
+    trim = FALSE,
+    draw_quantiles = c(0.25, 0.5, 0.75)
+    )
+```
+
+# Checking Distributions
+
+## Density Plot
+
+- Used for many observations
+
+Only need 1 variable to plot (y-axis = density!)
+
+```{r 2_density_plot_code, eval = FALSE}
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time, 
+                     fill = response_condition
+                     )
+       ) +
+  geom_density(alpha = 0.5) # alpha = opacity
+```
+
+Useful to change your alpha (transparency) to see overlapping distributions.
+
+## Density Plot
+
+```{r 2_density_plot, echo = FALSE}
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time, 
+                     fill = response_condition
+                     )
+       ) +
+  geom_density(alpha = 0.5) # alpha = opacity
+```
+
+## Histograms
+
+- Used for few observations (we'll use the same data though)
+
+```{r 2_histogram_plot_code, eval = FALSE}
+ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
+  geom_histogram(binwidth = 50, 
+                 fill = "white", 
+                 colour = "black"
+                 )
+```
+
+`Binwidth` argument tells R how to group your continuous data; how wide are the bars?
+
+## Histograms
+
+```{r 2_histogram_plot, echo = FALSE}
+ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
+  geom_histogram(binwidth = 50, 
+                 fill = "white", 
+                 colour = "black"
+                 )
+```
+
+# Exercises

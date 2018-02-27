@@ -559,10 +559,10 @@ Now, we'll work with a data set. But I'd like you to produce it. We'll break thi
 
 It may be useful to store these descriptives in another data frame for further use later on. Can you do that?
 
-11. Access all rows and columns where the test score is greater than 12.
+11. Access all rows and columns where the test score is greater than 11.
 
-*Hint*: use quotations to define the column name, and perform a logical operation on this.
+*Hint*: define the column as `data$column` in your subsetting command, and perform a logical operation on this.
 
-12. Access all rows from the participant_number and IQ columns where the test score is greater than 13.
+12. Access all rows from the participant_number and IQ columns where the test score is greater than 11.
 
 *Hint*: use the `c()` function to select multiple columns.

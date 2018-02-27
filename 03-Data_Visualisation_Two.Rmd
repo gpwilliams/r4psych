@@ -2,7 +2,7 @@
 
 In this section we'll cover more advanced plotting methods in ggplot2. We'll look at customising plots, making **pirate plots**, installing packages from GitHub, faceting, and stitching plots together.
 
-To get started, as always we'll load our packages and saved data.
+To get started, as always we'll load our packages and saved data from the previous lesson.
 
 ```{r 3_load_packages, include = FALSE}
 library(tidyverse)
@@ -66,7 +66,8 @@ ggplot(data = rt_data,
 With the histrogram below, we don't have much new to introduce, expect this time we use `theme_classic()` instead of `theme_bw()`. This gets rid of the major and minor grid lines from the previous plot, and also keeps only the lines for the axes. However, we added the argument `expand` to the `scale_y_continuous()` function, and pass this the values 0 and 0. This makes removes the spacing between the plotted elements and the axes. These values simply indicate how much extra space should be added to the top and bottom of the plot.
 
 ```{r 3_histogram_plot}
-ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time)) +
   geom_histogram(binwidth = 50, 
                  fill = "#bcbddc",
                  colour = "#756bb1"
@@ -113,11 +114,12 @@ For the additional lines:
 - Finally, `theme` allows you to manually specify other aspects of how your plot should look. Here, we used `panel.grid.major.x` and set this to nothing (`element_blank()`) because we don't need vertical lines in our plot.
 
 ```{r 3_pirate_plot}
-ggplot(data = rt_data, mapping = aes(x = response_condition, 
-                                     y = reaction_time)
+ggplot(data = rt_data, 
+       mapping = aes(x = response_condition, 
+                     y = reaction_time)
        ) +
-  geom_pirate(aes(colour = response_condition, 
-                  fill = response_condition)
+  geom_pirate(mapping = aes(colour = response_condition, 
+                            fill = response_condition)
               ) +
   labs(x = "Motor Skill", y = "Reaction Time (ms)") +
   scale_x_discrete(labels = c("Impaired", "Intact")) +
@@ -207,7 +209,9 @@ filtered_starwars <- starwars %>%
   filter(mass < 1000)
 
 # plot
-ggplot(data = filtered_starwars, mapping = aes(x = mass, y = height)) + 
+ggplot(data = filtered_starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
   geom_point() + 
   geom_smooth()
 ```
@@ -215,7 +219,9 @@ ggplot(data = filtered_starwars, mapping = aes(x = mass, y = height)) +
 Next, we'll change the defaults in order to fit a linear model. We do this in the `geom_smooth` function, `method = "lm"`. We can additionally specify a function, so we can change how we fit the data. Currently, our formula is `y ~ x`, which is a regular linear model. We could, however, fit a quadratic function to the data by using `y ~ poly(x, 2)`. The function `poly(x, 2)` calculates orthogonal polynomials to a certain degree. The first being linear, second quadratic (think curved lines with 1 inflection point), the third cubic (think curved lines with 2 inflection points), etc.. For now, we'll just fit the linear model.
 
 ```{r 3_linear_starwars}
-ggplot(data = filtered_starwars, mapping = aes(x = mass, y = height)) + 
+ggplot(data = filtered_starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
   geom_point() + 
   geom_smooth(method = 'lm', formula = y ~ x)
 ```
@@ -224,25 +230,104 @@ Alternatively, if we have a fitted model saved from our analyses, we can add the
 
 Finally, we'll look at how we can combine these smoothed fits with averages of scores. This is often useful if you're looking at timecourse data and you want to summarise performance across a whole range of participants. We'll also look at adding a few of the graphical flourishes from above to make the plot look really nice.
 
-Next, we'll look at making continuous data look a little better. For this, we'll use another inbuilt data set from R, the `Orange` data set which shows the growth of orange trees by circumference (don't ask). The reason I've chosen this data set is that, like 
+Next, we'll look at making the point and line points look a little better. For this, we'll use the inbuilt `ChickWeight` data set from R. This is similar to the `chickwts` data set from the previous session, but crucially this data is not aggregaged across time. Instead, we have several measurements for the chicks at different time points. This makes this data especially nice for plotting changes over time in our sample.
 
-**INPUT CONTINUOUS DATA**
+First, load the data.
 
-```{r 3_continuous_data_pretty}
-# code to go here
+```{r 02_load_ChickWeight_data}
+data(ChickWeight)
 ```
 
+Then we can see how the data looks. This data is stored as a data.frame, so we have to be careful when printing it out. We'll use the `head()` function to get only the first 6 rows of data.
+
+```{r 02_head_ChickWeight_data}
+head(ChickWeight)
+```
+
+We have 4 columns: 
+
+- weight: out dependent variable, the weight of the chicks
+- Time: an independent variable indicating the time point at which a measurement was taken
+- Chick: an ID column for each chick
+- Diet: an independent variable indicating the diet of the chick
+
+Unfortuantely, we only know that there are different diets from the data set, but not what those diets are. We also don't know the units by which weight is measured or by which the measurements were taken. 
+
+This is a good lesson in using sensible variable names. If you want yourself and others to understand your data years down the line with little background knowledge of your study, then use informative labels for your data!
+
+We'd expect that as time goes on, chick weights should increase. Also, we might expect that the rate of growth should differ for each diet. As such, we'll plot this together using our data set. 
+
+First, we'll plot our chick data, using the `stat_summary()` function to plot some mean points for the chick weights, and the `geom_smooth()` function to fit a linear model to the data. We'll make sure that the points, lines, and ribbons (indicating the confidence interval) are different colours for each level of the diet factor.
+
+We're going to build up our plot bit by bit, so this time we can same our plot as an object, before returning the object to see the plot.
+
+```{r 3_continuous_data_simple}
+chick_time_plot <- ggplot(data = ChickWeight, # data
+                          mapping = aes(x = Time, # x-axis
+                                        y = weight, # y-axis
+                                        colour = Diet, # colour ID
+                                        fill = Diet # fill ID
+                                        )
+                          ) +
+  stat_summary(fun.y = mean, geom = "point") + # point means
+  geom_smooth(method = 'lm', formula = y ~ x) # linear fit
+
+# return the plot
+chick_time_plot
+```
+
+We can improve this plot. So, let's add some further information. What if we had a target weight we'd like our chickens to reach over time, and we want to see when each diet pushes chicks over this line? 
+
+We can add this information by including a horizontal line using `geom_hline()`. We just need to specify where on the y-axis this line should go (`yintercept`), and which style we want for the line (`linetype`). We should also add an annotation to the line indicating what it represents. We can do this by using the `annotate` function, and specifying that we want a text geom. We need to specify the x and y values for where the text lies, and what the text should say.
+
+To add this to our original plot, we'll overwrite the original plot name with itself, plus our additional arguments.
+
+```{r 3_continuous_data_pretty}
+chick_time_plot <- chick_time_plot +
+  geom_hline(yintercept = 150, linetype = 2) + # horizontal line
+  annotate(geom = "text", x = 2, y = 158, label = "Target Weight") # line label
+
+# return the plot
+chick_time_plot
+```
+
+Finally, we can improve the general look of the plot by adding some additional arguments. We'll specify the labels for the x and y axes using the `labs()` function. 
+
+We'll also specify the limits of the y-axis using the `coord_cartesian()` function and specifying the minimum and maximum values for the limits of the y-axis.
+
+Next, we'll specify a general basic theme for the plot using the `theme_bw()` argument. We'll change a minor detail of this theme, namely the position and style of the legend by specifying additional `theme()` arguments. This has to come after `theme_bw()` so `theme_bw()` doesn't overwrite our additional arguments. First, we simply state the x and y locations for the legend by defining the `legend.position`. Next, we want a black border around our legend, so we do this by changing the `legend.background`. Here, we set colour (the outline) to black, with a relatively small line size (1), and a solid linetype.
+
+Finally, we can change the title of our legend if we'd like. The original title is quite informative, but it's useful to know how to do this. Here, we use the `guides` function, and specify both the guide legend title using `guide_legend()` for both the `colour` and `fill` properties. It's important to do this for both properties as our data is identified by colours on both of these properties. If we just change the title of one of the properties (e.g. fill), then we'll have two legends! 
+
+```{r 3_continuous_data_prettiest}
+chick_time_plot <- chick_time_plot +
+  labs(x = "Trial", y = "Weight") + # axis labels
+  coord_cartesian(ylim = c(0, 300)) + # range of y-axis
+  theme_bw() + # general theme
+  theme(legend.position = c(x = 0.15, y = 0.8), # position of legend
+        legend.background = element_rect(color = "black",
+                                         size = 1,
+                                         linetype = "solid"
+                                         ) # legend styling
+  ) +
+  guides(colour = guide_legend("Experimental Diet"),
+         fill = guide_legend("Experimental Diet")
+         ) # legend title
+
+# return the plot
+chick_time_plot
+```
 
 ## Combining Plots
 
 Finally, while it's all well and good plotting one model at a time, often if you're writing a paper you want several plots together to save space. You could do this by hand in certain image editing packages, but luckily there's a package for this on CRAN; `cowplot`. First, we need to install and load the package. Intall this by running the commented out code below. After that, load `cowplot` each time you want to use it. 
 
-```{r 3_load_cowplot, include = FALSE}
+```{r 3_load_cowplot, message = FALSE}
 # install.packages("cowplot")
 library(cowplot) # run this each time
 ```
 
-So far, we've just been running the code to produce plots, but we haven't saved them in our environment. But, in order to stich two plots together, we need to save our plots as objects so they're available to the R environment. 
+In order to stitch two plots together, we need to save our plots as objects so they're available to the R environment. This is the same process we used above for the `ChickWeight` plots.
 
 If we assign our plotting code to an object, then every time we run the name of the object, we'll get the output of that code back.
 
@@ -253,7 +338,8 @@ For keeping several plots in my environemnt at once, I often save them to an obj
 point_plot <- ggplot(data = filtered_starwars, 
                      mapping = aes(x = mass, y = height)
                      ) +
-  geom_point()
+  geom_point() +
+  coord_cartesian(ylim = c(0, 300))
 
 # create a linear plot by adding the fit to the plot of points
 linear_plot <-  point_plot + 
@@ -266,7 +352,7 @@ When you do this, you won't automatically see the plot once you run the code unl
 # create a quadratic plot by adding the fit to the plot of points
 quadratic_plot <- point_plot + 
   geom_smooth(method = 'lm', formula = y ~ poly(x, 2)) # fit quadratic
-
+  
 # return the plot
 quadratic_plot
 ```
@@ -305,6 +391,8 @@ combined_plots <- plot_grid(combined_plots,
                             ncol = 1, 
                             rel_heights = c(1, 0.1)
                             )
+
+# return the combined plots
 combined_plots
 ```
 
@@ -324,6 +412,50 @@ You can do a whole bunch of other things with ggplot, like adding vertical and h
 
 ## Exercises
 
+### Main Exercises
+
 Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
 
-1. 
+1. Using the `lex_dec_items` data set, make a density plot of the word frequency by class. Save this plot as `lexical_density`, and output the plot.
+
+2. Add a black and white theme to your `lexical_density` plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object `lexical_density_improved`, and output your plot below.
+
+*Note*: To change the legend labels, you need to use both `scale_fill_discrete` and `scale_colour_discrete`. Why do you think this is? Why don't we just use `scale_x_discrete` as we did in class?
+
+3. There's some repetition in the code for the plot above. Can you improve your code to remove that?
+
+4. Using the `lex_dec` data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.
+
+Assign this to the object `rt_density` and output your plot.
+
+5. Using the `lex_dec_items` data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.
+
+6. Using the `lex_demog` data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.
+
+Assign this to the object `gender_count` and output your plot.
+
+7. Using the `lex_demog` data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you'd prefer.
+
+Additionally, we would like these plots split by the native language of the speaker, so facet your plot by native language.
+
+Assign this all to the object `demographic_age`, and output your plot.
+
+Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.
+ 
+8. Using the `lex_dec` data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class. 
+
+*Hint*: Be sure to use the `stat_summary` function to get pointranges that represent the mean and standard error.
+
+Assign this to the object `rt_pointrange`, and output your plot.
+
+9. Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8. 
+
+Add the labels A-D to identify each plot.
+
+Save these plots under the object `combined_plots` and return your combined plots.
+
+### Additional Exercise
+
+Add a (short) simple title to your combined plots, and save this plot in the outputs folder.
+
+These plots won't look perfect, and you may need to change the font and element sizes, but this can be done relatively easily. We won't cover this here.

@@ -1,90 +1,103 @@
 ---
-title: "Lesson 2 - Data Visualisation"
+title: "Lesson 2 - Data Visualisation 1 Answers"
 output: html_notebook
 ---
 
-# Load libraries and Data
+# Load Libraries and Data
 
-Load the libraries and data necessary to complete the exercises associated with this lesson.
+Load the libraries and data necessary to complete the exercises associated with this lesson. We'll load the inbuilt `chickwts` data set from R, which looks at chicken weights by different feed types.
 
-```{r load_libraries_data, messages = FALSE}
-library(tidyverse) # load packages
-data(chickwts) # load data
+```{r load_libraries_and_data, message = FALSE}
+library(tidyverse)
+data(chickwts)
 ```
 
 # Exercises
 
-Enter your code in the code blocks in response to the [exercises for Chapter 2 of r4psych](http://glennwilliams.me/r4psych/data-visualisation.html#exercises). Run your code and then save your document once completed.
+Enter your code in the code blocks in response to the [exercises for Chapter 2 of r4psych](http://glennwilliams.me/r4psych/data-visualisation-1.html#exercises-1). Run your code and then save your document once completed.
 
 ## Question 1
 
-Take a look at the first 6 rows of the data set. How does the data look? Is this appopriate for plotting?
-```{r answer_1}
+Take a look at the first 6 rows of the data set. How does the data look? Is this appropriate for plotting?
+
+```{r Question_1}
 head(chickwts)
 ```
 
 ## Question 2
 
 Calculate the overall means for the chick weights.
-```{r answer_2}
+
+```{r Question_2}
 mean(chickwts$weight)
 ```
 
 ## Question 3
 
-Calculate the overall standard deviation for the chick weights.
-```{r answer_3}
+Calculate the overall SD for the chick weights.
+
+```{r Question_3}
 sd(chickwts$weight)
 ```
 
 ## Question 4
 
 Create the basis of a ggplot by defining the `chickwts` data as the data argument. Assign this all to the object `chick_plot`.
-```{r answer_4}
+
+```{r Question_4}
 chick_plot <- ggplot(data = chickwts)
 ```
 
 ## Question 5
 
-Make a box plot of the chick weights by feed. To do this, use your `chick_plot` object and assign it the function for creating a boxplot.
-```{r answer_5}
-chick_plot + geom_boxplot(mapping = aes(x = feed,
-                                        y = weight)
-                          )
+Make a box plot of the chick weights by feed. To do this, use your `chick_plot` object and add the function for creating a boxplot.
+
+```{r Question_5}
+chick_plot + geom_boxplot(mapping = aes(x = feed, y = weight))
 ```
 
 ## Question 6
 
-Add colour to your box plot by the feed type. Set the colour to anything you'd like. Remember, you can use the Color Brewer website to find some nice colours using hex values.
-```{r answer_6}
-chick_plot + geom_boxplot(mapping = aes(x = feed,
-                                        y = weight),
-                          fill = "red"
-                          )
+Add colour to your box plot by the feed type.
+
+```{r Question_6}
+chick_plot + 
+  geom_boxplot(mapping = aes(x = feed, 
+                             y = weight,
+                             colour = feed
+                             )
+               )
 ```
 
 ## Question 7
 
-Create a density distribution of the chick weights by feed type. Set different colours by the feed type. To make all densities visible, set the transparency for all distributions to 0.6.
-```{r answer_7}
-chick_plot + geom_density(mapping = aes(x = weight, 
-                                        colour = feed, 
-                                        fill = feed), 
-                          alpha = 0.6
-                          )
+Create a density distribution of the chick weights by feed type. Set different colours and fills by the feed type. To make all densities visible, set the transparency for all distributions to 0.4.
+
+```{r Question_7}
+chick_plot + 
+  geom_density(mapping = aes(x = feed, 
+                             colour = feed,
+                             fill = feed
+                             ), 
+               alpha = 0.4
+               )
 ```
 
 ## Question 8
 
 Make a bar plot to show the counts of each feed type.
-```{r answer_8}
+
+```{r Question_8}
 chick_plot + geom_bar(mapping = aes(x = feed))
 ```
 
 ## Question 9
 
-Pick 6 hex colours from the Colour Brewer website. Put these together in a variable, `bar_colours`. Create your bar plot again, but this time make the fill of the bars the same as those stored in `bar_colours`. 
-```{r answer_9}
+Pick 6 hex colours from the [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website. Put these together in a variable, `bar_colours`. Create your bar plot again, but this time make the fill of the bars the same as those stored in `bar_colours`. 
+
+Why do we not get a legend when we specify colours this way, but we do if we specify colours as in **Question 7**?
+
+```{r Question_9}
 bar_colours <- c("#b2182b", 
                  "#ef8a62", 
                  "#fddbc7", 
@@ -93,27 +106,37 @@ bar_colours <- c("#b2182b",
                  "#2166ac"
                  )
 
-chick_plot + geom_bar(mapping = aes(x = feed), 
-                      fill = bar_colours
-                      )
+chick_plot + 
+  geom_bar(mapping = aes(x = feed),
+           fill = bar_colours
+           )
 ```
 
-Why do we not get a legend when we specify colours this way, but we do if we specify colours as in **Question 7**?
+We'll return to adding colour to bars while keeping the legend labels in the next lesson.
 
 ## Question 10
 
 Make a histogram showing the overall distribution of the chick weights. Set the bin width to 50, and make the bars have a white fill and black border.
-```{r answer_10}
-chick_plot + geom_histogram(mapping = aes(x = weight),
-                            binwidth = 50,
-                            fill = "white",
-                            colour = "black")
+
+```{r Question_10}
+chick_plot + 
+  geom_histogram(mapping = aes(x = weight),
+                 binwidth = 50,
+                 fill = "white",
+                 colour = "black"
+                 )
 ```
 
-## Bonus Question
+# Additional Exercise
 
 Make a point plot from a data set of your choosing. Check out the inbuilt data sets in R by typing `data()` in the console. Customise this plot to your liking.
 
-```{r bonus_answer}
-
+```{r Additional_Exercise}
+# one example from many
+ggplot(data = women, 
+       mapping = aes(x = weight, y = height)
+       ) + 
+  geom_point() + 
+  geom_smooth(method = "lm")
 ```
+

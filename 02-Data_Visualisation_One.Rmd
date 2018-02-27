@@ -2,7 +2,7 @@
 
 In this session we'll look at data visualisation using the **ggplot2** package [@R-ggplot2] from the tidyverse [@R-tidyverse]. As with most R stats courses, we're focusing on data visualisation early on as this allows you to get a good grasp of your data and any general patterns within those data prior running any inferential tests.
 
-We'll follow Hadley Wickham's approach in [R for Data Science](http://r4ds.had.co.nz/data-visualisation.html) by getting you working on producing some pretty graphs from the outset to see how `ggplot` works. After that, we'll look at how ggplot can handle several data types. Along the way, we'll add some customisation to our graphs so you can see the flexibility of this package.
+We'll follow Hadley Wickham's approach in [R for Data Science](http://r4ds.had.co.nz/data-visualisation.html) by getting you working on producing some pretty graphs from the outset to see how `ggplot()` works. After that, we'll look at how ggplot can handle several data types. Along the way, we'll add some customisation to our graphs so you can see the flexibility of this package.
 
 ## Getting Started
 
@@ -36,7 +36,12 @@ ggplot(data = starwars) +
   geom_point(mapping = aes(x = mass, y = height))
 ```
 
-So, we can see just how easy it is to create a plot of points in ggplot. Well done! There seems to be a positive relationship between mass and height in the starwars data set. We also got a couple of surprises: (1) a warning about 28 rows that contain missing values, and (2) a really big outlier. First, we'll explore how ggplot works, then we'll look into these surprises.
+So, we can see just how easy it is to create a plot of points in ggplot. Well done! There seems to be a positive relationship between mass and height in the starwars data set. We also got a couple of surprises: 
+
+1. A warning about 28 rows that contain missing values;
+2. A really big outlier. 
+
+First, we'll explore how ggplot works, then we'll look into these surprises.
 
 The `ggplot()` function always needs to take a data set. This data set should hold everything you want to plot. Crucially, ggplot builds up the plots in layers. So making the first call `ggplot(data = starwars)` tells ggplot where it should look for data, but it doesn't do much else aside from making a grey background.
 
@@ -50,7 +55,7 @@ You can see how this makes ggplot so flexible:
 2. Your aesthetics are flexible, so you can pass different columns to your x and y axis
 3. Your aesthetics are even more flexible because they can take aesthetics other than just what to plot on the x and y axes
 
-Let's see the flexibility of your aesthetics in action
+Let's see the flexibility of your aesthetics in action.
 
 ### Cleaning Before Plotting
 
@@ -74,11 +79,15 @@ ggplot(data = filtered_starwars) +
              )
 ```
 
-We don't get that warning now that we removed the NAs and passed the filtered data as an argument. That wasn't really necessary as ggplot can handle that for us, but it stops the horrible warning from popping up! Warnings in R are there to tell you that the output of your code may not contain what you wanted it to contain. In the previous plot, ggplot dropped those with missing heights and masses, even though we didn't explictly tell it to do so. Here, because we filtered those entried with missing values before plotting, we don't get a warning. Warnings are different to errors in that your code will still work, but you need to check out whether it did what you wanted it to do. On the other hand, errors indicate you did something wrong and your code will fail to run.
+We don't get that warning now that we removed the NAs and passed the filtered data as an argument. That wasn't really necessary as ggplot can handle that for us, but it stops the horrible warning from popping up! 
+
+Warnings in R are there to tell you that the output of your code may not contain what you wanted it to contain. In the previous plot, ggplot dropped those with missing heights and masses, even though we didn't explictly tell it to do so. Here, because we filtered those entried with missing values before plotting, we don't get a warning. 
+
+Warnings are different to errors in that your code will still work, but you need to check out whether it did what you wanted it to do. On the other hand, errors indicate you did something wrong and your code will fail to run.
 
 Now, we now have colour to see the relationship between mass and height across the genders in the data set. But it's a little difficult to see this relationship given the outlier. Let's see what that outlier is, and whether we should remove it from our data. 
 
-Again, you'll learn how this filtering works in later lessons, for now, I just want to show you how it's useful to understand your data prior to creating a final plot of your data.
+Again, you'll learn how this filtering works in later lessons. But for now, I just want to show you how it's useful to understand your data prior to creating a final plot of your data.
 
 ```{r 2_locate_outlier}
 filtered_starwars %>% filter(mass > 1000)
@@ -99,7 +108,11 @@ ggplot(data = filtered_starwars) +
   coord_cartesian(xlim = c(0, 180))
 ```
 
-This time we added a function `coord_cartesian()` to the end of our `ggplot()` call. We defined the limits of the x axis to be between 0 and 180. This way, we can get a better look at the trends in our data. Why do we define limits inside this function? Well, we could have also manually defined the scale with `scale_x_continuous(limits = c(0, 180))`. This may seem more inuitive, but it throws out the data points outside the limits prior to plotting. Why is this a problem? ggplot has some nice functionalities such as drawing lines of best fit for you based on the data in the plot. If you throw data away while plotting, your line of best fit will shift. So, if you decide that you want to change your scale but keep your model fits for all data, use `coord_cartesian()`. Given this is an outlier, your choice doesn't matter if you're just trying to show trends like this, but your choice is important if you want to show any inferential statistics associated with the data.
+This time we added a function `coord_cartesian()` to the end of our `ggplot()` call. We defined the limits of the x axis to be between 0 and 180. This way, we can get a better look at the trends in our data. 
+
+Why do we define limits inside this function? Well, we could have also manually defined the scale with `scale_x_continuous(limits = c(0, 180))`. This may seem more inuitive, but it throws out the data points outside the limits prior to plotting. Why is this a problem? ggplot has some nice functionalities such as drawing lines of best fit for you based on the data in the plot. If you throw data away while plotting, your line of best fit will shift. So, if you decide that you want to change your scale but keep your model fits for all data, use `coord_cartesian()`. 
+
+Given this is an outlier, your choice doesn't matter if you're just trying to show trends like this, but your choice is important if you want to show any inferential statistics associated with the data.
 
 Next up, we'll look at changing a few components of the points on the plot. 
 
@@ -115,9 +128,13 @@ ggplot(data = filtered_starwars) +
   coord_cartesian(xlim = c(0, 180))
 ```
 
-We've added 3 variables outside of the `aes()` mappings. This means that all of the points within the plot are changed in the same way: They all become a little bit transparent through the `alpha` variable definition; they all take a triangle shape through the `shape` variable definition (and the number associated), and they are all the same size due to the `size` variable definition.
+We've added 3 variables outside of the `aes()` mapping. This means that all of the points within the plot are changed in the same way: 
 
-If we put these variables within the `aes()` mappings and associated them with a variable within the data set, such as gender, then each point would be affected differently depending on which level of the gender factor the individual data points belong to. It's important to remember that everything within `aes()` is mapped onto variables with which to display your data. So, the x location, y location, and anything else that you define within `aes()` can vary by your data set. Everything outside of it will affect all levels of your data. 
+1. They all become a little bit transparent through the `alpha` variable definition; 
+2. They all take a triangle shape through the `shape` variable definition (and the number associated)
+3. They are all the same size due to the `size` variable definition.
+
+If we put these variables within the `aes()` mappings and associated them with a variable within the data set, such as `gender`, then each point would be affected differently depending on which level of the gender factor the individual data points belong to. It's important to remember that everything within `aes()` is mapped onto variables with which to display your data. So, the x location, y location, and anything else that you define within `aes()` can vary by your data set. Everything outside of it will affect all levels of your data. 
 
 Here, we'll define colour both within and outside the `aes()` mapping, causing a clash. Try this plot below to see how clashes are resolved in ggplot:
 
@@ -180,7 +197,9 @@ There are many inbuilt plots that you can create with ggplot2 by mapping your da
 
 You've already learned about `geom_point()` above, but now we'll explore the other geom types.
 
-For this exploration, we'll use a different data set with a limited number of groups for ease of visualisation. I've simulated some data for this exercise. You can find this data in the inputs folder for this lesson. (If you're interested, you can also find the script for generating this data in the data_generation folder). Let's load this data into R. Here, we use the function `read_csv` rather than the base R `read.csv`. This is because `read_csv` is faster, typically does a better job at guessing the data types for your columns of data, and saves the output as a tibble. 
+For this exploration, we'll use a different data set with a limited number of groups for ease of visualisation. I've simulated some data for this exercise. You can find this data in the inputs folder for this lesson. (If you're interested, you can also find the script for generating this data in the data_generation folder). 
+
+Let's load this data into R. Here, we use the function `read_csv` rather than the base R `read.csv`. This is because `read_csv` is faster, typically does a better job at guessing the data types for your columns of data, and saves the output as a tibble. 
 
 *Note*: `read_csv` will try to guess the types of data in each column for a data set loaded into R, but sometimes it can fail. We'll cover instances where this fails, and how to remedy it, in the next lesson.
 
@@ -192,7 +211,7 @@ rt_data <- read_csv("lesson_materials/02_data_visualisation_one/inputs/rt_data.c
 rt_data <- read_csv("inputs/rt_data.csv")
 ```
 
-How should we interpret this data? Imagine that we ran a lexical decision task on two groups of participants. In one condition, participants responded to sentences such as "Eric turned down the volume", and had to indicate whether this sentence made sense by turning a knob. In the match condition, agreement matched the motion indicated in the sentence (e.g. left = yes, it makes sense), and in the mismatch condition agreement did not match the motion indicated in the sentence (e.g. right = yes, it makes sense). [Zwaan and Taylor (2006, Experiment 4)](http://psycnet.apa.org/record/2006-01956-001) hypothesised that when the action and response are matched, resposne times should be quicker than if they do not match.
+How should we interpret this data? Imagine that we ran a lexical decision task on two groups of participants. In one condition, participants responded to sentences such as *"Eric turned down the volume"*, and had to indicate whether this sentence made sense by turning a knob. In the match condition, agreement matched the motion indicated in the sentence (e.g. left = yes, it makes sense), and in the mismatch condition agreement did not match the motion indicated in the sentence (e.g. right = yes, it makes sense). [Zwaan and Taylor (2006, Experiment 4)](http://psycnet.apa.org/record/2006-01956-001) hypothesised that when the action and response are matched, resposne times should be quicker than if they do not match.
 
 The `participant` column indicates individual participants, the `gender` column indicates the gender of our participants, `response_condition` indicates whether participants took part in the match or mismatch conditions, and `reaction_time`, our dependent variable, represents the average reaction time in milliseconds for each participant to respond to whether or not the sentences made sense.
 
@@ -207,7 +226,7 @@ ggplot(data = rt_data,
   geom_bar()
 ```
 
-You'll often find that psychologists like to plot continuous data in a bar plot. I've done this myself, but we can do better. One alternative would be to use a boxplot, a violin plot, or even a pirate plot (well, we are plotting with Rrrrrrrrr...). 
+You'll often find that psychologists like to plot continuous data in a bar plot. I've done this myself, but we can do better. One alternative would be to use a boxplot, a violin plot, or even a pirate plot which we'll explore in the next lesson (well, we are plotting with Rrrrrrrrr...). 
 
 Since we've got data which represents mean scores for each participant, this will be suitable for plotting straight away. If, however, you have raw data, remember to aggregate by participants or items prior to plotting. We'll cover this in later classes.
 
@@ -259,7 +278,7 @@ ggplot(data = rt_data,
 
 Now we'll look at ways to check for the distribution of your continuous variables. This is a good way to get an eye for whether or not your data are skewed and require a transformation on the data, or a non-parametric test when it comes to inferential statistics. Again, we'll return to what this means in regards to statistics later in this course, but for now it's a good idea to understand how you can check the distribution of your data prior to computing any statistics.
 
-Again, only the first two lines here are necessary to make the plot. The additional lines change the axis labels, set the limits and break points on the x-axis label, change the title of the legend, and set the theme to black and white.
+We've added the additional argument `fill` to the aethetic mapping, to specify that we wanted different colours for our groups. We also specified the additional argument `alpha` in our density plot to specify that we wanted some opacity to the densities.
 
 ```{r 2_density_plot}
 ggplot(data = rt_data, 
@@ -270,13 +289,10 @@ ggplot(data = rt_data,
   geom_density(alpha = 0.5) # alpha = opacity
 ```
 
-Did you notice how now that we have reaction time plotted on the x-axis (vs. the y-axis in the pirate plot), we had to change to using `scale_x_continuous()` and changing the limits and breaks within it? Also, we changed the title of our legend to allow for capitalisation and to remove the underscore between words by using `guides(fill = guide_legend(title = "Response Condition"))`.
-
 ### Histograms
 
 If you have relatively few observations, a histogram may be more appropriate than a density plot. But, we'll just stick to the same data as before to see how this works. 
-
-Here, it's often useful to set the `binwidth` prior to plotting. ggplot will try to set it to a default if it can, but this may not be what you want. Here, we've set the `binwidth` to 50, so we count how many observations we have for reaction times in 50ms bins, i.e. from 225 to 275ms, from 275 to 325ms etc.
+Here, it's often useful to set the `binwidth` prior to plotting. ggplot will try to set it to a default if it can, but this may not be what you want. Here, we've set the `binwidth` to 50, so we count how many observations we have for reaction times in 50ms bins, i.e. from 225 to 275ms, from 275 to 325ms etc. We also set the `fill` of the bars to white, and the `colour` to black so we get white bars with a black outline.
 
 ```{r 2_histogram_plot}
 ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
@@ -290,7 +306,7 @@ ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
 
 Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
 
-In this section, we'll use some new data from the pre-packages data sets in R. First off, we'll load the `chickwts` data set, which looks at chicken weights by different feed types.
+In this section, we'll use some new data from the pre-packaged data sets in R. First off, we'll load the `chickwts` data set, which looks at chicken weights by different feed types.
 
 ```{r 2_load_chickwts}
 data(chickwts)
@@ -298,25 +314,27 @@ data(chickwts)
 
 ### Main Exercises
 
-1. Take a look at the first 6 rows of the data set. How does the data look? Is this appopriate for plotting?
+1. Take a look at the first 6 rows of the data set. How does the data look? Is this appropriate for plotting?
 
-2. Calculate the overall means for the chick weights
+2. Calculate the overall means for the chick weights.
 
-3. Calculate the overall SD for the chick weights
+3. Calculate the overall SD for the chick weights.
 
 4. Create the basis of a ggplot by defining the `chickwts` data as the data argument. Assign this all to the object `chick_plot`.
 
-5. Make a box plot of the chick weights by feed. To do this, use your `chick_plot` object and assign it the function for creating a boxplot.
+5. Make a box plot of the chick weights by feed. To do this, use your `chick_plot` object and add the function for creating a boxplot.
 
-6. Add colour to your box plot by the feed type. Set the colour to anything you'd like. Remember, you can use the Color Brewer website to find some nice colours using hex values.
+6. Add colour to your box plot by the feed type.
 
-7. Create a density distribution of the chick weights by feed type. Set different colours by the feed type. To make all densities visible, set the transparency for all distributions to 0.6.
+7. Create a density distribution of the chick weights by feed type. Set different colours and fills by the feed type. To make all densities visible, set the transparency for all distributions to 0.4.
 
 8. Make a bar plot to show the counts of each feed type.
 
-9. Pick 6 hex colours from the Colour Brewer website. Put these together in a variable, `bar_colours`. Create your bar plot again, but this time make the fill of the bars the same as those stored in `bar_colours`. 
+9. Pick 6 hex colours from the [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website. Put these together in a variable, `bar_colours`. Create your bar plot again, but this time make the fill of the bars the same as those stored in `bar_colours`. 
 
 Why do we not get a legend when we specify colours this way, but we do if we specify colours as in **Question 7**?
+
+We'll return to adding colour to bars while keeping the legend labels in the next lesson.
 
 10. Make a histogram showing the overall distribution of the chick weights. Set the bin width to 50, and make the bars have a white fill and black border.
 

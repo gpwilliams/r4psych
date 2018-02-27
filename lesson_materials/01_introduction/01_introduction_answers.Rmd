@@ -44,6 +44,7 @@ head(uniform_distrbiution)
 ```
 
 ```{r answer_2}
+uniform_distribution <- runif(n = 100, min = 1, max = 10)
 head(uniform_distribution)
 ```
 
@@ -117,20 +118,20 @@ descriptives <- data.frame(mean_age = mean(data$age),
 
 ## Question 11
 
-Access all rows and columns where the test score is greater than 12.
+Access all rows and columns where the test score is greater than 11.
 
-*Hint*: use quotations to define the column name, and perform a logical operation on this.
+*Hint*: define the column as `data$column` in your subsetting command, and perform a logical operation on this.
 ```{r answer_11}
-data["scores" > 12, ]
+data[data$scores > 11, ]
 ```
 
 ## Question 12
 
-Access all rows from the participant_number and scores columns where the test score is greater than 13.
+Access all rows from the participant_number and scores columns where the test score is greater than 11.
 
 *Hint*: use the `c()` function to select multiple columns.
 ```{r answer_12}
-data["scores" > 13, c("participants", "scores")]
+data[data$scores > 11, c("participants", "scores")]
 ```
 
 If you need any help with these questions, feel free to chat amongst yourselves or to contact me where necessary.

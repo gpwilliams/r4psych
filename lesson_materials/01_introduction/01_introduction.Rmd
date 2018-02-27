@@ -119,9 +119,9 @@ It may be useful to store these descriptives in another data frame for further u
 
 ## Question 11
 
-Access all rows and columns where the test score is greater than 12.
+Access all rows and columns where the test score is greater than 11.
 
-*Hint*: use quotations to define the column name, and perform a logical operation on this.
+*Hint*: define the column as `data$column` in your subsetting command, and perform a logical operation on this.
 ```{r answer_11}
 
 
@@ -129,7 +129,7 @@ Access all rows and columns where the test score is greater than 12.
 
 ## Question 12
 
-Access all rows from the participant_number and IQ columns where the test score is greater than 13.
+Access all rows from the participant_number and IQ columns where the test score is greater than 11.
 
 *Hint*: use the `c()` function to select multiple columns.
 ```{r answer_12}

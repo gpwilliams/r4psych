@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-02-21">
+<meta name="date" content="2018-02-27">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,7 +148,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
 <li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
-<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.2</b> Additional Exercise</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="data-manipulation.html"><a href="data-manipulation.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation</a></li>
 <li class="chapter" data-level="5" data-path="summarising-data.html"><a href="summarising-data.html"><i class="fa fa-check"></i><b>5</b> Summarising Data</a></li>
@@ -182,7 +185,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="data-visualisation-2" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Data Visualisation 2</h1>
 <p>In this section we’ll cover more advanced plotting methods in ggplot2. We’ll look at customising plots, making <strong>pirate plots</strong>, installing packages from GitHub, faceting, and stitching plots together.</p>
-<p>To get started, as always we’ll load our packages and saved data.</p>
+<p>To get started, as always we’ll load our packages and saved data from the previous lesson.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</code></pre></div>
 <div id="customising-your-plots" class="section level2">
@@ -192,7 +195,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
                      <span class="dt">fill =</span> response_condition
                      )
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_density_plot_boring-1.png" width="672" /></p>
 <p>You already know how to change the colours of your aesthetics across all conditions and split by condition, so now we’ll look at other ways to improve the plot.</p>
@@ -204,34 +207,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
                      <span class="dt">fill =</span> response_condition
                      )
-       ) +
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+       ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, 
        <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">600</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, 
                                   <span class="dt">to =</span> <span class="dv">600</span>, 
                                   <span class="dt">by =</span> <span class="dv">100</span>
                                   )
-                     ) +
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Response Condition&quot;</span>)) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Response Condition&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_density_plot_improved-1.png" width="672" /></p>
 <p>With the histrogram below, we don’t have much new to introduce, expect this time we use <code>theme_classic()</code> instead of <code>theme_bw()</code>. This gets rid of the major and minor grid lines from the previous plot, and also keeps only the lines for the axes. However, we added the argument <code>expand</code> to the <code>scale_y_continuous()</code> function, and pass this the values 0 and 0. This makes removes the spacing between the plotted elements and the axes. These values simply indicate how much extra space should be added to the top and bottom of the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
                  <span class="dt">fill =</span> <span class="st">&quot;#bcbddc&quot;</span>,
                  <span class="dt">colour =</span> <span class="st">&quot;#756bb1&quot;</span>
-                 ) +
+                 ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">600</span>),
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, 
                                   <span class="dt">to =</span> <span class="dv">600</span>, 
                                   <span class="dt">by =</span> <span class="dv">25</span>
                                   )
-                     ) +
-<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_classic</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_histogram_plot-1.png" width="672" /></p>
 </div>
@@ -253,18 +257,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>We use <code>theme_bw()</code> to change to a black and white theme. There are other themes in ggplot2, but this one is nice and clean.</li>
 <li>Finally, <code>theme</code> allows you to manually specify other aspects of how your plot should look. Here, we used <code>panel.grid.major.x</code> and set this to nothing (<code>element_blank()</code>) because we don’t need vertical lines in our plot.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
-                                     <span class="dt">y =</span> reaction_time)
-       ) +
-<span class="st">  </span><span class="kw">geom_pirate</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> response_condition, 
-                  <span class="dt">fill =</span> response_condition)
-              ) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Motor Skill&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>) +
-<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Impaired&quot;</span>, <span class="st">&quot;Intact&quot;</span>)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
+                     <span class="dt">y =</span> reaction_time)
+       ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_pirate</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">colour =</span> response_condition, 
+                            <span class="dt">fill =</span> response_condition)
+              ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Motor Skill&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Impaired&quot;</span>, <span class="st">&quot;Intact&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">600</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">100</span>)
-                     ) +
-<span class="st">  </span><span class="kw">theme_bw</span>() +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major.x =</span> <span class="kw">element_blank</span>())</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_pirate_plot-1.png" width="672" /></p>
 <p>In this plot, we have coloured bars and lines indicating the mean scores, a box representing the 95% confidence interval assuming a normal sampling distribution, violins indicating density, and the raw data points.</p>
@@ -276,12 +281,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="facet-wrap" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Facet Wrap</h3>
 <p>If you want to create facets from one variable then use <code>facet_wrap()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
                  <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
-                 ) +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>response_condition)</code></pre></div>
+                 ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>response_condition)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_facet_wrap-1.png" width="672" /></p>
 <p>In this plot, we’ve specified a histogram as we normally would. However, we use <code>facet_wrap()</code> and a tilde (<code>~</code>) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the <code>~</code>, and ggplot automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.</p>
 </div>
@@ -289,12 +294,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3><span class="header-section-number">3.3.2</span> Facet Grid</h3>
 <p>If we wanted to make a facet by two variables, then we would use <code>facet_grid()</code> instead. In this case, we just add each variable to either side of the <code>~</code> and ggplot will do the splitting for us.</p>
 <p>Let’s see how this works if we split our data by gender and response condition.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
                  <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
-                 ) +
-<span class="st">  </span><span class="kw">facet_grid</span>(gender ~<span class="st"> </span>response_condition)</code></pre></div>
+                 ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(gender <span class="op">~</span><span class="st"> </span>response_condition)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_facet_grid-1.png" width="672" /></p>
 <p>The order in which you specify the two variables matters. Try swapping around between <code>facet_wrap(gender ~ response_condition)</code> and <code>facet_wrap(response_condition ~ gender)</code> to see how this works.</p>
 </div>
@@ -313,8 +318,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
          <span class="dt">y =</span> reaction_time, 
          <span class="dt">fill =</span> response_condition
          )
-       ) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>) +
+       ) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> <span class="st">&quot;mean_se&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_error_bars-1.png" width="672" /></p>
 <p>I don’t often use <code>stat_summary</code> in my own plots, as I often want to know exactly how I’ve calculated things like the standard error. Doing things by hand allows you to change error bar sizes appropriately for within- and between-subject designs. But, this is useful if you want to create a plot rapidly, or want to avoid the hassle of writing extra code.</p>
@@ -324,48 +329,121 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Here’ we’ll switch again to a different data set that has two continuous variables. The <code>starwars</code> data set is useful for this exercise.</p>
 <p>We can use the <code>geom_smooth()</code> function to fit a model to our data. This defaults to a loess method, but we can change this to a linear model (or other alternatives) as in the second plot below. By default, these smoothed plots display a ribbon around the fit which indicates the confidence interval (95% by default).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove NA and mass above 1000</span>
-filtered_starwars &lt;-<span class="st"> </span>starwars %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">drop_na</span>(height, mass) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(mass &lt;<span class="st"> </span><span class="dv">1000</span>)
+filtered_starwars &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">drop_na</span>(height, mass) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(mass <span class="op">&lt;</span><span class="st"> </span><span class="dv">1000</span>)
 
 <span class="co"># plot</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)
+       ) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
 <p><img src="R_for_Psych_files/figure-html/3_smooth_starwars-1.png" width="672" /></p>
 <p>Next, we’ll change the defaults in order to fit a linear model. We do this in the <code>geom_smooth</code> function, <code>method = &quot;lm&quot;</code>. We can additionally specify a function, so we can change how we fit the data. Currently, our formula is <code>y ~ x</code>, which is a regular linear model. We could, however, fit a quadratic function to the data by using <code>y ~ poly(x, 2)</code>. The function <code>poly(x, 2)</code> calculates orthogonal polynomials to a certain degree. The first being linear, second quadratic (think curved lines with 1 inflection point), the third cubic (think curved lines with 2 inflection points), etc.. For now, we’ll just fit the linear model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)) +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span>x)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, 
+       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)
+       ) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_linear_starwars-1.png" width="672" /></p>
 <p>Alternatively, if we have a fitted model saved from our analyses, we can add the fitted line directly using the <code>stat_summary</code> function. However, this requires some insight into the models fitted, so we’ll save this for later classes.</p>
 <p>Finally, we’ll look at how we can combine these smoothed fits with averages of scores. This is often useful if you’re looking at timecourse data and you want to summarise performance across a whole range of participants. We’ll also look at adding a few of the graphical flourishes from above to make the plot look really nice.</p>
-<p>Next, we’ll look at making continuous data look a little better. For this, we’ll use another inbuilt data set from R, the <code>Orange</code> data set which shows the growth of orange trees by circumference (don’t ask). The reason I’ve chosen this data set is that, like</p>
-<p><strong>INPUT CONTINUOUS DATA</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># code to go here</span></code></pre></div>
+<p>Next, we’ll look at making the point and line points look a little better. For this, we’ll use the inbuilt <code>ChickWeight</code> data set from R. This is similar to the <code>chickwts</code> data set from the previous session, but crucially this data is not aggregaged across time. Instead, we have several measurements for the chicks at different time points. This makes this data especially nice for plotting changes over time in our sample.</p>
+<p>First, load the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(ChickWeight)</code></pre></div>
+<p>Then we can see how the data looks. This data is stored as a data.frame, so we have to be careful when printing it out. We’ll use the <code>head()</code> function to get only the first 6 rows of data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ChickWeight)</code></pre></div>
+<pre><code>## Grouped Data: weight ~ Time | Chick
+##   weight Time Chick Diet
+## 1     42    0     1    1
+## 2     51    2     1    1
+## 3     59    4     1    1
+## 4     64    6     1    1
+## 5     76    8     1    1
+## 6     93   10     1    1</code></pre>
+<p>We have 4 columns:</p>
+<ul>
+<li>weight: out dependent variable, the weight of the chicks</li>
+<li>Time: an independent variable indicating the time point at which a measurement was taken</li>
+<li>Chick: an ID column for each chick</li>
+<li>Diet: an independent variable indicating the diet of the chick</li>
+</ul>
+<p>Unfortuantely, we only know that there are different diets from the data set, but not what those diets are. We also don’t know the units by which weight is measured or by which the measurements were taken.</p>
+<p>This is a good lesson in using sensible variable names. If you want yourself and others to understand your data years down the line with little background knowledge of your study, then use informative labels for your data!</p>
+<p>We’d expect that as time goes on, chick weights should increase. Also, we might expect that the rate of growth should differ for each diet. As such, we’ll plot this together using our data set.</p>
+<p>First, we’ll plot our chick data, using the <code>stat_summary()</code> function to plot some mean points for the chick weights, and the <code>geom_smooth()</code> function to fit a linear model to the data. We’ll make sure that the points, lines, and ribbons (indicating the confidence interval) are different colours for each level of the diet factor.</p>
+<p>We’re going to build up our plot bit by bit, so this time we can same our plot as an object, before returning the object to see the plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chick_time_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> ChickWeight, <span class="co"># data</span>
+                          <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Time, <span class="co"># x-axis</span>
+                                        <span class="dt">y =</span> weight, <span class="co"># y-axis</span>
+                                        <span class="dt">colour =</span> Diet, <span class="co"># colour ID</span>
+                                        <span class="dt">fill =</span> Diet <span class="co"># fill ID</span>
+                                        )
+                          ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># point means</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x) <span class="co"># linear fit</span>
+
+<span class="co"># return the plot</span>
+chick_time_plot</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/3_continuous_data_simple-1.png" width="672" /></p>
+<p>We can improve this plot. So, let’s add some further information. What if we had a target weight we’d like our chickens to reach over time, and we want to see when each diet pushes chicks over this line?</p>
+<p>We can add this information by including a horizontal line using <code>geom_hline()</code>. We just need to specify where on the y-axis this line should go (<code>yintercept</code>), and which style we want for the line (<code>linetype</code>). We should also add an annotation to the line indicating what it represents. We can do this by using the <code>annotate</code> function, and specifying that we want a text geom. We need to specify the x and y values for where the text lies, and what the text should say.</p>
+<p>To add this to our original plot, we’ll overwrite the original plot name with itself, plus our additional arguments.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chick_time_plot &lt;-<span class="st"> </span>chick_time_plot <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">150</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="co"># horizontal line</span>
+<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">158</span>, <span class="dt">label =</span> <span class="st">&quot;Target Weight&quot;</span>) <span class="co"># line label</span>
+
+<span class="co"># return the plot</span>
+chick_time_plot</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/3_continuous_data_pretty-1.png" width="672" /></p>
+<p>Finally, we can improve the general look of the plot by adding some additional arguments. We’ll specify the labels for the x and y axes using the <code>labs()</code> function.</p>
+<p>We’ll also specify the limits of the y-axis using the <code>coord_cartesian()</code> function and specifying the minimum and maximum values for the limits of the y-axis.</p>
+<p>Next, we’ll specify a general basic theme for the plot using the <code>theme_bw()</code> argument. We’ll change a minor detail of this theme, namely the position and style of the legend by specifying additional <code>theme()</code> arguments. This has to come after <code>theme_bw()</code> so <code>theme_bw()</code> doesn’t overwrite our additional arguments. First, we simply state the x and y locations for the legend by defining the <code>legend.position</code>. Next, we want a black border around our legend, so we do this by changing the <code>legend.background</code>. Here, we set colour (the outline) to black, with a relatively small line size (1), and a solid linetype.</p>
+<p>Finally, we can change the title of our legend if we’d like. The original title is quite informative, but it’s useful to know how to do this. Here, we use the <code>guides</code> function, and specify both the guide legend title using <code>guide_legend()</code> for both the <code>colour</code> and <code>fill</code> properties. It’s important to do this for both properties as our data is identified by colours on both of these properties. If we just change the title of one of the properties (e.g. fill), then we’ll have two legends!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chick_time_plot &lt;-<span class="st"> </span>chick_time_plot <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Trial&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Weight&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># axis labels</span>
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">300</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># range of y-axis</span>
+<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="co"># general theme</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dt">x =</span> <span class="fl">0.15</span>, <span class="dt">y =</span> <span class="fl">0.8</span>), <span class="co"># position of legend</span>
+        <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">color =</span> <span class="st">&quot;black&quot;</span>,
+                                         <span class="dt">size =</span> <span class="dv">1</span>,
+                                         <span class="dt">linetype =</span> <span class="st">&quot;solid&quot;</span>
+                                         ) <span class="co"># legend styling</span>
+  ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="st">&quot;Experimental Diet&quot;</span>),
+         <span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="st">&quot;Experimental Diet&quot;</span>)
+         ) <span class="co"># legend title</span>
+
+<span class="co"># return the plot</span>
+chick_time_plot</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/3_continuous_data_prettiest-1.png" width="672" /></p>
 </div>
 </div>
 <div id="combining-plots" class="section level2">
 <h2><span class="header-section-number">3.5</span> Combining Plots</h2>
 <p>Finally, while it’s all well and good plotting one model at a time, often if you’re writing a paper you want several plots together to save space. You could do this by hand in certain image editing packages, but luckily there’s a package for this on CRAN; <code>cowplot</code>. First, we need to install and load the package. Intall this by running the commented out code below. After that, load <code>cowplot</code> each time you want to use it.</p>
-<p>So far, we’ve just been running the code to produce plots, but we haven’t saved them in our environment. But, in order to stich two plots together, we need to save our plots as objects so they’re available to the R environment.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;cowplot&quot;)</span>
+<span class="kw">library</span>(cowplot) <span class="co"># run this each time</span></code></pre></div>
+<p>In order to stitch two plots together, we need to save our plots as objects so they’re available to the R environment. This is the same process we used above for the <code>ChickWeight</code> plots.</p>
 <p>If we assign our plotting code to an object, then every time we run the name of the object, we’ll get the output of that code back.</p>
 <p>For keeping several plots in my environemnt at once, I often save them to an object. In this instance, we’ll save a plot of just the points to the name <code>point_plot</code>. That’s because we want to overlay a linear fit and a quadratic fit on this plot separately, but we don’t want to type the full code out twice. Instead, we fit the plot of points to <code>point_plot</code>, then add a linear or quadratic fit by adding the <code>geom_smooth</code> argument to <code>point_plot</code> and saving both under new names. We can do this like so:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a plot of points</span>
 point_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, 
                      <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)
-                     ) +
-<span class="st">  </span><span class="kw">geom_point</span>()
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">300</span>))
 
 <span class="co"># create a linear plot by adding the fit to the plot of points</span>
-linear_plot &lt;-<span class="st">  </span>point_plot +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span>x)</code></pre></div>
+linear_plot &lt;-<span class="st">  </span>point_plot <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x)</code></pre></div>
 <p>When you do this, you won’t automatically see the plot once you run the code unless you run the object assigned to the plot. Let’s try this for a quadratic fit of the same data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a quadratic plot by adding the fit to the plot of points</span>
-quadratic_plot &lt;-<span class="st"> </span>point_plot +<span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>)) <span class="co"># fit quadratic</span>
-
+quadratic_plot &lt;-<span class="st"> </span>point_plot <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>)) <span class="co"># fit quadratic</span>
+  
 <span class="co"># return the plot</span>
 quadratic_plot</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_save_quadratic_plot-1.png" width="672" /></p>
@@ -382,7 +460,7 @@ combined_plots</code></pre></div>
 <p>We further specify a bold <code>fontface</code> in the <code>draw_label()</code> command outside our pasted title.</p>
 <p>Finally, we display the plot by creating a <code>plot_grid()</code> of our plot and the title in this order so the title displays underneath the plot. We specify that we just want 1 column so the plot and title are stacked together, and we specify the relative heights of the title and plot separately so that the title is smaller than the plot so it doesn’t take up an equal amount of space as the plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create title</span>
-title &lt;-<span class="st"> </span><span class="kw">ggdraw</span>() +<span class="st"> </span>
+title &lt;-<span class="st"> </span><span class="kw">ggdraw</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">draw_label</span>(<span class="kw">paste</span>(<span class="st">&quot;Linear (A) and Quadratic&quot;</span>,
                    <span class="st">&quot;(B) fits of Height and Weight&quot;</span>
                    ), 
@@ -395,6 +473,8 @@ combined_plots &lt;-<span class="st"> </span><span class="kw">plot_grid</span>(c
                             <span class="dt">ncol =</span> <span class="dv">1</span>, 
                             <span class="dt">rel_heights =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.1</span>)
                             )
+
+<span class="co"># return the combined plots</span>
 combined_plots</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_add_plot_title-1.png" width="672" /></p>
 <p>You can find further information on adding joint titles, annotations, etc. in <a href="https://htmlpreview.github.io/?https://github.com/wilkelab/cowplot/blob/master/inst/doc/plot_annotations.html">this article</a> by Claus O. Wilke.</p>
@@ -409,11 +489,47 @@ combined_plots</code></pre></div>
 </div>
 <div id="exercises-2" class="section level2">
 <h2><span class="header-section-number">3.7</span> Exercises</h2>
+<div id="main-exercises-1" class="section level3">
+<h3><span class="header-section-number">3.7.1</span> Main Exercises</h3>
 <p>Try out the exercises below, we’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary.</p>
 <ol style="list-style-type: decimal">
-<li></li>
+<li><p>Using the <code>lex_dec_items</code> data set, make a density plot of the word frequency by class. Save this plot as <code>lexical_density</code>, and output the plot.</p></li>
+<li><p>Add a black and white theme to your <code>lexical_density</code> plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object <code>lexical_density_improved</code>, and output your plot below.</p></li>
 </ol>
+<p><em>Note</em>: To change the legend labels, you need to use both <code>scale_fill_discrete</code> and <code>scale_colour_discrete</code>. Why do you think this is? Why don’t we just use <code>scale_x_discrete</code> as we did in class?</p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>There’s some repetition in the code for the plot above. Can you improve your code to remove that?</p></li>
+<li><p>Using the <code>lex_dec</code> data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.</p></li>
+</ol>
+<p>Assign this to the object <code>rt_density</code> and output your plot.</p>
+<ol start="5" style="list-style-type: decimal">
+<li><p>Using the <code>lex_dec_items</code> data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.</p></li>
+<li><p>Using the <code>lex_demog</code> data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.</p></li>
+</ol>
+<p>Assign this to the object <code>gender_count</code> and output your plot.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Using the <code>lex_demog</code> data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you’d prefer.</li>
+</ol>
+<p>Additionally, we would like these plots split by the native language of the speaker, so facet your plot by native language.</p>
+<p>Assign this all to the object <code>demographic_age</code>, and output your plot.</p>
+<p>Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Using the <code>lex_dec</code> data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class.</li>
+</ol>
+<p><em>Hint</em>: Be sure to use the <code>stat_summary</code> function to get pointranges that represent the mean and standard error.</p>
+<p>Assign this to the object <code>rt_pointrange</code>, and output your plot.</p>
+<ol start="9" style="list-style-type: decimal">
+<li>Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8.</li>
+</ol>
+<p>Add the labels A-D to identify each plot.</p>
+<p>Save these plots under the object <code>combined_plots</code> and return your combined plots.</p>
+</div>
+<div id="additional-exercise-1" class="section level3">
+<h3><span class="header-section-number">3.7.2</span> Additional Exercise</h3>
+<p>Add a (short) simple title to your combined plots, and save this plot in the outputs folder.</p>
+<p>These plots won’t look perfect, and you may need to change the font and element sizes, but this can be done relatively easily. We won’t cover this here.</p>
 
+</div>
 </div>
 </div>
             </section>

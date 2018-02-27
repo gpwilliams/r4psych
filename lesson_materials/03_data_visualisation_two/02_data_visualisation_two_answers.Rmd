@@ -59,7 +59,16 @@ Enter your code in the code blocks in response to the [exercises for Chapter 3 o
 Using the `lex_dec_items` data set, make a density plot of the word frequency by class. Save this plot as `lexical_density`, and output the plot.
 
 ```{r Question_1}
-
+lexical_density <- 
+  ggplot(data = lex_dec_items,
+         mapping = aes(x = frequency,
+                       colour = class,
+                       fill = class
+                       )
+         ) +
+  geom_density(alpha = 0.5)
+  
+lexical_density
 ```
 
 ## Question 2
@@ -70,9 +79,18 @@ Add a black and white theme to your `lexical_density` plot. Next, give the axis 
 
 ```{r Question_2}
 # plot
+lexical_density_improved <- 
+  lexical_density +
+  labs(x = "Frequency", y = "Density") +
+  guides(fill = guide_legend(title = "Word Class"),
+         colour = guide_legend(title = "Word Class")
+         ) +
+  scale_fill_discrete(labels = c("Animal", "Plant")) +
+  scale_colour_discrete(labels = c("Animal", "Plant")) +
+  theme_bw()
 
 # return plot
-
+lexical_density_improved
 ```
 
 ## Question 3
@@ -80,14 +98,23 @@ Add a black and white theme to your `lexical_density` plot. Next, give the axis 
 There's some repetition in the code for the plot above. Can you improve your code to remove that?
 
 ```{r Question_3}
-# define names
-
+# define labels
+legend_title_name <- guide_legend(title = "Word Class")
+legend_label_names <- c("Animal", "Plant")
 
 # plot
-
+lexical_density_improved <- 
+  lexical_density +
+  labs(x = "Frequency", y = "Density") +
+  guides(fill = legend_title_name,
+         colour = legend_title_name
+         ) +
+  scale_fill_discrete(labels = legend_label_names) +
+  scale_colour_discrete(labels = legend_label_names) +
+  theme_bw()
 
 # return plot
-
+lexical_density_improved
 ```
 
 ## Question 4
@@ -98,9 +125,15 @@ Assign this to the object `rt_density` and output your plot.
 
 ```{r Question_4}
 # plot
+rt_density <-
+  ggplot(data = lex_dec, 
+       mapping = aes(x = reaction_time)
+       ) +
+  geom_density() +
+  facet_grid(native_language ~ class)
 
 # return plot
-
+rt_density
 ```
 
 ## Question 5
@@ -108,7 +141,13 @@ Assign this to the object `rt_density` and output your plot.
 Using the `lex_dec_items` data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.
 
 ```{r Question_5}
-
+ggplot(data = lex_dec_items, 
+       mapping = aes(x = frequency, 
+                     y = mean_RT
+                     )
+       ) +
+  geom_point() +
+  geom_smooth()
 ```
 
 ## Question 6
@@ -119,9 +158,16 @@ Assign this to the object `gender_count` and output your plot.
 
 ```{r Question_6}
 # plot
+gender_count <-
+  ggplot(data = lex_demog, 
+       mapping = aes(x = gender)) + 
+  geom_bar() +
+  labs(x = "Gender", y = "Count") +
+  scale_x_discrete(labels = c("Female", "Male")) +
+  theme_bw()
 
 # return plot
-
+gender_count
 ```
 
 ## Question 7
@@ -134,9 +180,19 @@ Assign this all to the object `demographic_age`, and output your plot.
 
 ```{r Question_7}
 # plot
+demographic_age <- 
+  ggplot(data = lex_demog,
+         mapping = aes(x = gender, 
+                       y = age,
+                       colour = gender,
+                       fill = gender
+                       )
+         ) +
+  geom_pirate() +
+  facet_wrap(~ native_language)
 
 # return plot
-
+demographic_age
 ```
 
 Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.
@@ -151,9 +207,19 @@ Assign this to the object `rt_pointrange`, and output your plot.
 
 ```{r Question_8}
 # plot
+rt_pointrange <-
+  ggplot(data = lex_dec, 
+       mapping = aes(
+         x = frequency,
+         y = reaction_time
+         )
+       ) + 
+  stat_summary(fun.data = "mean_se", geom = "pointrange") +
+  geom_smooth() +
+  facet_wrap(~ class)
 
 # return plot
-
+rt_pointrange
 ```
 
 ## Question 9
@@ -169,9 +235,16 @@ Save these plots under the object `combined_plots` and return your combined plot
 library(cowplot)
 
 # plot
+combined_plots <- plot_grid(
+  demographic_age,
+  gender_count,
+  rt_density,
+  rt_pointrange,
+  labels = c("A", "B", "C", "D")
+)
 
 # return plot
-
+combined_plots
 ```
 
 # Additional Exercise
@@ -180,13 +253,24 @@ Add a (short) simple title to your combined plots, and save this plot in the out
 
 ```{r Additional_Exercise}
 # define title
+title <- ggdraw() +
+  draw_label("The relationship between word type, word frequency, and language spoken",
+             fontface = "bold")
 
 # combine plots
+combined_plots <- plot_grid(
+  combined_plots,
+  title,
+  ncol = 1,
+  rel_heights = c(1, 0.1)
+)
 
 # return plot
+combined_plots
 
 # save plot
-
+ggsave(filename = "outputs/combined_plots.png", 
+       plot = combined_plots
+       )
 ```
-
 These plots won't look perfect, and you may need to change the font and element sizes, but this can be done relatively easily. We won't cover this in class.
