@@ -1,28 +1,390 @@
 ---
-title: "02 - Data Visualisation"
+title: "02 - Data Visualisation 2"
+subtitle: Basic plotting in ggplot2
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: ioslides_presentation
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=5, fig.height=3) 
 ```
 
-## R Markdown
+# overview
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Lesson Structure
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Thanks to last week's snow, we'll recap on some of the topics from last week.
 
-```{r cars}
-summary(cars)
+We'll look at:
+
+- Reading data into R from external sources
+- Understanding the ggplot syntax
+- Plotting discrete and continuous data
+- Changing basic visual features of plots
+
+## Getting Started
+
+First, we'll load the packages necessary for this class. 
+
+```{r 3_load_packages, include = FALSE}
+library(tidyverse)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r 3_load_packages_class, eval = FALSE}
+library(tidyverse)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Loading Data
+
+For this recap and the main part of the lessons, we'll use some simulated data of reaction times.
+
+Load the .csv file from the inputs folder. `read_csv()` is a quick way to load data as a tibble.
+
+```{r 3_load_simulated_data, echo = FALSE, message = FALSE}
+rt_data <- read_csv("../inputs/rt_data.csv")
+```
+
+```{r 3_class_load_simulated_data, eval = FALSE}
+rt_data <- read_csv("inputs/rt_data.csv")
+```
+
+## Understanding the Data
+
+Let's see what the data looks like:
+
+```{r 3_data_peek}
+rt_data
+```
+
+# ggplot
+
+## Basics of Plotting
+
+Every `ggplot` call must have a data argument!
+
+```{r 3_boxplot}
+ggplot(data = rt_data)
+```
+
+... but that's not interesting. We've just made a canvas for our data.
+
+## Mapping your Data onto the Plot
+
+```{r 3_no_geom}
+ggplot(data = rt_data) +
+  geom_boxplot(mapping = aes(x = response_condition, 
+                             y = reaction_time)
+               )
+```
+
+This is the most basic boxplot you can make in ggplot.
+
+## Customising our Plots
+
+### Adding Colour across Variables
+
+```{r 3_boxplot_colour}
+ggplot(data = rt_data) +
+  geom_boxplot(mapping = aes(x = response_condition, 
+                             y = reaction_time),
+               colour = "red"
+               )
+```
+
+## Customising our Plots
+
+### Adding Colour by Variables
+
+Notice, we get a legend when we add colours by variables.
+
+```{r 3_boxplot_colour_by_var}
+ggplot(data = rt_data) +
+  geom_boxplot(mapping = aes(x = response_condition, 
+                             y = reaction_time, 
+                             colour = response_condition))
+```
+
+## Customising our Plots
+
+What if we want to expand our y-axis? Set your limits!
+
+```{r 3_boxplot_colour_by_var_ylim}
+ggplot(data = rt_data) +
+  geom_boxplot(mapping = aes(x = response_condition, 
+                             y = reaction_time, 
+                             colour = response_condition)
+               ) +
+  coord_cartesian(ylim = c(0, 600))
+```
+
+# Geoms
+
+## Exploring Other Geoms
+
+- `geom_point()`: needs x and y in in `aes()`
+- `geom_bar()`: needs x and y in `aes()`
+- `geom_violin()`: needs x and y in `aes()`
+- `geom_density()` : only needs x values in `aes()`
+- `geom_histogram()` : only needs x values in `aes()`
+
+## Density Plots
+
+```{r 3_density}
+ggplot(data = rt_data, aes(x = reaction_time)) +
+  geom_density(mapping = aes(fill = response_condition),
+               alpha = 0.6
+               )
+```
+
+## Bar Plots
+
+Good for showing counts: Here by gender and response condition.
+
+```{r 3_barplot}
+ggplot(data = rt_data, aes(x = gender)) +
+  geom_bar(mapping = aes(fill = response_condition))
+```
+
+... not so great for non-count data.
+
+## Pirate Plots! Rrrrrrrrrrr
+
+Great for the the indecisive. Shows:
+
+- Bars of mean scores
+- Box of 95% confidence interval around the mean
+- Violins for density and distribution of scores
+- Raw data points
+
+Let's load it!
+
+```{r 3_load_ggpirate}
+# install.packages("devtools")
+# devtools::install_github("mikabr/ggpirate")
+library(ggpirate)
+```
+
+## Pirate Plots! Rrrrrrrrrrr
+
+```{r 3_pirate_plot}
+ggplot(data = rt_data, 
+       mapping = aes(x = response_condition, y = reaction_time)
+       ) +
+  geom_pirate()
+```
+
+## Saving Plots as Objects
+
+- Avoid retyping/rerunning the same code: Assign to an object!
+
+```{r 3_pirate_plot_object}
+pirate_plot <- ggplot(data = rt_data, 
+                      mapping = aes(x = response_condition, 
+                                    y = reaction_time)
+                      )
+pirate_plot # enter name in console to see the plot!
+```
+
+## Saving Plots as Objects
+
+This looks neater now...
+
+```{r 3_pirate_plot_object_with_geom}
+pirate_plot + geom_pirate()
+```
+
+## Extreme Customisation!
+
+```{r 3_pirate_plot_object_custom_code, eval = FALSE}
+pirate_plot + 
+  geom_pirate(mapping = aes(fill = response_condition, 
+                            colour = response_condition)
+              ) +
+  labs(x = "Response Condition", y = "Reaction Time (ms)") +
+  scale_x_discrete(labels = c("Match", "Mismatch")) +
+  theme_classic() +
+  scale_fill_manual(values = c("red", "blue")) +
+  scale_colour_manual(values = c("red", "blue")) +
+  geom_hline(yintercept = 480, linetype = 2) + 
+  annotate(geom = "text", x = 1, y = 500, label = "Very Slow Performance")
+```
+
+## Extreme Customisation!
+
+```{r 3_pirate_plot_object_custom_graph, echo = FALSE}
+pirate_plot + 
+  geom_pirate(mapping = aes(fill = response_condition, 
+                            colour = response_condition)
+              ) +
+  labs(x = "Response Condition", y = "Reaction Time (ms)") +
+  scale_x_discrete(labels = c("Match", "Mismatch")) +
+  theme_classic() +
+  scale_fill_manual(values = c("red", "blue")) +
+  scale_colour_manual(values = c("red", "blue")) +
+  geom_hline(yintercept = 480, linetype = 2) + 
+  annotate(geom = "text", x = 1, y = 500, 
+           label = "Very Slow Performance"
+           )
+```
+
+Why no legend? ggpirate defaults to remove that (not necessary for discrete data).
+
+# Faceting
+
+## Faceting
+
+- A useful way to make multiple plots on one canvas
+- Useful for splitting categories in your data
+
+For splitting by one category:
+
+```{r facet_wrap_form, eval = FALSE}
+facet_wrap(~ category)
+```
+
+For multiple categories:
+
+```{r facet_grid_form, eval = FALSE}
+facet_grid(category_one ~ category_two)
+```
+
+Both cases can take two categories, but the grid layout is more interpretable for multiple categories.
+
+## Facet Examples
+
+```{r facet_grid_example}
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time)
+       ) +
+  geom_density() +
+  facet_wrap(~ response_condition)
+```
+
+## Facet Examples
+
+```{r facet_wrap_example}
+ggplot(data = rt_data, 
+       mapping = aes(x = reaction_time)
+       ) +
+  geom_density() +
+  facet_grid(gender ~ response_condition)
+```
+
+# Calculating Statistics
+
+## Means and SE
+
+```{r means_se_plot}
+ggplot(data = rt_data, 
+       mapping = aes(
+         x = response_condition,
+         y = reaction_time, 
+         fill = response_condition)
+       ) + 
+  stat_summary(fun.y = mean, geom = "bar") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.25)
+```
+
+## Model Fits
+
+Defaults to loess smooth.
+
+```{r loess_fit_code, eval = FALSE}
+# filter extreme values
+starwars <- filter(starwars, mass < 160)
+
+# plot
+ggplot(data = starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+## Model Fits
+
+```{r loess_fit_plot, echo = FALSE}
+# filter extreme values
+starwars <- filter(starwars, mass < 160)
+
+# plot
+ggplot(data = starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+## Model Fits
+
+Fitting a linear model
+
+```{r lm_fit}
+ggplot(data = starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
+  geom_point() + 
+  geom_smooth(method = "lm", formula = "y ~ x")
+```
+
+# Combining Plots
+
+## Combining Plots
+
+```{r lm_fit_saved}
+linear_plot <- 
+  ggplot(data = starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
+  geom_point() + 
+  geom_smooth(method = "lm", formula = y ~ x)
+```
+
+```{r quad_fit_saved}
+quadratic_plot <-
+  ggplot(data = starwars, 
+       mapping = aes(x = mass, y = height)
+       ) + 
+  geom_point() + 
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2))
+```
+
+*Note*: We can save on retyping everything above geom smooth by saving the arguments to a basic `plot`, then adding that + `geom_smooth()` to our quadratic/linear plot names.
+
+## Combining Plots
+
+```{r combining_plots, messages = FALSE}
+library(cowplot)
+
+combined_plots <- plot_grid(linear_plot, 
+                            quadratic_plot, 
+                            labels = c("A", "B"), # label plots
+                            align = "h" # align axes
+                            )
+```
+
+## Combining Plots
+
+```{r return_combined_plots}
+combined_plots
+```
+
+# Saving
+
+## Saving
+
+Define the location and name of the file in the `filename` argument.
+
+Define the object to save in your plot argument.
+
+*Note*: Here, we use **relative** file paths. We tell R, in the current folder, find the outputs folder, within that (/) save the image as a .png by the name starwars_mass_by_height.
+
+```{r ggsave, eval = FALSE}
+ggsave(filename = "outputs/starwars_mass_by_height.png", 
+       plot = combined_plots
+       )
+```
+
+# Exercises

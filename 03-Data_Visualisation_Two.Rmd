@@ -111,7 +111,8 @@ For the additional lines:
 - `scale_x_discrete` allows you to manipulate your x scale. Within this, we change the labels of the columns using `labels`. We changed them to Impaired (vs. impaired) and Intact (vs. intact) for stylisitc reasons.
 - `scale_y_continuous` allows you to manipulate your y scale. Here, we set the `limits`, i.e. how far to extend our y-axis to between 0 and 600ms. Additionally, we set our `breaks` to increment in the sequence (`seq`) from 0 to 600 by 100ms. This way, we've added more granularity to our axis ticks.
 - We use `theme_bw()` to change to a black and white theme. There are other themes in ggplot2, but this one is nice and clean.
-- Finally, `theme` allows you to manually specify other aspects of how your plot should look. Here, we used `panel.grid.major.x` and set this to nothing (`element_blank()`) because we don't need vertical lines in our plot.
+- Next, `theme` allows you to manually specify other aspects of how your plot should look. Here, we used `panel.grid.major.x` and set this to nothing (`element_blank()`) because we don't need vertical lines in our plot.
+- Finally, we define the colour and fill for our plot using manual hex values using the `scale_colour_manual()` and `scale_fill_manual()` functions.
 
 ```{r 3_pirate_plot}
 ggplot(data = rt_data, 
@@ -127,7 +128,9 @@ ggplot(data = rt_data,
                      breaks = seq(from = 0, to = 600, by = 100)
                      ) +
   theme_bw() +
-  theme(panel.grid.major.x = element_blank())
+  theme(panel.grid.major.x = element_blank()) +
+  scale_colour_manual(values = c("#af8dc3", "#7fbf7b")) +
+  scale_fill_manual(values = c("#af8dc3", "#7fbf7b"))
 ```
 
 In this plot, we have coloured bars and lines indicating the mean scores, a box representing the 95% confidence interval assuming a normal sampling distribution, violins indicating density, and the raw data points. 
@@ -190,7 +193,7 @@ ggplot(data = rt_data,
          fill = response_condition
          )
        ) + 
-  stat_summary(fun.y = mean, geom = "bar") +
+  stat_summary(fun.y = "mean", geom = "bar") +
   stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.25)
 ```
 
@@ -416,7 +419,9 @@ You can do a whole bunch of other things with ggplot, like adding vertical and h
 
 Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
 
-1. Using the `lex_dec_items` data set, make a density plot of the word frequency by class. Save this plot as `lexical_density`, and output the plot.
+1. Let's assume we want to know if the density of the mean reaction times differs across word class within our items.
+
+Using the `lex_dec_items` data set, make a density plot of the word frequency by class. Save this plot as `lexical_density`, and output the plot.
 
 2. Add a black and white theme to your `lexical_density` plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object `lexical_density_improved`, and output your plot below.
 
@@ -424,17 +429,25 @@ Try out the exercises below, we'll cover these in the class with the solutions u
 
 3. There's some repetition in the code for the plot above. Can you improve your code to remove that?
 
-4. Using the `lex_dec` data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.
+4. Now we want to check the distribution of the reaction times depending on word class and the language spoken by our participants.
+
+Using the `lex_dec` data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.
 
 Assign this to the object `rt_density` and output your plot.
 
-5. Using the `lex_dec_items` data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.
+5. Now we want to explore if there's any relationship between the mean reaction time to our items and the frequency of the item.
 
-6. Using the `lex_demog` data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.
+Using the `lex_dec_items` data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.
+
+6. Now we want to know how many males and females took part in our experiment.
+
+Using the `lex_demog` data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.
 
 Assign this to the object `gender_count` and output your plot.
 
-7. Using the `lex_demog` data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you'd prefer.
+7. What if we want to know the mean age and distribution of ages split by language spoken and gender?
+
+Using the `lex_demog` data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you'd prefer.
 
 Additionally, we would like these plots split by the native language of the speaker, so facet your plot by native language.
 
@@ -442,13 +455,17 @@ Assign this all to the object `demographic_age`, and output your plot.
 
 Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.
  
-8. Using the `lex_dec` data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class. 
+8. Next, we want to see the mean (and standard error) of reaction times to words with different word frequencies.
+
+Using the `lex_dec` data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class. 
 
 *Hint*: Be sure to use the `stat_summary` function to get pointranges that represent the mean and standard error.
 
 Assign this to the object `rt_pointrange`, and output your plot.
 
-9. Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8. 
+9. Finally, we want to show a few of our graphs in one display.
+
+Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8. 
 
 Add the labels A-D to identify each plot.
 
@@ -456,6 +473,8 @@ Save these plots under the object `combined_plots` and return your combined plot
 
 ### Additional Exercise
 
+We can improve the combined plots above.
+
 Add a (short) simple title to your combined plots, and save this plot in the outputs folder.
 
-These plots won't look perfect, and you may need to change the font and element sizes, but this can be done relatively easily. We won't cover this here.
+These plots won't look perfect, and you may need to change the font and element sizes. That can be easily achieved, but we won't do that here.

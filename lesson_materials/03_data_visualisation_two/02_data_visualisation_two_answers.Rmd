@@ -20,17 +20,17 @@ Next, we'll tidy up the data sets so they include only the variables you need fo
 
 First, we'll use the `lexdec` data set from `languageR`. This contains lexical decision times (is this a word or not?) for a range of subjects with different native languages over different words. We also get information on the class of the words (animal or plant), and on the frequency of the words (i.e. how often they occur in most texts). Finally, our dependent variable is reaction time in the lexical decision task.
 
-Next, we'll create our own data for use in other plots.
+Then we'll create our own demographic data, using part of the `lex_dec` data for use in other plots.
 
 ```{r tidy_data}
- # lexical decision times
+ # lexical decision times split by subject and item
 lex_dec <- lexdec %>%
   select(Subject, NativeLanguage, Trial, Word, Class, Frequency, RT) %>%
   rename_all(tolower) %>%
   rename(native_language = nativelanguage, reaction_time = rt) %>%
   as.tibble()
 
-# reaction time mean and sd aggregated by items
+# aggregate by items to explore differences in items
 lex_dec_items <- lex_dec %>%
   group_by(word, class, frequency) %>%
   summarise(mean_RT = mean(reaction_time),
@@ -41,6 +41,7 @@ lex_dec_items <- lex_dec %>%
 set.seed(88)
 
 # create demographic information
+# here, I've simulated gender and age data
 lex_demog <- lex_dec %>%
   distinct(subject, native_language) %>%
   mutate(age = rnorm(n = nrow(.), mean = 35, sd = 7),
@@ -55,6 +56,8 @@ lex_demog <- lex_dec %>%
 Enter your code in the code blocks in response to the [exercises for Chapter 3 of r4psych](http://glennwilliams.me/r4psych/data-visualisation-2.html#exercises-1). Run your code and then save your document once completed.
 
 ## Question 1
+
+Let's assume we want to know if the density of the mean reaction times differs across word class within our items.
 
 Using the `lex_dec_items` data set, make a density plot of the word frequency by class. Save this plot as `lexical_density`, and output the plot.
 
@@ -119,6 +122,8 @@ lexical_density_improved
 
 ## Question 4
 
+Now we want to check the distribution of the reaction times depending on word class and the language spoken by our participants.
+
 Using the `lex_dec` data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.
 
 Assign this to the object `rt_density` and output your plot.
@@ -138,6 +143,8 @@ rt_density
 
 ## Question 5
 
+Now we want to explore if there's any relationship between the mean reaction time to our items and the frequency of the item.
+
 Using the `lex_dec_items` data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.
 
 ```{r Question_5}
@@ -151,6 +158,8 @@ ggplot(data = lex_dec_items,
 ```
 
 ## Question 6
+
+Now we want to know how many males and females took part in our experiment.
 
 Using the `lex_demog` data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.
 
@@ -171,6 +180,8 @@ gender_count
 ```
 
 ## Question 7
+
+What if we want to know the mean age and distribution of ages split by language spoken and gender?
 
 Using the `lex_demog` data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you'd prefer.
 
@@ -199,6 +210,8 @@ Can you see how a bar plot of the average ages might be misleading in this insta
 
 ## Question 8
 
+Next, we want to see the mean (and standard error) of reaction times to words with different word frequencies.
+
 Using the `lex_dec` data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class. 
 
 *Hint*: Be sure to use the `stat_summary` function to get pointranges that represent the mean and standard error.
@@ -223,6 +236,8 @@ rt_pointrange
 ```
 
 ## Question 9
+
+Finally, we want to show a few of our graphs in one display.
 
 Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8. 
 
@@ -249,9 +264,11 @@ combined_plots
 
 # Additional Exercise
 
+We can improve the combined plots above.
+
 Add a (short) simple title to your combined plots, and save this plot in the outputs folder.
 
-```{r Additional_Exercise}
+```{r Additional_Exercise, message = FALSE}
 # define title
 title <- ggdraw() +
   draw_label("The relationship between word type, word frequency, and language spoken",
@@ -273,4 +290,4 @@ ggsave(filename = "outputs/combined_plots.png",
        plot = combined_plots
        )
 ```
-These plots won't look perfect, and you may need to change the font and element sizes, but this can be done relatively easily. We won't cover this in class.
+These plots won't look perfect, and you may need to change the font and element sizes. That can be easily achieved, but we won't do that here.

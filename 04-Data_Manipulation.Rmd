@@ -1,5 +1,3 @@
 # Data Manipulation
 
-How to get your data in an acceptable format.
-
-Content to follow.
+In this chapter we'll look at tidying up and cleaning our data with the `tidyr` package, as well as how to combine our data into a useful format using the `dplyr` package.

@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-02-27">
+<meta name="date" content="2018-02-28">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -319,7 +319,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
          <span class="dt">fill =</span> response_condition
          )
        ) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> <span class="st">&quot;mean_se&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/3_error_bars-1.png" width="672" /></p>
 <p>I don’t often use <code>stat_summary</code> in my own plots, as I often want to know exactly how I’ve calculated things like the standard error. Doing things by hand allows you to change error bar sizes appropriately for within- and between-subject designs. But, this is useful if you want to create a plot rapidly, or want to avoid the hassle of writing extra code.</p>
@@ -493,41 +493,53 @@ combined_plots</code></pre></div>
 <h3><span class="header-section-number">3.7.1</span> Main Exercises</h3>
 <p>Try out the exercises below, we’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary.</p>
 <ol style="list-style-type: decimal">
-<li><p>Using the <code>lex_dec_items</code> data set, make a density plot of the word frequency by class. Save this plot as <code>lexical_density</code>, and output the plot.</p></li>
-<li><p>Add a black and white theme to your <code>lexical_density</code> plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object <code>lexical_density_improved</code>, and output your plot below.</p></li>
+<li>Let’s assume we want to know if the density of the mean reaction times differs across word class within our items.</li>
+</ol>
+<p>Using the <code>lex_dec_items</code> data set, make a density plot of the word frequency by class. Save this plot as <code>lexical_density</code>, and output the plot.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Add a black and white theme to your <code>lexical_density</code> plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object <code>lexical_density_improved</code>, and output your plot below.</li>
 </ol>
 <p><em>Note</em>: To change the legend labels, you need to use both <code>scale_fill_discrete</code> and <code>scale_colour_discrete</code>. Why do you think this is? Why don’t we just use <code>scale_x_discrete</code> as we did in class?</p>
 <ol start="3" style="list-style-type: decimal">
 <li><p>There’s some repetition in the code for the plot above. Can you improve your code to remove that?</p></li>
-<li><p>Using the <code>lex_dec</code> data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.</p></li>
+<li><p>Now we want to check the distribution of the reaction times depending on word class and the language spoken by our participants.</p></li>
 </ol>
+<p>Using the <code>lex_dec</code> data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.</p>
 <p>Assign this to the object <code>rt_density</code> and output your plot.</p>
 <ol start="5" style="list-style-type: decimal">
-<li><p>Using the <code>lex_dec_items</code> data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.</p></li>
-<li><p>Using the <code>lex_demog</code> data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.</p></li>
+<li>Now we want to explore if there’s any relationship between the mean reaction time to our items and the frequency of the item.</li>
 </ol>
+<p>Using the <code>lex_dec_items</code> data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Now we want to know how many males and females took part in our experiment.</li>
+</ol>
+<p>Using the <code>lex_demog</code> data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.</p>
 <p>Assign this to the object <code>gender_count</code> and output your plot.</p>
 <ol start="7" style="list-style-type: decimal">
-<li>Using the <code>lex_demog</code> data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you’d prefer.</li>
+<li>What if we want to know the mean age and distribution of ages split by language spoken and gender?</li>
 </ol>
+<p>Using the <code>lex_demog</code> data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you’d prefer.</p>
 <p>Additionally, we would like these plots split by the native language of the speaker, so facet your plot by native language.</p>
 <p>Assign this all to the object <code>demographic_age</code>, and output your plot.</p>
 <p>Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.</p>
 <ol start="8" style="list-style-type: decimal">
-<li>Using the <code>lex_dec</code> data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class.</li>
+<li>Next, we want to see the mean (and standard error) of reaction times to words with different word frequencies.</li>
 </ol>
+<p>Using the <code>lex_dec</code> data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class.</p>
 <p><em>Hint</em>: Be sure to use the <code>stat_summary</code> function to get pointranges that represent the mean and standard error.</p>
 <p>Assign this to the object <code>rt_pointrange</code>, and output your plot.</p>
 <ol start="9" style="list-style-type: decimal">
-<li>Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8.</li>
+<li>Finally, we want to show a few of our graphs in one display.</li>
 </ol>
+<p>Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8.</p>
 <p>Add the labels A-D to identify each plot.</p>
 <p>Save these plots under the object <code>combined_plots</code> and return your combined plots.</p>
 </div>
 <div id="additional-exercise-1" class="section level3">
 <h3><span class="header-section-number">3.7.2</span> Additional Exercise</h3>
+<p>We can improve the combined plots above.</p>
 <p>Add a (short) simple title to your combined plots, and save this plot in the outputs folder.</p>
-<p>These plots won’t look perfect, and you may need to change the font and element sizes, but this can be done relatively easily. We won’t cover this here.</p>
+<p>These plots won’t look perfect, and you may need to change the font and element sizes. That can be easily achieved, but we won’t do that here.</p>
 
 </div>
 </div>
