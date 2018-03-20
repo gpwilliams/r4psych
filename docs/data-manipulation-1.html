@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Psych" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  
+  <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="github-repo" content="gpwilliams/r4psych" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Psych" />
+  
+  <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
+  
+
+<meta name="author" content="Glenn Williams">
+
+
+<meta name="date" content="2018-03-20">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="data-visualisation-2.html">
+<link rel="next" href="data-manipulation-2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R for Psych</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
+<li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
+<li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
+<li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.2</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
+<li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
+<li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
+<li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.2</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#getting-started-1"><i class="fa fa-check"></i><b>4.1</b> Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#loading-data"><i class="fa fa-check"></i><b>4.2.1</b> Loading Data</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#wide-and-long-data"><i class="fa fa-check"></i><b>4.2.2</b> Wide and Long Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#gathering-data"><i class="fa fa-check"></i><b>4.3.1</b> Gathering Data</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#separating-columns"><i class="fa fa-check"></i><b>4.3.2</b> Separating Columns</a></li>
+<li class="chapter" data-level="4.3.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#spreading-data"><i class="fa fa-check"></i><b>4.3.3</b> Spreading Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins"><i class="fa fa-check"></i><b>4.4.1</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins"><i class="fa fa-check"></i><b>4.4.2</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins"><i class="fa fa-check"></i><b>4.4.3</b> Binding Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-unique-and-duplicate-information"><i class="fa fa-check"></i><b>4.5</b> Checking for Unique and Duplicate Information</a></li>
+<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#introduction-and-setup"><i class="fa fa-check"></i><b>4.6.1</b> Introduction and Setup</a></li>
+<li class="chapter" data-level="4.6.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#long-and-wide-data"><i class="fa fa-check"></i><b>4.6.2</b> Long and Wide Data</a></li>
+<li class="chapter" data-level="4.6.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#uniting-and-separating-columns"><i class="fa fa-check"></i><b>4.6.3</b> Uniting and Separating Columns</a></li>
+<li class="chapter" data-level="4.6.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins-1"><i class="fa fa-check"></i><b>4.6.4</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.6.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins-1"><i class="fa fa-check"></i><b>4.6.5</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.6.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins-1"><i class="fa fa-check"></i><b>4.6.6</b> Binding Joins</a></li>
+<li class="chapter" data-level="4.6.7" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-duplicates"><i class="fa fa-check"></i><b>4.6.7</b> Checking for Duplicates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a></li>
+<li class="chapter" data-level="6" data-path="traditional-tests.html"><a href="traditional-tests.html"><i class="fa fa-check"></i><b>6</b> Traditional Tests</a></li>
+<li class="chapter" data-level="7" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>7</b> Simulation and Calculating Power</a></li>
+<li class="chapter" data-level="8" data-path="mixed-effects-models-1.html"><a href="mixed-effects-models-1.html"><i class="fa fa-check"></i><b>8</b> Mixed Effects Models 1</a></li>
+<li class="chapter" data-level="9" data-path="mixed-effects-models-2.html"><a href="mixed-effects-models-2.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models 2</a></li>
+<li class="chapter" data-level="10" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>10</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>10.1</b> The Final Lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Psych</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-manipulation-1" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Data Manipulation 1</h1>
+<p>In this chapter we’ll look at tidying up and cleaning our data with the <strong>tidyr</strong> package <span class="citation">(Wickham and Henry <a href="#ref-R-tidyr">2018</a>)</span> from the tidyverse <span class="citation">(Wickham <a href="#ref-R-tidyverse">2017</a>)</span>. We’ll also use the <strong>dplyr</strong> package <span class="citation">(Wickham et al. <a href="#ref-R-dplyr">2017</a>)</span> from the tidyverse <span class="citation">(Wickham <a href="#ref-R-tidyverse">2017</a>)</span> to join different sets of data together into a useful format for plotting and running analyses.</p>
+<p>This data cleaning is an important first step on your way to working with your data, so it’s important for you to get acquainted with the different ways your data can be formatted, and how to get it in the format we want.</p>
+<div id="getting-started-1" class="section level2">
+<h2><span class="header-section-number">4.1</span> Getting Started</h2>
+<p>First, we’ll load the packages necessary for this class. Nicely, tidyr and dplyr are part of the tidyverse family, so we don’t need to load this separately to the other packages in our library.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<p>Next, we’ll load some data from the <code>languageR</code> library. The data set we’ll look at is the <code>lexdec</code> data set, which looks at lexical decision latencies for English nouns from native and non-native speakers of English. If you load this data set from the <code>languageR</code> library then it’ll already be in the correct format for us to perform our analyses. So, I’ve made this data more messy; adding missing values, additional columns that represent more than one source of data, and few extra participants.</p>
+<p>On top of this, I’ve produced a separate data set which stores some (fake) demographic data for the participants. This data set contains information about the participant ID, their gender, age, and any programming languages that they know. Why did I add this last column? Well, sometimes your data contains additional information that isn’t important for your current analyses, so it’s good to get some experience with filtering our data. (We’ll cover filtering data in more detail in Lesson 5.)</p>
+</div>
+<div id="data-formats" class="section level2">
+<h2><span class="header-section-number">4.2</span> Data Formats</h2>
+<p>I’ve saved the data in both <strong>wide</strong> and <strong>long</strong> formats.</p>
+<p>In <strong>wide</strong> formats, each row represents one participant, and any information gathered from these participants is stored in a new column. So, let’s say we have several items where we gather some data (e.g. reaction times), here each column will represent an item, and each cell will store a participant’s score.</p>
+<p>In <strong>long</strong> formats, each column represents one measurement. Here, we could have a column for participant ID, a column for item number, and a column for reaction times. In this instance, each row should be unique by its combination of our three columns, but IDs (e.g. participant ID, item ID) will be repeated several times.</p>
+<div id="loading-data" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Loading Data</h3>
+<p>Let’s load the messy data sets from the csv files in the Lesson 4 <strong>lesson_materials</strong> folder to get a better grasp of these formats. We’ll get some (scary looking, red) messages when we load the data. That’s because we haven’t specified how we want each column to be parsed.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_demographic_data_wide.csv&quot;</span>)
+demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_demographic_data_long.csv&quot;</span>)</code></pre></div>
+<p>When we use <code>read_csv()</code> this function tries to guess the data type contained within any column. Basically, if all the data in a column are numbers, then it’ll be parsed as a numeric data type. If even one cell in a column is text, the whole column will be parsed as text. This can cause problems if most of the data are numbers and you want to do some calculations with this column, as you can’t add, subract, or divide with text columns!</p>
+<p>Often, dates are parsed as datetimes, which allows for some easy calculations for differences in times. But, our completion_time column was parsed as a character. Why? Because this column contains two datetimes separated by an underscore. It looks like the researchers (me) were too lazy to actually calculate the completion times, and just threw the start and end times togerther into one column!</p>
+</div>
+<div id="wide-and-long-data" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Wide and Long Data</h3>
+<p>Now we’ve loaded the data, and understand how R reads data, let’s look back at wide and long data formats.</p>
+<div id="wide-data" class="section level4">
+<h4><span class="header-section-number">4.2.2.1</span> Wide Data</h4>
+<p>In the wide data format, each row is a participant (ID). We have columns representing all of the programming languages reported to be known by the participants. If a participant knows the language, they get a 1 in this column, otherwise they have an NA. We also have several other columns covering other information gathered.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide</code></pre></div>
+<pre><code>## # A tibble: 29 x 14
+##    ID    `C++` FORTRAN JavaScript Python     R  Ruby LANGUAGE progress
+##    &lt;chr&gt; &lt;int&gt;   &lt;int&gt;      &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;   
+##  1 22        1       1          1     NA    NA    NA OTHER    FINISH  
+##  2 23        1      NA         NA     NA    NA    NA &lt;NA&gt;     no      
+##  3 24       NA       1         NA     NA    NA    NA ENGLISH  END     
+##  4 25        1       1         NA     NA    NA    NA &lt;NA&gt;     ethics  
+##  5 26       NA      NA         NA      1    NA     1 english  ethics  
+##  6 27       NA       1          1     NA    NA    NA ENGLISH  END     
+##  7 28       NA      NA         NA     NA     1     1 &lt;NA&gt;     ethics  
+##  8 29       NA      NA          1     NA    NA    NA english  ethics  
+##  9 30       NA       1         NA     NA    NA    NA &lt;NA&gt;     &lt;NA&gt;    
+## 10 A2        1       1          1     NA    NA    NA English  END     
+## # ... with 19 more rows, and 5 more variables: gender &lt;chr&gt;, age &lt;int&gt;,
+## #   tester &lt;chr&gt;, funRec &lt;chr&gt;, completion_time &lt;chr&gt;</code></pre>
+</div>
+<div id="long-data" class="section level4">
+<h4><span class="header-section-number">4.2.2.2</span> Long Data</h4>
+<p>With the long data format, we have each ID for our data in one column, and the measurements for these variables in each cell. The main difference here is that we have a column at the end called computer_language which simply lists the language each participant knows. This cuts down on the need for redundant columns for a computer language when a participant doesn’t know that language. Compare the languages known for participant 22 in this data set and how it’s represented in the wide data set.</p>
+<p>In order to display this properly, I’ll cut out the columns tester, funRec, and completion time, when printing for this website, but you needn’t do this in R.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_long</code></pre></div>
+<pre><code>## # A tibble: 54 x 6
+##    ID    LANGUAGE progress gender   age computer_language
+##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;            
+##  1 22    OTHER    FINISH   female    30 C++              
+##  2 22    OTHER    FINISH   female    30 FORTRAN          
+##  3 22    OTHER    FINISH   female    30 JavaScript       
+##  4 23    &lt;NA&gt;     no       male      30 C++              
+##  5 24    ENGLISH  END      female    30 FORTRAN          
+##  6 25    &lt;NA&gt;     ethics   male      18 C++              
+##  7 25    &lt;NA&gt;     ethics   male      18 FORTRAN          
+##  8 26    english  ethics   male      31 Python           
+##  9 26    english  ethics   male      31 Ruby             
+## 10 27    ENGLISH  END      female    44 FORTRAN          
+## # ... with 44 more rows</code></pre>
+<p>We end up with some repetition here (several rows with the same ID, language, gender, etc.), but each row is unique when we consider all measurements. This is a common data format for raw data, as we’ll see next.</p>
+</div>
+<div id="understanding-our-loaded-data" class="section level4">
+<h4><span class="header-section-number">4.2.2.3</span> Understanding our Loaded Data</h4>
+<p>The NA value is important in R; as Hadley Wickham says, it is the evidence of absence. Missing values however are more problematic in that they are the absence of evidence. If you want to indicate missing data, use NA, and not N/A or N_A etc. as you have to tell R to parse these as NAs.</p>
+<p>We also have columns indicating the language known by the participant, their progress in the experiment (i.e. did they finish it or not?), their gender, age, who tested them and two final columns. The funRec column tells us whether they liked the experiment or not (on a 0-7 scale) and whether they’d recommend the experiment to others (yes/no). Unfortunately, these values are separated by a dash. This is bad practice as each cell should represent one data point, not two. The same can be said for completion time, with the dates and times for starting and ending the experiment separated by an underscore.</p>
+</div>
+</div>
+</div>
+<div id="reformatting-data" class="section level2">
+<h2><span class="header-section-number">4.3</span> Reformatting Data</h2>
+<div id="gathering-data" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Gathering Data</h3>
+<p>Let’s say we want to perform some operations to change how our data looks. What if we want to turn our data from a wide format into long format? We might do this if we want to make a bar plot which counts how many people know each programming language.</p>
+<p>To gather data that is spread across several columns, we use the <code>gather()</code> function.</p>
+<p>In this function, we have to specify a few things. As always, with our tidyverse functions we need to tell R which data set on which to perform the function.</p>
+<p>We have to say what we will call our new column which contains the headings of the columns we want to gather. Here, we call it <code>prog_lang</code>, and it will contain the column names for each programming language. (Normally, I’d use a more readable name, but I want to show as many columns for this data on the website.)</p>
+<p>Next, we need to specify a value, which will contain the numbers from the programming language columns we’ve gathered together. This will essentially tell us whether or not people know that language or not.</p>
+<p>Finally, we need to give the function the columns to gather together. We can do this by name, or by number. Since our programming language columns are all together, from column number 2 to 7, we can just specify the range of <code>2:7</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gather</span>(<span class="dt">data =</span> demo_wide,
+       <span class="dt">key =</span> prog_lang,
+       <span class="dt">value =</span> known,
+       <span class="dv">2</span>:<span class="dv">7</span>
+       )</code></pre></div>
+<pre><code>## # A tibble: 174 x 8
+##    ID    LANGUAGE progress gender   age tester prog_lang known
+##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
+##  1 22    OTHER    FINISH   female    30 GW     C++           1
+##  2 23    &lt;NA&gt;     no       male      30 GW     C++           1
+##  3 24    ENGLISH  END      female    30 GW     C++          NA
+##  4 25    &lt;NA&gt;     ethics   male      18 GW     C++           1
+##  5 26    english  ethics   male      31 GW     C++          NA
+##  6 27    ENGLISH  END      female    44 GW     C++          NA
+##  7 28    &lt;NA&gt;     ethics   male      23 GW     C++          NA
+##  8 29    english  ethics   male      34 GW     C++          NA
+##  9 30    &lt;NA&gt;     &lt;NA&gt;     female    32 GW     C++          NA
+## 10 A2    English  END      female    33 RHB    C++           1
+## # ... with 164 more rows</code></pre>
+<p>That worked nicely, but it seems that it’s formatted the data so it goes through each programming language alphabetically first, so our IDs are spread all over the data set.</p>
+<p>To fix this, we can use another function, called <code>arrange</code>, which takes a data argument and a column by which to arrange the data.</p>
+<div id="the-pipe" class="section level4">
+<h4><span class="header-section-number">4.3.1.1</span> The Pipe</h4>
+<p>At this point, I’ll introduce you to a new way of writing our commands which is better when we want to apply several functions. Instead of nesting it all together, we can write our commands from left to right, like how we read English text. Here, we can use the pipe <code>%&gt;%</code> at the end of a line, which can be read as “and then do…”. Below, we simply give our data.frame, demo_wide, and use the pipe to apply the gather function. This is the same code as above, just represented in a different way. Read this like, “take our data, and then, gather the columns together.”</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(
+    <span class="dt">key =</span> prog_lang,
+    <span class="dt">value =</span> known,
+    <span class="dv">2</span>:<span class="dv">7</span>
+    )</code></pre></div>
+<pre><code>## # A tibble: 174 x 8
+##    ID    LANGUAGE progress gender   age tester prog_lang known
+##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;int&gt;
+##  1 22    OTHER    FINISH   female    30 GW     C++           1
+##  2 23    &lt;NA&gt;     no       male      30 GW     C++           1
+##  3 24    ENGLISH  END      female    30 GW     C++          NA
+##  4 25    &lt;NA&gt;     ethics   male      18 GW     C++           1
+##  5 26    english  ethics   male      31 GW     C++          NA
+##  6 27    ENGLISH  END      female    44 GW     C++          NA
+##  7 28    &lt;NA&gt;     ethics   male      23 GW     C++          NA
+##  8 29    english  ethics   male      34 GW     C++          NA
+##  9 30    &lt;NA&gt;     &lt;NA&gt;     female    32 GW     C++          NA
+## 10 A2    English  END      female    33 RHB    C++           1
+## # ... with 164 more rows</code></pre>
+<p>Still, we’re left with the same grouping problem, so we can apply another function, <code>arrange()</code> at the end to arrange the data by ID.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(
+    <span class="dt">key =</span> prog_lang,
+    <span class="dt">value =</span> known,
+    <span class="dv">2</span>:<span class="dv">7</span>
+    ) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(ID)</code></pre></div>
+<pre><code>## # A tibble: 174 x 8
+##    ID    LANGUAGE progress gender   age tester prog_lang  known
+##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt;
+##  1 22    OTHER    FINISH   female    30 GW     C++            1
+##  2 22    OTHER    FINISH   female    30 GW     FORTRAN        1
+##  3 22    OTHER    FINISH   female    30 GW     JavaScript     1
+##  4 22    OTHER    FINISH   female    30 GW     Python        NA
+##  5 22    OTHER    FINISH   female    30 GW     R             NA
+##  6 22    OTHER    FINISH   female    30 GW     Ruby          NA
+##  7 23    &lt;NA&gt;     no       male      30 GW     C++            1
+##  8 23    &lt;NA&gt;     no       male      30 GW     FORTRAN       NA
+##  9 23    &lt;NA&gt;     no       male      30 GW     JavaScript    NA
+## 10 23    &lt;NA&gt;     no       male      30 GW     Python        NA
+## # ... with 164 more rows</code></pre>
+<p>This is now in a better format. However, we have a lot of rows with NA in the language, where people don’t know that language. This is redundant information. Additionally, the known column is now redundant if we remove the languages people don’t know, so we can remove this column too.</p>
+<p>We’ll save this data under the name demo_gathered for comparison with the long formatted data set we already loaded.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span>demo_wide %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(
+    <span class="dt">key =</span> prog_lang,
+    <span class="dt">value =</span> known,
+    <span class="dv">2</span>:<span class="dv">7</span>,
+    <span class="dt">na.rm =</span> <span class="ot">TRUE</span>
+    ) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(ID) %&gt;%
+<span class="st">  </span><span class="kw">select</span>(-known)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered</code></pre></div>
+<pre><code>## # A tibble: 54 x 7
+##    ID    LANGUAGE progress gender   age tester prog_lang 
+##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+##  1 22    OTHER    FINISH   female    30 GW     C++       
+##  2 22    OTHER    FINISH   female    30 GW     FORTRAN   
+##  3 22    OTHER    FINISH   female    30 GW     JavaScript
+##  4 23    &lt;NA&gt;     no       male      30 GW     C++       
+##  5 24    ENGLISH  END      female    30 GW     FORTRAN   
+##  6 25    &lt;NA&gt;     ethics   male      18 GW     C++       
+##  7 25    &lt;NA&gt;     ethics   male      18 GW     FORTRAN   
+##  8 26    english  ethics   male      31 GW     Python    
+##  9 26    english  ethics   male      31 GW     Ruby      
+## 10 27    ENGLISH  END      female    44 GW     FORTRAN   
+## # ... with 44 more rows</code></pre>
+<p>We used the argument, <code>na.rm = TRUE</code> to remove any rows in our value column, known, with an NA. Since we did that, the known column contains all 1s, as the only languages left are the ones people know. So, we used the <code>select</code> function from <strong>dplyr</strong> to remove the known column. This function is used to select the column you want to keep in your data set. If you provide a column name with the <code>-</code> prefix, this tells R to keep everything except that column; so we drop it from our data set!</p>
+</div>
+</div>
+<div id="separating-columns" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> Separating Columns</h3>
+<p>In our wide formatted data, we have two columns which store two data points in each cell: funRec has information on whether people found the experiment fun, and whether they’d recommend it to others. Let’s split this into separate columns. We just need to supply the name of the column to separate <code>col</code>, and what you want it split into, as a list of the names the columns should take, <code>into</code>.</p>
+<p>As in previous examples, I’ll remove the middle rows from the data here, but feel free to print them all yourself in R. I’ve presented the code to do this below.</p>
+<p><em>Remember, if we want to supply multiple names, we need to concatenate (<code>c</code>) these names together.</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> funRec,
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>)
+    )</code></pre></div>
+<pre><code>## # A tibble: 54 x 5
+##    ID    tester fun   recommend completion_time                        
+##    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;                                  
+##  1 22    GW     7     no        2018-03-22 23:06:11_2018-03-23 00:25:51
+##  2 22    GW     7     no        2018-03-22 23:06:11_2018-03-23 00:25:51
+##  3 22    GW     7     no        2018-03-22 23:06:11_2018-03-23 00:25:51
+##  4 23    GW     6     yes       2018-03-26 00:30:20_2018-03-26 02:15:52
+##  5 24    GW     4     yes       2018-03-21 11:09:38_2018-03-21 12:16:28
+##  6 25    GW     0     no        2018-03-25 13:03:58_2018-03-25 14:45:25
+##  7 25    GW     0     no        2018-03-25 13:03:58_2018-03-25 14:45:25
+##  8 26    GW     4     no        2018-03-24 06:46:30_2018-03-24 08:17:29
+##  9 26    GW     4     no        2018-03-24 06:46:30_2018-03-24 08:17:29
+## 10 27    GW     5     no        2018-03-21 03:23:57_2018-03-21 04:28:01
+## # ... with 44 more rows</code></pre>
+<p>Take a look at the two new columns. They are both parsed as characters, even though the fun column only contains numbers. We can ask R to convert the data types for the split column during in the separate function using <code>convert = TRUE</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> funRec,
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>),
+    <span class="dt">convert =</span> <span class="ot">TRUE</span>
+    )</code></pre></div>
+<pre><code>## # A tibble: 54 x 5
+##    ID    tester   fun recommend completion_time                        
+##    &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;                                  
+##  1 22    GW         7 no        2018-03-22 23:06:11_2018-03-23 00:25:51
+##  2 22    GW         7 no        2018-03-22 23:06:11_2018-03-23 00:25:51
+##  3 22    GW         7 no        2018-03-22 23:06:11_2018-03-23 00:25:51
+##  4 23    GW         6 yes       2018-03-26 00:30:20_2018-03-26 02:15:52
+##  5 24    GW         4 yes       2018-03-21 11:09:38_2018-03-21 12:16:28
+##  6 25    GW         0 no        2018-03-25 13:03:58_2018-03-25 14:45:25
+##  7 25    GW         0 no        2018-03-25 13:03:58_2018-03-25 14:45:25
+##  8 26    GW         4 no        2018-03-24 06:46:30_2018-03-24 08:17:29
+##  9 26    GW         4 no        2018-03-24 06:46:30_2018-03-24 08:17:29
+## 10 27    GW         5 no        2018-03-21 03:23:57_2018-03-21 04:28:01
+## # ... with 44 more rows</code></pre>
+<p>That looks much better!</p>
+<p><code>separate()</code> is smart enough to know how to separate values if they are split by special characters. Before, we had an underscore in the funRec column, so it split the data by that. If this fails, you can directly specify how the values are separated using the <code>sep</code> argument.</p>
+<p>We also wanted to split the completion_time column. It looks like the first value is the start time, and the second is the end time. So lets separate these together with the funRec column.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> funRec,
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>),
+    <span class="dt">convert =</span> <span class="ot">TRUE</span>
+    ) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> completion_time,
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start_time&quot;</span>, <span class="st">&quot;end_time&quot;</span>)
+    )</code></pre></div>
+<pre><code>## Warning: Expected 2 pieces. Additional pieces discarded in 54 rows [1, 2,
+## 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+<pre><code>## # A tibble: 54 x 6
+##    ID    tester   fun recommend start_time end_time
+##    &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
+##  1 22    GW         7 no        2018       03      
+##  2 22    GW         7 no        2018       03      
+##  3 22    GW         7 no        2018       03      
+##  4 23    GW         6 yes       2018       03      
+##  5 24    GW         4 yes       2018       03      
+##  6 25    GW         0 no        2018       03      
+##  7 25    GW         0 no        2018       03      
+##  8 26    GW         4 no        2018       03      
+##  9 26    GW         4 no        2018       03      
+## 10 27    GW         5 no        2018       03      
+## # ... with 44 more rows</code></pre>
+<p>Oops, it looks like separate struggled to split our completion_time column correctly. That’s because it wants to split at every dash, whitespace, colon, and underscore; pretty much the whole completion_time column! Let’s be more specific and tell <code>separate()</code> to just split the columns at the underscore.</p>
+<p>Let’s also overwrite our demo_wide data (assign the new data to the old data name) to use this new format in the next section.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span>demo_gathered %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> funRec,
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>),
+    <span class="dt">convert =</span> <span class="ot">TRUE</span>
+    ) %&gt;%
+<span class="st">  </span><span class="kw">separate</span>(
+    <span class="dt">col =</span> completion_time,
+    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start_time&quot;</span>, <span class="st">&quot;end_time&quot;</span>),
+    <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>
+    )</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># see the data</span>
+demo_gathered</code></pre></div>
+<pre><code>## # A tibble: 54 x 6
+##    ID    tester   fun recommend start_time          end_time           
+##    &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;               &lt;chr&gt;              
+##  1 22    GW         7 no        2018-03-22 23:06:11 2018-03-23 00:25:51
+##  2 22    GW         7 no        2018-03-22 23:06:11 2018-03-23 00:25:51
+##  3 22    GW         7 no        2018-03-22 23:06:11 2018-03-23 00:25:51
+##  4 23    GW         6 yes       2018-03-26 00:30:20 2018-03-26 02:15:52
+##  5 24    GW         4 yes       2018-03-21 11:09:38 2018-03-21 12:16:28
+##  6 25    GW         0 no        2018-03-25 13:03:58 2018-03-25 14:45:25
+##  7 25    GW         0 no        2018-03-25 13:03:58 2018-03-25 14:45:25
+##  8 26    GW         4 no        2018-03-24 06:46:30 2018-03-24 08:17:29
+##  9 26    GW         4 no        2018-03-24 06:46:30 2018-03-24 08:17:29
+## 10 27    GW         5 no        2018-03-21 03:23:57 2018-03-21 04:28:01
+## # ... with 44 more rows</code></pre>
+<p>That looks a lot better! Notice that we didn’t try to convert the start_time and end_time columns as this data type doesn’t play nicely with separte. We’ll look into how to convert between data types in Lesson 5.</p>
+<p><em>Note</em>: If every row doesn’t produce the same number of columns, you can control what happens here with the <code>extra</code> argument. We won’t cover this, but it’s useful to know if you get into problems with <code>separate()</code> because of this issue.</p>
+<p>Let’s compare our gathered data to the long formatted data we already loaded. It’s exactly the same, only we separated the two problematic columns – funRec and completion_time – and we have a different label for the programming languages known (prog_lang vs. computer_language).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(demo_gathered)
+<span class="kw">head</span>(demo_long)</code></pre></div>
+<pre><code>## # A tibble: 6 x 11
+##   ID    LANGUAGE progress gender   age tester   fun recommend start_time  
+##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;       
+## 1 22    OTHER    FINISH   female    30 GW         7 no        2018-03-22 ~
+## 2 22    OTHER    FINISH   female    30 GW         7 no        2018-03-22 ~
+## 3 22    OTHER    FINISH   female    30 GW         7 no        2018-03-22 ~
+## 4 23    &lt;NA&gt;     no       male      30 GW         6 yes       2018-03-26 ~
+## 5 24    ENGLISH  END      female    30 GW         4 yes       2018-03-21 ~
+## 6 25    &lt;NA&gt;     ethics   male      18 GW         0 no        2018-03-25 ~
+## # ... with 2 more variables: end_time &lt;chr&gt;, prog_lang &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 6 x 9
+##   ID    LANGUAGE progress gender   age tester funRec completion_time      
+##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;                
+## 1 22    OTHER    FINISH   female    30 GW     7-no   2018-03-22 23:06:11_~
+## 2 22    OTHER    FINISH   female    30 GW     7-no   2018-03-22 23:06:11_~
+## 3 22    OTHER    FINISH   female    30 GW     7-no   2018-03-22 23:06:11_~
+## 4 23    &lt;NA&gt;     no       male      30 GW     6-yes  2018-03-26 00:30:20_~
+## 5 24    ENGLISH  END      female    30 GW     4-yes  2018-03-21 11:09:38_~
+## 6 25    &lt;NA&gt;     ethics   male      18 GW     0-no   2018-03-25 13:03:58_~
+## # ... with 1 more variable: computer_language &lt;chr&gt;</code></pre>
+</div>
+<div id="spreading-data" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> Spreading Data</h3>
+<p>What if we want to go from long format to wide format? This can be useful if we want to do a paired-samples <em>t</em>-test, where we might want the first scores in one column, and the second scores in another. (We’ll cover <em>t</em>-tests in Lesson 6.)</p>
+<p>To make our long data wide, we use the <code>spread()</code> function from tidyr.</p>
+<p>To spread our data we need a <code>key</code>, the column containing the values we’d like to make column headers. We then also need a value, indicating the column containing the scores associated with the values. Often, this would be conditions in an experiment and test results. Our problem here is a little more complex. Remember that we dropped the redundant column telling us whether or not people knew a programming language? Well, we need this back so we have a <code>value</code> column to work from. We’ll <strong>mutate</strong> our data to create this column. To do this, we use the <code>mutate()</code> function from <strong>dplyr</strong>. (We’ll look at this process in detail in Lesson 5.) Here, we just set everything in our new known column to 1 as we know if a language is present in a participant’s row, then they know it!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">known =</span> <span class="dv">1</span>) %&gt;%
+<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> prog_lang, <span class="dt">value =</span> known)</code></pre></div>
+<pre><code>## # A tibble: 29 x 11
+##    ID      fun recommend start_time    end_time   `C++` FORTRAN JavaScript
+##    &lt;chr&gt; &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+##  1 22        7 no        2018-03-22 2~ 2018-03-2~  1.00    1.00       1.00
+##  2 23        6 yes       2018-03-26 0~ 2018-03-2~  1.00   NA         NA   
+##  3 24        4 yes       2018-03-21 1~ 2018-03-2~ NA       1.00      NA   
+##  4 25        0 no        2018-03-25 1~ 2018-03-2~  1.00    1.00      NA   
+##  5 26        4 no        2018-03-24 0~ 2018-03-2~ NA      NA         NA   
+##  6 27        5 no        2018-03-21 0~ 2018-03-2~ NA       1.00       1.00
+##  7 28        0 no        2018-03-25 2~ 2018-03-2~ NA      NA         NA   
+##  8 29        6 no        2018-03-24 1~ 2018-03-2~ NA      NA          1.00
+##  9 30        1 yes       2018-03-22 0~ 2018-03-2~ NA       1.00      NA   
+## 10 A2        4 yes       2018-03-23 0~ 2018-03-2~  1.00    1.00       1.00
+## # ... with 19 more rows, and 3 more variables: Python &lt;dbl&gt;, R &lt;dbl&gt;,
+## #   Ruby &lt;dbl&gt;</code></pre>
+<p>Great, that looks exactly the same as our demo_wide data, only with our nicely split columns.</p>
+<p><em>Note</em>: If you have your values spread across several columns, spread will spread by every unique value, so be sure to collapse your values into one column before you do this. You can do this using the <code>unite()</code> function, or pasting values together with <code>mutate()</code>, but we’ll cover this more in Lesson 5.</p>
+</div>
+</div>
+<div id="joins" class="section level2">
+<h2><span class="header-section-number">4.4</span> Joins</h2>
+<p>Finally, we’ll look at combining data together from separate tables. This is a common problem when we store demographic information in one data set, and test scores in another. Let’s say we’re interested in differences in performance by age. To do this, we somehow need to join together the demographic information of age with the correct participant ID in the test data.</p>
+<p>Let’s load some raw data for the lexical decision times to see how we might join data together from separate data sets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>)</code></pre></div>
+<p>To make these examples easier to digest, we’ll simply look at a single trial for an individual participant. Again, to do this we’ll use some subsetting techniques that we’ll go into in more detail in Lesson 5.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># keep only trials (rows) where the word is ant</span>
+lexdec_subset &lt;-<span class="st"> </span>lexdec_data %&gt;%<span class="st"> </span><span class="kw">filter</span>(word ==<span class="st"> &quot;ant&quot;</span>)</code></pre></div>
+<p>How does the data look? We have 26 recorded entries. For two participants, they have missing values (NA) for these trials, indicating that they didn’t complete this trial, or the trial wasn’t recorded.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_subset</code></pre></div>
+<pre><code>## # A tibble: 25 x 9
+##    subject trial native_language word  class  frequency length correct
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;  
+##  1 A1        157 English         ant   animal      5.35      3 correct
+##  2 A3         41 Other           ant   animal      5.35      3 correct
+##  3 C          86 English         ant   animal      5.35      3 correct
+##  4 D         138 Other           ant   animal      5.35      3 correct
+##  5 I         105 Other           ant   animal      5.35      3 correct
+##  6 J          43 Other           ant   animal      5.35      3 correct
+##  7 K         183 English         ant   animal      5.35      3 correct
+##  8 M1        171 English         ant   animal      5.35      3 correct
+##  9 M2        117 Other           ant   animal      5.35      3 correct
+## 10 P         115 Other           ant   animal      5.35      3 correct
+## # ... with 15 more rows, and 1 more variable: RT &lt;dbl&gt;</code></pre>
+<p>This data set contains all the information for our trials, including the data to identify each trial, and what the score was on our dependent variables (correct/incorrect response, reaction time). Here we have the data in a nice format where each column represents a variable, and each cell represents a value for that variable.</p>
+<p>Let’s look at our demographic data set.</p>
+<p>As you can tell, our our data is in a long format. Additionally, it looks like we don’t have any record of the language spoken by subject 23. On top of this, we have the cryptically named “no” entry in the progress column. I’m guessing this means that they decided to withdraw from the experiment. This means that we have more information on participants than we will have in the lexdec_subset dataset. The implications of this will become apparent as we try out different joining operations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered</code></pre></div>
+<pre><code>## # A tibble: 54 x 11
+##    ID    LANGUAGE progress gender   age tester   fun recommend start_time 
+##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;      
+##  1 22    OTHER    FINISH   female    30 GW         7 no        2018-03-22~
+##  2 22    OTHER    FINISH   female    30 GW         7 no        2018-03-22~
+##  3 22    OTHER    FINISH   female    30 GW         7 no        2018-03-22~
+##  4 23    &lt;NA&gt;     no       male      30 GW         6 yes       2018-03-26~
+##  5 24    ENGLISH  END      female    30 GW         4 yes       2018-03-21~
+##  6 25    &lt;NA&gt;     ethics   male      18 GW         0 no        2018-03-25~
+##  7 25    &lt;NA&gt;     ethics   male      18 GW         0 no        2018-03-25~
+##  8 26    english  ethics   male      31 GW         4 no        2018-03-24~
+##  9 26    english  ethics   male      31 GW         4 no        2018-03-24~
+## 10 27    ENGLISH  END      female    44 GW         5 no        2018-03-21~
+## # ... with 44 more rows, and 2 more variables: end_time &lt;chr&gt;,
+## #   prog_lang &lt;chr&gt;</code></pre>
+<div id="mutating-joins" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Mutating Joins</h3>
+<p>There are a number of joining operations we can do that will mutate (change the look of) our data:</p>
+<ul>
+<li><code>left_join(data_one, data_two)</code>: Keeps everything in data_one and adds everything present in both data_one and data_two</li>
+<li><code>right_join(data_one, data_two)</code>: Keeps everything in data_two and adds everything present in both data_two and data_one</li>
+<li><code>inner_join(data_one, data_two)</code>: Keeps everything present in both data sets.</li>
+<li><code>full_join(data_one, data_two)</code>: Keeps everything from both data sets. Adds NAs if information is present in only one data set.</li>
+</ul>
+<p>All of these joins take a <code>by</code> argument, which asks you which columns by which you want to combine the data. If we want to make sure we match up the data, we have to make sure our columns have the same headings across the two data sets.</p>
+<p>Take a look at the two data sets above, it looks like we identify subjects with <strong>subject</strong> in the lexdec_data data set, and by <strong>ID</strong> in the demo_gathered data set. We also have the identifier for the language spoken as <strong>native_language</strong> in the lexdec_data data set, and as <strong>LANGUAGE</strong> in the demo_gathered data set.</p>
+<p>We can use <code>rename</code> from <strong>dplr</strong> to rename our columns. Here we just supply the new name and the old name. The names in demo_gathered are messy, so we’ll change those to match the lexdec_data names.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span><span class="kw">rename</span>(demo_gathered, 
+                        <span class="dt">subject =</span> ID, 
+                        <span class="dt">native_language =</span> LANGUAGE
+                        )
+demo_gathered</code></pre></div>
+<pre><code>## # A tibble: 54 x 11
+##    subject native_language progress gender   age tester   fun recommend
+##    &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;    
+##  1 22      OTHER           FINISH   female    30 GW         7 no       
+##  2 22      OTHER           FINISH   female    30 GW         7 no       
+##  3 22      OTHER           FINISH   female    30 GW         7 no       
+##  4 23      &lt;NA&gt;            no       male      30 GW         6 yes      
+##  5 24      ENGLISH         END      female    30 GW         4 yes      
+##  6 25      &lt;NA&gt;            ethics   male      18 GW         0 no       
+##  7 25      &lt;NA&gt;            ethics   male      18 GW         0 no       
+##  8 26      english         ethics   male      31 GW         4 no       
+##  9 26      english         ethics   male      31 GW         4 no       
+## 10 27      ENGLISH         END      female    44 GW         5 no       
+## # ... with 44 more rows, and 3 more variables: start_time &lt;chr&gt;,
+## #   end_time &lt;chr&gt;, prog_lang &lt;chr&gt;</code></pre>
+<p><em>Note</em>: We could alternatively set <code>by</code> to <code>by = c(&quot;subject&quot; = &quot;ID&quot;, &quot;native_language&quot; = &quot;LANGUAGE&quot;)</code> to join by variables with different names across the data sets, but I find it’s good practice to be consistent with your naming.</p>
+<div id="full-join" class="section level4">
+<h4><span class="header-section-number">4.4.1.1</span> Full Join</h4>
+<p>Now we can join the data sets together. We’ll do a <code>full_join()</code> first, just to see what happens.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">full_join</span>(lexdec_subset, demo_gathered, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 55 x 18
+##    subject trial native_language word  class  frequency length correct
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;  
+##  1 A1        157 English         ant   animal      5.35      3 correct
+##  2 A3         41 Other           ant   animal      5.35      3 correct
+##  3 C          86 English         ant   animal      5.35      3 correct
+##  4 C          86 English         ant   animal      5.35      3 correct
+##  5 D         138 Other           ant   animal      5.35      3 correct
+##  6 D         138 Other           ant   animal      5.35      3 correct
+##  7 I         105 Other           ant   animal      5.35      3 correct
+##  8 J          43 Other           ant   animal      5.35      3 correct
+##  9 J          43 Other           ant   animal      5.35      3 correct
+## 10 J          43 Other           ant   animal      5.35      3 correct
+## # ... with 45 more rows, and 10 more variables: RT &lt;dbl&gt;, progress &lt;chr&gt;,
+## #   gender &lt;chr&gt;, age &lt;int&gt;, tester &lt;chr&gt;, fun &lt;int&gt;, recommend &lt;chr&gt;,
+## #   start_time &lt;chr&gt;, end_time &lt;chr&gt;, prog_lang &lt;chr&gt;</code></pre>
+<p>We’ve successfully merged the two data sets, but we now have multiple rows for our responses because we kept the programming language column. This is problematic if we want to calculate any statistics directly on this data frame, as we’ll end up with what seems like multiple observations for a single trial.</p>
+<p>We have a couple of workarounds for this problem:</p>
+<ol style="list-style-type: decimal">
+<li>Merge with the demographic data in a wide format, in which case we’ll have multiple columns each representing a different programming language.</li>
+<li>Merge with the demographic data set in a long format, but exclude the prog_lang column and filter the leftover duplicate rows prior to merging.</li>
+</ol>
+<p>For now, we’ll stick with 1 as it required fewer steps. But first, we want to transform our nicely tidied demographic data set into a wide format. Just reuse the code from the spreading section to do this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_demo_wide &lt;-<span class="st"> </span>demo_gathered %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">known =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="co"># create a value column</span>
+<span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> prog_lang, <span class="dt">value =</span> known) <span class="co"># data to wide format</span>
+
+<span class="co"># see the output</span>
+tidy_demo_wide</code></pre></div>
+<pre><code>## # A tibble: 29 x 16
+##    subject native_language progress gender   age tester   fun recommend
+##    &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;    
+##  1 22      OTHER           FINISH   female    30 GW         7 no       
+##  2 23      &lt;NA&gt;            no       male      30 GW         6 yes      
+##  3 24      ENGLISH         END      female    30 GW         4 yes      
+##  4 25      &lt;NA&gt;            ethics   male      18 GW         0 no       
+##  5 26      english         ethics   male      31 GW         4 no       
+##  6 27      ENGLISH         END      female    44 GW         5 no       
+##  7 28      &lt;NA&gt;            ethics   male      23 GW         0 no       
+##  8 29      english         ethics   male      34 GW         6 no       
+##  9 30      &lt;NA&gt;            &lt;NA&gt;     female    32 GW         1 yes      
+## 10 A2      English         END      female    33 RHB        4 yes      
+## # ... with 19 more rows, and 8 more variables: start_time &lt;chr&gt;,
+## #   end_time &lt;chr&gt;, `C++` &lt;dbl&gt;, FORTRAN &lt;dbl&gt;, JavaScript &lt;dbl&gt;,
+## #   Python &lt;dbl&gt;, R &lt;dbl&gt;, Ruby &lt;dbl&gt;</code></pre>
+<p>Now, if we try the full join, we’ll merge together the two data sets so we have all of the information in one place! We want to match the data sets by the subject ID and the native language spoken by the participants, as these two columns appear in both data sets.</p>
+<p>As before, we have so much data that I’ll subset things so we can see the relevant information, but be sure to print the whole output in R yourself.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">full_join</span>(lexdec_subset, tidy_demo_wide, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 5 x 6
+##   subject trial native_language progress correct    RT
+##   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
+## 1 A1        157 English         &lt;NA&gt;     correct   876
+## 2 23         41 &lt;NA&gt;            no       correct   602
+## 3 24         43 ENGLISH         END      correct   541
+## 4 28         NA &lt;NA&gt;            ethics   &lt;NA&gt;       NA
+## 5 A2         NA English         END      &lt;NA&gt;       NA</code></pre>
+<p>As you can see, we now have 1 row for each subject.</p>
+<p>In cases where we don’t have data on a subject, we simply have NAs in those cells.</p>
+<ul>
+<li><p>Look at subject 23, you can see that we don’t have data on their native language, but we have their trial information. This means they are in both data sets, but they have missing data in both cases.</p></li>
+<li><p>Look at subject A2, they have missing data for their trial information, but we know their native language and progress. This means they are missing from the lexdec_subset data set, but they are present in the tidy_demo_wide data set.</p></li>
+<li><p>Look at subject 28, they have missing trial data, indicating they aren’t present in the lexdec_subset data set, and they are missing a native language, which indicates this data is also missing in the tidy_demo_wide data set.</p></li>
+</ul>
+</div>
+<div id="inner-join" class="section level4">
+<h4><span class="header-section-number">4.4.1.2</span> Inner Join</h4>
+<p>This keeps data only present in <strong>both</strong> data sets.</p>
+<p>We have lost participants A1 and A2 because A1 wasn’t present in the tidy_demo_wide data set, and A2 wasn’t present in the lexdec_subset data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">inner_join</span>(lexdec_subset, tidy_demo_wide, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 24 x 6
+##    subject trial native_language progress correct    RT
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
+##  1 A3         41 Other           END      correct   607
+##  2 C          86 English         END      correct   725
+##  3 D         138 Other           END      correct   628
+##  4 I         105 Other           END      correct   560
+##  5 J          43 Other           END      correct   516
+##  6 K         183 English         END      correct   442
+##  7 M1        171 English         END      correct   427
+##  8 M2        117 Other           END      correct   530
+##  9 P         115 Other           END      correct   533
+## 10 R1         30 English         END      correct   483
+## # ... with 14 more rows</code></pre>
+</div>
+<div id="left-join" class="section level4">
+<h4><span class="header-section-number">4.4.1.3</span> Left Join</h4>
+<p>Left joins only keep the data that is present in the left data set (lexdec_subset) and adds anything that matches up from the right data set (tidy_demo_wide).</p>
+<p>Here we have participant A1 because they are in the lexdec_subset, even if they are missing from the tidy_demo_wide data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(lexdec_subset, tidy_demo_wide, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 25 x 6
+##    subject trial native_language progress correct    RT
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
+##  1 A1        157 English         &lt;NA&gt;     correct   876
+##  2 A3         41 Other           END      correct   607
+##  3 C          86 English         END      correct   725
+##  4 D         138 Other           END      correct   628
+##  5 I         105 Other           END      correct   560
+##  6 J          43 Other           END      correct   516
+##  7 K         183 English         END      correct   442
+##  8 M1        171 English         END      correct   427
+##  9 M2        117 Other           END      correct   530
+## 10 P         115 Other           END      correct   533
+## # ... with 15 more rows</code></pre>
+</div>
+<div id="right-join" class="section level4">
+<h4><span class="header-section-number">4.4.1.4</span> Right Join</h4>
+<p>This works like the left join, only it keeps everything present in the right data set and anything matching from the left data set.</p>
+<p>Here, we do not have data on participant A1 because they are not present in the tidy_demo_wide data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">right_join</span>(lexdec_subset, tidy_demo_wide, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 29 x 6
+##    subject trial native_language progress correct    RT
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
+##  1 22        116 OTHER           FINISH   correct   467
+##  2 23         41 &lt;NA&gt;            no       correct   602
+##  3 24         43 ENGLISH         END      correct   541
+##  4 25         NA &lt;NA&gt;            ethics   &lt;NA&gt;       NA
+##  5 26         NA english         ethics   &lt;NA&gt;       NA
+##  6 27        114 ENGLISH         END      correct   586
+##  7 28         NA &lt;NA&gt;            ethics   &lt;NA&gt;       NA
+##  8 29         NA english         ethics   &lt;NA&gt;       NA
+##  9 30         77 &lt;NA&gt;            &lt;NA&gt;     correct   608
+## 10 A2         NA English         END      &lt;NA&gt;       NA
+## # ... with 19 more rows</code></pre>
+</div>
+</div>
+<div id="filtering-joins" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Filtering Joins</h3>
+<p>We can filter data by using joins. These next joins don’t merge columns, but instead allow us to just subset our data.</p>
+<div id="semi-join" class="section level4">
+<h4><span class="header-section-number">4.4.2.1</span> Semi Join</h4>
+<p>With a semi-join we keep all rows and columns from the left data set where we have matching values in the right data set. Crucially, we do not keep the columns from the right data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">semi_join</span>(lexdec_subset, tidy_demo_wide, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 24 x 9
+##    subject trial native_language word  class  frequency length correct
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;  
+##  1 A3         41 Other           ant   animal      5.35      3 correct
+##  2 C          86 English         ant   animal      5.35      3 correct
+##  3 D         138 Other           ant   animal      5.35      3 correct
+##  4 I         105 Other           ant   animal      5.35      3 correct
+##  5 J          43 Other           ant   animal      5.35      3 correct
+##  6 K         183 English         ant   animal      5.35      3 correct
+##  7 M1        171 English         ant   animal      5.35      3 correct
+##  8 M2        117 Other           ant   animal      5.35      3 correct
+##  9 P         115 Other           ant   animal      5.35      3 correct
+## 10 R1         30 English         ant   animal      5.35      3 correct
+## # ... with 14 more rows, and 1 more variable: RT &lt;dbl&gt;</code></pre>
+<p>Here we only kept data in the lexdec_subset for subjects that were present in both data sets. Notice how we do not have data for subjects A1 and A2.</p>
+<p>This works like an inner join, but does not duplicate rows.</p>
+<p>Notice that we get the same result with the long demographic data set as with the wide demographic data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">semi_join</span>(lexdec_subset, demo_gathered, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 24 x 9
+##    subject trial native_language word  class  frequency length correct
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;  
+##  1 A3         41 Other           ant   animal      5.35      3 correct
+##  2 C          86 English         ant   animal      5.35      3 correct
+##  3 D         138 Other           ant   animal      5.35      3 correct
+##  4 I         105 Other           ant   animal      5.35      3 correct
+##  5 J          43 Other           ant   animal      5.35      3 correct
+##  6 K         183 English         ant   animal      5.35      3 correct
+##  7 M1        171 English         ant   animal      5.35      3 correct
+##  8 M2        117 Other           ant   animal      5.35      3 correct
+##  9 P         115 Other           ant   animal      5.35      3 correct
+## 10 R1         30 English         ant   animal      5.35      3 correct
+## # ... with 14 more rows, and 1 more variable: RT &lt;dbl&gt;</code></pre>
+</div>
+<div id="anti-join" class="section level4">
+<h4><span class="header-section-number">4.4.2.2</span> Anti Join</h4>
+<p>An anti-join works like the inverse of a semi-join. Here, we get all the values from the left table that do not have a match in the right table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anti_join</span>(lexdec_subset, tidy_demo_wide, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;native_language&quot;</span>))</code></pre></div>
+<pre><code>## # A tibble: 1 x 9
+##   subject trial native_language word  class frequency length correct    RT
+##   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1 A1        157 English         ant   anim~      5.35      3 correct   876</code></pre>
+<p>In this case, we only get participant A1 from the lexdec_subset data set, as we do not have any demographic information on this subject in the tidy_demo_wide data set.</p>
+</div>
+</div>
+<div id="binding-joins" class="section level3">
+<h3><span class="header-section-number">4.4.3</span> Binding Joins</h3>
+<p>We can bind rows from separate data sets with the same number of columns using the <code>bind_rows()</code> command. This is useful if we have ran an experiment in two parts on differnet sets of subjects, and we simply want to put all of the responses in one data set.</p>
+<p>Alternatively, we can bind columns from separate data sets with the same number of rows using the <code>bind_cols()</code> command. This is useful if we have an experiment in two parts where we want to want to add some additional information about all of participants to one data set.</p>
+</div>
+</div>
+<div id="checking-for-unique-and-duplicate-information" class="section level2">
+<h2><span class="header-section-number">4.5</span> Checking for Unique and Duplicate Information</h2>
+<p>Finally, we can use a number of functions to check for unique information across two different data sets.</p>
+<ul>
+<li><code>intersect()</code> gives us all the rows in two tables that match exactly. This is useful if we have messy data stored in multiple tables and we’re not sure if we have duplicates. Note that every cell has to match exactly for this to work.</li>
+<li><code>union()</code> gives us all of the rows from two tables except any duplicates.</li>
+<li><code>setdiff()</code> gives us rows from our first data set that aren’t present in the second.</li>
+</ul>
+</div>
+<div id="exercises-3" class="section level2">
+<h2><span class="header-section-number">4.6</span> Exercises</h2>
+<div id="introduction-and-setup" class="section level3">
+<h3><span class="header-section-number">4.6.1</span> Introduction and Setup</h3>
+<p>For these exercises, we will look at the core concepts from this lesson. We’ll also get some hands-on experience with binding joins and checking for duplicates, two concepts that we’ve touched on but not went into much detail.</p>
+<p>For these exercises we’ll use some toy data sets; ex_demo_data, which has demographic information on 6 participants, and ex_test_data, which has IQ test scores for 6 participants. Crucially, the first data set has some missing values, and the second has the same participant tested twice.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the tidyverse</span>
+<span class="kw">library</span>(tidyverse)
+
+<span class="co"># demographic data</span>
+ex_demo_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="st"> </span><span class="dv">6</span>),
+  <span class="dt">height =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">170</span>, <span class="dv">160</span>, <span class="dv">165</span>, <span class="ot">NA</span>, <span class="dv">180</span>),
+  <span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">70</span>, <span class="dv">65</span>, <span class="dv">80</span>, <span class="ot">NA</span>, <span class="dv">77</span>, <span class="dv">90</span>),
+  <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">19</span>, <span class="ot">NA</span>, <span class="dv">22</span>, <span class="dv">28</span>)
+  )
+
+<span class="co"># IQ test scores</span>
+ex_test_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>),
+  <span class="dt">IQ =</span> <span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">160</span>, <span class="dv">155</span>, <span class="dv">155</span>, <span class="dv">190</span>, <span class="dv">120</span>, <span class="dv">140</span>)
+  )</code></pre></div>
+</div>
+<div id="long-and-wide-data" class="section level3">
+<h3><span class="header-section-number">4.6.2</span> Long and Wide Data</h3>
+<div id="question-1" class="section level4">
+<h4><span class="header-section-number">4.6.2.1</span> Question 1</h4>
+<p>Put the <code>ex_demo_data</code> into a long format with three columns: subject, measurement_id, and measurement. The measurement column should contain the scores for the height, weight, and age of the participants. The measurement_id column should contain text specifying which measurement belongs to which variable (height, weight, or age). Assign this to the variable <code>long_data</code> and return this table of data.</p>
+</div>
+<div id="question-2" class="section level4">
+<h4><span class="header-section-number">4.6.2.2</span> Question 2</h4>
+<p>Turn your newly created <code>long_data</code> back into a wide format.</p>
+</div>
+</div>
+<div id="uniting-and-separating-columns" class="section level3">
+<h3><span class="header-section-number">4.6.3</span> Uniting and Separating Columns</h3>
+<p>Here we have some messy data where we have two values for two variables in one column; <code>height_weight</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_demo_data &lt;-<span class="st"> </span><span class="kw">unite</span>(ex_demo_data, 
+                         <span class="st">&quot;height_weight&quot;</span>, 
+                         <span class="kw">c</span>(<span class="st">&quot;height&quot;</span>, <span class="st">&quot;weight&quot;</span>), 
+                         <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>
+                         )
+messy_demo_data</code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   subject height_weight   age
+##     &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt;
+## 1       1 NA_70          18.0
+## 2       2 170_65         19.0
+## 3       3 160_80         19.0
+## 4       4 165_NA         NA  
+## 5       5 NA_77          22.0
+## 6       6 180_90         28.0</code></pre>
+<div id="question-3" class="section level4">
+<h4><span class="header-section-number">4.6.3.1</span> Question 3</h4>
+<p>Separate the messy columns into two tidy columns for height and weight. Should you convert the values when separating the column? If so, why?</p>
+</div>
+</div>
+<div id="mutating-joins-1" class="section level3">
+<h3><span class="header-section-number">4.6.4</span> Mutating Joins</h3>
+<div id="question-4" class="section level4">
+<h4><span class="header-section-number">4.6.4.1</span> Question 4</h4>
+<p>Join the <code>ex_demo_data</code> and <code>ex_test_data</code> together by subject number, keeping only data with a match in <code>ex_test_data</code>.</p>
+</div>
+<div id="question-5" class="section level4">
+<h4><span class="header-section-number">4.6.4.2</span> Question 5</h4>
+<p>Join the <code>ex_demo_data</code> and <code>ex_test_data</code> together by subject number, keeping only data with a match in <code>ex_demo_data</code>.</p>
+</div>
+<div id="question-6" class="section level4">
+<h4><span class="header-section-number">4.6.4.3</span> Question 6</h4>
+<p>Why do we get different results in question 4 and question 5?</p>
+</div>
+</div>
+<div id="filtering-joins-1" class="section level3">
+<h3><span class="header-section-number">4.6.5</span> Filtering Joins</h3>
+<div id="question-7" class="section level4">
+<h4><span class="header-section-number">4.6.5.1</span> Question 7</h4>
+<p>Return all of the values from <code>ex_demo_data</code> that have a match in <code>ex_test_data</code>. Look at subject 4, why do we get a different result to that from question 5? Look at the columns returned, why does this differ from question 5?</p>
+</div>
+</div>
+<div id="binding-joins-1" class="section level3">
+<h3><span class="header-section-number">4.6.6</span> Binding Joins</h3>
+<p>Here we have some new data looking at the demographic scores for new subjects. We also have another rating for all of the participants from our study and we want to add this to the demographic data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">new_demographics &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> <span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">10</span>),
+  <span class="dt">height =</span> <span class="kw">c</span>(<span class="dv">170</span>, <span class="dv">190</span>),
+  <span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">76</span>, <span class="dv">85</span>),
+  <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">40</span>, <span class="dv">59</span>)
+  )
+
+eye_colour &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">eye_colour =</span> <span class="kw">sample</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;brown&quot;</span>, <span class="st">&quot;green&quot;</span>), 
+                      <span class="dt">size =</span> <span class="dv">8</span>, 
+                      <span class="dt">replace =</span> <span class="ot">TRUE</span>
+                      )
+  )</code></pre></div>
+<div id="question-8" class="section level4">
+<h4><span class="header-section-number">4.6.6.1</span> Question 8</h4>
+<p>Add the rows from <code>new_demographics</code> to <code>ex_demo_data</code>. Assign this to <code>all_demo_data</code> and return this table.</p>
+</div>
+<div id="question-9" class="section level4">
+<h4><span class="header-section-number">4.6.6.2</span> Question 9</h4>
+<p>Add the eye colour column to the <code>all_demo_data</code> table. Why did we not have a subject identifier in the <code>eye_colour</code> data set? Can you predict the result if we did have this information?</p>
+</div>
+</div>
+<div id="checking-for-duplicates" class="section level3">
+<h3><span class="header-section-number">4.6.7</span> Checking for Duplicates</h3>
+<p>We have some new test data below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">extra_test_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">10</span>),
+  <span class="dt">IQ =</span> <span class="kw">c</span>(<span class="dv">150</span>, <span class="dv">156</span>, <span class="dv">179</span>)
+  )</code></pre></div>
+<div id="question-10" class="section level4">
+<h4><span class="header-section-number">4.6.7.1</span> Question 10</h4>
+<p>Return rows with duplicates from the <code>ex_test_data</code> and <code>extra_test_data</code> data sets.</p>
+
+</div>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-tidyr">
+<p>Wickham, Hadley, and Lionel Henry. 2018. <em>Tidyr: Easily Tidy Data with ’Spread()’ and ’Gather()’ Functions</em>. <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a>.</p>
+</div>
+<div id="ref-R-tidyverse">
+<p>Wickham, Hadley. 2017. <em>Tidyverse: Easily Install and Load the ’Tidyverse’</em>. <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a>.</p>
+</div>
+<div id="ref-R-dplyr">
+<p>Wickham, Hadley, Romain Francois, Lionel Henry, and Kirill Müller. 2017. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-visualisation-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-manipulation-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

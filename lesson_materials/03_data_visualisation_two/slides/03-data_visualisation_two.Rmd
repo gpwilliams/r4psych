@@ -1,6 +1,6 @@
 ---
-title: "02 - Data Visualisation 2"
-subtitle: Basic plotting in ggplot2
+title: "03 - Data Visualisation 2"
+subtitle: Advanced plotting in ggplot2
 author: Glenn Williams
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: ioslides_presentation

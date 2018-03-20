@@ -1,4 +1,4 @@
-# Summarising Data
+# Data Manipulation 2
 
 How to calculate summaries from your data.
 

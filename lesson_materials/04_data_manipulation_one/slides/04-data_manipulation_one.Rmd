@@ -1,0 +1,533 @@
+---
+title: "04 - Data Manipulation 1"
+subtitle: data tidying, joins, and binds
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: ioslides_presentation
+---
+
+<style>
+pre {
+  width: 100%; /* 106%; */
+  left: 0; /* -60px; */
+  padding: 10px 15px 10px 15px; /* 10px 0 10px 60px; */
+  font-size: 18px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3) 
+```
+
+# Overview
+
+## Lesson Structure
+
+This lesson We'll look at:
+
+- Loading Data (why `read_csv()`?)
+- Converting between long and wide formats: `gather()` vs. `spread()`
+- Splitting columns with `separate`
+- Joins: mutating, filtering, and binding
+- Checking for duplicate entries across multiple tables
+
+## Getting Started
+
+First, we'll load the packages necessary for this class. 
+
+```{r 3_load_packages, message = FALSE}
+library(tidyverse)
+```
+
+- We'll use the **tidyr** package from the tidyverse to clean and transform our data. 
+- We'll also use the **dplyr** package from the tidyverse to join different sets of data together.
+
+## Data Formats
+
+I've saved the data in both **wide** and **long** formats. 
+
+- Wide: each row represents one participant, several observations go in separate columns
+- Long: each column represents one measurement, with several observations in separate rows
+
+## Loading Data
+
+```{r 4_load_demo_data, include = FALSE}
+demo_wide <- read_csv("../inputs/lexical_decision_demographic_data_wide.csv")
+demo_long <- read_csv("../inputs/lexical_decision_demographic_data_long.csv")
+```
+
+```{r 4_load_demo_data_class, eval = FALSE}
+demo_wide <- read_csv("inputs/lexical_decision_demographic_data_wide.csv")
+demo_long <- read_csv("inputs/lexical_decision_demographic_data_long.csv")
+```
+
+Use `read_csv()`: parses data as a `tibble` and guesses data types.
+
+## Wide Data
+
+```{r 4_wide_data}
+head(demo_wide)
+```
+
+- Lots of NA values; if someone doesn't know that language, they can't have a value.
+- NA is evidence of absence; avoid blank cells (absence of evidence).
+
+## Long Data
+
+I've cut out a few columns here just so you see the `computer_language` column. But in an R notebook you can just scroll along.
+
+```{r 4_long_data_class, eval = FALSE}
+demo_long
+```
+
+```{r 4_long_data, echo = FALSE}
+demo_long[, c(1: 5, 9)]
+```
+
+## Converting from Wide to Long Data with `gather()`
+
+We use the `gather()` function to put multiple columns together in one. This requires:
+
+- Key: name to call the ID column
+- Value: name to store values related to the IDs
+- IDs for columns to group (by number or name)
+
+## Converting from Wide to Long Data with `gather()`
+
+```{r 4_gather_demo_data_class, eval = FALSE}
+gather(data = demo_wide,
+       key = prog_lang,
+       value = known,
+       2:7
+       )
+```
+
+```{r 4_gather_demo_data, echo = FALSE}
+gather(data = demo_wide,
+       key = prog_lang,
+       value = known,
+       2:7
+       ) %>%
+  select(c(1:6, 9:10))
+```
+
+## The Pipe
+
+We can add other functions, like ordering in a readable way with the `magrittr` pipe.
+
+```{r 4_gather_demo_data_pipe_class, eval = FALSE}
+demo_wide %>% 
+  gather(
+    key = prog_lang,
+    value = known,
+    2:7
+    )
+```
+
+```{r 4_gather_demo_data_pipe, echo = FALSE}
+demo_wide %>% 
+  gather(
+    key = prog_lang,
+    value = known,
+    2:7
+    ) %>%
+  select(c(1:6, 9:10))
+```
+
+## The Pipe: Adding Functions
+
+```{r 4_gather_arrange_demo_data_pipe_class, eval = FALSE}
+demo_wide %>% 
+  gather(
+    key = prog_lang,
+    value = known,
+    2:7
+    ) %>%
+  arrange(ID)
+```
+
+```{r 4_gather_arrange_demo_data_pipe, echo = FALSE}
+demo_wide %>% 
+  gather(
+    key = prog_lang,
+    value = known,
+    2:7
+    ) %>%
+  arrange(ID) %>%
+  select(c(1:6, 9:10))
+```
+
+## Removing NAs from Gathered Data
+
+```{r 4_gather_arrange_select_demo_data_pipe_class}
+demo_gathered <- demo_wide %>% 
+  gather(
+    key = prog_lang,
+    value = known,
+    2:7,
+    na.rm = TRUE
+    ) %>%
+  arrange(ID) %>%
+  select(-known)
+```
+
+- `na.rm = TRUE`: removes NA values (read: remove NAs? True (yes))
+- `select(-known)`: removes the known column (redundant) (read: pick everything out except known)
+
+## Removing NAs from Gathered Data
+
+```{r 4_gather_arrange_select_demo_data_pipe_class_see_class, eval = FALSE}
+demo_gathered
+```
+
+```{r 4_gather_arrange_select_demo_data_pipe_class_see, echo = FALSE}
+demo_gathered %>% select(c(1:6, 9))
+```
+
+## Separating Columns
+
+We have messy data; two variables in one column. How to fix this? `separate()`:
+- col = column to split (with bare column name)
+- into = into which columns? (needs to be `c("name_one", "name_two")`)
+
+## Separating Columns
+
+```{r 4_separate_funrec_column_class, eval = FALSE}
+demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend")
+    )
+```
+
+```{r 4_separate_funrec_column, echo = FALSE}
+demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend")
+    ) %>% 
+  select(c(1, 6:9))
+```
+
+## Separating Columns: Converting Data Types While we Go!
+
+- `convert = TRUE`!
+
+```{r 4_separate_funrec_column_convert_class, eval = FALSE}
+demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend"),
+    convert = TRUE
+    )
+```
+
+```{r 4_separate_funrec_column_convert, echo = FALSE}
+demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend"),
+    convert = TRUE
+    ) %>% 
+  select(c(1, 6:9))
+```
+
+## Piping Multiple Arguments
+
+```{r 4_separate_funrec_datetime_column_broken_class, eval = FALSE}
+demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend"),
+    convert = TRUE
+    ) %>%
+  separate(
+    col = completion_time,
+    into = c("start_time", "end_time")
+    )
+```
+
+## Piping Multiple Arguments
+
+```{r 4_separate_funrec_datetime_column_broken, echo = FALSE}
+demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend"),
+    convert = TRUE
+    ) %>%
+  separate(
+    col = completion_time,
+    into = c("start_time", "end_time")
+    ) %>% 
+  select(c(1, 6:10))
+```
+
+## Splitting Problematic Columns: Specify Separations
+
+- `sep = "_"`: separate colum values at underscores
+
+```{r 4_separate_funrec_datetime_column_fixed}
+demo_gathered <- demo_gathered %>%
+  separate(
+    col = funRec,
+    into = c("fun", "recommend"),
+    convert = TRUE
+    ) %>%
+  separate(
+    col = completion_time,
+    into = c("start_time", "end_time"),
+    sep = "_"
+    )
+```
+
+## Splitting Problematic Columns: Specify Separations
+
+```{r 4_separate_funrec_datetime_column_fixed_see_class, eval = FALSE}
+# see the data
+demo_gathered
+```
+
+```{r 4_separate_funrec_datetime_column_fixed_see, echo = FALSE}
+# see the data
+demo_gathered %>% select(c(1, 6:10))
+```
+
+### Converting from Long to Wide Formats with `spread()`
+
+- Useful for paired samples *t*-tests
+- Need a key (ID col) and value (scores col)
+- If you don't have a value column, create it with `mutate()`!
+
+```{r 4_spread_data_class, eval = FALSE}
+demo_gathered %>% 
+  mutate(known = 1) %>%
+  spread(key = prog_lang, value = known)
+```
+
+```{r 4_spread_data, echo = FALSE}
+demo_gathered %>% 
+  mutate(known = 1) %>%
+  spread(key = prog_lang, value = known) %>%
+  select(c(1, 7 : 16))
+```
+
+# Joins
+## Joins
+
+How do we merge two data sets together? We use joins! We have 3 types:
+
+- mutating: creates new columns (e.g. combining demographic data with test data)
+- filtering: cuts out observations (e.g. keeping test data for which you have demographic data)
+- binding: adding rows or columns (e.g. adding new test scores to existing data)
+
+## Joins: Load Data
+
+```{r 4_load_raw_data, include = FALSE}
+lexdec_data <- read_csv("../inputs/lexical_decision_raw_data.csv")
+```
+
+```{r 4_load_raw_data_class, eval = FALSE}
+lexdec_data <- read_csv("inputs/lexical_decision_raw_data.csv")
+```
+
+Subset to only 1 observation for ease of handling (in real life, you wouldn't do this). But we'll cover subsetting in lesson 5.
+
+```{r}
+# keep only trials (rows) where the word is ant
+lexdec_subset <- lexdec_data %>% filter(word == "ant")
+```
+
+```{r 4_peek_raw_data}
+lexdec_subset
+```
+
+## Joins: Prepare Data
+
+- can join with mismatched names, but best to keep the same column headings for the same variables across data sets. 
+- if not, we can use the `rename()` function to change names. 
+- in `rename()` assign the new name your old column name.
+
+## Joins: Prepare Data
+
+```{r 4_rename_demo_gathered}
+demo_gathered <- rename(demo_gathered, 
+                        subject = ID, 
+                        native_language = LANGUAGE
+                        )
+demo_gathered
+```
+
+# Mutating Joins
+## Full Join
+
+- keeps all data from both data sets. What happens if we try it with our data?
+
+```{r 4_full_join_data_long}
+full_join(lexdec_subset, 
+          demo_gathered, 
+          by = c("subject", "native_language")
+          )
+```
+
+- multiple rows due to multiple observations
+
+## Full Join
+
+We can fix this by merging by wide data, or by filtering redundant rows after merging.  
+- we'll just use wide data as it's easier.
+
+```{r 4_make_tidy_wide_demo_data}
+tidy_demo_wide <- demo_gathered %>% 
+  mutate(known = 1) %>% # create a value column
+  spread(key = prog_lang, value = known) # data to wide format
+```
+
+## Full Join
+
+```{r 4_make_tidy_wide_demo_data_output}
+# see the output
+tidy_demo_wide
+```
+
+
+## Full Join
+
+```{r 4_full_join_class, eval = FALSE}
+full_join(lexdec_subset, 
+          tidy_demo_wide, 
+          by = c("subject", "native_language")
+          )
+```
+
+```{r 4_full_join, echo = FALSE}
+full_join(lexdec_subset, tidy_demo_wide, by = c("subject", "native_language")) %>% 
+  select(subject, trial, native_language, progress, correct, RT) %>%
+  filter(subject %in% c("23", "24", "A1", "A2", "28"))
+```
+
+*Note*: I kept only these 5 subjects to show the important cases.
+
+## Full Join
+
+- 1 row for each participant
+- In cases where we don't have data on a subject, we get NAs 
+
+Look at: 
+
+- subject 23, missing native language and trial info: in both data sets, but with missing values
+- subject A2, missing trial information. Missing from the lexdec_subset data set, but not the tidy_demo_wide data set
+
+If you're missing from both, you can't be merged!
+
+## Inner Join
+
+- keeps data only present in **both** data sets
+
+- lost participants A1 and A2; A1 wasn't present in the tidy_demo_wide data set, A2 wasn't present in the lexdec_subset data set
+
+```{r 4_inner_join_class, eval = FALSE}
+inner_join(lexdec_subset, 
+           tidy_demo_wide, 
+           by = c("subject", "native_language")
+           )
+```
+
+```{r 4_inner_join, echo = FALSE}
+inner_join(lexdec_subset, tidy_demo_wide, by = c("subject", "native_language")) %>% 
+  select(subject, trial, native_language, progress, correct, RT)
+```
+
+## Left Join
+
+- only keep the data that is present in the left data set (lexdec_subset) and adds anything that matches up from the right data set (tidy_demo_wide). 
+
+- Here we have participant A1 because they are in the lexdec_subset, even if they are missing from the tidy_demo_wide data set.
+
+```{r 4_left_join_class, eval = FALSE}
+left_join(lexdec_subset, 
+          tidy_demo_wide, 
+          by = c("subject", "native_language")
+          )
+```
+
+```{r 4_left_join, echo = FALSE}
+left_join(lexdec_subset, tidy_demo_wide, by = c("subject", "native_language")) %>% 
+  select(subject, trial, native_language, progress, correct, RT)
+```
+
+## Right Join
+
+- like the left join, only it keeps everything present in the right data set and anything matching from the left data set
+
+- do not have data on participant A1 because they are not present in the tidy_demo_wide data set
+
+```{r 4_right_join_class, eval = FALSE}
+right_join(lexdec_subset, 
+           tidy_demo_wide, 
+           by = c("subject", "native_language")
+           )
+```
+
+```{r 4_right_join, echo = FALSE}
+right_join(lexdec_subset, tidy_demo_wide, by = c("subject", "native_language")) %>% 
+  select(subject, trial, native_language, progress, correct, RT)
+```
+
+# Filtering Joins
+## Filtering Joins
+
+We can filter data by using joins. 
+
+These next joins don't merge columns, but instead allow us to just subset our data.
+
+## Semi Join
+
+- keep all rows and columns from the left data set where we have matching values in the right data set
+- We do not keep the columns from the right data set
+- like an `inner_join()` but does not duplicate rows (wide/long data, doesn't matter!)
+- only kept data in the lexdec_subset for subjects that were present in both data sets, i.e. not subjects A1 and A2. 
+
+## Semi Join
+
+```{r 4_semi-join_wide}
+semi_join(lexdec_subset, 
+          tidy_demo_wide, 
+          by = c("subject", "native_language")
+          )
+```
+
+## Anti Join
+
+- the inverse of a semi-join; get all the values from the left table that do not have a match in the right table
+- only get participant A1 from the lexdec_subset data set, as we do not have any demographic information on this subject
+
+## Anti Join
+
+```{r 4_anti-join}
+anti_join(lexdec_subset, 
+          tidy_demo_wide, 
+          by = c("subject", "native_language")
+          )
+```
+
+# Binding Joins
+## Binding Joins
+
+- bind rows from separate data sets with the same number of columns using the `bind_rows()`; useful for experiments ran in two parts (same columns, new rows)
+- bind columns from separate data sets with the same number of rows using the `bind_cols()`; useful for adding new data to an existing data set where you have the same number of rows
+
+Not covered here -- try it in the Exercise section.
+
+## Checking for Unique and Duplicate Information
+
+We can use a number of functions to check for unique information across two different data sets.
+
+- `intersect()` gives us all the rows in two tables that match exactly; useful for catching duplicates across data sets. 
+- `union()` gives us all of the rows from two tables except any duplicates; useful for filtering out duplicates
+- `setdiff()` gives us rows from our first data set that aren't present in the second; useful for finding discrepancies
+
+Again, we can get some experience with this in the Exercises section.
+
+# Exercises
