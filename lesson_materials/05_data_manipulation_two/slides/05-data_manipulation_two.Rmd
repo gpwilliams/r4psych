@@ -1,0 +1,544 @@
+---
+title: "05 - Data Manipulation 2"
+subtitle: data transformation and summaries
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: ioslides_presentation
+---
+
+<style>
+pre {
+  width: 100%; /* 106%; */
+  left: 0; /* -60px; */
+  padding: 10px 15px 10px 15px; /* 10px 0 10px 60px; */
+  font-size: 18px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3) 
+```
+
+# Overview
+
+## Lesson Structure
+
+This lesson We'll look at these functions, that work with `group_by()`:
+
+- `arrange()`: order variables
+- `select()`: pick out variables
+- `filter()`: pick out observations
+- `mutate()`: create new variables
+- `summarise()`: create a summary of variables (e.g. mean, *SD*, n)
+
+We'll also cover `rename()` for renaming variables.
+
+## Getting Started
+
+First, we'll load the packages necessary for this class. If you don't have lubridate, install it with `install.packages("lubridate")`.
+
+```{r 3_load_packages, message = FALSE}
+library(tidyverse)
+library(lubridate)
+```
+
+Then load your data (already done in your class file).
+
+```{r 5_load_demo_data, include = FALSE}
+demo <- read_csv("../inputs/lexical_decision_demographic_data_wide.csv")
+```
+
+```{r 5_load_demo_data_class, eval = FALSE}
+demo <- read_csv("inputs/lexical_decision_demographic_data_wide.csv")
+```
+
+## Understanding our Data
+
+`glimpse()` trasposes data (with data type): see the first few observations of every column
+
+```{r 5_glimpse_demo_data}
+glimpse(demo)
+```
+
+## Preparing our Data
+
+Let's separate **funRec** and **completion_time** using the `separate()` function from **tidyr**. This sort of tidying is common (see previous lesson).
+
+```{r 5_glimpse_demo_data_separated_code, eval = FALSE}
+demo <- demo %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_")
+glimpse(demo)
+```
+
+## Preparing our Data
+
+```{r 5_glimpse_demo_data_separated, echo = FALSE}
+demo <- demo %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_")
+glimpse(demo)
+```
+
+## Selecting Columns
+
+Can select by name or number.
+
+```{r 5_drop_programming_columns_name_code, eval = FALSE}
+# by name
+demo %>% select(ID, 
+                LANGUAGE, 
+                progress, 
+                gender, 
+                age, 
+                tester, 
+                fun,
+                recommend,
+                start,
+                end
+                )
+
+# by number
+demo %>% select(c(1, 8:16))
+```
+
+## Selecting Columns
+
+Can select by name or number.
+
+```{r 5_drop_programming_columns_name, echo = FALSE}
+# by name
+demo %>% select(ID, 
+                LANGUAGE, 
+                progress, 
+                gender, 
+                age, 
+                tester, 
+                fun,
+                recommend,
+                start,
+                end
+                )
+
+# by number
+demo %>% select(c(1, 8:16))
+```
+
+## Selecting Columns
+
+Can also specify columns to drop (numbers 2 through to 7) with a minus
+
+```{r 5_drop_programming_columns_number}
+demo_sub <- demo %>% select(-c(2:7))
+demo_sub
+```
+
+## Selecting Columns
+
+We have many select helpers, but we won't cover this here. Try to mess around with these helpers in your own time:
+
+- `starts_with("string")`: keeps columns starting with "string"
+- `ends_with("string")`: keeps columns ending with "string"
+- `contains("string")`: keeps columns with names containing "string"
+- `matches(regular_expression)`: keeps columns matching a **regular expression**
+- `num_range("prefix", range)`: keeps columns with a matching prefix and a following range of numbers
+
+## Renaming Columns
+
+Takes the form, `rename(new name = old name)`
+
+```{r 5_rename_columns}
+demo_sub <- demo_sub %>% rename(language = LANGUAGE)
+demo_sub
+```
+
+## Reordering Columns
+
+Use `select()` to reorder columns by specifying columns to keep in order. `everything()` helps if you want to keep the same original order after things you've specified.
+
+```{r 5_select_columns_and_everything}
+demo_sub %>% select(ID, age, gender, everything())
+```
+
+## Creating and Changing Columns
+
+- `mutate()` allows you to create a new column
+- You can do this from manipulations to old columns (or not)
+- Set a column to a mutated version of itself to change a column, e.g.:
+- Can refer to just-created columns to make new columns 
+
+```{r 5_mutate_columns_completion_time_code, eval = FALSE}
+# requires lubridate for ymd_hms() function
+demo_sub <- demo_sub %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start
+         )
+glimpse(demo_sub)
+```
+
+## Creating and Changing Columns
+
+```{r 5_mutate_columns_completion_time, echo = FALSE}
+# requires lubridate for ymd_hms() function
+demo_sub <- demo_sub %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start
+         )
+glimpse(demo_sub)
+```
+
+## Creating and Only Keeping New Columns
+
+`transmute()` is like `mutate()` but only keeps the new cols.
+
+```{r 5_transmute_columns_code_class, eval = FALSE}
+# calculate difference from mean completion time
+transmuted_time <- demo_sub %>%
+  mutate(
+    start = ymd_hms(start),
+    end = ymd_hms(end),
+    time = end - start
+  ) %>%
+  transmute(
+    ID,
+    time_diff = time - mean(time)
+  )
+
+units(transmuted_time$time_diff) <- "mins" # define units
+transmuted_time # print the object
+```
+
+## Creating and Only Keeping New Columns
+
+`transmute()` is like `mutate()` but only keeps the new cols.
+
+```{r 5_transmute_columns_code, include = FALSE}
+# calculate difference from mean completion time
+transmuted_time <- demo_sub %>%
+  mutate(
+    start = ymd_hms(start),
+    end = ymd_hms(end),
+    time = end - start
+  ) %>%
+  transmute(
+    ID,
+    time_diff = time - mean(time)
+  )
+
+units(transmuted_time$time_diff) <- "mins" # define units
+transmuted_time # print the object
+```
+
+```{r 5_transmute_columns}
+transmuted_time # print the object
+```
+
+## Filtering to Observations
+
+How many labels do we have for progress?
+
+```{r 5_unique_labels}
+unique(demo_sub$progress)
+```
+
+- We have a few labels: FINISH, no, END, ethics, and NA.
+- Filter: **FINISH** and **END**
+
+## Filtering with Logical Operations
+
+These two are equivalent. 
+
+1. filters where progress values ares equal to (`==`) "FINISH" *or* (`|`) END
+
+Use the second when you have many OR statements.
+
+```{r 5_filter_not_completion_one}
+demo_sub %>% filter(progress == "FINISH" | progress == "END")
+```
+
+## Filtering with Logical Operations
+
+These two are equivalent. 
+
+2. filters where FINISH or END values are in (`%in%`) progress column
+
+Use the second when you have many OR statements.
+
+```{r 5_filter_not_completion_two}
+demo_sub %>% filter(progress %in% c("FINISH", "END"))
+```
+
+## Combining Filtering Criteria
+
+Add filters by other columns with a comma. You can use different operators to filter.
+
+```{r 5_filter_not_completion_many}
+demo_sub %>% filter(progress %in% c("FINISH", "END"),
+                    tester == "RHB",
+                    age > 30
+                    )
+```
+
+## Removing by Ceriteria
+
+Which columns should we **not** keep? Use `!` (read: not) before criteria. 
+- This only gives you people who didn't finish.
+
+```{r 5_not_filtering}
+demo_sub %>% filter(!progress %in% c("FINISH", "END"))
+```
+
+## Handling NAs
+
+This won't run...
+
+```{r 5_incorrect_NA_filtering, eval = FALSE}
+demo_sub %>% filter(language == NA)
+```
+
+Instead, use `is.na()`, to check whether these values are NAs.
+
+```{r 5_correct_NA_filtering}
+demo_sub %>% filter(is.na(language))
+```
+
+## Handling NAs
+
+Default filtering = exclude things that don't meet criteria, and NAs.
+
+Here we will filter those who finished the experiment, or who we're unsure about. 
+
+```{r 5_correct_NA_filtering_with_others}
+demo_sub %>% filter(progress == "FINISH" | progress == "END" | is.na(progress))
+```
+
+## Handling NAs
+
+Or we could do the opposite, dropping these observations.
+
+```{r 5_correct_NA_filtering_with_others_opposite}
+demo_sub %>% filter(!progress %in% c("FINISH", "END") & !is.na(progress))
+```
+
+## Arranging Data
+
+`arrange()` by any number of variables. Goes from smallest to largest values.
+
+```{r 5_arrange_simple}
+demo_sub %>% arrange(ID)
+```
+
+## Arranging Data
+
+Arrange by tester, then by start time within tester.
+
+```{r 5_arrange_start_tester}
+demo_sub %>% arrange(tester, start)
+```
+
+## Arranging Data
+
+Largest to smallest, using the `desc()` function (read: descending):
+
+```{r 5_arrange_desc}
+demo_sub %>% arrange(desc(ID))
+```
+
+
+## Summarising Data
+
+- `summarise()` collapses across all observations and creates a table.
+- You only get columns you request; here we make the column mean_time by calculating `mean()` on time
+
+```{r 5_summarise_time}
+demo_sub %>% summarise(mean_time = mean(time))
+```
+
+## Summarising Data
+
+We can add more columns by separating them with a comma:
+
+```{r 5_summarise_time_sd_N}
+demo_sub %>% 
+  summarise(mean_time = mean(time),
+           sd_time = sd(time),
+           N = n()
+           )
+```
+
+## Summarising Data
+
+`summarise()` doesn't play well with NAs.
+
+```{r 5_summarise_time_sd_N_with_NA}
+demo_sub %>% 
+  mutate(time = replace(time, 1, NA)) %>%
+  summarise(mean_time = mean(time),
+           sd_time = sd(time),
+           N = n()
+           )
+```
+
+## Summarising Data
+
+`summarise()` doesn't play well with NAs. So we have to tell it to ignore them.
+
+```{r 5_summarise_time_sd_N_with_NA_removed}
+demo_sub %>% 
+  mutate(time = replace(time, 1, NA)) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+## Grouping Data
+
+- `group_by` allows you to perform the previous operations on groups of data.
+- Most often used with `summarise()` for group summaries
+
+```{r 5_summarise_time_sd_N_no_NA}
+demo_sub %>% 
+  group_by(language) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+## Grouping Data
+
+Identifies unique observations in your grouped column, so be sure you pass the right information along!
+
+```{r 5_to_lower_summarise}
+demo_sub %>% 
+  mutate(language = tolower(language)) %>%
+  group_by(language) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+## Grouping Data
+
+- Works with other functions, like `filter()`
+- Here, we remove the lowest time (rank = 1) from each group
+
+```{r 5_to_lower_group_filter}
+demo_sub %>% 
+  mutate(language = tolower(language)) %>%
+  group_by(language) %>%
+  filter(rank(time) == 1) %>%
+  glimpse()
+```
+
+## Ungrouping Data
+
+Use `ungroup()` if you want to go back to ungrouped data.
+
+```{r 5_ungroup_summary}
+demo_sub %>% 
+  mutate(language = tolower(language)) %>%
+  group_by(language) %>%
+  filter(rank(time) != 1) %>%
+  ungroup() %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+            sd_time = sd(time, na.rm = TRUE),
+            N = n()
+            )
+```
+
+## Chaining Many Functions
+
+We can do all our data cleaning in 1 chain (or by several pipes)
+
+```{r 5_all_together_class, eval = FALSE}
+# load, clean, and transform data
+demo_clean <- read_csv("inputs/lexical_decision_demographic_data_wide.csv") %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_") %>%
+  select(c(1, 8:16)) %>%
+  rename(language = LANGUAGE) %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start,
+         language = tolower(language)
+         )
+```
+
+```{r 5_all_together, include = FALSE}
+# load, clean, and transform data
+demo_clean <- read_csv("../inputs/lexical_decision_demographic_data_wide.csv") %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_") %>%
+  select(c(1, 8:16)) %>%
+  rename(language = LANGUAGE) %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start,
+         language = tolower(language)
+         )
+```
+
+## Chaining Many Functions
+
+Pass this along to any summary code
+
+```{r 5_clean_summary}
+demo_clean %>%
+  group_by(language) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+## Chaining Many Functions
+
+Pass this along to any plotting code
+
+```{r 5_clean_plot, message = FALSE}
+demo_clean %>%
+  ggplot(mapping = aes(x = language, y = time)) + 
+  geom_boxplot()
+```
+
+## Saving your Data
+
+### CSVs
+
+Save as a .csv for platform-agnostic data
+
+```{r 5_save_demo_data_csv_class, eval = FALSE}
+write_csv(demo_clean, "outputs/filtered_demographic_data.csv")
+```
+
+### RData Files
+
+Keeps data types, less storage space, allows advanced data layouts (e.g. nested, model outputs)
+
+```{r 5_save_demo_data_Rdata_class, eval = FALSE}
+save(demo_clean, file = "outputs/filtered_demographic_data.RData")
+```
+
+Load it back up in another session with 
+
+```{r 5_load_demo_data_Rdata_class, eval = FALSE}
+load("outputs/filtered_demographic_data.RData")
+```
+
+## A Final Note
+
+There are many variants of the functions we've used. Use `?function name` (e.g. `?mutate()`) to find out more about them. Often, you can save typing if you want to mutate several columns using some variant of `mutate()`.
+
+Examples:
+
+- `summarise_if()`, `mutate_if()`, `transmute_if()`: operations on columns where if statement returns TRUE (e.g. `if(is.numeric())`)
+- `summarise_at()`, `mutate_at()`, `transmute_at()`: use `select()` helpers to grab column names
+- `summarise_all()`, `mutate_all()`, `transmute_all()`: apply functions to all non-grouped columns
+
+# Exercises

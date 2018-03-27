@@ -1,5 +1,610 @@
 # Data Manipulation 2
 
-How to calculate summaries from your data.
+In this section, we'll look at getting our data in the correct format for reporting your analyses. We'll cover topics such as renaming and reordering variables, creating new variables, and creating summaries of your data. To do this, we'll use the **dplyr** package [@R-dplyr] from the tidyverse [@R-tidyverse].
 
-Content to follow.
+We'll cover the following functions that work with the `group_by` functioin:
+
+- `arrange()`: order variables (i.e. ordering in rows)
+- `select()`: pick out variables (i.e. subsetting by columns, changing column order)
+- `filter()`: pick out observations (i.e. subsetting by observations)
+- `mutate()`: create new variables
+- `summarise()`: create a summary of variables (e.g. mean, *SD*, n)
+
+The `group_by` function allows you to change the scope by which these functions work. For example, we can group our data by condition with `group_by(condition)` and then create summary statistics with `summarise()`.
+
+Additionally, we'll cover renaming variables with `rename()`.
+
+## Getting Started
+
+As always, we first need to load the `tidyverse` set of packages for this Chapter.
+
+```{r 5_load_packages, include = FALSE}
+library(tidyverse)
+```
+
+```{r 5_load_packages_class, eval = FALSE}
+library(tidyverse)
+```
+
+Next, we'll load the raw and (wide formatted) demographic data sets from the lexical decision experiment from the previous Chapter. To do so, we'll use `read_csv()` here, for reasons explained in the previous Chapter.
+
+```{r 5_load_demo_data, include = FALSE}
+demo <- read_csv("lesson_materials/05_data_manipulation_two/inputs/lexical_decision_demographic_data_wide.csv")
+```
+
+```{r 5_load_demo_data_class, eval = FALSE}
+demo <- read_csv("inputs/lexical_decision_demographic_data_wide.csv")
+```
+
+You should get a warning when loading the data, telling you how each column is parsed. We can specify during the loading process how to parse each column, for example setting strings to factors. However, we'll do this manually in `dplyr()` to give you more experience using this pacakge for mutating your data.
+
+## Understanding our Data
+
+Let's look at the data we've just loaded to get an idea of how we want to change it. When we have many rows and we attempt to print a tibble, we won't see all columns in the console. One way to get an idea of how all columns look is to transpose these columns and take a look at the first few observations. To do this, we can use `glimpse()` to get a glimpse of our data.
+
+```{r 5_glimpse_demo_data}
+glimpse(demo)
+```
+
+As we can see, we have information on the subject's ID, columns indicating any programming languages they might know, a column specifying their language spoken, how far they got in the experiment, some demographic information, who tested them, whether they liked the experiment and would recommend it to others, and the start and end times for their part in the experiment.
+
+We can also see how this data was parsed, with numeric columns as integers, and all other columns as characters. However, some of this data would be best represented as a different format. We'll look into changing this later in this Chapter.
+
+## Preparing our Data
+
+Our data is quite messy as it stands. One of the biggest issues is that we have two variables contained within one column for both the `funRec` and `completion_time` columns. Let's separate these two columns using the `separate()` function from **tidyr**.
+
+```{r 5_glimpse_demo_data_separated}
+demo <- demo %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_")
+glimpse(demo)
+```
+
+## Selecting Columns
+
+First off, we should probably drop any columns from the data that we don't need to use. We're not going to look at the programming languages they know, so we can drop all of these columns using `select()`. We'll create a subset of our data that doesn't contain these columns. 
+
+Here, we'll ask to keep all of the columns we want to keep. We can do this by name or column number.
+
+```{r 5_drop_programming_columns_name}
+# by name
+demo %>% select(ID, 
+                LANGUAGE, 
+                progress, 
+                gender, 
+                age, 
+                tester, 
+                fun,
+                recommend,
+                start,
+                end
+                )
+
+# by number
+demo %>% select(c(1, 8:16))
+```
+
+Alternatively, we could have just specified the columns we wanted to drop. To do so, we can tell R to select all columns, except (`-`) column numbers 2 through 7. Remember, we have to concatenate these values to apply tell R to remove all of these columns, and not just the first one. 
+
+This time, we'll save our data as `demo_sub`, as we've made a subset of our original demographic data.
+
+```{r 5_drop_programming_columns_number}
+demo_sub <- demo %>% select(-c(2:7))
+demo_sub
+```
+
+There are a number of helper functions in `select()` which can help you to stop having to explicitly mention every column you want to keep. These are:
+
+- `starts_with("string")`: this keeps any columns with names starting with "string"
+- `ends_with("string")`: this keeps any columns with names ending with "string"
+- `contains("string")`: this keeps any columns with names containing "string" at any point
+- `matches(regular_expression)`: this keeps any columns that match a regular expression
+- `num_range("prefix", range)`: this keeps any columns with a matching prefix and a following range of numbers. For example, `num_range("measurement", 1:3) would keep all columns called "measurement1", "measurement2", and "measurement3".
+
+For this simple case here, these aren't necessary, but they're good to know for working with larger data sets.
+
+### Renaming and Reordering Columns
+
+We can use the `rename()` function to change our columns names. We have some messy names here, so we'll look at how we can rename them now. This renaming function takes the order of our new names are equal to our old names. Let's just overwrite our old subsetted data to change the names.
+
+```{r 5_rename_columns}
+demo_sub <- demo_sub %>% rename(language = LANGUAGE)
+demo_sub
+```
+
+Finally, what if we want to put the age and gender columns next to the ID column? We can use `select()` to pick out our first two columns, then `everything()` to grab every remaining column and stick them on the end.
+
+```{r 5_select_columns_and_everything}
+demo_sub %>% select(ID, age, gender, everything())
+```
+
+## Creating and Changing Columns
+
+If we want to create a new column in our data, or it we want to change how a column is represented, we have to mutate our data using`mutate()`. 
+
+What if we want to make a new column that tells us how long people spent on the experiment? We can create a new column by subtracting the start time of each participant from their end time.
+
+```{r 5_make_completion_time}
+# this will not run
+
+# demo_sub <- demo_sub %>%
+#  mutate(time = end - start)
+```
+
+Oops, that didn't work. Why not? It looks like the start and end columns are stored as characters. We can't perform a subtraction on a character, so we need to tell R that these are numbers. Specifically, we need to tell R that these are datetimes. 
+
+One package that makes this very easy is the **lubridate** package [@R-lubridate], which is designed to make working with datetimes very easy. Let's install this before we convert our start and end columns to datetimes.
+
+```{r 5_load_lubridate, message = FALSE}
+library(lubridate)
+```
+
+```{r 5_load_lubridate_class, eval = FALSE}
+# install.packages(lubridate) # uncomment and run this only once
+library(lubridate)
+```
+
+The **lubridate** package has a number of useful functions that allow us to covert our data types to datetimes, as well as ways to run calculations on these times. 
+
+One function we'll use here is the `ymd_hms()` function, which converts data to the POSIXct format. The upshoot of this is that we can now subract one time from the other to get a duration.
+
+Below, we'll mutate the start and end columns to be themselves, only converted to the proper datetime format. We'll also create a new column, time, made up of subtracting the start times from the end times to get a duration. 
+
+```{r 5_mutate_columns_completion_time}
+demo_sub <- demo_sub %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start
+         )
+glimpse(demo_sub)
+```
+
+Did you notice that we can refer to columns we've asked to create within `mutate()` to create other columns? Pretty cool!
+
+We can perform any number of operations on our columns in `mutate()`. But what if we want to do this and only keep the new columns? We can use `transmute()`. 
+
+Below, we'll ask to keep the subject ID column, but to create our new start and end columns with mutate. Since the difference from the mean will (typically) be quite small, we can convert from hours to minutes by setting the units within our time variable to minutes.
+
+```{r 5_transmute_columns}
+# calculate difference from mean completion time
+transmuted_time <- demo_sub %>%
+  mutate(
+    start = ymd_hms(start),
+    end = ymd_hms(end),
+    time = end - start
+  ) %>%
+  transmute(
+    ID,
+    time_diff = time - mean(time)
+  )
+
+# define the units of time, this can be mins, hours, days, etc.
+units(transmuted_time$time_diff) <- "mins"
+
+# print the object
+transmuted_time
+```
+
+Note that we can change a column to many different data types by simply setting the column name to itself and the data type you want. For example, `mutate(start = as.numeric(start))`. We can also mutate multiple columns at once using `mutate_all()` or `mutate_at()`, but we won't cover this here. Check out the variants on the **dplyr** verbs to see how you can improve your code!
+
+So far, we've learned how to create new columns, including keeping these with the original data set (`mutate()`) or keeping only the new columns (`transmute()`). We've also seen how we can subset our data to the most relevant columns using `select()`. Next, we'll look at how we can subset our data by selecting certain observations (i.e. rows) within our data. For this, we'll use the `filter()` function.
+
+## Filtering to Observations
+
+The `filter()` function allows us to filter our data to certain observations. We can use a number of logical operations to filter by certain conditions. As with the other **dplyr** functions, `filter()` must take the data as an argument, but afterwards it needs to take a rule by which to subset your data. Here, you just specify the conditons by which to keep observations. Nicely, the `filter()` argument can be piped, and used in conjunction with other **dplyr** functions.
+
+Take a look at the `demo_sub` data set.
+
+```{r 5_inspect_prior_to_filtering}
+glimpse(demo_sub)
+```
+
+You can see that we have a number of columns, but crucially, we have one where we kept track of the subject's progress in our experiment. How many labels do we have for this? We can check for the unique labels in oru data using the `unique()` function. Alternatively, if our data is a factor, then it should have defined levels, so we could use the `levels()` function. To save time recoding our data types, we'll just use the `unique()` function for now.
+
+```{r 5_unique_labels}
+unique(demo_sub$progress)
+```
+
+We have a few labels: FINISH, no, END, ethics, and NA. It looks like we have a slightly messy data set, as both FINISH and END indicate the same point of progress; these subjects completed the experiment. If we just want to subset our data to those who finished the experiment, we could use these labels to filter out observations.
+
+### Filtering with Logical Operations
+
+```{r 5_filter_not_completion}
+demo_sub %>% filter(progress == "FINISH" | progress == "END")
+```
+
+Read the above command like, "filter to observations where the progress is equal to FINISH **or** the progress is equal to END". Remember, to check if something is equal to another thing, we have to use double equals (`==`) rather than a single equal (`=`) as a single equal is an assignment operator. Finally, the pipe between these two statements is an OR operator, so we keep any observations that are equal to FINISH **or** equal to END.
+
+This type of filtering can get confusing if we have more than 2 conditions that we would like to check. One way around this is to use the %in% operator, which evaluates to TRUE if an observation is **in** a sequence that you provide. The best way to see how this works is to try it out yourself:
+
+```{r 5_filter_not_completion_in}
+demo_sub %>% filter(progress %in% c("FINISH", "END"))
+```
+
+You can see that we get the same result here, but we can easily add more and more values inside the parentheses to be evaluated.
+
+We can combine multiple filtering arguments by different columns, too. What if we wanted to get only those who completed the experiment, were tested by "RHB", and are over the age of 30?
+
+### Combining Filtering Criteria
+
+```{r 5_filter_not_completion_many}
+demo_sub %>% filter(progress %in% c("FINISH", "END"),
+                    tester == "RHB",
+                    age > 30
+                    )
+```
+
+### Removing by Ceriteria
+
+Similarly to keeping those that match some crtieria, we can remove those who meet some criteria. Let's say we just want to look at those who haven't finished the experiment. We can do this by using the `!` (read: not) operator. Here, we ask to **not** keep those who have their progress as FINISH or END.
+
+```{r 5_not_filtering}
+demo_sub %>% filter(!progress %in% c("FINISH", "END"))
+```
+
+### Handling NAs
+
+We always need to be wary of NAs in R. If we ask R whether something is equal to an NA (an unknown value) it is very literal in that it tells us it can't know. That's because R has no information about what the NA is! Try filtering our data to only those with NAs for the language known.
+
+```{r 5_incorrect_NA_filtering}
+# this will not run
+demo_sub %>% filter(language == NA)
+```
+
+Instead, we have to surround our variable with the `is.na()` function, to check whether these values are NAs.
+
+```{r 5_correct_NA_filtering}
+demo_sub %>% filter(is.na(language))
+```
+
+Also note that by default `filter()` excludes cases that don't meet your criteria, or are NAs, so if you want to keep NAs you have to ask for them explicitly. Let's look at filtering to only those who finished the experiment (FINISH or END) and those who we're unsure about (NA).
+
+Here, we look for observations for progress that are equal to FINISH **or** equal to END **or** which are NAs.
+
+```{r 5_correct_NA_filtering_with_others}
+demo_sub %>% filter(progress == "FINISH" | progress == "END" | is.na(progress))
+```
+
+Alternatively, we can filter our data to anything that is not an NA (or that does not meet any range of crieria). To do this, we use the `!` logical operator (read this as "not"). 
+
+Similarly, we can combine turn this around and ask to not keep those that match the criteria above. Here, we have to ask to throw away those with progress that isn't FINISH and isn't END, **and** we want to throw out those with an NA for their progress.
+
+```{r 5_not_is_na_filtering}
+demo_sub %>% filter(!progress %in% c("FINISH", "END") & !is.na(progress))
+```
+
+## Arranging Data
+
+Often, with psychological data, we want to order our columns by the subject number, then their observations. This makes it easy to think about how individuals progressed through the experiment. 
+
+We can arrange our data using `arrange()` from **dplyr**. Again, this function takes the data, and then sorts by any columns that you give it. This function defaults to having lowest mnumbers first. So, if we sorted by subject ID and trial ID, you would get the lowest value for subjects first, and their lowest number for trials first.
+
+We have a simple case here, where we only have one observation for each participant. Here, numbers come before letters, but those with numbered IDs were tested at the end of the experiment. How, then, should we order the data? 
+
+One option is to order the data such that IDs appear in descending order (using the `desc()` function).
+
+```{r 5_arrange_desc}
+demo_sub %>% arrange(desc(ID))
+```
+
+Alternatively, we know that the tester GW ran the experiment last, so we could sort by tester. But let's say that we want to sort by who tested them first, and then by who started the experiment first. To do this, we simply need to provide the start and tester columns to the function.
+
+```{r 5_arrange_start_tester}
+demo_sub %>% arrange(tester, start)
+```
+
+Again, we can flip the order for tester by using the `desc()` function.
+
+```{r 5_arrange_start_tester_flipped}
+demo_sub %>% arrange(desc(tester), start)
+```
+
+*Note*: If we have missing values, these always come at the end of the table.
+
+## Summarising Data
+
+Finally, we get onto the most important section for psychologists; how to report summaries of your data.
+
+`summarise()` collapses across all observations in your data set to produce a single row of data. Within the `summarise()` function, we have to specify what we would like to create. To do this, we just use the same functions we would use to create a new column in our original data set.
+
+Let's say we want to calculate the average time spent on the experiment. We just need to specify what our column will be called (mean_time here), and how we should create this column. Here, we've created it by calculating the `mean()` over the time column in our data.
+
+```{r 5_summarise_time}
+demo_sub %>% summarise(mean_time = mean(time))
+```
+
+Now we know that the average completion time was `r demo_sub %>% summarise(mean_time = round(mean(time), 2))` minutes. However, this doesn't tell us much. We might also want to know the standard deviation for the mean times, as well as the count (i.e. how many people completed the experiment). To do this, we just need to list more arguments. 
+
+To add these summaries, we use the inbuilt `sd()` function, as well as the inbuilt `n()` function. We don't pass anything to the `n()` function because it simply counts the number of observations over which we've summarised our data. 
+
+You don't need to understand the mutating part of this chain, but just know that it replaces the first cell in time with an NA.
+
+```{r 5_summarise_time_sd_N}
+demo_sub %>% 
+  summarise(mean_time = mean(time),
+           sd_time = sd(time),
+           N = n()
+           )
+```
+
+Finally, we have to be wary of NAs when calculating our statistics with `summarise()`. Here, I'll introduce a missing value to our data before we calculate our summary.
+
+```{r 5_summarise_time_sd_N_with_NA}
+demo_sub %>% 
+  mutate(time = replace(time, 1, NA)) %>%
+  summarise(mean_time = mean(time),
+           sd_time = sd(time),
+           N = n()
+           )
+```
+
+**dplyr** is strict, in that it will give you all NAs for the summary of a value if that value contains NAs. This is good as you'll be aware if you have missing data before you report anything. To suppress this behaviour, we simply have to ask R to remove NAs when calculating the mean and standard deviation.
+
+To remove NAs, we need to explicitly set `na.rm = TRUE` in the functions we use. Read this as "Should I remove NAs? Yes!". 
+
+```{r 5_summarise_time_sd_N_with_NA_no_NA}
+demo_sub %>% 
+  mutate(time = replace(time, 1, NA)) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+## Grouping Data
+
+One of the most convenient functions in **dplyr** is the `group_by` function. This plays well with a number of the functions we've looked at above, but it's most useful when calculating summaries.
+
+In this experiment, we cared about reaction times for those who are native and non-native English speakers. But did their completion times differ at all? To save on splitting our data and calculating summaries on the subsets of data, we can instead group our data by the language spoken, and pass these both to the `summary()` function. We do this using `group_by()`.
+
+```{r 5_summarise_time_sd_N_no_NA}
+demo_sub %>% 
+  group_by(language) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+As you can see, we got a summary by all of the groups in our language column. Unfortunately for us here, R doesn't identify groups with the same name but different capitalisation as the same group. To fix this, we can chain the functions we've used above before calculating our descriptive statistics.
+
+I'll fix the names by setting the language column values to the language column values, only with all of the text in lowercase (using `tolower()` from baseR). This effectively overwrites the old values with our new, improved naming scheme.
+
+```{r 5_to_lower_summarise}
+demo_sub %>% 
+  mutate(language = tolower(language)) %>%
+  group_by(language) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+At a glance, there doesn't seem to be much of a difference in the completion time for the English and Other groups. However, for the NA group, subjects seem to take a little longer than the other two groups. That's perhaps something we would look into if we wanted to analyse their data.
+
+Finally, we can use `group_by()` along with other functions, such as filtering our data to the two participants with the lowest times from the language groups. Let's do that now. 
+
+To do this, we use another function from baseR called `rank()`. This rank orders all scores from the smallest to the largest value. Thus, if we group by language and filter to times with a rank of 1, we will filter to the lowest time in our language groups.
+
+```{r 5_to_lower_group_filter}
+demo_sub %>% 
+  mutate(language = tolower(language)) %>%
+  group_by(language) %>%
+  filter(rank(time) == 1) %>%
+  glimpse()
+```
+
+You can see that we have times of around 1 hour for each group, which is below the means we calculated before.
+
+### Ungrouping Data
+
+Finally, if you want to perform further operations on a set of data after you've initially grouped it, you can ungroup the data using `ungroup()` prior to running further calculations. 
+
+Below, we remove the quickest people in each group before calculating the grand mean.
+
+```{r 5_ungroup_summary}
+demo_sub %>% 
+  mutate(language = tolower(language)) %>%
+  group_by(language) %>%
+  filter(rank(time) != 1) %>%
+  ungroup() %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+            sd_time = sd(time, na.rm = TRUE),
+            N = n()
+            )
+```
+
+
+## Chaining Many Functions
+
+As you saw before, our data wasn't exactly tidy when we first loaded it. We can avoid a lot of intermediate steps, and make some of the processes we've went through above if we just chain our functions together. Here, we'll tidy up our data before calculating some descriptive statistics.
+
+```{r 5_all_together_class, eval = FALSE}
+# load package
+library(lubridate)
+
+# load, clean, and transform data
+demo_clean <- read_csv("inputs/lexical_decision_demographic_data_wide.csv") %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_") %>%
+  select(c(1, 8:16)) %>%
+  rename(language = LANGUAGE) %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start,
+         language = tolower(language)
+         )
+```
+
+```{r 5_all_together, include = FALSE}
+# load package
+library(lubridate)
+
+# load, clean, and transform data
+demo_clean <- read_csv("lesson_materials/05_data_manipulation_two/inputs/lexical_decision_demographic_data_wide.csv") %>%
+  separate(col = funRec, into = c("fun", "recommend")) %>%
+  separate(col = completion_time, into = c("start", "end"), sep = "_") %>%
+  select(c(1, 8:16)) %>%
+  rename(language = LANGUAGE) %>%
+  mutate(start = ymd_hms(start),
+         end = ymd_hms(end),
+         time = end - start,
+         language = tolower(language)
+         )
+```
+
+In one step, we've used several of the commands that we used above to clean our data and to get it in the correct format for what we want to do with it. We can then pass this cleaned data to our `group_by()` and `summarise()` functions to generate summaries as before.
+
+```{r 5_clean_summary}
+demo_clean %>%
+  group_by(language) %>%
+  summarise(mean_time = mean(time, na.rm = TRUE),
+           sd_time = sd(time, na.rm = TRUE),
+           N = n()
+           )
+```
+
+Or we can even plot the data using the pipe (`%>%`) with **ggplot2**. Notice that the ggplot elements end the line in a `+` not a `%>%`.
+
+```{r 5_clean_plot}
+demo_clean %>%
+  ggplot(mapping = aes(x = language, y = time)) + 
+  geom_boxplot()
+```
+
+There are some helper functions we haven't covered here that might help you out with **dplyr**, but you should have most of what you need now to do the majority of your data processing tasks.
+
+## Saving Data
+
+Finally, we should look at saving our data. There are a few ways we can do this. 
+
+### CSV Files
+
+One way is to save your data as a .csv file, in a similar format to the data you loaded into R. However, this way we lose any customised data types (such as start and end times being POSIXct) if we are to load the data back up into R. Still, it's always good to have a copy of your data that is platform agnostic, so we should save it as a .csv so other people can load it up with any program they like. This format is also good for exploring your data in excel. 
+
+We'll save our data in the outputs folder as a csv, using the `write_csv()` function from **readr** [@R-readr], a part of the **tidyverse** [@R-tidyverse].
+
+To save the data, we just need to specify the object to save (the table of your data) in the `write_csv()` function, along with the path to save the data. Here, we've specified that we want to save the data in the ouputs folder, and then given it a name. Folders are separated by a forwardslash, with the last string of text representing the file name. File names must end with .csv to specify the file type.
+
+```{r 5_save_demo_data_csv, include = FALSE}
+write_csv(demo_clean, "lesson_materials/05_data_manipulation_two/outputs/filtered_demographic_data2.csv")
+```
+
+```{r 5_save_demo_data_csv_class, eval = FALSE}
+write_csv(demo_clean, "outputs/filtered_demographic_data.csv")
+```
+
+We could also save the data as an excel file, but it's generally best to keep platform agnostic for your data backups. If you want to save your data in a useful format for further manipulation, save it as an RData file! That way, you can keep using R to work with your objects.
+
+### R Data Files
+
+You don't want to re-run all of your pre-analysis code every time you want to make a graph/model data, so saving your data after cleaning it up is generally a good idea. However, some of the R-specific information can get lost when saving as a .csv or other format (e.g. dates will be re-loaded as characters unless otherwise specified). Instead, we can save as an RData file which retains this information. Additionally, RData files generally take up less space on your hard drive than a .csv. Finally, we can save object types which don't play well with .csv and other formats in an RData file, such as model outputs and nested data sets (which is pretty advanced; think of a table of data within each cell of a larger table).
+
+Here, we will save our data as an .RData file, which we can then load up again in R for further processing. To do so, we need to specify the object(s) to save (we can save several in one data file!), and we need to specify the file as above. Here, we need to be specific by using the `file` argument to define where to save our data.
+
+```{r 5_save_demo_data_Rdata, include = FALSE}
+save(demo_clean, file = "lesson_materials/05_data_manipulation_two/outputs/filtered_demographic_data.RData")
+```
+
+```{r 5_save_demo_data_Rdata_class, eval = FALSE}
+save(demo_clean, file = "outputs/filtered_demographic_data.RData")
+```
+
+When it comes to loading RData files back up, we just need to use the `load()` function from baseR. Bear in mind that the names of the objects you've saved in the data file will be the same ones you see on loading, so use informative names! Here, we just need to specify the path from which to load our data.
+
+```{r 5_load_demo_data_Rdata, include = FALSE}
+load("lesson_materials/05_data_manipulation_two/outputs/filtered_demographic_data.RData")
+```
+
+```{r 5_load_demo_data_Rdata_class, eval = FALSE}
+load("outputs/filtered_demographic_data.RData")
+```
+
+## Exercises
+
+We'll try some exercises to get you used to using all of the functions we've discussed here. 
+
+For these exercises we'll a simulated data set I created in the **data_generation** folder. This data was saved as a tibble in the RData file, so we just use `load()` to open this data into R.
+
+```{r 5_exercise_libraries_data, include = FALSE}
+# load libraries
+library(tidyverse)
+library(lubridate)
+
+# load data
+load("lesson_materials/05_data_manipulation_two/inputs/sim_data.RData")
+```
+
+```{r 5_exercise_libraries_data_class, eval = FALSE}
+# load libraries
+library(tidyverse)
+library(lubridate)
+
+# load data
+load("inputs/sim_data.RData")
+```
+
+This data set looks at reaction times in spotting a target when people have had caffeine or not, and when they respond with their dominant or non-dominant hand. This data set is entirely made up, so we can't be sure how realistic these results are.
+
+First, you should take a look at your data to understand it. A simple first step is to see what the data table itself looks like.
+
+```{r understand_data}
+glimpse(data)
+```
+
+After this, we should make a more detailed plot to understand the general trends in the data.
+
+## Question 1
+
+Make a plot of your data which looks at the relationship beween **caffeine** and **DV**. Split this plot into two to show the differences across the two response conditions.
+
+What are the general trends in the data?
+
+## Question 2
+
+Subset your data to remove the ages from the data set.
+
+## Question 3
+
+Rename the **DV** column to something more informative, like **reaction_time**
+
+## Question 4
+
+What if we care about differences in the ages? Let's assume we have a prediction that caffeine only has an effect on those above 30 years of age. Subset your data to just those above 30 years of age.
+
+## Question 5
+
+Rearrange the data set by age, starting from the **highest** age.
+
+## Question 6
+
+Calculate mean centered scores for each subject and add these to a new column called **DV_c** (DV, centered). The formula for this is `subjects_score - mean(all_scores)`. Can you work out what the mean should (approximately) be?
+
+## Question 7
+
+Let's assume we have a prediction that response times should be slower above 30 years of age. Create a new column, **age_group** that puts participants into two groups **30_or_under**, and **above_30**.
+
+*Hint*: Look up the `ifelse()` function using `?ifelse()` to see how you can use logical operations to achieve this.
+
+## Question 8
+
+Calculate the mean, standard deviation, and number of observations for each group.
+
+## Question 9
+
+Calculate the mean, standard deviation, and number of observations for each group, excluding those with the 3 highest ages from each group.
+
+## Question 10 
+
+Take the data and do this all together:
+
+1. Rename the DV column to **response_time**.
+2. Remove any observations where the age of the participant is above 60.
+3. Combine the two columns, age and caffeine, into one column called condition. Hint: Use `paste()` here. Use an underscore separator for the condition names.
+4. Remove the caffeine and response columns and reorder the data so we have subject first, followed by age, condition, and response_time.
+5. Calculate mean, standard deviation, and n for condition on the response time column. Call your new column names anything sensible.
+
+## Question 11
+
+Was there any point in us combining the two factors into a single condition column? Do the same process above without making a summary of the data. Feed this data into a boxplot, with condition on the x-axis, and response_time on the y-axis.

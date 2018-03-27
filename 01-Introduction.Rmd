@@ -516,14 +516,18 @@ Try out the exercises below, we'll cover these in the class with the solutions u
 
 For [the opener](https://youtu.be/yOI8NGJ6SdI), we'll look at the basics of solving issues with your code.
 
-1. What's wrong with the following code?
+### Question 1
+
+What's wrong with the following code?
 
 ```{r 1_question_1, eval = FALSE}
 # create a sequence from 0 to 40 in intervals of 2
 sequence < - seq(from = 0, to = 40, by = 2)
 ```
 
-2. Why doesn't this return anything?
+### Question 2
+
+Why doesn't this return anything?
 
 ```{r 1_question_2, eval = FALSE}
 # draw 100 times from a uniform distribution between 1 and 10
@@ -533,25 +537,41 @@ uniform_distrbiution
 
 Now, we'll work with a data set. But I'd like you to produce it. We'll break this down into steps for now.
 
-3. Lets pretend we have 100 participants. Create a variable that will store participant IDs. Their IDs can be anything you like, but some sort of logical numbering looks best.
+### Question 3
+
+Lets pretend we have 100 participants. Create a variable that will store participant IDs. Their IDs can be anything you like, but some sort of logical numbering looks best.
 
 *Hint*: `seq()` is your friend here!
 
-4. Create a variable that will store their scores on some test. Let's assume participant scores are drawn from a **normal distribution** with a **mean** of 10 and an **SD** of 0.75.
+### Question 4
+
+Create a variable that will store their scores on some test. Let's assume participant scores are drawn from a **normal distribution** with a **mean** of 10 and an **SD** of 0.75.
 
 *Hint*: `rnorm()` is a wonderful thing.
 
-5. Finally, create some ages for your participants. Here, you'll have to use a new command called `sample()`. See if you can figure out how to use this command. If you're lost, remember to use `?` on the function.
+### Question 5
 
-6. Create a data frame consisting of your participant IDs, their ages, and test scores.
+Finally, create some ages for your participants. Here, you'll have to use a new command called `sample()`. See if you can figure out how to use this command. If you're lost, remember to use `?` on the function.
 
-7. Take a look at the start and the end of your data frame. Do the values look reasonable? (Don't worry about outliers or missing values etc., we'll check those in later classes.)
+### Question 6
 
-8. Access the row (and all columns) for participant 20. What do the scores look like? Are they the same as the person sitting next to you? Why or why not, might this be the case?
+Create a data frame consisting of your participant IDs, their ages, and test scores.
 
-9. Access just the test score for participant 73.
+### Question 7
 
-10. Output some simple descriptive statistics from your sample. We want to know:
+Take a look at the start and the end of your data frame. Do the values look reasonable? (Don't worry about outliers or missing values etc., we'll check those in later classes.)
+
+### Question 8
+
+Access the row (and all columns) for participant 20. What do the scores look like? Are they the same as the person sitting next to you? Why or why not, might this be the case?
+
+### Question 9
+
+Access just the test score for participant 73.
+
+### Question 10
+
+Output some simple descriptive statistics from your sample. We want to know:
 
 - Mean age
 - Mean score
@@ -559,10 +579,14 @@ Now, we'll work with a data set. But I'd like you to produce it. We'll break thi
 
 It may be useful to store these descriptives in another data frame for further use later on. Can you do that?
 
-11. Access all rows and columns where the test score is greater than 11.
+### Question 11
+
+Access all rows and columns where the test score is greater than 11.
 
 *Hint*: define the column as `data$column` in your subsetting command, and perform a logical operation on this.
 
-12. Access all rows from the participant_number and IQ columns where the test score is greater than 11.
+### Question 12
+
+Access all rows from the participant_number and IQ columns where the test score is greater than 11.
 
 *Hint*: use the `c()` function to select multiple columns.

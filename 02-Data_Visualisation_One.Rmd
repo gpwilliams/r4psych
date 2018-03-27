@@ -314,29 +314,49 @@ data(chickwts)
 
 ### Main Exercises
 
-1. Take a look at the first 6 rows of the data set. How does the data look? Is this appropriate for plotting?
+### Question 1
 
-2. Calculate the overall means for the chick weights.
+Take a look at the first 6 rows of the data set. How does the data look? Is this appropriate for plotting?
 
-3. Calculate the overall SD for the chick weights.
+### Question 2
 
-4. Create the basis of a ggplot by defining the `chickwts` data as the data argument. Assign this all to the object `chick_plot`.
+Calculate the overall means for the chick weights.
 
-5. Make a box plot of the chick weights by feed. To do this, use your `chick_plot` object and add the function for creating a boxplot.
+### Question 3
 
-6. Add colour to your box plot by the feed type.
+Calculate the overall SD for the chick weights.
 
-7. Create a density distribution of the chick weights by feed type. Set different colours and fills by the feed type. To make all densities visible, set the transparency for all distributions to 0.4.
+### Question 4
 
-8. Make a bar plot to show the counts of each feed type.
+Create the basis of a ggplot by defining the `chickwts` data as the data argument. Assign this all to the object `chick_plot`.
 
-9. Pick 6 hex colours from the [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website. Put these together in a variable, `bar_colours`. Create your bar plot again, but this time make the fill of the bars the same as those stored in `bar_colours`. 
+### Question 5
+
+Make a box plot of the chick weights by feed. To do this, use your `chick_plot` object and add the function for creating a boxplot.
+
+### Question 6
+
+Add colour to your box plot by the feed type.
+
+### Question 7
+
+Create a density distribution of the chick weights by feed type. Set different colours and fills by the feed type. To make all densities visible, set the transparency for all distributions to 0.4.
+
+### Question 8
+
+Make a bar plot to show the counts of each feed type.
+
+### Question 9
+
+Pick 6 hex colours from the [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3) website. Put these together in a variable, `bar_colours`. Create your bar plot again, but this time make the fill of the bars the same as those stored in `bar_colours`. 
 
 Why do we not get a legend when we specify colours this way, but we do if we specify colours as in **Question 7**?
 
 We'll return to adding colour to bars while keeping the legend labels in the next lesson.
 
-10. Make a histogram showing the overall distribution of the chick weights. Set the bin width to 50, and make the bars have a white fill and black border.
+### Question 10
+
+Make a histogram showing the overall distribution of the chick weights. Set the bin width to 50, and make the bars have a white fill and black border.
 
 ### Additional Exercise
 

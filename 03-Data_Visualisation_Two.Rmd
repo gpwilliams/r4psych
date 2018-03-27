@@ -419,33 +419,47 @@ You can do a whole bunch of other things with ggplot, like adding vertical and h
 
 Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
 
-1. Let's assume we want to know if the density of the mean reaction times differs across word class within our items.
+### Question 1
+
+Let's assume we want to know if the density of the mean reaction times differs across word class within our items.
 
 Using the `lex_dec_items` data set, make a density plot of the word frequency by class. Save this plot as `lexical_density`, and output the plot.
 
-2. Add a black and white theme to your `lexical_density` plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object `lexical_density_improved`, and output your plot below.
+### Question 2
+
+Add a black and white theme to your `lexical_density` plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object `lexical_density_improved`, and output your plot below.
 
 *Note*: To change the legend labels, you need to use both `scale_fill_discrete` and `scale_colour_discrete`. Why do you think this is? Why don't we just use `scale_x_discrete` as we did in class?
 
-3. There's some repetition in the code for the plot above. Can you improve your code to remove that?
+### Question 3
 
-4. Now we want to check the distribution of the reaction times depending on word class and the language spoken by our participants.
+There's some repetition in the code for the plot above. Can you improve your code to remove that?
+
+### Question 4
+
+Now we want to check the distribution of the reaction times depending on word class and the language spoken by our participants.
 
 Using the `lex_dec` data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.
 
 Assign this to the object `rt_density` and output your plot.
 
-5. Now we want to explore if there's any relationship between the mean reaction time to our items and the frequency of the item.
+### Question 5
+
+Now we want to explore if there's any relationship between the mean reaction time to our items and the frequency of the item.
 
 Using the `lex_dec_items` data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.
 
-6. Now we want to know how many males and females took part in our experiment.
+### Question 6
+
+Now we want to know how many males and females took part in our experiment.
 
 Using the `lex_demog` data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.
 
 Assign this to the object `gender_count` and output your plot.
 
-7. What if we want to know the mean age and distribution of ages split by language spoken and gender?
+### Question 7
+
+What if we want to know the mean age and distribution of ages split by language spoken and gender?
 
 Using the `lex_demog` data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you'd prefer.
 
@@ -455,7 +469,9 @@ Assign this all to the object `demographic_age`, and output your plot.
 
 Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.
  
-8. Next, we want to see the mean (and standard error) of reaction times to words with different word frequencies.
+### Question 8
+
+Next, we want to see the mean (and standard error) of reaction times to words with different word frequencies.
 
 Using the `lex_dec` data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class. 
 
@@ -463,7 +479,9 @@ Using the `lex_dec` data set, create a scatter plot of the reaction time by word
 
 Assign this to the object `rt_pointrange`, and output your plot.
 
-9. Finally, we want to show a few of our graphs in one display.
+### Question 9
+
+Finally, we want to show a few of our graphs in one display.
 
 Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8. 
 

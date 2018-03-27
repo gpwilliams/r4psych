@@ -1,0 +1,128 @@
+---
+title: "05 - Data Manipulation Two"
+output: html_notebook
+---
+
+# Introduction and Setup
+
+For these exercises, we will look at the core concepts from this lesson.
+
+For these exercises we'll a simulated data set I created in the **data_generation** folder. This data was saved as a tibble in the RData file, so we just use `load()` to open this data into R.
+
+```{r 5_exercise_libraries_data, message=FALSE}
+# load libraries
+library(tidyverse)
+library(lubridate)
+
+# load data
+load("inputs/sim_data.RData")
+```
+
+This data set looks at reaction times in spotting a target when people have had caffeine or not, and when they respond with their dominant or non-dominant hand. This data set is entirely made up, so we can't be sure how realistic these results are.
+
+First, you should take a look at your data to understand it. A simple first step is to see what the data table itself looks like.
+
+```{r understand_data}
+glimpse(data)
+```
+
+After this, we should make a more detailed plot to understand the general trends in the data.
+
+## Question 1
+
+Make a plot of your data which looks at the relationship beween **caffeine** and **DV**. Split this plot into two to show the differences across the two response conditions.
+
+```{r 5_question_one_answer}
+
+```
+What are the general trends in the data?
+
+## Question 2
+
+Subset your data to remove the ages from the data set.
+
+```{r 5_question_two_answer}
+
+```
+
+## Question 3
+
+Rename the **DV** column to something more informative, like **reaction_time**
+
+```{r 5_question_three_answer}
+
+```
+
+## Question 4
+
+What if we care about differences in the ages? Let's assume we have a prediction that caffeine only has an effect on those above 30 years of age. Subset your data to just those above 30 years of age.
+
+```{r 5_question_four_answer}
+
+```
+
+## Question 5
+
+Rearrange the data set by age, starting from the **highest** age.
+
+```{r 5_question_five_answer}
+
+```
+
+## Question 6
+
+Calculate mean centered scores for each subject and add these to a new column called **DV_c** (DV, centered). The formula for this is `subjects_score - mean(all_scores)`. Can you work out what the mean should (approximately) be?
+
+```{r 5_question_six_answer}
+
+```
+**Answer**:
+
+## Question 7
+
+Let's assume we have a prediction that response times should be slower above 30 years of age. Create a new column, **age_group** that puts participants into two groups **30_or_under**, and **above_30**.
+
+*Hint*: Look up the `ifelse()` function using `?ifelse()` to see how you can use logical operations to achieve this.
+
+```{r 5_question_seven_answer}
+
+```
+
+## Question 8
+
+Calculate the mean, standard deviation, and number of observations for each group.
+
+```{r 5_question_eight_answer}
+
+```
+
+## Question 9
+
+Calculate the mean, standard deviation, and number of observations for each group, excluding those with the 3 highest ages from each group.
+
+```{r 5_question_nine_answer}
+
+```
+
+## Question 10 
+
+Take the data and do this all together:
+
+1. Rename the DV column to **response_time**.
+2. Remove any observations where the age of the participant is above 60.
+3. Combine the two columns, age and caffeine, into one column called condition. Hint: Use `paste()` here. Use an underscore separator for the condition names.
+4. Remove the caffeine and response columns and reorder the data so we have subject first, followed by age, condition, and response_time.
+5. Calculate mean, standard deviation, and n for condition on the response time column. Call your new column names anything sensible.
+
+```{r 4_question_ten_answer}
+
+```
+
+## Question 11
+
+Was there any point in us combining the two factors into a single condition column? Do the same process above without making a summary of the data. Feed this data into a boxplot, with condition on the x-axis, and response_time on the y-axis.
+
+```{r question_11_answer}
+
+```
+
