@@ -280,6 +280,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">Chapter 4</span> Data Manipulation 1</h1>
 <p>In this chapter we’ll look at tidying up and cleaning our data with the <strong>tidyr</strong> package <span class="citation">(Wickham and Henry <a href="#ref-R-tidyr">2018</a>)</span> from the tidyverse <span class="citation">(Wickham <a href="#ref-R-tidyverse">2017</a>)</span>. We’ll also use the <strong>dplyr</strong> package <span class="citation">(Wickham et al. <a href="#ref-R-dplyr">2017</a>)</span> from the tidyverse <span class="citation">(Wickham <a href="#ref-R-tidyverse">2017</a>)</span> to join different sets of data together into a useful format for plotting and running analyses.</p>
 <p>This data cleaning is an important first step on your way to working with your data, so it’s important for you to get acquainted with the different ways your data can be formatted, and how to get it in the format we want.</p>
+<p>This chapter, particularly the section on joins, was informed by the <a href="https://gupsych.github.io/research_cycle/">Glasgow University Research Cycle</a> by Dale Barr and Lisa DeBruine. Please see this resource for further reading.</p>
 <div id="getting-started-1" class="section level2">
 <h2><span class="header-section-number">4.1</span> Getting Started</h2>
 <p>First, we’ll load the packages necessary for this class. Nicely, tidyr and dplyr are part of the tidyverse family, so we don’t need to load this separately to the other packages in our library.</p>
@@ -664,6 +665,7 @@ lexdec_subset &lt;-<span class="st"> </span>lexdec_data %&gt;%<span class="st"> 
 <li><code>inner_join(data_one, data_two)</code>: Keeps everything present in both data sets.</li>
 <li><code>full_join(data_one, data_two)</code>: Keeps everything from both data sets. Adds NAs if information is present in only one data set.</li>
 </ul>
+<p><a href="https://youtu.be/81uIhRa5kvg">Don’t worry</a> about the number of different joins here, they all take a similar form, but just do slightly different things to your data.</p>
 <p>All of these joins take a <code>by</code> argument, which asks you which columns by which you want to combine the data. If we want to make sure we match up the data, we have to make sure our columns have the same headings across the two data sets.</p>
 <p>Take a look at the two data sets above, it looks like we identify subjects with <strong>subject</strong> in the lexdec_data data set, and by <strong>ID</strong> in the demo_gathered data set. We also have the identifier for the language spoken as <strong>native_language</strong> in the lexdec_data data set, and as <strong>LANGUAGE</strong> in the demo_gathered data set.</p>
 <p>We can use <code>rename</code> from <strong>dplr</strong> to rename our columns. Here we just supply the new name and the old name. The names in demo_gathered are messy, so we’ll change those to match the lexdec_data names.</p>

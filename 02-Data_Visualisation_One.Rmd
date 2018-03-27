@@ -304,7 +304,7 @@ ggplot(data = rt_data, mapping = aes(x = reaction_time)) +
 
 ## Exercises
 
-Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
+If that's not enough to make you fall [asleep](https://youtu.be/hO-UyFL5cxY), try out the exercises below. We'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
 
 In this section, we'll use some new data from the pre-packaged data sets in R. First off, we'll load the `chickwts` data set, which looks at chicken weights by different feed types.
 

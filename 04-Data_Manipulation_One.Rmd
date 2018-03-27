@@ -4,6 +4,8 @@ In this chapter we'll look at tidying up and cleaning our data with the **tidyr*
 
 This data cleaning is an important first step on your way to working with your data, so it's important for you to get acquainted with the different ways your data can be formatted, and how to get it in the format we want.
 
+This chapter, particularly the section on joins, was informed by the [Glasgow University Research Cycle](https://gupsych.github.io/research_cycle/) by Dale Barr and Lisa DeBruine. Please see this resource for further reading.
+
 ## Getting Started
 
 First, we'll load the packages necessary for this class. Nicely, tidyr and dplyr are part of the tidyverse family, so we don't need to load this separately to the other packages in our library.
@@ -383,6 +385,8 @@ There are a number of joining operations we can do that will mutate (change the 
 - `right_join(data_one, data_two)`: Keeps everything in data_two and adds everything present in both data_two and data_one
 - `inner_join(data_one, data_two)`: Keeps everything present in both data sets.
 - `full_join(data_one, data_two)`: Keeps everything from both data sets. Adds NAs if information is present in only one data set.
+
+[Don't worry](https://youtu.be/81uIhRa5kvg) about the number of different joins here, they all take a similar form, but just do slightly different things to your data.
 
 All of these joins take a `by` argument, which asks you which columns by which you want to combine the data. If we want to make sure we match up the data, we have to make sure our columns have the same headings across the two data sets. 
 

@@ -14,6 +14,8 @@ The `group_by` function allows you to change the scope by which these functions 
 
 Additionally, we'll cover renaming variables with `rename()`.
 
+You should notice some [familiar patterns](https://youtu.be/HMD2lCnWfns?t=45s) with how we use and mix together these functions as we progress.
+
 ## Getting Started
 
 As always, we first need to load the `tidyverse` set of packages for this Chapter.

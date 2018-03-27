@@ -417,7 +417,7 @@ You can do a whole bunch of other things with ggplot, like adding vertical and h
 
 ### Main Exercises
 
-Try out the exercises below, we'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
+If all this complexity hasn't given you [nausea](https://youtu.be/JidJV1ue1lI), try out the exercises below. We'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
 
 ### Question 1
 
