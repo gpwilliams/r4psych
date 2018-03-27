@@ -557,47 +557,47 @@ glimpse(data)
 
 After this, we should make a more detailed plot to understand the general trends in the data.
 
-## Question 1
+### Question 1
 
 Make a plot of your data which looks at the relationship beween **caffeine** and **DV**. Split this plot into two to show the differences across the two response conditions.
 
 What are the general trends in the data?
 
-## Question 2
+### Question 2
 
 Subset your data to remove the ages from the data set.
 
-## Question 3
+### Question 3
 
 Rename the **DV** column to something more informative, like **reaction_time**
 
-## Question 4
+### Question 4
 
 What if we care about differences in the ages? Let's assume we have a prediction that caffeine only has an effect on those above 30 years of age. Subset your data to just those above 30 years of age.
 
-## Question 5
+### Question 5
 
 Rearrange the data set by age, starting from the **highest** age.
 
-## Question 6
+### Question 6
 
 Calculate mean centered scores for each subject and add these to a new column called **DV_c** (DV, centered). The formula for this is `subjects_score - mean(all_scores)`. Can you work out what the mean should (approximately) be?
 
-## Question 7
+### Question 7
 
 Let's assume we have a prediction that response times should be slower above 30 years of age. Create a new column, **age_group** that puts participants into two groups **30_or_under**, and **above_30**.
 
 *Hint*: Look up the `ifelse()` function using `?ifelse()` to see how you can use logical operations to achieve this.
 
-## Question 8
+### Question 8
 
 Calculate the mean, standard deviation, and number of observations for each group.
 
-## Question 9
+### Question 9
 
 Calculate the mean, standard deviation, and number of observations for each group, excluding those with the 3 highest ages from each group.
 
-## Question 10 
+### Question 10 
 
 Take the data and do this all together:
 
@@ -607,6 +607,6 @@ Take the data and do this all together:
 4. Remove the caffeine and response columns and reorder the data so we have subject first, followed by age, condition, and response_time.
 5. Calculate mean, standard deviation, and n for condition on the response time column. Call your new column names anything sensible.
 
-## Question 11
+### Question 11
 
 Was there any point in us combining the two factors into a single condition column? Do the same process above without making a summary of the data. Feed this data into a boxplot, with condition on the x-axis, and response_time on the y-axis.
