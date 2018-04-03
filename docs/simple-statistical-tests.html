@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Psych" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  
+  <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="github-repo" content="gpwilliams/r4psych" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Psych" />
+  
+  <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
+  
+
+<meta name="author" content="Glenn Williams">
+
+
+<meta name="date" content="2018-04-03">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="data-manipulation-2.html">
+<link rel="next" href="advanced-statistical-tests-and-evaluating-the-null.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R for Psych</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
+<li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#question-1"><i class="fa fa-check"></i><b>1.7.1</b> Question 1</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#question-2"><i class="fa fa-check"></i><b>1.7.2</b> Question 2</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#question-3"><i class="fa fa-check"></i><b>1.7.3</b> Question 3</a></li>
+<li class="chapter" data-level="1.7.4" data-path="introduction.html"><a href="introduction.html#question-4"><i class="fa fa-check"></i><b>1.7.4</b> Question 4</a></li>
+<li class="chapter" data-level="1.7.5" data-path="introduction.html"><a href="introduction.html#question-5"><i class="fa fa-check"></i><b>1.7.5</b> Question 5</a></li>
+<li class="chapter" data-level="1.7.6" data-path="introduction.html"><a href="introduction.html#question-6"><i class="fa fa-check"></i><b>1.7.6</b> Question 6</a></li>
+<li class="chapter" data-level="1.7.7" data-path="introduction.html"><a href="introduction.html#question-7"><i class="fa fa-check"></i><b>1.7.7</b> Question 7</a></li>
+<li class="chapter" data-level="1.7.8" data-path="introduction.html"><a href="introduction.html#question-8"><i class="fa fa-check"></i><b>1.7.8</b> Question 8</a></li>
+<li class="chapter" data-level="1.7.9" data-path="introduction.html"><a href="introduction.html#question-9"><i class="fa fa-check"></i><b>1.7.9</b> Question 9</a></li>
+<li class="chapter" data-level="1.7.10" data-path="introduction.html"><a href="introduction.html#question-10"><i class="fa fa-check"></i><b>1.7.10</b> Question 10</a></li>
+<li class="chapter" data-level="1.7.11" data-path="introduction.html"><a href="introduction.html#question-11"><i class="fa fa-check"></i><b>1.7.11</b> Question 11</a></li>
+<li class="chapter" data-level="1.7.12" data-path="introduction.html"><a href="introduction.html#question-12"><i class="fa fa-check"></i><b>1.7.12</b> Question 12</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
+<li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
+<li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-1-1"><i class="fa fa-check"></i><b>2.3.2</b> Question 1</a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-2-1"><i class="fa fa-check"></i><b>2.3.3</b> Question 2</a></li>
+<li class="chapter" data-level="2.3.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-3-1"><i class="fa fa-check"></i><b>2.3.4</b> Question 3</a></li>
+<li class="chapter" data-level="2.3.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-4-1"><i class="fa fa-check"></i><b>2.3.5</b> Question 4</a></li>
+<li class="chapter" data-level="2.3.6" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-5-1"><i class="fa fa-check"></i><b>2.3.6</b> Question 5</a></li>
+<li class="chapter" data-level="2.3.7" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-6-1"><i class="fa fa-check"></i><b>2.3.7</b> Question 6</a></li>
+<li class="chapter" data-level="2.3.8" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-7-1"><i class="fa fa-check"></i><b>2.3.8</b> Question 7</a></li>
+<li class="chapter" data-level="2.3.9" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-8-1"><i class="fa fa-check"></i><b>2.3.9</b> Question 8</a></li>
+<li class="chapter" data-level="2.3.10" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-9-1"><i class="fa fa-check"></i><b>2.3.10</b> Question 9</a></li>
+<li class="chapter" data-level="2.3.11" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-10-1"><i class="fa fa-check"></i><b>2.3.11</b> Question 10</a></li>
+<li class="chapter" data-level="2.3.12" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.12</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
+<li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
+<li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
+<li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-1-2"><i class="fa fa-check"></i><b>3.7.2</b> Question 1</a></li>
+<li class="chapter" data-level="3.7.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-2-2"><i class="fa fa-check"></i><b>3.7.3</b> Question 2</a></li>
+<li class="chapter" data-level="3.7.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-3-2"><i class="fa fa-check"></i><b>3.7.4</b> Question 3</a></li>
+<li class="chapter" data-level="3.7.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-4-2"><i class="fa fa-check"></i><b>3.7.5</b> Question 4</a></li>
+<li class="chapter" data-level="3.7.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-5-2"><i class="fa fa-check"></i><b>3.7.6</b> Question 5</a></li>
+<li class="chapter" data-level="3.7.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-6-2"><i class="fa fa-check"></i><b>3.7.7</b> Question 6</a></li>
+<li class="chapter" data-level="3.7.8" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-7-2"><i class="fa fa-check"></i><b>3.7.8</b> Question 7</a></li>
+<li class="chapter" data-level="3.7.9" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-8-2"><i class="fa fa-check"></i><b>3.7.9</b> Question 8</a></li>
+<li class="chapter" data-level="3.7.10" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-9-2"><i class="fa fa-check"></i><b>3.7.10</b> Question 9</a></li>
+<li class="chapter" data-level="3.7.11" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.11</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#getting-started-1"><i class="fa fa-check"></i><b>4.1</b> Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#loading-data"><i class="fa fa-check"></i><b>4.2.1</b> Loading Data</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#wide-and-long-data"><i class="fa fa-check"></i><b>4.2.2</b> Wide and Long Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#gathering-data"><i class="fa fa-check"></i><b>4.3.1</b> Gathering Data</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#separating-columns"><i class="fa fa-check"></i><b>4.3.2</b> Separating Columns</a></li>
+<li class="chapter" data-level="4.3.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#spreading-data"><i class="fa fa-check"></i><b>4.3.3</b> Spreading Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins"><i class="fa fa-check"></i><b>4.4.1</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins"><i class="fa fa-check"></i><b>4.4.2</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins"><i class="fa fa-check"></i><b>4.4.3</b> Binding Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-unique-and-duplicate-information"><i class="fa fa-check"></i><b>4.5</b> Checking for Unique and Duplicate Information</a></li>
+<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#introduction-and-setup"><i class="fa fa-check"></i><b>4.6.1</b> Introduction and Setup</a></li>
+<li class="chapter" data-level="4.6.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#long-and-wide-data"><i class="fa fa-check"></i><b>4.6.2</b> Long and Wide Data</a></li>
+<li class="chapter" data-level="4.6.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#uniting-and-separating-columns"><i class="fa fa-check"></i><b>4.6.3</b> Uniting and Separating Columns</a></li>
+<li class="chapter" data-level="4.6.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins-1"><i class="fa fa-check"></i><b>4.6.4</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.6.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins-1"><i class="fa fa-check"></i><b>4.6.5</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.6.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins-1"><i class="fa fa-check"></i><b>4.6.6</b> Binding Joins</a></li>
+<li class="chapter" data-level="4.6.7" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-duplicates"><i class="fa fa-check"></i><b>4.6.7</b> Checking for Duplicates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a><ul>
+<li class="chapter" data-level="5.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#getting-started-2"><i class="fa fa-check"></i><b>5.1</b> Getting Started</a></li>
+<li class="chapter" data-level="5.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#understanding-our-data"><i class="fa fa-check"></i><b>5.2</b> Understanding our Data</a></li>
+<li class="chapter" data-level="5.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#preparing-our-data"><i class="fa fa-check"></i><b>5.3</b> Preparing our Data</a></li>
+<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#renaming-and-reordering-columns"><i class="fa fa-check"></i><b>5.4.1</b> Renaming and Reordering Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#creating-and-changing-columns"><i class="fa fa-check"></i><b>5.5</b> Creating and Changing Columns</a></li>
+<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-with-logical-operations"><i class="fa fa-check"></i><b>5.6.1</b> Filtering with Logical Operations</a></li>
+<li class="chapter" data-level="5.6.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#combining-filtering-criteria"><i class="fa fa-check"></i><b>5.6.2</b> Combining Filtering Criteria</a></li>
+<li class="chapter" data-level="5.6.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#removing-by-ceriteria"><i class="fa fa-check"></i><b>5.6.3</b> Removing by Ceriteria</a></li>
+<li class="chapter" data-level="5.6.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#handling-nas"><i class="fa fa-check"></i><b>5.6.4</b> Handling NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#arranging-data"><i class="fa fa-check"></i><b>5.7</b> Arranging Data</a></li>
+<li class="chapter" data-level="5.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#summarising-data"><i class="fa fa-check"></i><b>5.8</b> Summarising Data</a></li>
+<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#ungrouping-data"><i class="fa fa-check"></i><b>5.9.1</b> Ungrouping Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#chaining-many-functions"><i class="fa fa-check"></i><b>5.10</b> Chaining Many Functions</a></li>
+<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a><ul>
+<li class="chapter" data-level="5.11.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#csv-files"><i class="fa fa-check"></i><b>5.11.1</b> CSV Files</a></li>
+<li class="chapter" data-level="5.11.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#r-data-files"><i class="fa fa-check"></i><b>5.11.2</b> R Data Files</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a><ul>
+<li class="chapter" data-level="5.12.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-1-4"><i class="fa fa-check"></i><b>5.12.1</b> Question 1</a></li>
+<li class="chapter" data-level="5.12.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-2-4"><i class="fa fa-check"></i><b>5.12.2</b> Question 2</a></li>
+<li class="chapter" data-level="5.12.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-3-4"><i class="fa fa-check"></i><b>5.12.3</b> Question 3</a></li>
+<li class="chapter" data-level="5.12.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-4-4"><i class="fa fa-check"></i><b>5.12.4</b> Question 4</a></li>
+<li class="chapter" data-level="5.12.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-5-4"><i class="fa fa-check"></i><b>5.12.5</b> Question 5</a></li>
+<li class="chapter" data-level="5.12.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-6-4"><i class="fa fa-check"></i><b>5.12.6</b> Question 6</a></li>
+<li class="chapter" data-level="5.12.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-7-4"><i class="fa fa-check"></i><b>5.12.7</b> Question 7</a></li>
+<li class="chapter" data-level="5.12.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-8-4"><i class="fa fa-check"></i><b>5.12.8</b> Question 8</a></li>
+<li class="chapter" data-level="5.12.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-9-4"><i class="fa fa-check"></i><b>5.12.9</b> Question 9</a></li>
+<li class="chapter" data-level="5.12.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-10-3"><i class="fa fa-check"></i><b>5.12.10</b> Question 10</a></li>
+<li class="chapter" data-level="5.12.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-11-1"><i class="fa fa-check"></i><b>5.12.11</b> Question 11</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#getting-started-3"><i class="fa fa-check"></i><b>6.1</b> Getting Started</a></li>
+<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#analysing-real-data"><i class="fa fa-check"></i><b>6.2.1</b> Analysing Real Data</a></li>
+<li class="chapter" data-level="6.2.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#checking-assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Checking Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#running-a-correlation"><i class="fa fa-check"></i><b>6.2.3</b> Running a Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-sample-t-tests"><i class="fa fa-check"></i><b>6.3.1</b> One-Sample <em>t</em>-tests</a></li>
+<li class="chapter" data-level="6.3.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#independent-samples-t-tests"><i class="fa fa-check"></i><b>6.3.2</b> Independent-Samples <em>t</em>-tests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#paired-samples-t-tests"><i class="fa fa-check"></i><b>6.3.3</b> Paired-Samples <em>t</em>-tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-way-anova"><i class="fa fa-check"></i><b>6.4.1</b> One-Way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#general-linear-model"><i class="fa fa-check"></i><b>6.5.1</b> General Linear Model</a></li>
+<li class="chapter" data-level="6.5.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#generalised-linear-model"><i class="fa fa-check"></i><b>6.5.2</b> Generalised Linear Model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-1-5"><i class="fa fa-check"></i><b>6.6.1</b> Question 1</a></li>
+<li class="chapter" data-level="6.6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-2-5"><i class="fa fa-check"></i><b>6.6.2</b> Question 2</a></li>
+<li class="chapter" data-level="6.6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-3-5"><i class="fa fa-check"></i><b>6.6.3</b> Question 3</a></li>
+<li class="chapter" data-level="6.6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-4-5"><i class="fa fa-check"></i><b>6.6.4</b> Question 4</a></li>
+<li class="chapter" data-level="6.6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-5-5"><i class="fa fa-check"></i><b>6.6.5</b> Question 5</a></li>
+<li class="chapter" data-level="6.6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-6-5"><i class="fa fa-check"></i><b>6.6.6</b> Question 6</a></li>
+<li class="chapter" data-level="6.6.7" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-7-5"><i class="fa fa-check"></i><b>6.6.7</b> Question 7</a></li>
+<li class="chapter" data-level="6.6.8" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-8-5"><i class="fa fa-check"></i><b>6.6.8</b> Question 8</a></li>
+<li class="chapter" data-level="6.6.9" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-9-5"><i class="fa fa-check"></i><b>6.6.9</b> Question 9</a></li>
+<li class="chapter" data-level="6.6.10" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-10-4"><i class="fa fa-check"></i><b>6.6.10</b> Question 10</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests and Evaluating the Null</a><ul>
+<li class="chapter" data-level="7.1" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.1</b> Multifactorial Analyses</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html#multifactorial-anova"><i class="fa fa-check"></i><b>7.1.1</b> Multifactorial ANOVA</a></li>
+<li class="chapter" data-level="7.1.2" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html#mixed-anova"><i class="fa fa-check"></i><b>7.1.2</b> Mixed ANOVA</a></li>
+<li class="chapter" data-level="7.1.3" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html#multiple-regression"><i class="fa fa-check"></i><b>7.1.3</b> Multiple Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html#evaluating-evidence-for-the-null"><i class="fa fa-check"></i><b>7.2</b> Evaluating Evidence for the Null</a></li>
+<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests-and-evaluating-the-null.html"><a href="advanced-statistical-tests-and-evaluating-the-null.html#effect-sizes"><i class="fa fa-check"></i><b>7.3</b> Effect Sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a></li>
+<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a></li>
+<li class="chapter" data-level="10" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>10</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>10.1</b> The Final Lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Psych</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="simple-statistical-tests" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Simple Statistical Tests</h1>
+<p>In this session, we’ll cover some of the most basic tests that you might use in your research. While we’ll focus on selecting different tests for different scenarios, at the end of this section we’ll focus on the <strong>general linear model</strong>, and how you can specify almost any relationship using this framework. In this session, we will cover unifactorial tests with only 2 levels in a factor. In the next session, we will cover more complicated designs.</p>
+<p>Specifically, we’ll cover:</p>
+<ul>
+<li>correlations</li>
+<li>one-sample, paired, and independent <em>t</em>-tests</li>
+<li>one-way ANOVA</li>
+<li>simple linear regression</li>
+</ul>
+<p>Throughout, we will calculate descriptive statistics for our data, as well as measures of effect size and variance.</p>
+<p>This section assumes some familiarity with basic statistics. It is beyond the score of this section to teach the basics behind all of these methods, but we will cover some background on how these methods work, and why you might choose to use them in different scenarios.</p>
+<div id="getting-started-3" class="section level2">
+<h2><span class="header-section-number">6.1</span> Getting Started</h2>
+<p>As always, we first need to load the <code>tidyverse</code> set of packages for this Chapter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<p>In this session, we’ll use simulated data, and data from real studies using the the <a href="https://sites.trinity.edu/osl">Open Stats Lab (OSL)</a> resources. For each section/analysis, we’ll just load the data as and when we need it.</p>
+</div>
+<div id="correlation" class="section level2">
+<h2><span class="header-section-number">6.2</span> Correlation</h2>
+<p>We use correlations when we want to see if there’s a significant relationship between some observed variables.</p>
+<p>More specifically, we have to know a little bit about variance, covariance, and correlation coefficients to grasp correlation and other tests.</p>
+<p><strong>Variance</strong> tells you how much your data is spread out from the mean, it’s the average of the squared differences from the mean. Why do we square the differences? That’s so negative values don’t cancel out positve values, so we can still have an idea of how much our scores vary.</p>
+<p>No variance (i.e. all values are the same) is 0, and larger numbers represent more variance in your data. The square root of the variance is the standard deviation, which we can use to get exact distances of our data from the mean. Your mean +- your standard deviation multiplied by 1.96 represents 95% of the coverage of your data.</p>
+<p><strong>Covariance</strong> is similar to the variance, but rather than telling you how much one variable varies, it tells you how much two variables vary together. If we have a positive number for the covariance, we know that our variables are related to one-another. However, covariance is sensitive to the scale you have, so if you have big numbers for each variable, your covariance will also be a big number. This magnitude doesn’t tell you much about how strong the relationship is between two variables. FOr that, we need the correlation coefficient.</p>
+<p>The <strong>correlation coefficient</strong> is the covariance divided by the standard deviation. This just puts the covariance on a standard scale between -1 and 1, so we now have an idea of how strongly related two variables are. A correlation of 1 shows that the two are perfectly positively correlated, so an increase in one variable is followed by an increase in the other. A correlation of 0 is no relationship, and a correlation of -1 is a perfect negative relationship, where an increase in one variable is followed by a decrease in the other.</p>
+<div id="analysing-real-data" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Analysing Real Data</h3>
+<p>In this example, we’ll look at a study by Dawtry, Sutton, and Sibley (2015). In this study, they were interested in why people’s attitudes towards increasing wealth inequality differs within developed nations. They hypothesised that wealthy people will be less supportive of wealth distribution if their social circle is primarily made up of wealthy people. This is because they should see society as being already wealthy, and thus not requiring of wealth distribution.</p>
+<p>Our aim here is to test the simple hypothesis that people who see society as fair and are thus satisfied with the current state of affairs will less supportive of wealth redistribution.</p>
+<p>Below, we will load their raw data from the Google Drive link from the OSL, and clean it up to only look at the relevant sources of information.</p>
+<p>First, we’ll load the data using <code>read_csv()</code>, then we’ll recode the reverse-scores questions of <strong>redist2</strong> and <strong>redist4</strong> so all of the questions assessing redistribution are on the same scale.</p>
+<p>Then we’ll transmute the data, keeping only the columns we need, and calculating the mean scores for perceptions of fairness and satisfaction with distribution of wealth in society (i.e. one factor), and mean support for redistribution (our second factor).</p>
+<p>During this process, we’ll also keep the participant IDs. Finally, we’ll make everything lowercase, because it looks better!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># variables</span>
+scale_max &lt;-<span class="st"> </span><span class="dv">6</span>
+id &lt;-<span class="st"> &quot;0Bz-rhZ21ShvOMGxnYUJfYmR5d2M&quot;</span> <span class="co"># google file ID</span>
+
+<span class="co"># load and clean data</span>
+corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
+  <span class="kw">sprintf</span>(
+    <span class="st">&quot;https://docs.google.com/uc?id=%s&amp;export=download&quot;</span>, 
+    id)
+  ) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">redist2 =</span> (scale_max +<span class="st"> </span><span class="dv">1</span>) -<span class="st"> </span>redist2,
+         <span class="dt">redist4 =</span> (scale_max +<span class="st"> </span><span class="dv">1</span>) -<span class="st"> </span>redist4) %&gt;%
+<span class="st">  </span><span class="kw">transmute</span>(PS, 
+            <span class="dt">Fair_Satisfied =</span> (fairness +<span class="st"> </span>satisfaction) /<span class="st"> </span><span class="dv">2</span>,
+            <span class="dt">Support =</span> (redist1 +<span class="st"> </span>redist2 +<span class="st"> </span>redist3 +<span class="st"> </span>redist4) /<span class="st"> </span><span class="dv">4</span>
+            ) %&gt;%
+<span class="st">  </span><span class="kw">rename_all</span>(tolower)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_integer(),
+##   Household_Income = col_double(),
+##   Population_Inequality_Gini_Index = col_double(),
+##   Social_Circle_Inequality_Gini_Index = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data</code></pre></div>
+<pre><code>## # A tibble: 305 x 3
+##       ps fair_satisfied support
+##    &lt;int&gt;          &lt;dbl&gt;   &lt;dbl&gt;
+##  1   233           1.00    5.50
+##  2   157           3.50    3.25
+##  3   275           5.00    3.75
+##  4   111           7.00    2.75
+##  5    52           4.50    3.00
+##  6    11           2.50    3.75
+##  7    76           3.00    4.25
+##  8    90           4.50    3.50
+##  9    93           4.00    3.75
+## 10   104           4.50    3.50
+## # ... with 295 more rows</code></pre>
+<p>Next, we’ll calculate some means and standard deviations for these two factors of interest. We’ve used the <code>summarise_at()</code> version of the <code>summarise()</code> function, as this allows us to pass two column names, and functions (<code>vars</code>) by which to produce our statistics.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data %&gt;%<span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;fair_satisfied&quot;</span>, <span class="st">&quot;support&quot;</span>), 
+                           <span class="kw">vars</span>(mean, sd)
+                           )</code></pre></div>
+<pre><code>## # A tibble: 1 x 4
+##   fair_satisfied_mean support_mean fair_satisfied_sd support_sd
+##                 &lt;dbl&gt;        &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+## 1                3.54         3.91              2.02       1.15</code></pre>
+</div>
+<div id="checking-assumptions" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Checking Assumptions</h3>
+<p>To decide which correlation to run, we need to check some assumptions: are the factors linearly related, and do they follow a normal distribution (assumption of normality)? We’ll leave exploring the first assumption for other tests, just to save time, but we’ll look into testing the assumption of normality here.</p>
+<p>We have two methods to check for normality:</p>
+<ol style="list-style-type: decimal">
+<li>Visual inspection of the quantile-quantile plot which plotsthe correlation between our sample (observed values) and the normal distribution.</li>
+<li>The Shapiro-Wilk test, which is a statistical test of normality. Significant results indicate that the data are <strong>non-normal</strong>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> fair_satisfied)) +
+<span class="st">    </span><span class="kw">geom_qq</span>()</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data %&gt;%
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> support)) +
+<span class="st">    </span><span class="kw">geom_qq</span>()</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(corr_data$fair_satisfied)</code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  corr_data$fair_satisfied
+## W = 0.92602, p-value = 3.697e-11</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(corr_data$support)</code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  corr_data$support
+## W = 0.97622, p-value = 5.993e-05</code></pre>
+<p>Both the plot and test show that our data are non-normal. As such, we shouldn’t use a parametric test such as Pearson’s R, but we should use a non-parametric alternative. One option is Kendall’s Tau, which rank orders our observations, in an attempt to account for these factors being being non-normally distributed.</p>
+</div>
+<div id="running-a-correlation" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> Running a Correlation</h3>
+<p>Next, we’ll run a correlation looking at whether there is any relationship between whether you perceive society as fair, and you’re satisfied with , and your support for wealth redistribution.</p>
+<p>Here, we’ll use <code>cor.test()</code>, which takes as an argument two columns from a data.frame or matrix, which are your two factors to compare, and produces test statistics, including <em>t</em>-values, <em>p</em>-values, and 95% confidence intervals.</p>
+<p>This test defaults to use Pearson’s R, and to a two-sided test of significance (i.e. you had no predictions for the direction of effect), but you can change this to “greater”, a positive relationship, or “less”, a negative relationship, which will adjust <em>p</em>-values accordingly.</p>
+<p>We’ll use Kendall’s Tau here. Note that you simply have to replace “kendall” with “pearson” if your data do not violate any test assumptions. Also, we’ll specify that we had a directional hypothesis, where there was a negative relationship between our factors (“less”).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(corr_data$fair_satisfied, corr_data$support,
+         <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>,
+         <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>
+         )</code></pre></div>
+<pre><code>## 
+##  Kendall&#39;s rank correlation tau
+## 
+## data:  corr_data$fair_satisfied and corr_data$support
+## z = -13.157, p-value &lt; 2.2e-16
+## alternative hypothesis: true tau is less than 0
+## sample estimates:
+##        tau 
+## -0.5473132</code></pre>
+<p>As you can see, we have a significant negative correlation between our two factors, indicating that as perceptions of fairness and satisfaction with society (in regards to wealth) increases, support for wealth redistribution decreases.</p>
+<p>This is represented by the <em>p</em>-value, which is below 0.05 (but see <a href="https://psyarxiv.com/9s3y6">reasons why you shouldn’t mindlessly pick 0.05 as your <em>p</em>-value</a>). Simply, the <em>p</em>-value tells you how often you might observe an effect as large or larger than you one you’ve found in the long run (i.e. infinite sampling) assuming the null hypothesis is true. If your <em>p</em>-value is below 0.05 by convention we assume that this is an acceptable false-positve rate, as we’d only wrongly accept our results as showing an effect when there isn’t one present at a rate below 5%. Yes, Neyman-Pearson statistics is weird.</p>
+<p>Kendall’s Tau is a measure of the association between two factors. For Pearson’s R (again, a measure of association), you should typically interpret the R value as <span class="math inline">\(R^2\)</span>, which shows how the percentage of variation in one variable is explained by another.</p>
+</div>
+</div>
+<div id="t-tests" class="section level2">
+<h2><span class="header-section-number">6.3</span> <em>t</em>-tests</h2>
+<p><em>t</em>-tests allow us to see whether two means are significantly different from one another. Here, we’ll get a <em>t</em>-value and <em>p</em>-value. The <em>t</em>-value is the ratio of the difference between two groups of scores and the difference within the groups of scores. A larger <em>t</em>-value tells us the difference between the groups is large, and a smaller value tells us the difference is small (i.e. they are similar to one another). Nicely, a <em>t</em>-value of 10 tells us that the groups are 10 times as different from one another as they are within each other.</p>
+<p>For this next analysis, we’ll look at the <strong>lexdec</strong> data set from the <code>languageR</code> library that we’ve used in previous sessions. We’ll do this to save time on filtering the data too much, as above. The only thing we have to do is to remove the subjects we simulated for the other exercises (i.e. 22-30), so we only have real data.</p>
+<p>Can you understand the code below? Ask yourself, why might we use <code>as.character(22:30)</code> to state which subjects we should drop?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(!subject %in%<span class="st"> </span>(<span class="kw">as.character</span>(<span class="dv">22</span>:<span class="dv">30</span>)))</code></pre></div>
+<div id="one-sample-t-tests" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> One-Sample <em>t</em>-tests</h3>
+<p>Here, we want to assess whether the frequencies of words in the study (i.e. how often people use these words) differed significantly from some baseline value of word frequency.</p>
+<p>For this, we’ll use a one-sample <em>t</em>-test, which compares our scores to a known average value whether the variance of the population is not known.</p>
+<p>We can assume that word frquency is calculated from many observations, and as such the frequency is an aggregate score, so it is appropriate to submit summaires of word frquency to a <em>t</em>-test.</p>
+<div id="preparing-the-data" class="section level4">
+<h4><span class="header-section-number">6.3.1.1</span> Preparing the Data</h4>
+<p>First, we have to subset our raw data, which contains information on the subjects and items tested, and only get scores for the word frequencies.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_onesamp &lt;-<span class="st"> </span>lexdec %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(word) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">freq =</span> <span class="kw">mean</span>(frequency))</code></pre></div>
+<p>Below, we’ll use the <code>t.test()</code> function to run a <em>t</em>-test. Here, we input as the first value the data or scores we want to test, and in the second part, we specify the mean score in the population (mu) by which to compare the scores.</p>
+</div>
+<div id="running-the-test" class="section level4">
+<h4><span class="header-section-number">6.3.1.2</span> Running the Test</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(lexdec_onesamp$freq, <span class="dt">mu =</span> <span class="dv">4</span>)</code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  lexdec_onesamp$freq
+## t = 5.2044, df = 78, p-value = 1.535e-06
+## alternative hypothesis: true mean is not equal to 4
+## 95 percent confidence interval:
+##  4.463784 5.038436
+## sample estimates:
+## mean of x 
+##   4.75111</code></pre>
+<p>As we can see, there is a significant difference between the frequencies for our sampled words and our assumption for the mean word frequency for all words. Again, we get <em>t</em> and <em>p</em> values, as well as the 95% confidence interval for our scores.</p>
+</div>
+</div>
+<div id="independent-samples-t-tests" class="section level3">
+<h3><span class="header-section-number">6.3.2</span> Independent-Samples <em>t</em>-tests</h3>
+<p>Here, we’ll explore a different question, which is does the native language of the speaker, English or “other”, have any impact on reaction times to the task?</p>
+<p>First, we have to prepare our data.</p>
+<div id="preparing-the-data-1" class="section level4">
+<h4><span class="header-section-number">6.3.2.1</span> Preparing the Data</h4>
+<p>We need to create scores aggregated by subject, as our raw data contains information on each subject and the items they responded to. To do this, we just need to calcualte a mean score over all items for each subject in the study. We’ll use the <code>group_by()</code> and <code>summarise()</code> functions from <strong>dplyr</strong> to do this.</p>
+<p>Additionally, we’ll calculate log-transformed mean reaction times. This is because reaction times are typically not normally distributed, so we should transform them to make them more normal prior to analysis. The log transformation is one way to achieve this.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_ind &lt;-<span class="st"> </span>lexdec %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(subject, native_language) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">log_RT =</span> <span class="kw">mean</span>(<span class="kw">log</span>(RT), <span class="dt">na.rm =</span> T))</code></pre></div>
+<p>We’ll quickly calculate some descriptives for our study to see how the two groups look.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_ind %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(native_language) %&gt;%
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_log_RT =</span> <span class="kw">mean</span>(log_RT, <span class="dt">na.rm =</span> T),
+            <span class="dt">sd_log_RT =</span> <span class="kw">sd</span>(log_RT, <span class="dt">na.rm =</span> T),
+            <span class="dt">n =</span> <span class="kw">n</span>())</code></pre></div>
+<pre><code>## # A tibble: 2 x 4
+##   native_language mean_log_RT sd_log_RT     n
+##   &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
+## 1 English                6.33    0.0982    11
+## 2 Other                  6.47    0.178      9</code></pre>
+</div>
+<div id="running-the-test-1" class="section level4">
+<h4><span class="header-section-number">6.3.2.2</span> Running the Test</h4>
+<p>As our data are in a long format, we have to do the <em>t</em>-test using a formula, seeing as our log_RT column contains data for both conditions of the experiment. We simply specify our formula like this:</p>
+<p><code>dependent variable ~ condition</code></p>
+<p>The <code>~</code> (read: <a href="https://www.youtube.com/watch?v=InPByzCDoA4">tilde</a>) simply says that the thing on the left is a function of the thing on the right; i.e. our scores are a function of our conditions.</p>
+<p>Additionally, we specify where the data is stored (lexdec_ind), and whether the data are paired (i.e. paired-samples test) or not (i.e. independent-samples test). Here, we specify <code>FALSE</code>, as we want an independent samples <em>t</em>-test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind, <span class="dt">paired =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  log_RT by native_language
+## t = -2.2213, df = 11.903, p-value = 0.0465
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.29139463 -0.00268428
+## sample estimates:
+## mean in group English   mean in group Other 
+##              6.326837              6.473876</code></pre>
+<p>We can see that there is a significant difference between the two groups. Inspection of the log-transformed means shows us that reaction times are generally quicker for English speakers than non-English speakers. This is unsurprising considering the lexical decisions were made for English words.</p>
+<p>You might notice that the degrees of freedom here are not integers (i.e. whole numbers). That’s because R defaults to using Welch’s t-test, which does not make the assumption of homogeneity of variance (which is generally a good thing). Due to not making this assumption, the degrees of freedom and p-value are adjusted slightly.</p>
+</div>
+<div id="checking-assumptions-1" class="section level4">
+<h4><span class="header-section-number">6.3.2.3</span> Checking Assumptions</h4>
+<p>As with many tests <em>t</em>-tests make a number of assumptions, some of which are easily handled (e.g. are the data scalar or ordinal and randomly sampled with a large sample size?). However, these tests also assume that the data are normally distributed. We’ve done this for the correlation above, so we won’t do it again here. However, a final assumption is homogeneity of variance, in which the variance across our samples should be roughly equal. To test for this, we can run a Barlett test for parametric data, or a Fligner test for non-parametric data (using <code>fligner.test()</code>).</p>
+<p>Here, we’ll run the Barlett test:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bartlett.test</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)</code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  log_RT by native_language
+## Bartlett&#39;s K-squared = 2.9197, df = 1, p-value = 0.08751</code></pre>
+<p>We got a non-significant result from this test, which indicates that the variances are not significantly different from one another, and so we’ve met this test assumption.</p>
+<p>Note that we should check this before running any analyses, but I didn’t want to introduce the formula notation in assumption checks.</p>
+</div>
+</div>
+<div id="paired-samples-t-tests" class="section level3">
+<h3><span class="header-section-number">6.3.3</span> Paired-Samples <em>t</em>-tests</h3>
+<p>Paired-samples <em>t</em>-tests are run in the same way as independent-samples tests, only we need to set <code>paired</code> to <code>FALSE</code> within the <em>t</em>-test call.</p>
+<p>We’ll quickly simulate some data to show how this might work. Here, we’ll simulate data for a stroop task, where subjects name words (colour names; e.g. green, blue, red) which are in different colours. Our hypothesis is that they will say the name more quickly if the word and colour are the same (congruent), and they will be slower if they mismatch (incongruent).</p>
+<p>We’ll generate 60 subjects, with the congruent reaction time being around 400ms, and the incongruent reaction time being on average 30ms slower than this.</p>
+<p>Finally, we’ll gather the data together, assuming you’ll often have your data in a long format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
+stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">60</span>),
+  <span class="dt">congruent =</span> <span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">400</span>, <span class="dt">sd =</span> <span class="dv">30</span>, <span class="dt">n =</span> <span class="dv">60</span>),
+  <span class="dt">incongruent =</span> congruent +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">30</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>)
+  ) %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> condition, <span class="dt">value =</span> reaction_time, <span class="dv">2</span>:<span class="dv">3</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">log_RT =</span> <span class="kw">log</span>(reaction_time)
+  )</code></pre></div>
+<p>Note that if your data is in a wide format, you specify the model formula like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(data$dependent_variable_one, data$dependent_variable_two, <span class="dt">data =</span> data_name, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>In this format, you simply give the column names for where your data is stored for each condition, and R will compare the first entry against the second. However, I typically keep my data in long format, so we will mainly use the formula format for specifying our models. Using the formula notation is also useful for more complex designs where wide formatted data is unrealistic, so we’ll stick to this as our default way to specify our models.</p>
+<div id="running-the-test-2" class="section level4">
+<h4><span class="header-section-number">6.3.3.1</span> Running the Test</h4>
+<p>The paired-samples <em>t</em>-test formula takes the same form as the independent sampels <em>t</em>-test, only with <code>paired = TRUE</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(log_RT ~<span class="st"> </span>condition, <span class="dt">data =</span> stroop_dat, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  log_RT by condition
+## t = -25.573, df = 59, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.08379794 -0.07163601
+## sample estimates:
+## mean of the differences 
+##             -0.07771698</code></pre>
+<p>As with the independent-samples t-test, we get all of the same statistics in the output.</p>
+<p>Here, there is a significant difference between the two conditions, with participants responding to items more quickly in the congruent when compared to the incongruent condition. This makes sense, as the name and ink colour both match, so there’s no interference during processing.</p>
+</div>
+</div>
+</div>
+<div id="anova" class="section level2">
+<h2><span class="header-section-number">6.4</span> ANOVA</h2>
+<p>Like the <em>t</em>-value, the F value from an ANOVA lets you know whether two groups of scores are similar or different from one another. More specifically, it gives you the ratio of the variance between two samples.</p>
+<p>As ANOVAs and <em>t</em>-tests are both part of the general linear model family, the outputs of both tests are similar when we have only 2 levels of a condition. Compare the results of the following analyses with those from the <em>t</em>-tests aboves.</p>
+<p>We use the <code>aov()</code> function in R to perform an analysis of variance. With the ANOVA and linear models we will explore later, we get a lot of information from the output just by running the <code>aov()</code> function. As such, we’ll assign this to an object, which can just be a name in which to store our output of the model. After this, we use the <code>summary()</code> function, to get a neat summary of the statistics that we want to look at.</p>
+<div id="one-way-anova" class="section level3">
+<h3><span class="header-section-number">6.4.1</span> One-Way ANOVA</h3>
+<div id="indpendent-samples-anova" class="section level4">
+<h4><span class="header-section-number">6.4.1.1</span> Indpendent-Samples ANOVA</h4>
+<p>We’ll simply refit the same data from the <code>lexdec</code> data set to get an idea of how similar <em>t</em>-tests and ANOVAs are. Again, we just need to specify our DV to the left of the condition.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anova_ind &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)
+<span class="kw">summary</span>(anova_ind)</code></pre></div>
+<pre><code>##                 Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## native_language  1 0.1070 0.10702   5.523 0.0304 *
+## Residuals       18 0.3488 0.01938                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>As before, we have a significant difference between the two language groups on their log reaction times in the lexical decision task.</p>
+</div>
+<div id="paired-samples-anova" class="section level4">
+<h4><span class="header-section-number">6.4.1.2</span> Paired-Samples ANOVA</h4>
+<p>For a paired-sampels ANOVA, we just need to specify our models as before, but we also need to include an error term. This error term takes the form of:</p>
+<p><code>Error(observation_unit/factor)</code></p>
+<p>We always need to specify that this is an error term we’re adding, hence the name <code>Error()</code>. We then need to specify what our error term is. Since we’re using a paired-samples test, where the same people ttake part in both conditions, we need to tell R that our error term is for the condition factor within subjects, i.e. different people might react differently to the conditions. Finally, as always we need to specify where our data lies.</p>
+<p>Below, we’ll just refit the stroop data from the <em>t</em>-test example above.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anova_paired &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT ~<span class="st"> </span>condition +<span class="st"> </span><span class="kw">Error</span>(subject/condition), <span class="dt">data =</span> stroop_dat)
+<span class="kw">summary</span>(anova_paired)</code></pre></div>
+<pre><code>## 
+## Error: subject
+##           Df   Sum Sq  Mean Sq F value Pr(&gt;F)
+## Residuals  1 0.005198 0.005198               
+## 
+## Error: subject:condition
+##           Df Sum Sq Mean Sq
+## condition  1 0.1359  0.1359
+## 
+## Error: Within
+##            Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## condition   1 0.0453 0.04535   8.302 0.00472 **
+## Residuals 116 0.6336 0.00546                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>As before, we have a significant difference between the two congruency conditions on their log reaction times in the lexical decision task.</p>
+</div>
+</div>
+</div>
+<div id="linear-regression" class="section level2">
+<h2><span class="header-section-number">6.5</span> Linear Regression</h2>
+<p>In this section, we’ll look at linear regression. We would typically fit a linear model when we predict a linear relationship between one or more variable(s), e.g. <span class="math inline">\(X\)</span>, and a continuous dependent variable, e.g. <span class="math inline">\(Y\)</span>. This relationship for any one subject (or item) can be described as:</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 + X + e\]</span> Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable, is calcualted by the individual’s intercept value <span class="math inline">\(\beta_0\)</span> (i.e. typically the score at 0 on the x-axis of a graph), their slope term <span class="math inline">\(\beta_1\)</span>, or how much to increase their <span class="math inline">\(Y\)</span> value for every tick of the x-axis, and an error term <span class="math inline">\(e\)</span>, which is the residual error from our model.</p>
+<p>The residual error (or simply residuals) show the difference between our predicted values from our model and observed values from our data. (Remember our QQ-plot? This looks at how your residuals are distributed. If they are normally distributed, then we’re OK!)</p>
+<p>We have this error term as we do not want to fit a perfect model to our data. If we did that, our model would work very well for our exact sample, but it wouldn’t work so well for more generalised cases (e.g. with other samples). As such, we do not <strong>overfit</strong> our model so that it keeps some explanatory power for broader cases.</p>
+<p>Like <em>t</em>-tests and ANOVAs, linear regression is simply another way for us to analyse our data. The general linear model is very useful in that it can be applied to the simplest and most complex cases of analyses, and really, it’s likely this is all you’ll need to know. Nicely, our predictors can be scalar data (e.g. quantifying the success of different doses of a drug) or categorical (e.g. different conditions; drug or no drug).</p>
+<div id="general-linear-model" class="section level3">
+<h3><span class="header-section-number">6.5.1</span> General Linear Model</h3>
+<p>We use the general linear model when we have outcome data that is a continuous variable. However, this procedure is not appropriate when we have bounded data (e.g. Likert scales, binomial (0 or 1) responses). In these cases, we have to use a more specific form of the model, called the <strong>generalised linear model</strong>, which we’ll look at after this section.</p>
+<div id="independent-samples-linear-model" class="section level4">
+<h4><span class="header-section-number">6.5.1.1</span> Independent-Samples Linear Model</h4>
+<p>As with the <em>t</em>-test and ANOVA, we’ll use the <code>lexdec_ind</code> simulated data set from before.</p>
+<div id="running-the-test-3" class="section level5">
+<h5><span class="header-section-number">6.5.1.1.1</span> Running the Test</h5>
+<p>As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the <code>~</code>, and our conditions to the right. Here, we’ll assign this to the object <code>lm_ind</code>, and we’ll get a summary of the data using the <code>summary()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_ind &lt;-<span class="st"> </span><span class="kw">lm</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)
+<span class="kw">summary</span>(lm_ind)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ native_language, data = lexdec_ind)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.22075 -0.07276 -0.00893  0.07599  0.33469 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           6.32684    0.04197  150.75   &lt;2e-16 ***
+## native_languageOther  0.14704    0.06256    2.35   0.0304 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1392 on 18 degrees of freedom
+## Multiple R-squared:  0.2348, Adjusted R-squared:  0.1923 
+## F-statistic: 5.523 on 1 and 18 DF,  p-value: 0.03037</code></pre>
+<p>Nicely, we get a lot of information from this model. As with the ANOVA, we have a test statistic (this time a <em>t</em>-value) and a <em>p</em>-value, under the heading <code>Pr(&gt;|t|)</code>.</p>
+<p>The <em>t</em>-value is the intercept term for our condition, divided by the standard error. The <em>p</em>-value here is the proportion of the <em>t</em> distribution which is greater than the <em>t</em> statistic. The <em>p</em>-value is just the proportion of the t distribution which is greater than the value of the t statistic (hence the weird notation).</p>
+<p>We also get some information that is more informative than the ANOVA. We get our intercept term (<code>(Intercept)</code>), which here is mean score for the English language group. Let’s see how that matches our mean scores:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_means &lt;-<span class="st"> </span>lexdec_ind %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(native_language) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))
+lexdec_means</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   native_language  mean
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 English          6.33
+## 2 Other            6.47</code></pre>
+<p>Under this, we have the difference from this intercept for the Other language group (<code>native_languageOther</code>). How does this relate to the means? Below, we’ll subtract the congruent scores from the incongruent scores.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_means$mean[<span class="dv">2</span>] -<span class="st"> </span>lexdec_means$mean[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] 0.1470395</code></pre>
+<p>As you can see, this value relates to the score for <code>native_languageOther</code>, which shows how the Other language group differs from the baseline, English language group.</p>
+<p>You might ask now, how did R know which condition to set as the intercept? R defaults to going alphabetically, so English comes before Other, hence it is the baseline. In simple cases like this, where we have only 2 levels, this is not a concern. But when we have more levels or factors, we need to pay attention to how we specify our contrasts in R.</p>
+<p>Finally, in the output we have our residuals, including the residual standard error.</p>
+</div>
+</div>
+<div id="paired-samples-linear-model" class="section level4">
+<h4><span class="header-section-number">6.5.1.2</span> Paired-Samples Linear Model</h4>
+<p>As with the <em>t</em>-test and ANOVA, we’ll use the <code>stroop_dat</code> simulated data set from before.</p>
+<div id="running-the-test-4" class="section level5">
+<h5><span class="header-section-number">6.5.1.2.1</span> Running the Test</h5>
+<p>As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the <code>~</code>, and our conditions to the right. Here, we’ll assign this to the object <code>lm_ind', and we'll get a summary of the data using the</code>summary()` function. Unlike with <em>t</em>-tests and ANOVA, we do not need to specify an error term if our data are within-subjects (or paired-samples), so we simply use the same formula for independent- and paried-samples tests.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_pair &lt;-<span class="st"> </span><span class="kw">lm</span>(log_RT ~<span class="st"> </span>condition, <span class="dt">data =</span> stroop_dat)
+<span class="kw">summary</span>(lm_pair)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ condition, data = stroop_dat)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.153786 -0.049960  0.006172  0.039194  0.202953 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          5.978613   0.009499 629.391  &lt; 2e-16 ***
+## conditionincongruent 0.077717   0.013434   5.785 6.07e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.07358 on 118 degrees of freedom
+## Multiple R-squared:  0.221,  Adjusted R-squared:  0.2144 
+## F-statistic: 33.47 on 1 and 118 DF,  p-value: 6.066e-08</code></pre>
+<p>As before, we get our intercept term (<code>(Intercept)</code>), which here is mean score for the congruent condition. Let’s see how that matches our mean scores:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_means &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(condition) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))
+stroop_means</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   condition    mean
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 congruent    5.98
+## 2 incongruent  6.06</code></pre>
+<p>Under this, we have the difference from this intercept for the congruent condition (<code>conditionincongruent</code>). How does this relate to the means? Below, we’ll subtract the congruent scores from the incongruent scores.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_means$mean[<span class="dv">2</span>] -<span class="st"> </span>stroop_means$mean[<span class="dv">1</span>]</code></pre></div>
+<pre><code>## [1] 0.07771698</code></pre>
+<p>As you can see, this value relates to the score for <code>conditionincongruent</code>, which shows how the incongruent condition differs from the baseline, congruent condition.</p>
+<p>Aside from this, we have a whole host of other information that we might want to consider, including an adjusted <span class="math inline">\(R^2\)</span>, which tells us about how much our explanatory predictors (e.g. condition) accounts for changes in the dependent variable. For now, this is all we need.</p>
+</div>
+</div>
+<div id="assumptions" class="section level4">
+<h4><span class="header-section-number">6.5.1.3</span> Assumptions</h4>
+<p>Simple general linear models make a few assumptions, of which:</p>
+<ul>
+<li>Linear relationship: your variables must be linearly related, otherwise a linear fit doesn’t make sense</li>
+<li>Normality: Variables must be normally distributed</li>
+<li>Homoscedasticity (homogeneity of variance): your residuals are equal across the regression line</li>
+<li>No auto-correlation: your observations for your dependent variable must not impact one-another (e.g. eye-movements; if you get one success (i.e. a look at an object), the next eye-movement is likely also be a success (i.e. still looking) – this is bad!)</li>
+</ul>
+<p>We’ve already looked at checking for normality and homoscedasticity, so we won’t do this again here. We can also decide about auto-correlation prior to running our analyses, so if you understand your data we may not need to check this assumption. But we should probably check for a linear relationship. The best way to do this is to just eye-ball the data with a plot. This makes sense if your predictor is on a scale, but it’s not really defined when we have groups, so we’ll leave that for now.</p>
+</div>
+</div>
+<div id="generalised-linear-model" class="section level3">
+<h3><span class="header-section-number">6.5.2</span> Generalised Linear Model</h3>
+<p>What about cases in which we have a binomial response, e.g. if people got an answer correct or not? Here, we have to use a generalised linear model. This takes the same form as the general linear model, only these models use a link function, which allows the dependent variable to be a function of some error term other than the normal distribution.</p>
+<p>We won’t go into detail as to how the generalized linear model works, but just note that you can specify different link functions to describe your data, so for example if your data take a log distribution, you can specify a logit link.</p>
+<p>We’ll focus on a common case of fitting a logistic model to our data using a binomial distribution.</p>
+<div id="preparing-the-data-2" class="section level4">
+<h4><span class="header-section-number">6.5.2.1</span> Preparing the Data</h4>
+<p>Below, we’ll simulate some data looking at the effectiveness of a smoking intervention on smoking cessation rates. We have a simple outcome, 0 if people still smoke after the experiment (i.e. a failure), and 1 if they quit smoking (i.e. a success).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
+prob &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>), <span class="dv">50</span>)
+cond &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;intervention&quot;</span>), <span class="dv">50</span>)
+subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">100</span>)
+
+smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> subject,
+  <span class="dt">cond =</span> cond,
+  <span class="dt">outcome =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> prob)
+)</code></pre></div>
+<p>Let’s see what the rates of smoking look like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat %&gt;%<span class="st"> </span><span class="kw">group_by</span>(cond) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(outcome))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   cond          mean
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 control      0.240
+## 2 intervention 0.540</code></pre>
+<p>Great! It looks like our intervention worked well. If only it was that easy in real life…</p>
+</div>
+<div id="running-the-test-5" class="section level4">
+<h4><span class="header-section-number">6.5.2.2</span> Running the Test</h4>
+<p>The generalised linear model is specified using the <code>glm()</code> function. Here, we can specify a few extra details about our model or accept the defaults. We’ll overspecify to show these things work. Here, we’ve asked to fit the model using a binomial link function, using the <code>family = &quot;binomial&quot;</code> argument since our data come from a binomial decision and follow a binomial distribution.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_ind &lt;-<span class="st"> </span><span class="kw">glm</span>(outcome ~<span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+<span class="kw">summary</span>(glm_ind)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = outcome ~ cond, family = &quot;binomial&quot;, data = smoking_dat)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2462  -0.7409  -0.7409   1.1101   1.6894  
+## 
+## Coefficients:
+##                  Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       -1.1527     0.3311  -3.481   0.0005 ***
+## condintervention   1.3130     0.4361   3.011   0.0026 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 133.75  on 99  degrees of freedom
+## Residual deviance: 124.10  on 98  degrees of freedom
+## AIC: 128.1
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Again, we get a similar output to the linear model, but we’ve fit the data using a more appropriate model to account for the binary nature of the data. Notice that now we have z-values instead of <em>t</em>-values. Aside from that, all of your other interpretations remain the same.</p>
+</div>
+<div id="proportion-data" class="section level4">
+<h4><span class="header-section-number">6.5.2.3</span> Proportion Data</h4>
+<p>We can also fit models with proportion data for the dependent variable using the <code>glm()</code> function. To do so, you need the number of successes and the number of observations, specifying your model like so:</p>
+<p><code>glm(successes/observations ~ cond, data = smoking_dat, family = &quot;binomial&quot;)</code></p>
+<p>Or, if you just have the proportion and number of observations, you can fit it like so:</p>
+<p><code>glm(proportion ~ cond, data = smoking_dat, family = &quot;binomial&quot;, weights = observations)</code></p>
+<p>In this last case, you just specify to weight successes by the number of observations that you had for each data point. This weighting is important when you do more advanced analyses, like growth curve analysis with transformations on your data (e.g. empirical logit) as you can tell your model how much to “trust” each data point. But for our cases so far, this is all we need to know about the weights argument.</p>
+</div>
+</div>
+</div>
+<div id="exercises-5" class="section level2">
+<h2><span class="header-section-number">6.6</span> Exercises</h2>
+<p>For these exercises, we will look at the core concepts from this lesson.</p>
+<p>For these exercises we’ll use simulated data sets from the <strong>inputs</strong> folder. This data was saved as a .csv, so we need to use <code>read_csv()</code> to load the data into R.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<p>Next, we’ll load all of the data sets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">binom_b_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/binom_between_data.csv&quot;</span>)
+binom_w_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/binom_within_data.csv&quot;</span>)
+bsubj_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/bsubj_data.csv&quot;</span>)
+wsubj_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/wsubj_data.csv&quot;</span>)
+corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/corr_data.csv&quot;</span>)</code></pre></div>
+<div id="question-1-5" class="section level3">
+<h3><span class="header-section-number">6.6.1</span> Question 1</h3>
+<p>Using the <code>corr_data</code> data set, prepare to run a correlation for the height and weights of the participants. First, you have to check all of the assumptions are met for a parametric test. Do a visual inspection of the normality of the variables, and check that the two are linearly related.</p>
+</div>
+<div id="question-2-5" class="section level3">
+<h3><span class="header-section-number">6.6.2</span> Question 2</h3>
+<p>Using the information from Question 1, run a correlation for the height and weights of the participants. Adjust to a non-parametric test if necessary.</p>
+<p>What is the correlation between the two variables? Can you work out the <span class="math inline">\(R^2\)</span>? What does this tell us?</p>
+</div>
+<div id="question-3-5" class="section level3">
+<h3><span class="header-section-number">6.6.3</span> Question 3</h3>
+<p>Aggregate the scores of the <code>bsubj_data</code> data set by subject as an object called <code>bsubj_agg</code>. Output the mean scores aggregated by subject.</p>
+<p>Then run a <em>t</em>-test between the two groups of A. Is there a significant difference between the two conditions?</p>
+</div>
+<div id="question-4-5" class="section level3">
+<h3><span class="header-section-number">6.6.4</span> Question 4</h3>
+<p>Check that a <em>t</em>-test was appropriate for question 3. We’ll only check for <strong>homogeneity of variance</strong> here. What did the test show? Was a <em>t</em>-test appropriate?</p>
+</div>
+<div id="question-5-5" class="section level3">
+<h3><span class="header-section-number">6.6.5</span> Question 5</h3>
+<p>Aggregate the <code>wsubj_data</code> by subjects and save this as the object <code>wsubj_agg</code>. Then submit this aggregated data to an ANOVA, saving the output as the object <code>wsubj_aov</code>. What does the ANOVA show us?</p>
+</div>
+<div id="question-6-5" class="section level3">
+<h3><span class="header-section-number">6.6.6</span> Question 6</h3>
+<p>We should probably allow people to interpret our inferential tests with plots and descriptive statistics.</p>
+<p>First, make a plot of the two conditions from Question 5, using your <code>wsubj_agg</code> data set. Then, output a table of means, standard deviations, and standard errors for the two groups. To calculate the standard error you need to take the standard deviation of the dependent variable divided by the square root of number of observations for the dependent variable (i.e. <code>sd(output)/sqrt(length(output))</code>).</p>
+</div>
+<div id="question-7-5" class="section level3">
+<h3><span class="header-section-number">6.6.7</span> Question 7</h3>
+<p>Fit a linear model to the <code>wsubj_agg</code> data and save this as <code>wsubj_lm</code>. How does this compare to the ANOVA from question 5? Compare the results of the parameter estimates from the linear model to that of your plot. How do these parameters compare?</p>
+</div>
+<div id="question-8-5" class="section level3">
+<h3><span class="header-section-number">6.6.8</span> Question 8</h3>
+<p>Fit a linear model to the Using the <code>binom_b_data</code>, and save this output as <code>binom_b_lm</code>. Look at the summary of the output. Is there a significant difference between the two groups?</p>
+</div>
+<div id="question-9-5" class="section level3">
+<h3><span class="header-section-number">6.6.9</span> Question 9</h3>
+<p>Fit a linear model to the Using the <code>binom_w_data</code>, and save this output as <code>binom_b_lm</code>. Look at the summary of the output. Is there a significant difference between the two groups? You will first have to convert the data to long format in order to use the formula syntax for your model. For this, set the key to “test_time”, and the value to “success”.</p>
+</div>
+<div id="question-10-4" class="section level3">
+<h3><span class="header-section-number">6.6.10</span> Question 10</h3>
+<p>Using the long-formatted <code>binom_w_data</code> from question 9, create a table containing the calculate means, standard deviations, standard errors, and 95% confidence intervals for the two test times.</p>
+<p>In order to calcualte the upper and lower bounds of the 95% confidence interval, you will have to take the mean of the dependent variable - 1.96 times the <strong>standard error</strong> of the mean, and the mean of the dependent variable + 1.96 times the standard error of the mean respectively. Call these columns <code>lower_confint</code> and <code>upper_confint</code> respectively.</p>
+<p>Next, plot a bar plot of this data with standard error bars.</p>
+<p>Compare your hand-coded standard errors with those from ggplot. How do they compare? Do the bounds seem similar?</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-manipulation-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="advanced-statistical-tests-and-evaluating-the-null.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+---
+title: "06 Simple Statistical Tests"
+subtitle: an introduction to the general linear model
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: ioslides_presentation
+---
+
+<style>
+pre {
+  width: 100%; /* 106%; */
+  left: 0; /* -60px; */
+  padding: 10px 15px 10px 15px; /* 10px 0 10px 60px; */
+  font-size: 16px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3) 
+```
+
+# Overview
+
+## Lesson Structure
+
+In this session, we will cover unifactorial tests with only 2 levels in a factor. 
+
+Specifically, we'll cover:
+
+- correlations
+- one-sample, paired, and independent *t*-tests
+- one-way ANOVA
+- simple linear regression
+
+This session assumes some experience with basic statistics.
+
+## Getting Started
+
+As always, we first need to load the `tidyverse` set of packages for this Chapter.
+
+```{r 6_load_packages, include = FALSE}
+library(tidyverse)
+```
+
+```{r 6_load_packages_class, eval = FALSE}
+library(tidyverse)
+```
+
+## Correlation
+
+Is there a significant relationship between some observed variables?
+
+### Background
+
+**Variance**: Average of the squared differences from the mean (how much spread)
+
+**Covariance**: Like variance, but not variation within observations, but how variables vary together; big number = related
+
+**Correlation coefficient**: Standardised covariance (i.e. not sensitive to scale), bounded between -1 and 1. 0 is no relationship, -1/1 perfect relationship.
+
+## Correlation: Real Data
+
+Load data from the **OSL** (this code is in your Rmd file).
+
+```{r 6_load_online_csv_data, message = FALSE}
+# variables
+scale_max <- 6
+id <- "0Bz-rhZ21ShvOMGxnYUJfYmR5d2M" # google file ID
+# load and clean data
+corr_data <- read_csv(
+  sprintf(
+    "https://docs.google.com/uc?id=%s&export=download", 
+    id)
+  ) %>%
+  mutate(redist2 = (scale_max + 1) - redist2,
+         redist4 = (scale_max + 1) - redist4) %>%
+  transmute(PS, 
+            Fair_Satisfied = (fairness + satisfaction) / 2,
+            Support = (redist1 + redist2 + redist3 + redist4) / 4
+            ) %>%
+  rename_all(tolower)
+corr_data
+```
+
+## Correlation: Real Data
+
+- `sprintf()` replaces the %s with the URL stored in `id`.
+- in `mutate()` we change the reverse scored items to be on the same scale
+- then keep mean scores for our variables with participant number, and rename all to lowercase
+
+```{r 6_load_online_csv_data_code, echo = FALSE}
+head(corr_data)
+```
+
+## Correlation: Real Data
+
+We predicted those who see society as fair, and are satisfied with the status quo will have less support for redistribution of wealth.
+
+Calculate means and standard deviations for our variables. We use `summarise_at()`, a variant on summarise for this.
+
+- must define vars, or functions to perform summary.
+
+```{r 6_summarise_online_corr_data}
+corr_data %>% summarise_at(c("fair_satisfied", "support"), 
+                           vars(mean, sd)
+                           )
+```
+
+## Correlation: Assumptions
+
+- variables are linearly related
+- variables follow a normal distribution (**assumption of normality**)
+
+2 options
+
+1. QQ-plot for visual inspection of normality
+2. Shapiro-Wilk test for statistical evaluation of normality
+
+## Correlation: Assumptions
+
+### QQ-plots
+
+```{r 6_check_online_corr_data_assumptions_plot_one}
+corr_data %>%
+  ggplot(aes(sample = fair_satisfied)) +
+    geom_qq()
+```
+
+## Correlation: Assumptions
+
+### QQ-plots
+
+```{r 6_check_online_corr_data_assumptions_plot_two}
+corr_data %>%
+  ggplot(aes(sample = support)) +
+    geom_qq()
+```
+
+## Correlation: Assumptions
+
+### Shapiro-Wilk
+
+Significant results indicate the assumption of normality is **violated**
+
+```{r 6_check_online_corr_data_assumptions_stat_one}
+shapiro.test(corr_data$fair_satisfied)
+```
+
+## Correlation: Assumptions
+
+### Shapiro-Wilk
+
+Significant results indicate the assumption of normality is **violated**
+
+```{r 6_check_online_corr_data_assumptions_stat_two}
+shapiro.test(corr_data$support)
+```
+
+## Running a Correlation
+
+- We use `cor.test()`, which takes as an argument two columns from a data.frame or matrix, which are your two factors to compare
+- Produces test statistics, including *t*-values, *p*-values, and 95% confidence intervals
+- Defaults to Pearson's R (parametric data), and to a two-sided test of significance (no predicted direction of effect)
+
+## Running a Correlation
+
+- Our data violate test assumptions, so we can use a **non-parametric** alternative to Pearson's R, Kendall's Tau.
+- We predicted a negative correlation between `fair_satisfied` and `support`, so alternative hypothesis is "less"
+
+## Running a Correlation
+
+```{r 6_run_online_corr}
+cor.test(corr_data$fair_satisfied, corr_data$support,
+         method = "kendall",
+         alternative = "less"
+         )
+```
+
+## Running a Correlation
+
+- We found a signficiant negative relationship at $\alpha$ threshold of 0.05
+- *p*-value: assuming null hypothesis, and in the long run, probability of observing as large or larger effects
+- But don't mindlessly choose $\alpha$!
+- Can square Pearson's R for $R^2$, which tells you how change in 1 variable affects another.
+
+# *t*-tests
+## *t*-tests
+
+- Do two means differ?
+- Get *t*- and *p*- values
+- *t*-value: ratio of difference between groups of scores vs. difference within groups. Larger = difference between groups is large.
+
+## *t*-tests
+
+We'll use the lexdec data set, excluding the fake subjects we put in there last time.
+
+```{r 6_load_lexdec_data, include = FALSE}
+lexdec <- read_csv("../inputs/lexical_decision_raw_data.csv") %>%
+  filter(!subject %in% (as.character(22:30)))
+```
+
+```{r 6_load_lexdec_data_class, eval = FALSE}
+lexdec <- read_csv("inputs/lexical_decision_raw_data.csv") %>%
+  filter(!subject %in% (as.character(22:30)))
+```
+
+## One-sample *t*-test
+
+- Compare group mean against a reference mean value
+- e.g. do the frequencies of words in our study differ to 4 (presumed mean in the population)?
+
+Aggregate the data by word id!
+
+```{r 6_prepare_lexdec_data}
+lexdec_onesamp <- lexdec %>% 
+  group_by(word) %>%
+  summarise(freq = mean(frequency))
+```
+
+## One-sample *t*-test
+
+Use the `t.test()` function. Takes your scores as one argument, and population mean as another ($\mu$; pronounced mu)
+
+```{r 6_run_onesamp_test}
+t.test(lexdec_onesamp$freq, mu = 4)
+```
+
+## One-sample *t*-test
+
+We get:
+
+- *t* and *p* values
+- and 95% confidence interval
+- *Note*: 95% CI: 95% of your confidence intervals will contain the true value in the long run
+
+## Independent-Samples *t*-test
+
+- Comparing two means across groups
+- e.g. does the native language of the speaker, English or "other", have any impact on reaction times to the task?
+
+### Prepare Data
+
+```{r 6_prepare_independent_t_test_data}
+lexdec_ind <- lexdec %>% 
+  group_by(subject, native_language) %>%
+  summarise(log_RT = mean(log(RT), na.rm = T))
+```
+
+## Independent-Samples *t*-test
+
+### Calculate Descriptives
+
+```{r 6_descriptives_independent_t_test_data}
+lexdec_ind %>% 
+  group_by(native_language) %>%
+  summarise(mean_log_RT = mean(log_RT, na.rm = T),
+            sd_log_RT = sd(log_RT, na.rm = T),
+            n = n())
+```
+
+## Independent-Samples *t*-test
+
+Use formula syntax if data is in long format. 
+
+The thing on the left is a function of the thing on the right.
+
+`dependent variable ~ group variable, data = data source`
+
+## Independent-Samples *t*-test
+
+```{r 6_run_independent_t_test}
+t.test(log_RT ~ native_language, data = lexdec_ind, paired = FALSE)
+```
+
+## Checking *t*-test asssumptions
+
+- Homogeneity of Variance: variance is similar across samples.
+- For parametric data, use `bartlett.test()`, for non-parametric use `fligner.test()`
+- Significant results = assumption is **violated**
+
+```{r 6_independent_t_test_assumptions}
+bartlett.test(log_RT ~ native_language, data = lexdec_ind)
+```
+
+We're safe!
+
+## Paired-Samples *t*-test
+
+Simulate some data, this code is done for you in your class script Rmd file.
+
+```{r 6_generate_paired_data}
+set.seed(1000)
+stroop_dat <- tibble(
+  subject = seq(1:60),
+  congruent = rnorm(mean = 400, sd = 30, n = 60),
+  incongruent = congruent + rnorm(mean = 30, sd = 10, n = 60)
+  ) %>%
+  gather(key = condition, value = reaction_time, 2:3) %>% 
+  mutate(
+    log_RT = log(reaction_time)
+  )
+```
+
+## Paired-Samples *t*-test
+
+Simulate some data, this code is done for you in your class script Rmd file.
+
+```{r 6_generate_paired_data_output}
+stroop_dat
+```
+
+## Paired-Samples *t*-test
+
+If not in long format, we can do this:
+
+```{r 6_paired_ttest_alternative_syntax, eval = FALSE}
+t.test(data$dependent_variable_one, 
+       data$dependent_variable_two, 
+       data = data_name, 
+       paired = TRUE
+       )
+```
+
+## Paired-Samples *t*-test
+
+But it is long format, so we'll do this:
+
+```{r 6_run_paired_t_test}
+t.test(log_RT ~ condition, data = stroop_dat, paired = TRUE)
+```
+
+# ANOVA
+## ANOVA
+
+- F-statistic: the ratio of the variance between two samples
+- Larger F-statistic, greater variance between samples
+- `aov()` function used for **a**nalysis **o**f **v**ariance
+
+## ANOVA: One-way Independent Samples
+
+Use the same data as for the *t*-test
+
+```{r 6_independent_samples_ANOVA}
+anova_ind <- aov(log_RT ~ native_language, data = lexdec_ind)
+summary(anova_ind)
+```
+
+## ANOVA: One-way Paired-Samples
+
+- Specify our models as before, but include an error term. 
+- This error term takes the form of:
+
+`Error(observation unit/grouping factor)`
+
+Read this as your observational units are within your groups.
+
+## ANOVA: One-way Paired-Samples
+
+Use the same data as for the *t*-test
+
+```{r 6_paired_samples_ANOVA}
+anova_paired <- aov(log_RT ~ condition + Error(subject/condition), data = stroop_dat)
+summary(anova_paired)
+```
+
+# Linear Regression
+## Linear Regression
+
+- Predict a linear relationship between one or more variable(s) and a continuous dependent variable
+- Predictor variables can be continuous or categorical
+
+General form:
+
+$$Y = \beta_0 + \beta_1 + X + e$$
+- Outcome = intercept + slope + condition effect + residual error
+- *Note*: We do not fit a perfect model, hence error term
+- Residuals = distance of observed values from predicted values
+
+## Independent Samples
+
+Same data as before.
+
+```{r 6_independent_linear_regression}
+lm_ind <- lm(log_RT ~ native_language, data = lexdec_ind)
+summary(lm_ind)
+```
+
+## Independent Samples
+
+```{r 6_independent_regression_descriptives}
+lexdec_means <- lexdec_ind %>% 
+  group_by(native_language) %>% 
+  summarise(mean = mean(log_RT))
+lexdec_means
+```
+
+How do these means relate to the intercept and slope?
+
+## Independent Samples
+
+How do these means relate to the intercept and slope?
+
+```{r 6_independent_regression_parameter_estimates_example}
+lexdec_means$mean[2] - lexdec_means$mean[1]
+lm_ind$coefficients
+```
+
+## Paired Samples
+
+Same data as before. Same interpretation as with independent samples. No need for an error term.
+
+```{r 6_paired_samples_linear_model}
+lm_pair <- lm(log_RT ~ condition, data = stroop_dat)
+summary(lm_pair)
+```
+
+## Linear Regression Assumptions
+
+Simple general linear models make a few assumptions, of which:
+
+- Linear relationship: your variables must be linearly related
+- Normality: Variables must be normally distributed
+- Homoscedasticity (homogeneity of variance): your residuals are equal across the regression line
+- No auto-correlation: your observations for your dependent variable must not impact one-another
+
+# Generalised Linear Model
+## Generalised Linear Model
+
+- What if your data are not continuous? Use a generalised linear model
+- These use a link function, which allows the dependent variable to be a function of some error term other than the normal distribution (e.g. logistic) 
+
+## Generalised Linear Model
+
+Make some data, this is in your class script Rmd file.
+
+```{r 6_binomial_data_generation}
+set.seed(1000)
+prob <- rep(c(0.3, 0.6), 50)
+cond <- rep(c("control", "intervention"), 50)
+subject <- seq(1:100)
+
+smoking_dat <- tibble(
+  subject = subject,
+  cond = cond,
+  outcome = rbinom(n = 100, size = 1, prob = prob)
+)
+```
+
+## Generalised Linear Model
+
+Look at the descriptives for your new data.
+
+```{r 6_binomial_data_descriptives}
+smoking_dat %>% group_by(cond) %>% summarise(mean = mean(outcome))
+```
+
+## Generalised Linear Model
+
+- Takes a similar form to the `lm()` but we use `glm()` and need to specify a family for our link function
+- Here we specify the data come from a binomial distribution
+- Now get z-scores instead of *t*-values
+
+```{r 6_run_generalised_linear_model_binomial}
+glm_ind <- glm(outcome ~ cond, data = smoking_dat, family = "binomial")
+```
+
+## Generalised Linear Model
+
+```{r 6_run_generalised_linear_model_binomial_results}
+summary(glm_ind)
+```
+
+## Proportion Data
+
+- Again use the generalised linear model with the `glm()` function
+- Need number of successed and observations from which successes are counted
+
+Specify without pre-calculated proportions:
+
+`glm(successes/observations ~ cond, data = smoking_dat, family = "binomial")`
+
+Specify with pre-calculated proportions:
+
+`glm(proportion ~ cond, data = smoking_dat, family = "binomial", weights = observations)`
+
+Note you need to set weights as the observations that contributed in this latter form.
+
+# Exercises

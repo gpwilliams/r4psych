@@ -1,5 +1,0 @@
-# Mixed Effects Models 2
-
-Basic non-parametric tests.
-
-Content to follow.

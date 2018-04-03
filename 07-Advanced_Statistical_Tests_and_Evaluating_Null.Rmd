@@ -1,0 +1,23 @@
+# Advanced Statistical Tests and Evaluating the Null
+
+In this session, we'll cover more advanced statistical tests, such as multifactorial experiments (e.g. multifactorial ANOVA, multiple regression), and experiments with factors of more than 2 levels. 
+
+Additionally, we'll cover how to evaluate evidence in support of the null using the Neyman-Pearson framework.
+
+Content to follow.
+
+## Multifactorial Analyses
+
+### Multifactorial ANOVA
+
+What if we want to conduct a multifactorial (e.g. two-way) ANOVA? Below, we'll look at some data by which we want to evaluate the main effects of two conditions, and the interaction between them on some depdendent variable. 
+
+### Mixed ANOVA
+
+### Multiple Regression
+
+## Evaluating Evidence for the Null
+
+Here, we will look at equivalence tests. Content to follow.
+
+## Effect Sizes

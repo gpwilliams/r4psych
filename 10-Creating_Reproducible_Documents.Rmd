@@ -1,6 +1,6 @@
 # Creating Reproducible Documents
 
-How to create Rmarkdown documents for reproducible documentation of analyses.
+In this session, we'll cover how using Rmarkdown documents for reproducible documentation of analyses. We'll also cover general theory and background in research practices.
 
 Content to follow.
 

@@ -1,0 +1,5 @@
+# Mixed Effects Models
+
+In this session we'll cover Linear/Hierarchical Mixed Effects Modelling.
+
+Content to follow.

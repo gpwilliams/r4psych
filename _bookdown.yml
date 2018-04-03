@@ -12,10 +12,10 @@ rmd_files: [
 "03-Data_Visualisation_Two.Rmd", 
 "04-Data_Manipulation_One.Rmd", 
 "05-Data_Manipulation_Two.Rmd", 
-"06-Traditional_Tests.Rmd", 
-"07-Simulation_Calculating_Power.Rmd", 
-"08-Mixed_Effects_Models_One.Rmd", 
-"09-Mixed_Effects_Models_Two.Rmd", 
+"06-Simple_Statistical_Tests.Rmd", 
+"07-Advanced_Statistical_Tests_and_Evaluating_Null.Rmd", 
+"08-Simulation_and_Calculating_Power.Rmd", 
+"09-Mixed_Effects_Models.Rmd", 
 "10-Creating_Reproducible_Documents.Rmd",
 "11-references.Rmd"
 ]

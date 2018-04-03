@@ -1,0 +1,5 @@
+# Simulation and Calculating Power
+
+In this session we'll cover how to simualte data and perform power analyses.
+
+Content to follow.

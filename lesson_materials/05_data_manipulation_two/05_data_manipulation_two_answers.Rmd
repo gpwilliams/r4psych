@@ -7,7 +7,7 @@ output: html_notebook
 
 For these exercises, we will look at the core concepts from this lesson.
 
-For these exercises we'll a simulated data set I created in the **data_generation** folder. This data was saved as a tibble in the RData file, so we just use `load()` to open this data into R.
+For these exercises we'll use a simulated data set I created in the **data_generation** folder. This data was saved as a tibble in the RData file, so we just use `load()` to open this data into R.
 
 ```{r 5_exercise_libraries_data, message=FALSE}
 # load libraries
@@ -129,7 +129,7 @@ Take the data and do this all together:
 4. Remove the caffeine and response columns and reorder the data so we have subject first, followed by age, condition, and response_time.
 5. Calculate mean, standard deviation, and n for condition on the response time column. Call your new column names anything sensible.
 
-```{r 4_question_ten_answer}
+```{r 5_question_ten_answer}
 data %>%
   rename(response_time = DV) %>%
   filter(age < 60) %>%
@@ -146,7 +146,7 @@ data %>%
 
 Was there any point in us combining the two factors into a single condition column? Do the same process above without making a summary of the data. Feed this data into a boxplot, with condition on the x-axis, and response_time on the y-axis.
 
-```{r question_11_answer}
+```{r 5_question_11_answer}
 data %>%
   rename(response_time = DV) %>%
   filter(age < 60) %>%

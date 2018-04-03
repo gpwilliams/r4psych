@@ -1,0 +1,194 @@
+---
+title: "06 - Simple Statistical Tests Answers"
+output: html_notebook
+---
+
+# Introduction and Setup
+
+For these exercises, we will look at the core concepts from this lesson.
+
+For these exercises we'll use simulated data sets from the **inputs** folder. This data was saved as a .csv, so we need to use `read_csv()` to load the data into R.
+
+```{r 6_exercise_libraries, message=FALSE}
+library(tidyverse)
+```
+
+Next, we'll load all of the data sets. 
+
+```{r message = FALSE}
+binom_b_data <- read_csv("inputs/binom_between_data.csv")
+binom_w_data <- read_csv("inputs/binom_within_data.csv")
+bsubj_data <- read_csv("inputs/bsubj_data.csv")
+wsubj_data <- read_csv("inputs/wsubj_data.csv")
+corr_data <- read_csv("inputs/corr_data.csv")
+```
+
+## Question 1
+
+Using the `corr_data` data set, prepare to run a correlation for the height and weights of the participants. First, you have to check all of the assumptions are met for a parametric test. Do a visual inspection of the normality of the variables, and check that the two are linearly related.
+
+```{r 6_question_one_answer_part_one}
+# normality plot one
+corr_data %>%
+  ggplot(aes(sample = weight)) +
+    geom_qq()
+
+# normality plot two
+corr_data %>%
+  ggplot(aes(sample = height)) +
+    geom_qq()
+```
+
+```{r 6_question_one_answer_part_two}
+# plot one
+corr_data %>%
+  ggplot(aes(x = weight, y = height)) +
+    geom_point() + 
+    geom_smooth(method = "lm")
+```
+
+## Question 2
+
+Using the information from Question 1, run a correlation for the height and weights of the participants. Adjust to a non-parametric test if necessary.
+
+```{r 6_question_two_answer}
+cor.test(corr_data$weight, 
+         corr_data$height,
+         method = "pearson"
+         )
+```
+
+What is the correlation between the two variables? Can you work out the $R^2$? What does this tell us? 
+
+*Answer*: The correlation coefficient is 0.98, with the $R^2$ = `r 0.98^2`. This tells us that `r 0.98^2` of the variance in height is explained by weight.
+
+## Question 3
+
+Aggregate the scores of the `bsubj_data` data set by subject as an object called `bsubj_agg`. Output the mean scores aggregated by subject. 
+
+Then run a *t*-test between the two groups of A. Is there a significant difference between the two conditions?
+
+```{r 6_question_three_answer_part_one}
+bsubj_agg <- bsubj_data %>% 
+  group_by(subj_id, A) %>% 
+  summarise(Y = mean(Y))
+bsubj_agg
+```
+
+```{r 6_question_three_answer_part_two}
+t.test(Y ~ A, data = bsubj_agg, paired = FALSE)
+```
+
+**Answer**: Yes, there is a significant difference between the two conditions at the 0.05 alpha threshold (*p* < .05).
+
+## Question 4
+
+Check that a *t*-test was appropriate for question 3. We'll only check for **homogeneity of variance** here. What did the test show? Was a *t*-test appropriate?
+
+```{r 6_question_four_answer}
+bartlett.test(Y ~ A, data = bsubj_agg)
+```
+
+**Answer**: The test was non-signfiicant, indicating homogeneity of variance. Thus, the *t*-test was appropriate.
+
+## Question 5
+
+Aggregate the `wsubj_data` by subjects and save this as the object `wsubj_agg`. Then submit this aggregated data to an ANOVA, saving the output as the object `wsubj_aov`. What does the ANOVA show us?
+
+```{r 6_question_five_answer}
+# aggregate data
+wsubj_agg <- wsubj_data %>%
+  group_by(subj_id, A) %>% 
+  summarise(Y = mean(Y))
+
+# run ANOVA
+wsubj_aov <- aov(Y ~ A + Error(subj_id/A), data = wsubj_agg)
+summary(wsubj_aov)
+```
+
+**Answer**: The paired samples ANOVA showed a significant difference between the two conditions. 
+
+## Question 6
+
+We should probably allow people to interpret our inferential tests with plots and descriptive statistics. 
+
+First, make a plot of the two conditions from Question 5, using your `wsubj_agg` data set. Then, output a table of means, standard deviations, and standard errors for the two groups. To calculate the standard error you need to take the standard deviation of the dependent variable divided by the square root of number of observations for the dependent variable (i.e. `sd(output)/sqrt(length(output))`).
+
+```{r 6_question_six_answer_part_one}
+ggplot(data = wsubj_agg, mapping = aes(x = A, y = Y)) +
+  geom_boxplot()
+```
+
+```{r 6_question_six_answer_part_two}
+wsubj_agg %>%
+  group_by(A) %>%
+  summarise(mean = mean(Y),
+            sd = sd(Y),
+            se = sd(Y)/sqrt(length(Y))
+            )
+```
+
+## Question 7
+
+Fit a linear model to the `wsubj_agg` data and save this as `wsubj_lm`. How does this compare to the ANOVA from question 5? Compare the results of the parameter estimates from the linear model to that of your plot. How do these parameters compare?
+
+```{r 6_question_seven_answer}
+wsubj_lm <- lm(Y ~ A, data = wsubj_agg)
+summary(wsubj_lm)
+```
+
+**Answer**: The inferences made from the ANOVA and linear model are the same. As for the parameter estimates, these map onto the mean scores displayed in the plots in Question 6. 
+
+## Question 8
+
+Fit a linear model to the Using the `binom_b_data`, and save this output as `binom_b_lm`. Look at the summary of the output. Is there a significant difference between the two groups?
+
+```{r 6_question_eight_answer}
+binom_b_lm <- glm(outcome ~ cond, data = binom_b_data, family = "binomial")
+summary(binom_b_lm)
+```
+
+**Answer**: Yes, there is a significant difference between the two groups at the 0.05 alpha threshold (*p* < .05). 
+
+## Question 9
+
+Fit a linear model to the Using the `binom_w_data`, and save this output as `binom_b_lm`. Look at the summary of the output. Is there a significant difference between the two groups? You will first have to convert the data to long format in order to use the formula syntax for your model. For this, set the key to "test_time", and the value to "success".
+
+```{r 6_question_nine_answer}
+binom_w_data <- binom_w_data %>%
+  gather(key = "test_time", value = "success", 2:3)
+
+binom_w_lm <- glm(success ~ test_time, data = binom_w_data, family = "binomial")
+summary(binom_w_lm)
+```
+
+**Answer**: Yes, there is a significant difference between the two groups at the .05 alpha threshold (*p* < .05). 
+
+## Question 10 
+
+Using the long-formatted `binom_w_data` from question 9, create a table containing the calculate means, standard deviations, standard errors, and 95% confidence intervals for the two test times. 
+
+In order to calcualte the upper and lower bounds of the 95% confidence interval, you will have to take the mean of the dependent variable - 1.96 times the **standard error** of the mean, and the mean of the dependent variable + 1.96 times the standard error of the mean respectively. Call these columns `lower_confint` and `upper_confint` respectively.
+
+Next, plot a bar plot of this data with standard error bars.
+
+Compare your hand-coded standard errors with those from ggplot. How do they compare? Do the bounds seem similar?
+
+```{r 6_question_ten_answer_part_one}
+binom_w_data %>%
+  group_by(test_time) %>%
+  summarise(mean = mean(success),
+            sd = sd(success),
+            se = sd(success)/sqrt(length(success)),
+            lower_confint = mean - 1.96 * se,
+            upper_confint = mean + 1.96 * se
+            )
+```
+
+```{r 6_question_ten_answer_part_two}
+ggplot(data = binom_w_data, mapping = aes(x = test_time, y = success)) +
+  stat_summary(fun.y = "mean", geom = "bar") +
+  stat_summary(fun.data = "mean_se", geom = "errorbar", width = 0.25)
+```
+
+**Answer**: The mininum and maximum values of the error bars equate to the means +- the standard error from our table.

@@ -1,0 +1,546 @@
+# Simple Statistical Tests
+
+In this session, we'll cover some of the most basic tests that you might use in your research. While we'll focus on selecting different tests for different scenarios, at the end of this section we'll focus on the **general linear model**, and how you can specify almost any relationship using this framework. In this session, we will cover unifactorial tests with only 2 levels in a factor. In the next session, we will cover more complicated designs.
+
+Specifically, we'll cover:
+
+- correlations
+- one-sample, paired, and independent *t*-tests
+- one-way ANOVA
+- simple linear regression
+
+Throughout, we will calculate descriptive statistics for our data, as well as measures of effect size and variance. 
+
+This section assumes some familiarity with basic statistics. It is beyond the score of this section to teach the basics behind all of these methods, but we will cover some background on how these methods work, and why you might choose to use them in different scenarios.
+
+## Getting Started 
+
+As always, we first need to load the `tidyverse` set of packages for this Chapter.
+
+```{r 6_load_packages, include = FALSE}
+library(tidyverse)
+```
+
+```{r 6_load_packages_class, eval = FALSE}
+library(tidyverse)
+```
+
+In this session, we'll use simulated data, and data from real studies using the the [Open Stats Lab (OSL)](https://sites.trinity.edu/osl) resources. For each section/analysis, we'll just load the data as and when we need it.
+
+## Correlation
+
+We use correlations when we want to see if there's a significant relationship between some observed variables.
+
+More specifically, we have to know a little bit about variance, covariance, and correlation coefficients to grasp correlation and other tests.
+
+**Variance** tells you how much your data is spread out from the mean, it's the average of the squared differences from the mean. Why do we square the differences? That's so negative values don't cancel out positve values, so we can still have an idea of how much our scores vary.
+
+No variance (i.e. all values are the same) is 0, and larger numbers represent more variance in your data. The square root of the variance is the standard deviation, which we can use to get exact distances of our data from the mean. Your mean +- your standard deviation multiplied by 1.96 represents 95% of the coverage of your data.
+
+**Covariance** is similar to the variance, but rather than telling you how much one variable varies, it tells you how much two variables vary together. If we have a positive number for the covariance, we know that our variables are related to one-another. However, covariance is sensitive to the scale you have, so if you have big numbers for each variable, your covariance will also be a big number. This magnitude doesn't tell you much about how strong the relationship is between two variables. FOr that, we need the correlation coefficient.
+
+The **correlation coefficient** is the covariance divided by the standard deviation. This just puts the covariance on a standard scale between -1 and 1, so we now have an idea of how strongly related two variables are. A correlation of 1 shows that the two are perfectly positively correlated, so an increase in one variable is followed by an increase in the other. A correlation of 0 is no relationship, and a correlation of -1 is a perfect negative relationship, where an increase in one variable is followed by a decrease in the other.
+
+### Analysing Real Data
+
+In this example, we'll look at a study by Dawtry, Sutton, and Sibley (2015). In this study, they were interested in why people's attitudes towards increasing wealth inequality differs within developed nations. They hypothesised that wealthy people will be less supportive of wealth distribution if their social circle is primarily made up of wealthy people. This is because they should see society as being already wealthy, and thus not requiring of wealth distribution. 
+
+Our aim here is to test the simple hypothesis that people who see society as fair and are thus satisfied with the current state of affairs will less supportive of wealth redistribution.
+
+Below, we will load their raw data from the Google Drive link from the OSL, and clean it up to only look at the relevant sources of information.
+
+First, we'll load the data using `read_csv()`, then we'll recode the reverse-scores questions of **redist2** and **redist4** so all of the questions assessing redistribution are on the same scale. 
+
+Then we'll transmute the data, keeping only the columns we need, and calculating the mean scores for perceptions of fairness and satisfaction with distribution of wealth in society (i.e. one factor), and mean support for redistribution (our second factor). 
+
+During this process, we'll also keep the participant IDs. Finally, we'll make everything lowercase, because it looks better!
+
+```{r 6_load_online_csv_data}
+# variables
+scale_max <- 6
+id <- "0Bz-rhZ21ShvOMGxnYUJfYmR5d2M" # google file ID
+
+# load and clean data
+corr_data <- read_csv(
+  sprintf(
+    "https://docs.google.com/uc?id=%s&export=download", 
+    id)
+  ) %>%
+  mutate(redist2 = (scale_max + 1) - redist2,
+         redist4 = (scale_max + 1) - redist4) %>%
+  transmute(PS, 
+            Fair_Satisfied = (fairness + satisfaction) / 2,
+            Support = (redist1 + redist2 + redist3 + redist4) / 4
+            ) %>%
+  rename_all(tolower)
+corr_data
+```
+
+Next, we'll calculate some means and standard deviations for these two factors of interest. We've used the `summarise_at()` version of the `summarise()` function, as this allows us to pass two column names, and functions (`vars`) by which to produce our statistics.
+
+```{r 6_summarise_online_corr_data}
+corr_data %>% summarise_at(c("fair_satisfied", "support"), 
+                           vars(mean, sd)
+                           )
+```
+
+### Checking Assumptions
+
+To decide which correlation to run, we need to check some assumptions: are the factors linearly related, and do they follow a normal distribution (assumption of normality)? We'll leave exploring the first assumption for other tests, just to save time, but we'll look into testing the assumption of normality here.
+
+We have two methods to check for normality:
+
+1. Visual inspection of the quantile-quantile plot which plotsthe correlation between our sample (observed values) and the normal distribution.
+2. The Shapiro-Wilk test, which is a statistical test of normality. Significant results indicate that the data are **non-normal**.
+
+```{r 6_check_online_corr_data_assumptions_plot}
+corr_data %>%
+  ggplot(aes(sample = fair_satisfied)) +
+    geom_qq()
+corr_data %>%
+  ggplot(aes(sample = support)) +
+    geom_qq()
+```
+
+```{r 6_check_online_corr_data_assumptions_stat}
+shapiro.test(corr_data$fair_satisfied)
+shapiro.test(corr_data$support)
+```
+
+Both the plot and test show that our data are non-normal. As such, we shouldn't use a parametric test such as Pearson's R, but we should use a non-parametric alternative. One option is Kendall's Tau, which rank orders our observations, in an attempt to account for these factors being being non-normally distributed. 
+
+### Running a Correlation
+
+Next, we'll run a correlation looking at whether there is any relationship between whether you perceive society as fair, and you're satisfied with , and your support for wealth redistribution.
+
+Here, we'll use `cor.test()`, which takes as an argument two columns from a data.frame or matrix, which are your two factors to compare, and produces test statistics, including *t*-values, *p*-values, and 95% confidence intervals. 
+
+This test defaults to use Pearson's R, and to a two-sided test of significance (i.e. you had no predictions for the direction of effect), but you can change this to "greater", a positive relationship, or "less", a negative relationship, which will adjust *p*-values accordingly.
+
+We'll use Kendall's Tau here. Note that you simply have to replace "kendall" with "pearson" if your data do not violate any test assumptions. Also, we'll specify that we had a directional hypothesis, where there was a negative relationship between our factors ("less").
+
+```{r 6_run_online_corr}
+cor.test(corr_data$fair_satisfied, corr_data$support,
+         method = "kendall",
+         alternative = "less"
+         )
+```
+
+As you can see, we have a significant negative correlation between our two factors, indicating that as perceptions of fairness and satisfaction with society (in regards to wealth) increases, support for wealth redistribution decreases.
+
+This is represented by the *p*-value, which is below 0.05 (but see [reasons why you shouldn't mindlessly pick 0.05 as your *p*-value](https://psyarxiv.com/9s3y6)). Simply, the *p*-value tells you how often you might observe an effect as large or larger than you one you've found in the long run (i.e. infinite sampling) assuming the null hypothesis is true. If your *p*-value is below 0.05 by convention we assume that this is an acceptable false-positve rate, as we'd only wrongly accept our results as showing an effect when there isn't one present at a rate below 5%. Yes, Neyman-Pearson statistics is weird.
+
+Kendall's Tau is a measure of the association between two factors. For Pearson's R (again, a measure of association), you should typically interpret the R value as $R^2$, which shows how the percentage of variation in one variable is explained by another.
+
+## *t*-tests
+
+*t*-tests allow us to see whether two means are significantly different from one another. Here, we'll get a *t*-value and *p*-value. The *t*-value is the ratio of the difference between two groups of scores and the difference within the groups of scores. A larger *t*-value tells us the difference between the groups is large, and a smaller value tells us the difference is small (i.e. they are similar to one another). Nicely, a *t*-value of 10 tells us that the groups are 10 times as different from one another as they are within each other.
+
+For this next analysis, we'll look at the **lexdec** data set from the `languageR` library that we've used in previous sessions. We'll do this to save time on filtering the data too much, as above. The only thing we have to do is to remove the subjects we simulated for the other exercises (i.e. 22-30), so we only have real data. 
+
+Can you understand the code below? Ask yourself, why might we use `as.character(22:30)` to state which subjects we should drop?
+
+```{r 6_load_lexdec_data, include = FALSE}
+lexdec <- read_csv("lesson_materials/05_data_manipulation_two/inputs/lexical_decision_raw_data.csv") %>%
+  filter(!subject %in% (as.character(22:30)))
+```
+
+```{r 6_load_lexdec_data_class, eval = FALSE}
+lexdec <- read_csv("inputs/lexical_decision_raw_data.csv") %>%
+  filter(!subject %in% (as.character(22:30)))
+```
+
+### One-Sample *t*-tests
+
+Here, we want to assess whether the frequencies of words in the study (i.e. how often people use these words) differed significantly from some baseline value of word frequency. 
+
+For this, we'll use a one-sample *t*-test, which compares our scores to a known average value whether the variance of the population is not known.
+
+We can assume that word frquency is calculated from many observations, and as such the frequency is an aggregate score, so it is appropriate to submit summaires of word frquency to a *t*-test.
+
+#### Preparing the Data
+
+First, we have to subset our raw data, which contains information on the subjects and items tested, and only get scores for the word frequencies.
+
+```{r 6_prepare_lexdec_data}
+lexdec_onesamp <- lexdec %>% 
+  group_by(word) %>%
+  summarise(freq = mean(frequency))
+```
+
+Below, we'll use the `t.test()` function to run a *t*-test. Here, we input as the first value the data or scores we want to test, and in the second part, we specify the mean score in the population (mu) by which to compare the scores.
+
+#### Running the Test
+
+```{r 6_run_onesamp_test}
+t.test(lexdec_onesamp$freq, mu = 4)
+```
+
+As we can see, there is a significant difference between the frequencies for our sampled words and our assumption for the mean word frequency for all words.  Again, we get *t* and *p* values, as well as the 95% confidence interval for our scores.
+
+### Independent-Samples *t*-tests
+
+Here, we'll explore a different question, which is does the native language of the speaker, English or "other", have any impact on reaction times to the task?
+
+First, we have to prepare our data.
+
+#### Preparing the Data
+
+We need to create scores aggregated by subject, as our raw data contains information on each subject and the items they responded to. To do this, we just need to calcualte a mean score over all items for each subject in the study. We'll use the `group_by()` and `summarise()` functions from **dplyr** to do this.
+
+Additionally, we'll calculate log-transformed mean reaction times. This is because reaction times are typically not normally distributed, so we should transform them to make them more normal prior to analysis. The log transformation is one way to achieve this. 
+
+```{r 6_prepare_independent_t_test_data}
+lexdec_ind <- lexdec %>% 
+  group_by(subject, native_language) %>%
+  summarise(log_RT = mean(log(RT), na.rm = T))
+```
+
+We'll quickly calculate some descriptives for our study to see how the two groups look.
+
+```{r 6_descriptives_independent_t_test_data}
+lexdec_ind %>% 
+  group_by(native_language) %>%
+  summarise(mean_log_RT = mean(log_RT, na.rm = T),
+            sd_log_RT = sd(log_RT, na.rm = T),
+            n = n())
+```
+
+#### Running the Test
+
+As our data are in a long format, we have to do the *t*-test using a formula, seeing as our log_RT column contains data for both conditions of the experiment. We simply specify our formula like this:  
+
+`dependent variable ~ condition`
+
+The `~` (read: [tilde](https://www.youtube.com/watch?v=InPByzCDoA4)) simply says that the thing on the left is a function of the thing on the right; i.e. our scores are a function of our conditions.
+
+Additionally, we specify where the data is stored (lexdec_ind), and whether the data are paired (i.e. paired-samples test) or not (i.e. independent-samples test). Here, we specify `FALSE`, as we want an independent samples *t*-test.
+
+```{r 6_run_independent_t_test}
+t.test(log_RT ~ native_language, data = lexdec_ind, paired = FALSE)
+```
+
+We can see that there is a significant difference between the two groups. Inspection of the log-transformed means shows us that reaction times are generally quicker for English speakers than non-English speakers. This is unsurprising considering the lexical decisions were made for English words.
+
+You might notice that the degrees of freedom here are not integers (i.e. whole numbers). That's because R defaults to using Welch's t-test, which does not make the assumption of homogeneity of variance (which is generally a good thing). Due to not making this assumption, the degrees of freedom and p-value are adjusted slightly.
+
+#### Checking Assumptions
+
+As with many tests *t*-tests make a number of assumptions, some of which are easily handled (e.g. are the data scalar or ordinal and randomly sampled with a large sample size?). However, these tests also assume that the data are normally distributed. We've done this for the correlation above, so we won't do it again here. However, a final assumption is homogeneity of variance, in which the variance across our samples should be roughly equal. To test for this, we can run a Barlett test for parametric data, or a Fligner test for non-parametric data (using `fligner.test()`).
+
+Here, we'll run the Barlett test:
+
+```{r 6_independent_t_test_assumptions}
+bartlett.test(log_RT ~ native_language, data = lexdec_ind)
+```
+
+We got a non-significant result from this test, which indicates that the variances are not significantly different from one another, and so we've met this test assumption.
+
+Note that we should check this before running any analyses, but I didn't want to introduce the formula notation in assumption checks.
+
+### Paired-Samples *t*-tests
+
+Paired-samples *t*-tests are run in the same way as independent-samples tests, only we need to set `paired` to `FALSE` within the *t*-test call.
+
+We'll quickly simulate some data to show how this might work. Here, we'll simulate data for a stroop task, where subjects name words (colour names; e.g. green, blue, red) which are in different colours. Our hypothesis is that they will say the name more quickly if the word and colour are the same (congruent), and they will be slower if they mismatch (incongruent).
+
+We'll generate 60 subjects, with the congruent reaction time being around 400ms, and the incongruent reaction time being on average 30ms slower than this.
+
+Finally, we'll gather the data together, assuming you'll often have your data in a long format.
+
+```{r 6_generate_paired_data}
+set.seed(1000)
+stroop_dat <- tibble(
+  subject = seq(1:60),
+  congruent = rnorm(mean = 400, sd = 30, n = 60),
+  incongruent = congruent + rnorm(mean = 30, sd = 10, n = 60)
+  ) %>%
+  gather(key = condition, value = reaction_time, 2:3) %>% 
+  mutate(
+    log_RT = log(reaction_time)
+  )
+```
+
+Note that if your data is in a wide format, you specify the model formula like so:
+
+```{r 6_paired_ttest_alternative_syntax, eval = FALSE}
+t.test(data$dependent_variable_one, data$dependent_variable_two, data = data_name, paired = TRUE)
+```
+
+In this format, you simply give the column names for where your data is stored for each condition, and R will compare the first entry against the second. However, I typically keep my data in long format, so we will mainly use the formula format for specifying our models. Using the formula notation is also useful for more complex designs where wide formatted data is unrealistic, so we'll stick to this as our default way to specify our models.
+
+#### Running the Test
+
+The paired-samples *t*-test formula takes the same form as the independent sampels *t*-test, only with `paired = TRUE`. 
+
+```{r 6_run_paired_t_test}
+t.test(log_RT ~ condition, data = stroop_dat, paired = TRUE)
+```
+
+As with the independent-samples t-test, we get all of the same statistics in the output. 
+
+Here, there is a significant difference between the two conditions, with participants responding to items more quickly in the congruent when compared to the incongruent condition. This makes sense, as the name and ink colour both match, so there's no interference during processing.
+
+## ANOVA
+
+Like the *t*-value, the F value from an ANOVA lets you know whether two groups of scores are similar or different from one another. More specifically, it gives you the ratio of the variance between two samples. 
+
+As ANOVAs and *t*-tests are both part of the general linear model family, the outputs of both tests are similar when we have only 2 levels of a condition. Compare the results of the following analyses with those from the *t*-tests aboves.
+
+We use the `aov()` function in R to perform an analysis of variance. With the ANOVA and linear models we will explore later, we get a lot of information from the output just by running the `aov()` function. As such, we'll assign this to an object, which can just be a name in which to store our output of the model. After this, we use the `summary()` function, to get a neat summary of the statistics that we want to look at.
+
+### One-Way ANOVA
+
+#### Indpendent-Samples ANOVA
+
+We'll simply refit the same data from the `lexdec` data set to get an idea of how similar *t*-tests and ANOVAs are. Again, we just need to specify our DV to the left of the condition. 
+
+```{r 6_independent_samples_ANOVA}
+anova_ind <- aov(log_RT ~ native_language, data = lexdec_ind)
+summary(anova_ind)
+```
+
+As before, we have a significant difference between the two language groups on their log reaction times in the lexical decision task.
+
+#### Paired-Samples ANOVA
+
+For a paired-sampels ANOVA, we just need to specify our models as before, but we also need to include an error term. This error term takes the form of:
+
+`Error(observation_unit/factor)`
+
+We always need to specify that this is an error term we're adding, hence the name `Error()`. We then need to specify what our error term is. Since we're using a paired-samples test, where the same people ttake part in both conditions, we need to tell R that our error term is for the condition factor within subjects, i.e. different people might react differently to the conditions. Finally, as always we need to specify where our data lies.
+
+Below, we'll just refit the stroop data from the *t*-test example above.
+
+```{r 6_paired_samples_ANOVA}
+anova_paired <- aov(log_RT ~ condition + Error(subject/condition), data = stroop_dat)
+summary(anova_paired)
+```
+
+As before, we have a significant difference between the two congruency conditions on their log reaction times in the lexical decision task.
+
+## Linear Regression
+
+In this section, we'll look at linear regression. We would typically fit a linear model when we predict a linear relationship between one or more variable(s), e.g. $X$, and a continuous dependent variable, e.g. $Y$. This relationship for any one subject (or item) can be described as:
+
+$$Y = \beta_0 + \beta_1 + X + e$$
+Where $Y$, the outcome or dependent variable, is calcualted by the individual's intercept value $\beta_0$ (i.e. typically the score at 0 on the x-axis of a graph), their slope term $\beta_1$, or how much to increase their $Y$ value for every tick of the x-axis, and an error term $e$, which is the residual error from our model.
+
+The residual error (or simply residuals) show the difference between our predicted values from our model and observed values from our data. (Remember our QQ-plot? This looks at how your residuals are distributed. If they are normally distributed, then we're OK!)
+
+We have this error term as we do not want to fit a perfect model to our data. If we did that, our model would work very well for our exact sample, but it wouldn't work so well for more generalised cases (e.g. with other samples). As such, we do not **overfit** our model so that it keeps some explanatory power for broader cases.
+
+Like *t*-tests and ANOVAs, linear regression is simply another way for us to analyse our data. The general linear model is very useful in that it can be applied to the simplest and most complex cases of analyses, and really, it's likely this is all you'll need to know. Nicely, our predictors can be scalar data (e.g. quantifying the success of different doses of a drug) or categorical (e.g. different conditions; drug or no drug).
+
+### General Linear Model
+
+We use the general linear model when we have outcome data that is a continuous variable. However, this procedure is not appropriate when we have bounded data (e.g. Likert scales, binomial (0 or 1) responses). In these cases, we have to use a more specific form of the model, called the **generalised linear model**, which we'll look at after this section.
+
+#### Independent-Samples Linear Model
+
+As with the *t*-test and ANOVA, we'll use the `lexdec_ind` simulated data set from before. 
+
+##### Running the Test
+
+As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the `~`, and our conditions to the right. Here, we'll assign this to the object `lm_ind`, and we'll get a summary of the data using the `summary()` function.
+
+```{r 6_independent_linear_regression}
+lm_ind <- lm(log_RT ~ native_language, data = lexdec_ind)
+summary(lm_ind)
+```
+
+Nicely, we get a lot of information from this model. As with the ANOVA, we have a test statistic (this time a *t*-value) and a *p*-value, under the heading `Pr(>|t|)`.
+
+The *t*-value is the intercept term for our condition, divided by the standard error. The *p*-value here is the proportion of the *t* distribution which is greater than the *t* statistic. The *p*-value is just the proportion of the t distribution which is greater than the value of the t statistic (hence the weird notation). 
+
+We also get some information that is more informative than the ANOVA. We get our intercept term (`(Intercept)`), which here is mean score for the English language group. Let's see how that matches our mean scores:
+
+```{r 6_independent_regression_descriptives}
+lexdec_means <- lexdec_ind %>% 
+  group_by(native_language) %>% 
+  summarise(mean = mean(log_RT))
+lexdec_means
+```
+
+Under this, we have the difference from this intercept for the Other language group (`native_languageOther`). How does this relate to the means? Below, we'll subtract the congruent scores from the incongruent scores.
+
+```{r 6_independent_regression_parameter_estimates_example}
+lexdec_means$mean[2] - lexdec_means$mean[1]
+```
+
+As you can see, this value relates to the score for `native_languageOther`, which shows how the Other language group differs from the baseline, English language group.
+
+You might ask now, how did R know which condition to set as the intercept? R defaults to going alphabetically, so English comes before Other, hence it is the baseline. In simple cases like this, where we have only 2 levels, this is not a concern. But when we have more levels or factors, we need to pay attention to how we specify our contrasts in R.
+
+Finally, in the output we have our residuals, including the residual standard error. 
+
+#### Paired-Samples Linear Model
+
+As with the *t*-test and ANOVA, we'll use the `stroop_dat` simulated data set from before. 
+
+##### Running the Test
+
+As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the `~`, and our conditions to the right. Here, we'll assign this to the object `lm_ind', and we'll get a summary of the data using the `summary()` function. Unlike with *t*-tests and ANOVA, we do not need to specify an error term if our data are within-subjects (or paired-samples), so we simply use the same formula for independent- and paried-samples tests.
+
+```{r 6_paired_samples_linear_model}
+lm_pair <- lm(log_RT ~ condition, data = stroop_dat)
+summary(lm_pair)
+```
+
+As before, we get our intercept term (`(Intercept)`), which here is mean score for the congruent condition. Let's see how that matches our mean scores:
+
+```{r 6_paired_samples_linear_model_descriptives}
+stroop_means <- stroop_dat %>% 
+  group_by(condition) %>% 
+  summarise(mean = mean(log_RT))
+stroop_means
+```
+
+Under this, we have the difference from this intercept for the congruent condition (`conditionincongruent`). How does this relate to the means? Below, we'll subtract the congruent scores from the incongruent scores.
+
+```{r 6_paired_samples_linear_model_parameter_estimates_example}
+stroop_means$mean[2] - stroop_means$mean[1]
+```
+
+As you can see, this value relates to the score for `conditionincongruent`, which shows how the incongruent condition differs from the baseline, congruent condition.
+
+Aside from this, we have a whole host of other information that we might want to consider, including an adjusted $R^2$, which tells us about how much our explanatory predictors (e.g. condition) accounts for changes in the dependent variable. For now, this is all we need.
+
+#### Assumptions
+
+Simple general linear models make a few assumptions, of which:
+
+- Linear relationship: your variables must be linearly related, otherwise a linear fit doesn't make sense
+- Normality: Variables must be normally distributed
+- Homoscedasticity (homogeneity of variance): your residuals are equal across the regression line
+- No auto-correlation: your observations for your dependent variable must not impact one-another (e.g. eye-movements; if you get one success (i.e. a look at an object), the next eye-movement is likely also be a success (i.e. still looking) -- this is bad!)
+
+We've already looked at checking for normality and homoscedasticity, so we won't do this again here. We can also decide about auto-correlation prior to running our analyses, so if you understand your data we may not need to check this assumption.  But we should probably check for a linear relationship. The best way to do this is to just eye-ball the data with a plot. This makes sense if your predictor is on a scale, but it's not really defined when we have groups, so we'll leave that for now.
+
+### Generalised Linear Model
+
+What about cases in which we have a binomial response, e.g. if people got an answer correct or not? Here, we have to use a generalised linear model. This takes the same form as the general linear model, only these models use a link function, which allows the dependent variable to be a function of some error term other than the normal distribution. 
+
+We won't go into detail as to how the generalized linear model works, but just note that you can specify different link functions to describe your data, so for example if your data take a log distribution, you can specify a logit link.
+
+We'll focus on a common case of fitting a logistic model to our data using a binomial distribution.
+
+#### Preparing the Data
+
+Below, we'll simulate some data looking at the effectiveness of a smoking intervention on smoking cessation rates. We have a simple outcome, 0 if people still smoke after the experiment (i.e. a failure), and 1 if they quit smoking (i.e. a success).
+
+```{r 6_binomial_data_generation}
+set.seed(1000)
+prob <- rep(c(0.3, 0.6), 50)
+cond <- rep(c("control", "intervention"), 50)
+subject <- seq(1:100)
+
+smoking_dat <- tibble(
+  subject = subject,
+  cond = cond,
+  outcome = rbinom(n = 100, size = 1, prob = prob)
+)
+```
+
+Let's see what the rates of smoking look like:
+
+```{r 6_binomial_data_descriptives}
+smoking_dat %>% group_by(cond) %>% summarise(mean = mean(outcome))
+```
+
+Great! It looks like our intervention worked well. If only it was that easy in real life...
+
+#### Running the Test
+
+The generalised linear model is specified using the `glm()` function. Here, we can specify a few extra details about our model or accept the defaults. We'll overspecify to show these things work. Here, we've asked to fit the model using a binomial link function, using the `family = "binomial"` argument since our data come from a binomial decision and follow a binomial distribution.
+
+```{r 6_run_generalised_linear_model_binomial}
+glm_ind <- glm(outcome ~ cond, data = smoking_dat, family = "binomial")
+summary(glm_ind)
+```
+
+Again, we get a similar output to the linear model, but we've fit the data using a more appropriate model to account for the binary nature of the data. Notice that now we have z-values instead of *t*-values. Aside from that, all of your other interpretations remain the same.
+
+#### Proportion Data
+
+We can also fit models with proportion data for the dependent variable using the `glm()` function. To do so, you need the number of successes and the number of observations, specifying your model like so:
+
+`glm(successes/observations ~ cond, data = smoking_dat, family = "binomial")`
+
+Or, if you just have the proportion and number of observations, you can fit it like so:
+
+`glm(proportion ~ cond, data = smoking_dat, family = "binomial", weights = observations)`
+
+In this last case, you just specify to weight successes by the number of observations that you had for each data point. This weighting is important when you do more advanced analyses, like growth curve analysis with transformations on your data (e.g. empirical logit) as you can tell your model how much to "trust" each data point. But for our cases so far, this is all we need to know about the weights argument.
+
+## Exercises
+
+For these exercises, we will look at the core concepts from this lesson.
+
+For these exercises we'll use simulated data sets from the **inputs** folder. This data was saved as a .csv, so we need to use `read_csv()` to load the data into R.
+
+```{r 6_exercise_libraries, eval = FALSE}
+library(tidyverse)
+```
+
+Next, we'll load all of the data sets. 
+
+```{r 6_exercise_data_sets, eval = FALSE}
+binom_b_data <- read_csv("inputs/binom_between_data.csv")
+binom_w_data <- read_csv("inputs/binom_within_data.csv")
+bsubj_data <- read_csv("inputs/bsubj_data.csv")
+wsubj_data <- read_csv("inputs/wsubj_data.csv")
+corr_data <- read_csv("inputs/corr_data.csv")
+```
+
+### Question 1
+
+Using the `corr_data` data set, prepare to run a correlation for the height and weights of the participants. First, you have to check all of the assumptions are met for a parametric test. Do a visual inspection of the normality of the variables, and check that the two are linearly related.
+
+### Question 2
+
+Using the information from Question 1, run a correlation for the height and weights of the participants. Adjust to a non-parametric test if necessary.
+
+What is the correlation between the two variables? Can you work out the $R^2$? What does this tell us?
+
+### Question 3
+
+Aggregate the scores of the `bsubj_data` data set by subject as an object called `bsubj_agg`. Output the mean scores aggregated by subject. 
+
+Then run a *t*-test between the two groups of A. Is there a significant difference between the two conditions?
+
+### Question 4
+
+Check that a *t*-test was appropriate for question 3. We'll only check for **homogeneity of variance** here. What did the test show? Was a *t*-test appropriate?
+
+### Question 5
+
+Aggregate the `wsubj_data` by subjects and save this as the object `wsubj_agg`. Then submit this aggregated data to an ANOVA, saving the output as the object `wsubj_aov`. What does the ANOVA show us?
+
+### Question 6
+
+We should probably allow people to interpret our inferential tests with plots and descriptive statistics. 
+
+First, make a plot of the two conditions from Question 5, using your `wsubj_agg` data set. Then, output a table of means, standard deviations, and standard errors for the two groups. To calculate the standard error you need to take the standard deviation of the dependent variable divided by the square root of number of observations for the dependent variable (i.e. `sd(output)/sqrt(length(output))`).
+
+### Question 7
+
+Fit a linear model to the `wsubj_agg` data and save this as `wsubj_lm`. How does this compare to the ANOVA from question 5? Compare the results of the parameter estimates from the linear model to that of your plot. How do these parameters compare?
+
+### Question 8
+
+Fit a linear model to the Using the `binom_b_data`, and save this output as `binom_b_lm`. Look at the summary of the output. Is there a significant difference between the two groups?
+
+### Question 9
+
+Fit a linear model to the Using the `binom_w_data`, and save this output as `binom_b_lm`. Look at the summary of the output. Is there a significant difference between the two groups? You will first have to convert the data to long format in order to use the formula syntax for your model. For this, set the key to "test_time", and the value to "success".
+
+### Question 10
+
+Using the long-formatted `binom_w_data` from question 9, create a table containing the calculate means, standard deviations, standard errors, and 95% confidence intervals for the two test times. 
+
+In order to calcualte the upper and lower bounds of the 95% confidence interval, you will have to take the mean of the dependent variable - 1.96 times the **standard error** of the mean, and the mean of the dependent variable + 1.96 times the standard error of the mean respectively. Call these columns `lower_confint` and `upper_confint` respectively.
+
+Next, plot a bar plot of this data with standard error bars.
+
+Compare your hand-coded standard errors with those from ggplot. How do they compare? Do the bounds seem similar?

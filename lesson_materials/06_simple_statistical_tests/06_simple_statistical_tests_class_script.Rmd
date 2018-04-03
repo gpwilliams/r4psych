@@ -1,0 +1,73 @@
+---
+title: "Simple Statistical Tests -- Class Script"
+output: html_notebook
+---
+
+```{r 6_load_libraries, message = FALSE}
+library(tidyverse)
+```
+
+# Lesson Code
+
+First, we'll load and clean up the correlational data set from the Open Stats Lab Google Drive folder.
+
+Note that the `sprintf()` function just replaces text of %s with whatever variable you also provide to the function. So the %s in "id=" becomes the id variable string.
+
+```{r 6_clean_correlation_data}
+# variables
+scale_max <- 6
+id <- "0Bz-rhZ21ShvOMGxnYUJfYmR5d2M" # google file ID
+
+# loading and filtering
+corr_data <- read_csv(
+  sprintf(
+    "https://docs.google.com/uc?id=%s&export=download", 
+    id)
+  ) %>%
+  mutate(redist2 = (scale_max + 1) - redist2,
+         redist4 = (scale_max + 1) - redist4) %>%
+  transmute(PS, 
+            Fair_Satisfied = (fairness + satisfaction) / 2,
+            Support = (redist1 + redist2 + redist3 + redist4) / 4
+            ) %>%
+  rename_all(tolower)
+corr_data
+```
+
+Make data for paired tests.
+
+```{r 6_generate_paired_data}
+set.seed(1000)
+stroop_dat <- tibble(
+  subject = seq(1:60),
+  congruent = rnorm(mean = 400, sd = 30, n = 60),
+  incongruent = congruent + rnorm(mean = 30, sd = 10, n = 60)
+  ) %>%
+  gather(key = condition, value = reaction_time, 2:3) %>% 
+  mutate(
+    log_RT = log(reaction_time)
+  )
+stroop_dat
+```
+
+Make data for binomial independent samples tests.
+
+```{r 6_binomial_data_generation}
+set.seed(1000)
+prob <- rep(c(0.3, 0.6), 50)
+cond <- rep(c("control", "intervention"), 50)
+subject <- seq(1:100)
+
+smoking_dat <- tibble(
+  subject = subject,
+  cond = cond,
+  outcome = rbinom(n = 100, size = 1, prob = prob)
+)
+```
+
+Add your code chunks using insert, R on the top right panel of this window.
+
+```{r your_code_chunk}
+
+```
+
