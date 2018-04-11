@@ -9,7 +9,7 @@ Specifically, we'll cover:
 - one-way ANOVA
 - simple linear regression
 
-Throughout, we will calculate descriptive statistics for our data, as well as measures of effect size and variance. 
+Throughout, we will calculate descriptive statistics for our data. 
 
 This section assumes some familiarity with basic statistics. It is beyond the score of this section to teach the basics behind all of these methods, but we will cover some background on how these methods work, and why you might choose to use them in different scenarios.
 
@@ -380,7 +380,7 @@ As with the *t*-test and ANOVA, we'll use the `stroop_dat` simulated data set fr
 
 ##### Running the Test
 
-As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the `~`, and our conditions to the right. Here, we'll assign this to the object `lm_ind', and we'll get a summary of the data using the `summary()` function. Unlike with *t*-tests and ANOVA, we do not need to specify an error term if our data are within-subjects (or paired-samples), so we simply use the same formula for independent- and paried-samples tests.
+As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the `~`, and our conditions to the right. Here, we'll assign this to the object `lm_ind', and we'll get a summary of the data using the `summary()` function. Unlike with *t*-tests and ANOVA, we do not need to specify an error term if our data are within-subjects (or paired-samples), so we simply use the same formula for independent- and paried-samples tests. Note that this means that our model doesn't account for how much of our outcome variable is predicted by subject-specific factors (i.e. variation between people). Some might respond more or less strongly to the effect of condition than others. As such, we can do a bit better with these models by fitting a mixed-effects model that can account for subject level effects. For now, we'll leave that for another lesson. If you want to get linear model output while accounting for by-subjects effects like in an ANOVA, head over to the next lesson!
 
 ```{r 6_paired_samples_linear_model}
 lm_pair <- lm(log_RT ~ condition, data = stroop_dat)

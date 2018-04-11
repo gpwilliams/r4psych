@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Psych" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  
+  <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="github-repo" content="gpwilliams/r4psych" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Psych" />
+  
+  <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
+  
+
+<meta name="author" content="Glenn Williams">
+
+
+<meta name="date" content="2018-04-11">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="simple-statistical-tests.html">
+<link rel="next" href="simulation-calculating-power-and-evaluating-the-null.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R for Psych</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
+<li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#question-1"><i class="fa fa-check"></i><b>1.7.1</b> Question 1</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#question-2"><i class="fa fa-check"></i><b>1.7.2</b> Question 2</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#question-3"><i class="fa fa-check"></i><b>1.7.3</b> Question 3</a></li>
+<li class="chapter" data-level="1.7.4" data-path="introduction.html"><a href="introduction.html#question-4"><i class="fa fa-check"></i><b>1.7.4</b> Question 4</a></li>
+<li class="chapter" data-level="1.7.5" data-path="introduction.html"><a href="introduction.html#question-5"><i class="fa fa-check"></i><b>1.7.5</b> Question 5</a></li>
+<li class="chapter" data-level="1.7.6" data-path="introduction.html"><a href="introduction.html#question-6"><i class="fa fa-check"></i><b>1.7.6</b> Question 6</a></li>
+<li class="chapter" data-level="1.7.7" data-path="introduction.html"><a href="introduction.html#question-7"><i class="fa fa-check"></i><b>1.7.7</b> Question 7</a></li>
+<li class="chapter" data-level="1.7.8" data-path="introduction.html"><a href="introduction.html#question-8"><i class="fa fa-check"></i><b>1.7.8</b> Question 8</a></li>
+<li class="chapter" data-level="1.7.9" data-path="introduction.html"><a href="introduction.html#question-9"><i class="fa fa-check"></i><b>1.7.9</b> Question 9</a></li>
+<li class="chapter" data-level="1.7.10" data-path="introduction.html"><a href="introduction.html#question-10"><i class="fa fa-check"></i><b>1.7.10</b> Question 10</a></li>
+<li class="chapter" data-level="1.7.11" data-path="introduction.html"><a href="introduction.html#question-11"><i class="fa fa-check"></i><b>1.7.11</b> Question 11</a></li>
+<li class="chapter" data-level="1.7.12" data-path="introduction.html"><a href="introduction.html#question-12"><i class="fa fa-check"></i><b>1.7.12</b> Question 12</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
+<li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
+<li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-1-1"><i class="fa fa-check"></i><b>2.3.2</b> Question 1</a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-2-1"><i class="fa fa-check"></i><b>2.3.3</b> Question 2</a></li>
+<li class="chapter" data-level="2.3.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-3-1"><i class="fa fa-check"></i><b>2.3.4</b> Question 3</a></li>
+<li class="chapter" data-level="2.3.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-4-1"><i class="fa fa-check"></i><b>2.3.5</b> Question 4</a></li>
+<li class="chapter" data-level="2.3.6" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-5-1"><i class="fa fa-check"></i><b>2.3.6</b> Question 5</a></li>
+<li class="chapter" data-level="2.3.7" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-6-1"><i class="fa fa-check"></i><b>2.3.7</b> Question 6</a></li>
+<li class="chapter" data-level="2.3.8" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-7-1"><i class="fa fa-check"></i><b>2.3.8</b> Question 7</a></li>
+<li class="chapter" data-level="2.3.9" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-8-1"><i class="fa fa-check"></i><b>2.3.9</b> Question 8</a></li>
+<li class="chapter" data-level="2.3.10" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-9-1"><i class="fa fa-check"></i><b>2.3.10</b> Question 9</a></li>
+<li class="chapter" data-level="2.3.11" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-10-1"><i class="fa fa-check"></i><b>2.3.11</b> Question 10</a></li>
+<li class="chapter" data-level="2.3.12" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.12</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
+<li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
+<li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
+<li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-1-2"><i class="fa fa-check"></i><b>3.7.2</b> Question 1</a></li>
+<li class="chapter" data-level="3.7.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-2-2"><i class="fa fa-check"></i><b>3.7.3</b> Question 2</a></li>
+<li class="chapter" data-level="3.7.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-3-2"><i class="fa fa-check"></i><b>3.7.4</b> Question 3</a></li>
+<li class="chapter" data-level="3.7.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-4-2"><i class="fa fa-check"></i><b>3.7.5</b> Question 4</a></li>
+<li class="chapter" data-level="3.7.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-5-2"><i class="fa fa-check"></i><b>3.7.6</b> Question 5</a></li>
+<li class="chapter" data-level="3.7.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-6-2"><i class="fa fa-check"></i><b>3.7.7</b> Question 6</a></li>
+<li class="chapter" data-level="3.7.8" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-7-2"><i class="fa fa-check"></i><b>3.7.8</b> Question 7</a></li>
+<li class="chapter" data-level="3.7.9" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-8-2"><i class="fa fa-check"></i><b>3.7.9</b> Question 8</a></li>
+<li class="chapter" data-level="3.7.10" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-9-2"><i class="fa fa-check"></i><b>3.7.10</b> Question 9</a></li>
+<li class="chapter" data-level="3.7.11" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.11</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#getting-started-1"><i class="fa fa-check"></i><b>4.1</b> Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#loading-data"><i class="fa fa-check"></i><b>4.2.1</b> Loading Data</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#wide-and-long-data"><i class="fa fa-check"></i><b>4.2.2</b> Wide and Long Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#gathering-data"><i class="fa fa-check"></i><b>4.3.1</b> Gathering Data</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#separating-columns"><i class="fa fa-check"></i><b>4.3.2</b> Separating Columns</a></li>
+<li class="chapter" data-level="4.3.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#spreading-data"><i class="fa fa-check"></i><b>4.3.3</b> Spreading Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins"><i class="fa fa-check"></i><b>4.4.1</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins"><i class="fa fa-check"></i><b>4.4.2</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins"><i class="fa fa-check"></i><b>4.4.3</b> Binding Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-unique-and-duplicate-information"><i class="fa fa-check"></i><b>4.5</b> Checking for Unique and Duplicate Information</a></li>
+<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#introduction-and-setup"><i class="fa fa-check"></i><b>4.6.1</b> Introduction and Setup</a></li>
+<li class="chapter" data-level="4.6.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#long-and-wide-data"><i class="fa fa-check"></i><b>4.6.2</b> Long and Wide Data</a></li>
+<li class="chapter" data-level="4.6.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#uniting-and-separating-columns"><i class="fa fa-check"></i><b>4.6.3</b> Uniting and Separating Columns</a></li>
+<li class="chapter" data-level="4.6.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins-1"><i class="fa fa-check"></i><b>4.6.4</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.6.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins-1"><i class="fa fa-check"></i><b>4.6.5</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.6.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins-1"><i class="fa fa-check"></i><b>4.6.6</b> Binding Joins</a></li>
+<li class="chapter" data-level="4.6.7" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-duplicates"><i class="fa fa-check"></i><b>4.6.7</b> Checking for Duplicates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a><ul>
+<li class="chapter" data-level="5.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#getting-started-2"><i class="fa fa-check"></i><b>5.1</b> Getting Started</a></li>
+<li class="chapter" data-level="5.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#understanding-our-data"><i class="fa fa-check"></i><b>5.2</b> Understanding our Data</a></li>
+<li class="chapter" data-level="5.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#preparing-our-data"><i class="fa fa-check"></i><b>5.3</b> Preparing our Data</a></li>
+<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#renaming-and-reordering-columns"><i class="fa fa-check"></i><b>5.4.1</b> Renaming and Reordering Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#creating-and-changing-columns"><i class="fa fa-check"></i><b>5.5</b> Creating and Changing Columns</a></li>
+<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-with-logical-operations"><i class="fa fa-check"></i><b>5.6.1</b> Filtering with Logical Operations</a></li>
+<li class="chapter" data-level="5.6.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#combining-filtering-criteria"><i class="fa fa-check"></i><b>5.6.2</b> Combining Filtering Criteria</a></li>
+<li class="chapter" data-level="5.6.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#removing-by-ceriteria"><i class="fa fa-check"></i><b>5.6.3</b> Removing by Ceriteria</a></li>
+<li class="chapter" data-level="5.6.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#handling-nas"><i class="fa fa-check"></i><b>5.6.4</b> Handling NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#arranging-data"><i class="fa fa-check"></i><b>5.7</b> Arranging Data</a></li>
+<li class="chapter" data-level="5.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#summarising-data"><i class="fa fa-check"></i><b>5.8</b> Summarising Data</a></li>
+<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#ungrouping-data"><i class="fa fa-check"></i><b>5.9.1</b> Ungrouping Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#chaining-many-functions"><i class="fa fa-check"></i><b>5.10</b> Chaining Many Functions</a></li>
+<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a><ul>
+<li class="chapter" data-level="5.11.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#csv-files"><i class="fa fa-check"></i><b>5.11.1</b> CSV Files</a></li>
+<li class="chapter" data-level="5.11.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#r-data-files"><i class="fa fa-check"></i><b>5.11.2</b> R Data Files</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a><ul>
+<li class="chapter" data-level="5.12.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-1-4"><i class="fa fa-check"></i><b>5.12.1</b> Question 1</a></li>
+<li class="chapter" data-level="5.12.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-2-4"><i class="fa fa-check"></i><b>5.12.2</b> Question 2</a></li>
+<li class="chapter" data-level="5.12.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-3-4"><i class="fa fa-check"></i><b>5.12.3</b> Question 3</a></li>
+<li class="chapter" data-level="5.12.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-4-4"><i class="fa fa-check"></i><b>5.12.4</b> Question 4</a></li>
+<li class="chapter" data-level="5.12.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-5-4"><i class="fa fa-check"></i><b>5.12.5</b> Question 5</a></li>
+<li class="chapter" data-level="5.12.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-6-4"><i class="fa fa-check"></i><b>5.12.6</b> Question 6</a></li>
+<li class="chapter" data-level="5.12.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-7-4"><i class="fa fa-check"></i><b>5.12.7</b> Question 7</a></li>
+<li class="chapter" data-level="5.12.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-8-4"><i class="fa fa-check"></i><b>5.12.8</b> Question 8</a></li>
+<li class="chapter" data-level="5.12.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-9-4"><i class="fa fa-check"></i><b>5.12.9</b> Question 9</a></li>
+<li class="chapter" data-level="5.12.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-10-3"><i class="fa fa-check"></i><b>5.12.10</b> Question 10</a></li>
+<li class="chapter" data-level="5.12.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-11-1"><i class="fa fa-check"></i><b>5.12.11</b> Question 11</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#getting-started-3"><i class="fa fa-check"></i><b>6.1</b> Getting Started</a></li>
+<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#analysing-real-data"><i class="fa fa-check"></i><b>6.2.1</b> Analysing Real Data</a></li>
+<li class="chapter" data-level="6.2.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#checking-assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Checking Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#running-a-correlation"><i class="fa fa-check"></i><b>6.2.3</b> Running a Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-sample-t-tests"><i class="fa fa-check"></i><b>6.3.1</b> One-Sample <em>t</em>-tests</a></li>
+<li class="chapter" data-level="6.3.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#independent-samples-t-tests"><i class="fa fa-check"></i><b>6.3.2</b> Independent-Samples <em>t</em>-tests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#paired-samples-t-tests"><i class="fa fa-check"></i><b>6.3.3</b> Paired-Samples <em>t</em>-tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-way-anova"><i class="fa fa-check"></i><b>6.4.1</b> One-Way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#general-linear-model"><i class="fa fa-check"></i><b>6.5.1</b> General Linear Model</a></li>
+<li class="chapter" data-level="6.5.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#generalised-linear-model"><i class="fa fa-check"></i><b>6.5.2</b> Generalised Linear Model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-1-5"><i class="fa fa-check"></i><b>6.6.1</b> Question 1</a></li>
+<li class="chapter" data-level="6.6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-2-5"><i class="fa fa-check"></i><b>6.6.2</b> Question 2</a></li>
+<li class="chapter" data-level="6.6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-3-5"><i class="fa fa-check"></i><b>6.6.3</b> Question 3</a></li>
+<li class="chapter" data-level="6.6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-4-5"><i class="fa fa-check"></i><b>6.6.4</b> Question 4</a></li>
+<li class="chapter" data-level="6.6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-5-5"><i class="fa fa-check"></i><b>6.6.5</b> Question 5</a></li>
+<li class="chapter" data-level="6.6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-6-5"><i class="fa fa-check"></i><b>6.6.6</b> Question 6</a></li>
+<li class="chapter" data-level="6.6.7" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-7-5"><i class="fa fa-check"></i><b>6.6.7</b> Question 7</a></li>
+<li class="chapter" data-level="6.6.8" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-8-5"><i class="fa fa-check"></i><b>6.6.8</b> Question 8</a></li>
+<li class="chapter" data-level="6.6.9" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-9-5"><i class="fa fa-check"></i><b>6.6.9</b> Question 9</a></li>
+<li class="chapter" data-level="6.6.10" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-10-4"><i class="fa fa-check"></i><b>6.6.10</b> Question 10</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests</a><ul>
+<li class="chapter" data-level="7.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#getting-started-4"><i class="fa fa-check"></i><b>7.1</b> Getting Started</a></li>
+<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-analyses"><i class="fa fa-check"></i><b>7.2</b> Multilevel Analyses</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#preparation-of-data"><i class="fa fa-check"></i><b>7.2.1</b> Preparation of Data</a></li>
+<li class="chapter" data-level="7.2.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-regression"><i class="fa fa-check"></i><b>7.2.2</b> Multilevel Regression</a></li>
+<li class="chapter" data-level="7.2.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-anova"><i class="fa fa-check"></i><b>7.2.3</b> Multilevel ANOVA</a></li>
+<li class="chapter" data-level="7.2.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-contrasts"><i class="fa fa-check"></i><b>7.2.4</b> Multiple Contrasts</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.3</b> Multifactorial Analyses</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-anova"><i class="fa fa-check"></i><b>7.3.1</b> Multifactorial ANOVA</a></li>
+<li class="chapter" data-level="7.3.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-regression"><i class="fa fa-check"></i><b>7.3.2</b> Multiple Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-analyses"><i class="fa fa-check"></i><b>7.4</b> Mixed Analyses</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-linear-models"><i class="fa fa-check"></i><b>7.4.1</b> Mixed Linear Models</a></li>
+<li class="chapter" data-level="7.4.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-anova"><i class="fa fa-check"></i><b>7.4.2</b> Mixed ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#a-note-on-sum-of-squares"><i class="fa fa-check"></i><b>7.5</b> A Note on Sum of Squares</a></li>
+<li class="chapter" data-level="7.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#exercises-6"><i class="fa fa-check"></i><b>7.6</b> Exercises</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-1-6"><i class="fa fa-check"></i><b>7.6.1</b> Question 1</a></li>
+<li class="chapter" data-level="7.6.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-2-6"><i class="fa fa-check"></i><b>7.6.2</b> Question 2</a></li>
+<li class="chapter" data-level="7.6.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-3-6"><i class="fa fa-check"></i><b>7.6.3</b> Question 3</a></li>
+<li class="chapter" data-level="7.6.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-4-6"><i class="fa fa-check"></i><b>7.6.4</b> Question 4</a></li>
+<li class="chapter" data-level="7.6.5" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-5-6"><i class="fa fa-check"></i><b>7.6.5</b> Question 5</a></li>
+<li class="chapter" data-level="7.6.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-6-6"><i class="fa fa-check"></i><b>7.6.6</b> Question 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulation-calculating-power-and-evaluating-the-null.html"><a href="simulation-calculating-power-and-evaluating-the-null.html"><i class="fa fa-check"></i><b>8</b> Simulation, Calculating Power, and Evaluating the Null</a></li>
+<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a></li>
+<li class="chapter" data-level="10" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>10</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>10.1</b> The Final Lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Psych</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="advanced-statistical-tests" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Advanced Statistical Tests</h1>
+<p>In this session, we’ll cover more advanced statistical tests, such as multifactorial experiments and experiments with factors of more than 2 levels.</p>
+<p>Specifically, we’ll cover:</p>
+<ul>
+<li>multilevel and multifactorial ANOVA</li>
+<li>multilevel and multiple regression</li>
+<li>factor coding (and why it matters in R)</li>
+<li>sum of squares (and why this matters in R)</li>
+</ul>
+<p>As with the previous section, this section assumes some familiarity with basic statistics. It is beyond the score of this section to teach the basics behind all of these methods, but we will cover some background on how these methods work, and why you might choose to use them in different scenarios.</p>
+<div id="getting-started-4" class="section level2">
+<h2><span class="header-section-number">7.1</span> Getting Started</h2>
+<p>As always, we first need to load the <code>tidyverse</code> set of packages for this Chapter.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+</div>
+<div id="multilevel-analyses" class="section level2">
+<h2><span class="header-section-number">7.2</span> Multilevel Analyses</h2>
+<p>Often, your experiments will have more than one level for a factor. However, how you code these factors determines the answers that you get from your analyses.</p>
+<p>Take for example evaluating the efficacy of a host of drugs. We often want to compare performance of several drugs against a placebo. In this case, we might perform an analysis where we compare different levels of one factor (drug; with placebo, drug one, and drug two levels) against a reference level (drug level one; placebo). In this case, we would use <strong>treatment</strong> coding for our factors, as we only want to know if drug one and drug two perform differently from the placebo. That is, we are interested in the <strong>simple effects</strong> of the drug.</p>
+<p>However, in other instances we might want to detect a main effect of a factor to see if there is an overall effect of condition, and you want to explore which conditions differ after the fact. In this case, we might want to use <strong>deviation</strong> or <strong>sum</strong> coding for our factors, and as such we want to test for the <strong>main effect</strong> of condition.</p>
+<p>To explore main effects for the ANOVA and for the multilevel regression, we’ll simulate some data. We’ll use a similar (but more complex) example from the previous lesson.</p>
+<p>We’ll simulate data for a numerical stroop task, where subjects need to pick the highest value number from two numbers. Crucially, these numbers can be displayed such that the highest number is biggest in font size (congruent), smallest in font size (incongruent), or the two numbers have their fonts at an equal size (neutral). Our hypothesis is that participants will identify the larger number most quickly if the size and magnitude of the number of congruent, slower if they are neutral, and slowest if they are incongruent.</p>
+<p>We’ll generate 60 subjects, with the congruent reaction time being around 400ms, the incongruent reaction time being on average 60ms slower than this, and the neutral condition around 30ms slower than the congruent condition (and thus around 30ms faster than the neutral condition).</p>
+<p>Finally, we’ll gather the data together, assuming you’ll often have your data in a long format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
+stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">60</span>),
+  <span class="dt">congruent =</span> <span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">400</span>, <span class="dt">sd =</span> <span class="dv">30</span>, <span class="dt">n =</span> <span class="dv">60</span>),
+  <span class="dt">incongruent =</span> congruent +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">60</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>),
+  <span class="dt">neutral =</span> congruent +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">30</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>)
+  ) %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> cond, <span class="dt">value =</span> reaction_time, <span class="dv">2</span>:<span class="dv">4</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">cond =</span> <span class="kw">as.factor</span>(cond),
+    <span class="dt">log_RT =</span> <span class="kw">log</span>(reaction_time)
+  )</code></pre></div>
+<p>To explore simple effects, we’ll create some data that looks at the effects of a drug intervention on blood oxygen levels (outcome) for smokers. We have a control condition (placebo) where the oxygen level is on average 80mm Hg, “drug_one”, which on average should be no different to the placebo, and “drug_two”, which increases blood oxygen to around 100mm Hg. Here, we simply want to know if either of the drugs perform any better than the control condition. (Note, I have no idea if these are realistic values, but that’s not the point of this exercise!)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set parameters</span>
+<span class="kw">set.seed</span>(<span class="dv">1000</span>)
+means &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">80</span>, <span class="dv">100</span>), <span class="dv">100</span>)
+sds &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)
+
+<span class="co"># simulate data</span>
+cond &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>), <span class="dv">100</span>)
+subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">300</span>)
+
+smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> subject,
+  <span class="dt">cond =</span> <span class="kw">as.factor</span>(cond),
+  <span class="dt">outcome =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">300</span>, <span class="dt">mean =</span> means, <span class="dt">sd =</span> sds)
+)</code></pre></div>
+<div id="preparation-of-data" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Preparation of Data</h3>
+<div id="factors" class="section level4">
+<h4><span class="header-section-number">7.2.1.1</span> Factors</h4>
+<p>In the above examples, we’ve created data sets where our condition column is stored as a factor. Take a look at this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat</code></pre></div>
+<pre><code>## # A tibble: 180 x 4
+##    subject cond      reaction_time log_RT
+##      &lt;int&gt; &lt;fct&gt;             &lt;dbl&gt;  &lt;dbl&gt;
+##  1       1 congruent           387   5.96
+##  2       2 congruent           364   5.90
+##  3       3 congruent           401   5.99
+##  4       4 congruent           419   6.04
+##  5       5 congruent           376   5.93
+##  6       6 congruent           388   5.96
+##  7       7 congruent           386   5.96
+##  8       8 congruent           422   6.04
+##  9       9 congruent           399   5.99
+## 10      10 congruent           359   5.88
+## # ... with 170 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat</code></pre></div>
+<pre><code>## # A tibble: 300 x 3
+##    subject cond     outcome
+##      &lt;int&gt; &lt;fct&gt;      &lt;dbl&gt;
+##  1       1 control     77.8
+##  2       2 drug_one    74.0
+##  3       3 drug_two   100  
+##  4       4 control     83.2
+##  5       5 drug_one    76.1
+##  6       6 drug_two    97.3
+##  7       7 control     77.6
+##  8       8 drug_one    83.6
+##  9       9 drug_two    99.9
+## 10      10 control     73.1
+## # ... with 290 more rows</code></pre>
+<p>This is because I used <code>mutate()</code> to change the column from a character data type, to a factor data type. The nice thing about storing your factors this way is that we can see the levels that make up our factor:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(stroop_dat$cond)</code></pre></div>
+<pre><code>## [1] &quot;congruent&quot;   &quot;incongruent&quot; &quot;neutral&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(smoking_dat$cond)</code></pre></div>
+<pre><code>## [1] &quot;control&quot;  &quot;drug_one&quot; &quot;drug_two&quot;</code></pre>
+<p>If your data isn’t stored as a factor, you can convert it to one using <code>as.factor()</code> or <code>factor()</code> on your column (e.g. <code>data$factor &lt;- as.factor(data$factor)</code>).</p>
+</div>
+<div id="contrast-matrices" class="section level4">
+<h4><span class="header-section-number">7.2.1.2</span> Contrast Matrices</h4>
+<p>We can see how we specify our contrasts for our tests by using the <code>contrasts()</code> function any any factors.</p>
+<p>Let’s look back at the Stroop data when we only had two levels of condition, congruent and incongruent. Here, we’ll subset the data and then use the <code>contrasts()</code> function to look at the contrast matrix. We’ll also mutate the cond column to itself as a factor so we drop the level that is no longer present (i.e. neutral) ; this is just a little R trick!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make data 2 levels and convert condition to a factor</span>
+stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(cond %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cond =</span> <span class="kw">factor</span>(cond))
+
+<span class="co"># see your contrasts</span>
+<span class="kw">contrasts</span>(stroop_subset$cond)</code></pre></div>
+<pre><code>##             incongruent
+## congruent             0
+## incongruent           1</code></pre>
+<p>We can see from our contrast matrix that the congruent condition is assigned a value of 0, and the incongruent condition is assigned a value of 1. What this means is that our intercept in our linear model is the congruent condition, and we evaluate the effect of a shift in condition by 1 point (i.e. to the incongruent condition) against this reference level. Remember that in a linear model, the intercept is the point on the y-axis where x is 0.</p>
+<p>Let’s fit a linear model to see how this works. Notice that we fit the model and then (<code>%&gt;%</code>) use the <code>summary()</code> function to see the output of the model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, stroop_subset) %&gt;%<span class="st"> </span><span class="kw">summary</span>()</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ cond, data = stroop_subset)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.15379 -0.04888  0.00581  0.03781  0.19539 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     5.978613   0.009196  650.14   &lt;2e-16 ***
+## condincongruent 0.145808   0.013005   11.21   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.07123 on 118 degrees of freedom
+## Multiple R-squared:  0.5158, Adjusted R-squared:  0.5117 
+## F-statistic: 125.7 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We can see that our parameter estimate for the intercept is 5.979, and being in the congruent condition adds 0.145 to the intercept value of 5.979, which sums to 6.124. How does this equate to our mean scores?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_subset %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(cond) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   cond         mean
+##   &lt;fct&gt;       &lt;dbl&gt;
+## 1 congruent    5.98
+## 2 incongruent  6.12</code></pre>
+<p>Great, our intercept corresponds to the mean of the congruent condition, and our effect of condition is the difference between the two means! That’s because we used treatment coding, which is the default in R. This means that the intercept is alwasy the first alphabetic level of our conditions.</p>
+<p>But what if we want to change the reference level of our intercept? This is important if we want to look at different contrasts when we have more than 1 level in a factor, or more than 2 factors in a model.</p>
+<p>To change our intercept, we must change our contrast matrix. To change this we use the <code>contrasts()</code> function on our condition factor, to see what our contrasts are, and we can then define the contrasts we’d like using some inbuilt functions in R. Here, we’ll change the coding to sum coding using <code>contr.sum</code>. (Others are available, such as <code>contr.helmert</code>, etc.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_subset$cond) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(stroop_subset$cond)</code></pre></div>
+<pre><code>##             [,1]
+## congruent      1
+## incongruent   -1</code></pre>
+<p>Now, our contrast matrix sums to 0. Remember that our intercept is 0, so the intercept is now the mid-point between the 2 conditions, or the mean across both conditions. Let’s refit our model and see this in action.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, stroop_subset) %&gt;%<span class="st"> </span><span class="kw">summary</span>()</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ cond, data = stroop_subset)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.15379 -0.04888  0.00581  0.03781  0.19539 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  6.051517   0.006502  930.65   &lt;2e-16 ***
+## cond1       -0.072904   0.006502  -11.21   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.07123 on 118 degrees of freedom
+## Multiple R-squared:  0.5158, Adjusted R-squared:  0.5117 
+## F-statistic: 125.7 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Now our intercept is 6.052, and the effect of condition (now labelled <code>cond1</code>; the first (and only) contrast in our contrast matrix for condition) is -0.073. Crucially, since we only have 2 levels of condition, our interpretation of all of the statistics in this model remains the same, only our intercept paramter estimate is different to before. Further, the parameter estimate for condition (and the standard error of this estimate) are half as large as before, but this is just due to the scale on which our factor is evaluated; the <em>t</em>- and <em>p</em>-values remain the same.</p>
+<p>How does the intercept relate to our means? Check it out!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_subset %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    mean
+##   &lt;dbl&gt;
+## 1  6.05</code></pre>
+<p>The mean for both conditions is the intercept for our linear model.</p>
+</div>
+</div>
+<div id="multilevel-regression" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Multilevel Regression</h3>
+<p>What happens if we have some more complex data? Let’s look at the contrast matrix for the full Stroop data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond)</code></pre></div>
+<pre><code>##             incongruent neutral
+## congruent             0       0
+## incongruent           1       0
+## neutral               0       1</code></pre>
+<p>You can see that right now, the first row for the congruent condition sums to 0. Whereas the incongruent and neutral condition rows sum to 1. This means that the congruent condition will be the intercept in our model, and the incongruent and neutral conditions will be the other parameters in our model. Let’s see this in action.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) %&gt;%<span class="st"> </span>summary</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ cond, data = stroop_dat)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.180561 -0.052211  0.002842  0.042382  0.195386 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     5.978613   0.009308 642.314  &lt; 2e-16 ***
+## condincongruent 0.145808   0.013163  11.077  &lt; 2e-16 ***
+## condneutral     0.073206   0.013163   5.561 9.74e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.0721 on 177 degrees of freedom
+## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
+## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Again, we’ll check how these parameters correspond to our means for each group.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat %&gt;%<span class="st"> </span><span class="kw">group_by</span>(cond) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   cond         mean
+##   &lt;fct&gt;       &lt;dbl&gt;
+## 1 congruent    5.98
+## 2 incongruent  6.12
+## 3 neutral      6.05</code></pre>
+<p>Great, the intercept is indeed the mean for the congruent condition, and the incongruent condition (cond2) and neutral (cond3) are the difference between the intercept mean and that reference level’s mean.</p>
+<p>Instead, we could get sum coded effects as before.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(stroop_dat$cond)</code></pre></div>
+<pre><code>##             [,1] [,2]
+## congruent      1    0
+## incongruent    0    1
+## neutral       -1   -1</code></pre>
+<p>Now the first 2 rows sum to 1, which together makes 2, and the final row sums to -2. Together, the intercept or 0 is the average across these contrasts. How does this affect our model?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) %&gt;%<span class="st"> </span>summary</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ cond, data = stroop_dat)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.180561 -0.052211  0.002842  0.042382  0.195386 
+## 
+## Coefficients:
+##              Estimate Std. Error  t value Pr(&gt;|t|)    
+## (Intercept)  6.051618   0.005374 1126.106   &lt;2e-16 ***
+## cond1       -0.073005   0.007600   -9.606   &lt;2e-16 ***
+## cond2        0.072803   0.007600    9.580   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.0721 on 177 degrees of freedom
+## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
+## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Now we can see that the intercept has changed, and now the congruent and incongruent condition are considered against the grand mean across all levels, so their terms have changed too.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##    mean
+##   &lt;dbl&gt;
+## 1  6.05</code></pre>
+<p>Check the following values against the group means above: 6.0516 - 0.073 = 5.978613 and 6.0516 + 0.0728 = 6.124421, you can see that the group means for the congruent and incongruent condition equate to the intercept + the new paramter estimates.</p>
+<p>Again, however, the main effect of our model remains unchanged regardless of the coding scheme used.</p>
+<p>For now, we’ll return to using treatment coding and we’ll explore changing the order for the intercept. If we want to change the order, or determine exactly which level will be the intercept, we simply have to relevel our factor before defining our contrasts:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond) &lt;-<span class="st"> </span>contr.treatment
+stroop_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(stroop_dat$cond, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>))</code></pre></div>
+<p>Here, we simply asked R to remake our condition column from a factor of our condition column, but with specifically ordered levels.</p>
+<p>Now when we specify our treatment contrasts, the reference level (i.e. 0) will be the first level that we specified above (neutral, in this instance).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond)</code></pre></div>
+<pre><code>##             congruent incongruent
+## neutral             0           0
+## congruent           1           0
+## incongruent         0           1</code></pre>
+<p>We’ll rerun the model to see how our intercept has changed.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) %&gt;%<span class="st"> </span>summary</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_RT ~ cond, data = stroop_dat)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.180561 -0.052211  0.002842  0.042382  0.195386 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      6.051819   0.009308 650.179  &lt; 2e-16 ***
+## condcongruent   -0.073206   0.013163  -5.561 9.74e-08 ***
+## condincongruent  0.072602   0.013163   5.515 1.22e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.0721 on 177 degrees of freedom
+## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
+## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>This looks very similar to the grand mean, but notice the value of the parameter estimate beyond 3 decimal places. The paramter estimate is now 6.051819 which is the value of the mean for the neutral condition (while 6.051618 is the value of the grand mean across all conditions).</p>
+</div>
+<div id="multilevel-anova" class="section level3">
+<h3><span class="header-section-number">7.2.3</span> Multilevel ANOVA</h3>
+<p>Let’s say we’re interested in main effects and we want to see if there is a main effect of condition in the numerical stroop task. Nicely, the <code>aov()</code> function defaults to give us main effects in the form of a traditional ANOVA output.</p>
+<p>Let’s see how this works.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat)
+<span class="kw">summary</span>(stroop_aov)</code></pre></div>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)    
+## cond          2 0.6378  0.3189   61.35 &lt;2e-16 ***
+## Residuals   177 0.9201  0.0052                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Now, our model corresponds to the model output that we got using the <code>lm()</code> function. Look at the bottom of the results from the linear model in the previous section, the F, df, and <em>p</em>-values are the same. This is because the <code>aov()</code> function is simply a wrapper for our linear model that gives us main effects! Under the hood, <code>aov()</code> is just <code>lm()</code>, only without the additional model coefficients from the linear model.</p>
+<p>However, if we’ve already fitted a model using the <code>aov()</code> function, but we want to retrieve the model coefficients, we can use a different type of <code>summary()</code> function, <code>summary.lm()</code>. This makes R give us our model with a linear model output.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary.lm</span>(stroop_aov)</code></pre></div>
+<pre><code>## 
+## Call:
+## aov(formula = log_RT ~ cond, data = stroop_dat)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.180561 -0.052211  0.002842  0.042382  0.195386 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      6.051819   0.009308 650.179  &lt; 2e-16 ***
+## condcongruent   -0.073206   0.013163  -5.561 9.74e-08 ***
+## condincongruent  0.072602   0.013163   5.515 1.22e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.0721 on 177 degrees of freedom
+## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
+## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Again, the fit from this model gives coefficients which correspond to those that we determine using the <code>contrasts()</code> function.</p>
+<p>This contrast coding will become more important as we fit more factors in our models.</p>
+</div>
+<div id="multiple-contrasts" class="section level3">
+<h3><span class="header-section-number">7.2.4</span> Multiple Contrasts</h3>
+<p>Let’s say we have the smoking data set, and we’re interested in whether two drugs differ from a placebo. We can fit the model with a treatment coded contrast matrix so that the intercept is the placebo (control group), and the other conditions are compared against this reference value. We’ll fit this with a linear model, seeing as we care about the model coefficients.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome ~<span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat)
+<span class="kw">summary</span>(smoking_lm)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = outcome ~ cond, data = smoking_dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -15.7906  -3.1192   0.0561   3.1747  18.4927 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   79.6866     0.5508 144.670   &lt;2e-16 ***
+## conddrug_one   0.7748     0.7790   0.995    0.321    
+## conddrug_two  20.5112     0.7790  26.331   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.508 on 297 degrees of freedom
+## Multiple R-squared:   0.75,  Adjusted R-squared:  0.7483 
+## F-statistic: 445.4 on 2 and 297 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>As you can see, the two drug conditions are compared aginst the intercept for the placebo condition. However, what if we want to consider the effectiveness of the two drugs against one-another?</p>
+<p>We have two options:</p>
+<ol style="list-style-type: decimal">
+<li>Relevel your factor so that you can compare drug_one to drug_two (i.e. set drug_one as the intercept)</li>
+<li>Calculate the differences in the parameter estimates for the two rows in the table.</li>
+</ol>
+<p>The first option is easiest if we only have a few levels in a factor. The second is handy if we have a lot of levels, but requires us to specify a complex contrast matrix. For the first option, we simply need to do something like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(smoking_dat$cond, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>, <span class="st">&quot;control&quot;</span>))
+smoking_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome ~<span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat)
+<span class="kw">summary</span>(smoking_lm2)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = outcome ~ cond, data = smoking_dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -15.7906  -3.1192   0.0561   3.1747  18.4927 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   80.4614     0.5508 146.077   &lt;2e-16 ***
+## conddrug_two  19.7364     0.7790  25.337   &lt;2e-16 ***
+## condcontrol   -0.7748     0.7790  -0.995    0.321    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.508 on 297 degrees of freedom
+## Multiple R-squared:   0.75,  Adjusted R-squared:  0.7483 
+## F-statistic: 445.4 on 2 and 297 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Now our intercept is drug_one, the parameter estimate for conddrug_two is the difference between drug_one and drug_two, and condcontrol corresponds to the parameter estimates for the difference between drug_one and the control condition. Notice that condcontrol here equates to conddrug_one in the original model.</p>
+<p>For more complex cases (i.e. several levels) there are helper packages such as <code>multcomp</code> which allows you to specify a contrast matrix and conduct multiple comparisons on your model, but we won’t get into that here.</p>
+</div>
+</div>
+<div id="multifactorial-analyses" class="section level2">
+<h2><span class="header-section-number">7.3</span> Multifactorial Analyses</h2>
+<p>Now we’ll look at cases where we have more than one factor. Here, we’ll use one of R’s inbuilt data sets, ToothGrowth, which looks at the effect of vitamin C on tooth growth in guinea pigs. This data set has 3 columns:</p>
+<ul>
+<li>len: tooth length</li>
+<li>supp: supplement type (vitamin C supplement or orange juice)</li>
+<li>dose: strength of dose</li>
+</ul>
+<p>Most importantly, supplement is a factor with 2 levels, and dose is a numeric variable with 3 levels, but the same principles apply to more complex designs.</p>
+<p>Load the data, and save it as a tibble with the columns saved as factors:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the data</span>
+<span class="kw">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)
+
+<span class="co"># convert to tibble and make dose a factor</span>
+tooth &lt;-<span class="st"> </span>ToothGrowth %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose)) %&gt;%
+<span class="st">  </span><span class="kw">as.tibble</span>()
+
+<span class="co"># see the output</span>
+tooth</code></pre></div>
+<pre><code>## # A tibble: 60 x 3
+##      len supp  dose 
+##    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;
+##  1  4.20 VC    0.5  
+##  2 11.5  VC    0.5  
+##  3  7.30 VC    0.5  
+##  4  5.80 VC    0.5  
+##  5  6.40 VC    0.5  
+##  6 10.0  VC    0.5  
+##  7 11.2  VC    0.5  
+##  8 11.2  VC    0.5  
+##  9  5.20 VC    0.5  
+## 10  7.00 VC    0.5  
+## # ... with 50 more rows</code></pre>
+<div id="multifactorial-anova" class="section level3">
+<h3><span class="header-section-number">7.3.1</span> Multifactorial ANOVA</h3>
+<p>We’ll conduct an ANOVA to check for a main effect of each factor, and the interaction between them. You already know how to check for main effects, and we can simply check for more main effects by adding them to the formula like so:</p>
+<p><code>dependent variable ~ factor_one + factor_two</code></p>
+<p>To check for an interaction, we specify it like so:</p>
+<p><code>dependent variable ~ factor_one + factor_two + factor_one : factor_two</code></p>
+<p>Or, to save on typing, like so (these two are equivalent):</p>
+<p><code>dependent variable ~ factor_one * factor_two</code></p>
+<p>First, we’ll check how our factors are instantiated (i.e. what are the contrasts)?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth$supp) </code></pre></div>
+<pre><code>##    VC
+## OJ  0
+## VC  1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth$dose)</code></pre></div>
+<pre><code>##     1 2
+## 0.5 0 0
+## 1   1 0
+## 2   0 1</code></pre>
+<p>Here, we’re interested in the main effects of both factors, and whether there’s an interaction between them. Since we aren’t going to get the parameter estimates from this model using the <code>summary.lm()</code> function, we don’t need to specify the contrast matrix required for the ANOVA here.</p>
+<p>We’ll save this as <strong>tooth_aov</strong> as we want to do some follow up tests later on.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth)
+<span class="kw">summary</span>(tooth_aov)</code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## supp         1  205.4   205.4  15.572 0.000231 ***
+## dose         2 2426.4  1213.2  92.000  &lt; 2e-16 ***
+## supp:dose    2  108.3    54.2   4.107 0.021860 *  
+## Residuals   54  712.1    13.2                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>As you can see, we have a significant main effect of both factors, and a significant interaction. As such, we need to do some follow up tests to see where our effect lies in the interaction. A quick check with a plot always helps:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> tooth, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> dose, <span class="dt">y =</span> len, <span class="dt">colour =</span> supp)) +
+<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>It looks like there’s a main effect of dose overall, but also that supplement type probably only matters for lower doses. Let’s check these using some pairwise tests. As such, perform pairwise comparisons to see where our differences lie.</p>
+<div id="multiple-comparisons" class="section level4">
+<h4><span class="header-section-number">7.3.1.1</span> Multiple Comparisons</h4>
+<p>One option is to perform multiple comparisons using Tukey Honest Significant Difference. We do this by applying the <code>TukeyHSD()</code> function to our fitted model <strong>tooth_aov</strong>. Here, we also have to specify the confidence level, which is by default 95%.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">TukeyHSD</span>(tooth_aov, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)</code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = len ~ supp * dose, data = tooth)
+## 
+## $supp
+##       diff       lwr       upr     p adj
+## VC-OJ -3.7 -5.579828 -1.820172 0.0002312
+## 
+## $dose
+##         diff       lwr       upr   p adj
+## 1-0.5  9.130  6.362488 11.897512 0.0e+00
+## 2-0.5 15.495 12.727488 18.262512 0.0e+00
+## 2-1    6.365  3.597488  9.132512 2.7e-06
+## 
+## $`supp:dose`
+##                diff        lwr        upr     p adj
+## VC:0.5-OJ:0.5 -5.25 -10.048124 -0.4518762 0.0242521
+## OJ:1-OJ:0.5    9.47   4.671876 14.2681238 0.0000046
+## VC:1-OJ:0.5    3.54  -1.258124  8.3381238 0.2640208
+## OJ:2-OJ:0.5   12.83   8.031876 17.6281238 0.0000000
+## VC:2-OJ:0.5   12.91   8.111876 17.7081238 0.0000000
+## OJ:1-VC:0.5   14.72   9.921876 19.5181238 0.0000000
+## VC:1-VC:0.5    8.79   3.991876 13.5881238 0.0000210
+## OJ:2-VC:0.5   18.08  13.281876 22.8781238 0.0000000
+## VC:2-VC:0.5   18.16  13.361876 22.9581238 0.0000000
+## VC:1-OJ:1     -5.93 -10.728124 -1.1318762 0.0073930
+## OJ:2-OJ:1      3.36  -1.438124  8.1581238 0.3187361
+## VC:2-OJ:1      3.44  -1.358124  8.2381238 0.2936430
+## OJ:2-VC:1      9.29   4.491876 14.0881238 0.0000069
+## VC:2-VC:1      9.37   4.571876 14.1681238 0.0000058
+## VC:2-OJ:2      0.08  -4.718124  4.8781238 1.0000000</code></pre>
+<p>We get a lot of output here corresponding to every possible comparison we could ever want. We can remedy this by saving the output of TukeyHSD to an object, and selecting only the relevant information, <strong>supp:dose</strong>. Notice that we put this name in backticks so we can use the special character <code>:</code> without R interpreting it as something else.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tukey_aov &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(tooth_aov, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)
+tukey_aov$<span class="st">`</span><span class="dt">supp:dose</span><span class="st">`</span></code></pre></div>
+<pre><code>##                diff        lwr        upr        p adj
+## VC:0.5-OJ:0.5 -5.25 -10.048124 -0.4518762 2.425209e-02
+## OJ:1-OJ:0.5    9.47   4.671876 14.2681238 4.612304e-06
+## VC:1-OJ:0.5    3.54  -1.258124  8.3381238 2.640208e-01
+## OJ:2-OJ:0.5   12.83   8.031876 17.6281238 2.125153e-09
+## VC:2-OJ:0.5   12.91   8.111876 17.7081238 1.769939e-09
+## OJ:1-VC:0.5   14.72   9.921876 19.5181238 2.985967e-11
+## VC:1-VC:0.5    8.79   3.991876 13.5881238 2.100948e-05
+## OJ:2-VC:0.5   18.08  13.281876 22.8781238 4.855005e-13
+## VC:2-VC:0.5   18.16  13.361876 22.9581238 4.821699e-13
+## VC:1-OJ:1     -5.93 -10.728124 -1.1318762 7.393032e-03
+## OJ:2-OJ:1      3.36  -1.438124  8.1581238 3.187361e-01
+## VC:2-OJ:1      3.44  -1.358124  8.2381238 2.936430e-01
+## OJ:2-VC:1      9.29   4.491876 14.0881238 6.908163e-06
+## VC:2-VC:1      9.37   4.571876 14.1681238 5.774013e-06
+## VC:2-OJ:2      0.08  -4.718124  4.8781238 1.000000e+00</code></pre>
+</div>
+</div>
+<div id="multiple-regression" class="section level3">
+<h3><span class="header-section-number">7.3.2</span> Multiple Regression</h3>
+<div id="three-level-factors" class="section level4">
+<h4><span class="header-section-number">7.3.2.1</span> Three-Level Factors</h4>
+<p>If you want to see whether there’s a main effect or interaction for 3 level factors, the easiest way is to simply run an ANOVA. With the <code>lm()</code> function, comparisons for the contribution of each factor in our model starts to become more difficult when we have factors with more than 2 levels. That’s because we have to construct some numeric variables for these factors, and we need to perform model comparisons on a full model (with interactions) and reduced models (without) to see which model best fits our data.</p>
+<p>To do this, we simply have to centre our two factors, with these stored as numeric variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># code new centered variables</span>
+tooth$supp_dev &lt;-<span class="st"> </span>(tooth$supp ==<span class="st"> &quot;VC&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(tooth$supp ==<span class="st"> &quot;VC&quot;</span>)
+tooth$dose_dev_one &lt;-<span class="st"> </span>(tooth$dose ==<span class="st"> &quot;0.5&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(tooth$dose ==<span class="st"> &quot;0.5&quot;</span>)
+tooth$dose_dev_two &lt;-<span class="st"> </span>(tooth$dose ==<span class="st"> &quot;1&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(tooth$dose ==<span class="st"> &quot;1&quot;</span>)
+
+<span class="co"># inspect changes</span>
+<span class="kw">head</span>(tooth)</code></pre></div>
+<pre><code>## # A tibble: 6 x 6
+##     len supp  dose  supp_dev dose_dev_one dose_dev_two
+##   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+## 1  4.20 VC    0.5      0.500        0.667       -0.333
+## 2 11.5  VC    0.5      0.500        0.667       -0.333
+## 3  7.30 VC    0.5      0.500        0.667       -0.333
+## 4  5.80 VC    0.5      0.500        0.667       -0.333
+## 5  6.40 VC    0.5      0.500        0.667       -0.333
+## 6 10.0  VC    0.5      0.500        0.667       -0.333</code></pre>
+<p>This centering works similarly to the contrast matrices we used before. In fact, it is often the better option if we have unbalanced data sets, as it accounts for the mismatch in the number of observations in each level of a factor. The centering used in this case is called <strong>deviation coding</strong> and is just like sum coding, only the parameter estimates and standard errors are half as large (but all other interpretations, e.g. <em>t</em>- and <em>p</em>-values remain the same).</p>
+<p>Now, when we fit a model with <strong>supp_dev</strong>, the intercept will be the mean of the two conditions.</p>
+<p>When it comes to fitting a 3 level factor, we need to do the same thing for only two of the levels. When we then add this to a model and test for an interaction, we test for the interaction for <strong>supp_dev</strong> across both columns for our deviation coded doses.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_lm_full &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp_dev *<span class="st"> </span>(dose_dev_one +<span class="st"> </span>dose_dev_two), <span class="dt">data =</span> tooth)</code></pre></div>
+<p>Next, we construct a reduced model, and use the <code>anova()</code> function to compare the two models against one another.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_lm_reduced &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp_dev +<span class="st"> </span>(dose_dev_one +<span class="st"> </span>dose_dev_two), <span class="dt">data =</span> tooth)
+<span class="kw">anova</span>(tooth_lm_full, tooth_lm_reduced)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: len ~ supp_dev * (dose_dev_one + dose_dev_two)
+## Model 2: len ~ supp_dev + (dose_dev_one + dose_dev_two)
+##   Res.Df    RSS Df Sum of Sq     F  Pr(&gt;F)  
+## 1     54 712.11                             
+## 2     56 820.43 -2   -108.32 4.107 0.02186 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>This checks for how much variance is explainedby each model. As you can see, the interaction term in our model makes a significant contribution to the variance explained, so this indicates that there’s an interaction in our model, and as such we should explore this.</p>
+<p>A quick and easy way to do so is to run a number of <em>t</em>-tests or linear models on subsets of the data, adjusting for the <em>p</em>-values where necessary.</p>
+<p>One way to achieve this for multifactorial designs is to create a new column which is a combination of the two factors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create combined factor column</span>
+tooth$interact &lt;-<span class="st"> </span><span class="kw">interaction</span>(tooth$supp, tooth$dose)
+
+<span class="co"># check levels of our new factor</span>
+<span class="kw">levels</span>(tooth$interact)</code></pre></div>
+<pre><code>## [1] &quot;OJ.0.5&quot; &quot;VC.0.5&quot; &quot;OJ.1&quot;   &quot;VC.1&quot;   &quot;OJ.2&quot;   &quot;VC.2&quot;</code></pre>
+<p>Then we simply use the <code>pairwise.t.test()</code> function, and supply it our dependent variable and our grouping factor. This method defaults to Holm’s sequential bonerroni, which is like bonferroni adjustment of <em>p</em>-values, but rather than multiplying them all by the total number of comparisons, we instead multiply them incrementally, so the largest <em>p</em>-value is multiplied by 1, the next smallest by 2, the next smallest by 3, etc.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairwise.t.test</span>(tooth$len, tooth$interact)</code></pre></div>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  tooth$len and tooth$interact 
+## 
+##        OJ.0.5  VC.0.5  OJ.1   VC.1    OJ.2  
+## VC.0.5 0.0105  -       -      -       -     
+## OJ.1   3.2e-06 2.6e-11 -      -       -     
+## VC.1   0.1346  1.0e-05 0.0035 -       -     
+## OJ.2   1.6e-09 1.9e-14 0.1346 3.8e-06 -     
+## VC.2   1.4e-09 1.7e-14 0.1346 3.6e-06 0.9609
+## 
+## P value adjustment method: holm</code></pre>
+<p>There are other ways to automate <em>t</em>-tests in R. For example, you could create a function to subset your data, apply a test, and adjust the <em>p</em>-values manually, but this is not necessary here.</p>
+</div>
+<div id="two-level-factors" class="section level4">
+<h4><span class="header-section-number">7.3.2.2</span> Two-Level Factors</h4>
+<p>Things are a lot easier when we have factors with only 2 levels. Let’s assume our data had only 2 factors with 2 levels each. How would we test for main effects and interactions with a linear model?</p>
+<p>To explore this question, we’ll subset our data to only 2 levels for dose, and we’ll keep only the original columns. (We use <code>dplyr::select</code> to be specific that we want select from the <code>dplyr</code> package, not another loaded package.). Remember, we want to recreate dose as a factor again so it doesn’t remember our old level.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub &lt;-<span class="st"> </span>tooth %&gt;%<span class="st"> </span>
+<span class="st">  </span>dplyr::<span class="kw">select</span>(<span class="dv">1</span> :<span class="st"> </span><span class="dv">3</span>) %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(dose %in%<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose))</code></pre></div>
+<p>Now, we should check our contrasts as usual.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$supp)</code></pre></div>
+<pre><code>##    VC
+## OJ  0
+## VC  1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$dose)</code></pre></div>
+<pre><code>##     1
+## 0.5 0
+## 1   1</code></pre>
+<p>We should make these sum coded contrasts so we can then get main effects from our model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$supp) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(tooth_sub$dose) &lt;-<span class="st"> </span>contr.sum</code></pre></div>
+<p>Then we can fit the model again.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub)
+<span class="kw">summary</span>(tooth_sub_lm)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = len ~ supp * dose, data = tooth_sub)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -8.20  -2.72  -0.27   2.65   8.27 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  15.1700     0.5537  27.397  &lt; 2e-16 ***
+## supp1         2.7950     0.5537   5.048 1.30e-05 ***
+## dose1        -4.5650     0.5537  -8.244 8.25e-10 ***
+## supp1:dose1  -0.1700     0.5537  -0.307    0.761    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.502 on 36 degrees of freedom
+## Multiple R-squared:  0.7221, Adjusted R-squared:  0.6989 
+## F-statistic: 31.18 on 3 and 36 DF,  p-value: 4.098e-10</code></pre>
+<p>The only thing to note here is that we’ve used sum coding other than deviation coding with the 3-level case. Our interpretation of effects stays the same here, only our paramter estimates and standard errors will be twice as large with sum coding when compared to deviation coding.</p>
+<p>If your factors are not sum/deviation coded, then you won’t observe main effects. So we can test for the effect of dose at the first level of supplement as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$supp) &lt;-<span class="st"> </span>contr.treatment
+<span class="kw">contrasts</span>(tooth_sub$supp)</code></pre></div>
+<pre><code>##    2
+## OJ 0
+## VC 1</code></pre>
+<p>OJ will now be our reference value for the intercept. Additionally, the effect of dose will be compared at this intercept value, so we now have simple effects of dose, and main effects of supplement. The interpretation for our interaction terms remains the same regardless of our coding approach.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub)
+<span class="kw">summary</span>(tooth_sub_lm2)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = len ~ supp * dose, data = tooth_sub)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -8.20  -2.72  -0.27   2.65   8.27 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  17.9650     0.7831  22.942  &lt; 2e-16 ***
+## supp2        -5.5900     1.1074  -5.048 1.30e-05 ***
+## dose1        -4.7350     0.7831  -6.047 6.02e-07 ***
+## supp2:dose1   0.3400     1.1074   0.307    0.761    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.502 on 36 degrees of freedom
+## Multiple R-squared:  0.7221, Adjusted R-squared:  0.6989 
+## F-statistic: 31.18 on 3 and 36 DF,  p-value: 4.098e-10</code></pre>
+</div>
+</div>
+</div>
+<div id="mixed-analyses" class="section level2">
+<h2><span class="header-section-number">7.4</span> Mixed Analyses</h2>
+<p>Mixed factorial analyses are just a special form of factorial analyses. Here, one factor is between subjects and another factor is within subjects. Here, we’ll create some new data based on our smoking data that reflects a mixed design.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set parameters</span>
+<span class="kw">set.seed</span>(<span class="dv">1000</span>)
+means &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">85</span>), <span class="dv">100</span>)
+sds &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)
+cond &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>), <span class="dv">100</span>)
+subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">200</span>)
+
+<span class="co"># simulate data</span>
+smoking_dat_extra &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">subject =</span> subject,
+  <span class="dt">cond =</span> <span class="kw">as.factor</span>(cond),
+  <span class="dt">time_one =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">mean =</span> means, <span class="dt">sd =</span> sds),
+  <span class="dt">time_two =</span> time_one +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> sds)
+  ) %&gt;%
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> test_time,
+         <span class="dt">value =</span> recovery,
+         <span class="dv">3</span>:<span class="dv">4</span>
+         ) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">test_time =</span> <span class="kw">as.factor</span>(test_time)) %&gt;%
+<span class="st">  </span><span class="kw">arrange</span>(subject)
+
+<span class="co"># view the data</span>
+smoking_dat_extra</code></pre></div>
+<pre><code>## # A tibble: 400 x 4
+##    subject cond     test_time recovery
+##      &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;        &lt;dbl&gt;
+##  1       1 control  time_one      77.8
+##  2       1 control  time_two      87.4
+##  3       2 drug_one time_one      79.0
+##  4       2 drug_one time_two      87.6
+##  5       3 control  time_one      80.3
+##  6       3 control  time_two      73.5
+##  7       4 drug_one time_one      88.2
+##  8       4 drug_one time_two      92.0
+##  9       5 control  time_one      76.1
+## 10       5 control  time_two      77.8
+## # ... with 390 more rows</code></pre>
+<p>Now our smoking data is a little more complex, and a simpler in parts. For one, we now only have two drugs, the placebo (control) or drug_one. However now we’ve tested people at two time points to see if time plays a factor in their recovery.</p>
+<div id="mixed-linear-models" class="section level3">
+<h3><span class="header-section-number">7.4.1</span> Mixed Linear Models</h3>
+<p>First, we’ll make sure our factors are sum coded so that we can obtain main effects of both factors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(smoking_dat_extra$cond) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(smoking_dat_extra$test_time) &lt;-<span class="st"> </span>contr.sum</code></pre></div>
+<p>Then, we’ll refit the model as before.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mixed_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(recovery ~<span class="st"> </span>cond *<span class="st"> </span>test_time, 
+                 <span class="dt">data =</span> smoking_dat_extra)
+<span class="kw">summary</span>(mixed_lm)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = recovery ~ cond * test_time, data = smoking_dat_extra)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -23.7613  -3.8794   0.4193   4.3061  20.2756 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       85.3816     0.3370 253.385  &lt; 2e-16 ***
+## cond1             -2.6232     0.3370  -7.785 6.15e-14 ***
+## test_time1        -2.5064     0.3370  -7.438 6.40e-13 ***
+## cond1:test_time1   0.0612     0.3370   0.182    0.856    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.739 on 396 degrees of freedom
+## Multiple R-squared:  0.2265, Adjusted R-squared:  0.2206 
+## F-statistic: 38.65 on 3 and 396 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Now our intercept corresponds to the grand mean, and our effects of condition and test time are main effects of these two factors. The interaction again tells us that we need to explore the data. For this, we’d just use the same methods from above.</p>
+<p>However, this model doesn’t account for the dependencies between subjects and their scores. In order to do this, we should use the ‘aov()’ function, which is simply a wrapper for the linear model, but allows for accounting for between-subjects factors. Alternatively, we can improve on our linear models by making them account for subjects-based effects, and we’ll cover this in later sessions on <strong>mixed effects modelling</strong>.</p>
+</div>
+<div id="mixed-anova" class="section level3">
+<h3><span class="header-section-number">7.4.2</span> Mixed ANOVA</h3>
+<p>With a mixed ANOVA, we are simply just including an error term for our within-subjects factor. We do this in the same way as for within-subjects ANOVAs, only leaving the error term off the between-subjects factor.</p>
+<p>In this case, subjects take part in both test time conditions, so we need to nest this within our data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mixed_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(recovery ~<span class="st"> </span>cond *<span class="st"> </span>test_time +<span class="st"> </span>
+<span class="st">                   </span><span class="kw">Error</span>(subject/test_time), 
+                 <span class="dt">data =</span> smoking_dat_extra)
+<span class="kw">summary</span>(mixed_aov)</code></pre></div>
+<pre><code>## 
+## Error: subject
+##      Df Sum Sq Mean Sq
+## cond  1  261.2   261.2
+## 
+## Error: subject:test_time
+##           Df Sum Sq Mean Sq
+## test_time  1   2077    2077
+## 
+## Error: Within
+##                 Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## cond             1   2738  2738.1  60.877 5.51e-14 ***
+## test_time        1    454   453.9  10.091  0.00161 ** 
+## cond:test_time   1      1     1.4   0.031  0.85956    
+## Residuals      394  17721    45.0                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Now we have our main effects of condition, test time, and the interaction between them.</p>
+</div>
+</div>
+<div id="a-note-on-sum-of-squares" class="section level2">
+<h2><span class="header-section-number">7.5</span> A Note on Sum of Squares</h2>
+<p>In some cases, you might notice that the output of your ANOVA models does not correspond to the output of that from SPSS or other statistical packages. That’s because R defaults to type-I sum of squares, and SPSS defaults to type-III sum of squares.</p>
+<p>Put simply, when you have an unbalanced design, such as when you have an unequal number of participants in each group, the way in which the sum of squares is calculated will affect the output and interpretation of your ANOVA.</p>
+<p>With type-I sum of squares, which is R’s default, the order in which you specify factors in your model will determine how much variance is explained by each factor. With type-I sum of squares, the terms are considered in the model in a sequential order. Take a look at this in action below. We’ll use the <strong>tooth_sub</strong> data from before, but we’ll remove the first observation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_unbalanced &lt;-<span class="st"> </span>tooth_sub[<span class="dv">2</span>:<span class="dv">40</span>,]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">supp_first &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub_unbalanced)
+<span class="kw">summary</span>(supp_first)</code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## supp         1  259.4   259.4  21.331 5.05e-05 ***
+## dose         1  777.3   777.3  63.920 2.09e-09 ***
+## supp:dose    1    2.9     2.9   0.242    0.626    
+## Residuals   35  425.6    12.2                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dose_first &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>dose *<span class="st"> </span>supp, <span class="dt">data =</span> tooth_sub_unbalanced)
+<span class="kw">summary</span>(dose_first)</code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## dose         1  753.3   753.3  61.948 2.98e-09 ***
+## supp         1  283.4   283.4  23.304 2.70e-05 ***
+## dose:supp    1    2.9     2.9   0.242    0.626    
+## Residuals   35  425.6    12.2                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Here, you can see that the sum of squares, and consequently the F-values (and hence <em>p</em>-values) differ depending on the order in which we entered our factors in the model. What happens is that the first term in the model is evaluated first, and any variance explained that is shared by dose and supp is instead given to the first term in the model. Therefore, we shouldn’t really use type-I sum of squares unless our two factors are entirely independent of one-another.</p>
+<p>Alternatively, we have type-II sum of squares, which evaluates the main effects of your factors while ignoring the variance explained by interaction terms. Crucially, if you do have an interaction, type-II sum of squares will not accurately reflect the variance explained by the interaction as that variance is given over to the main effect terms. Crucially, the coding scheme used for type-II sum of squares does not matter.</p>
+<p>In Psychology, we typically use type-III sum of squares, where main effects are computed while taking the interaction into account. This method is recommended for unbalanced designs, although there is some debate on this. However, type-III sum of squares only work with orthogonal contrast matrices (i.e. sum/helmert coding), so make sure you pay attention to how you’ve coded your factors prior to fitting a model.</p>
+<p>The way to refit our model with type-III sum of squares is to use the <code>Anova()</code> (notice the capital A) function from the <strong>car</strong> package, specifying the type for your sum of squares. This function takes the object of your model fitted by <code>aov()</code> and the type for the sum of squares you would like to compute. Note that this function defaults to type-II sum of squares, so we need to be specific in our function call.</p>
+<p>First, install this package and load it, then run the function on the two model fits from above.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;car&quot;) # install once per machine</span>
+<span class="kw">library</span>(car) <span class="co"># load each time you open R</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     some</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(supp_first, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</code></pre></div>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: len
+##             Sum Sq Df F value    Pr(&gt;F)    
+## (Intercept) 6454.8  1 530.797 &lt; 2.2e-16 ***
+## supp         281.6  1  23.158 2.824e-05 ***
+## dose         448.4  1  36.873 6.201e-07 ***
+## supp:dose      2.9  1   0.242    0.6258    
+## Residuals    425.6 35                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(dose_first, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</code></pre></div>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: len
+##             Sum Sq Df F value    Pr(&gt;F)    
+## (Intercept) 6454.8  1 530.797 &lt; 2.2e-16 ***
+## dose         448.4  1  36.873 6.201e-07 ***
+## supp         281.6  1  23.158 2.824e-05 ***
+## dose:supp      2.9  1   0.242    0.6258    
+## Residuals    425.6 35                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>As you can see, the results of both analyses are equivalent for the unbalanced data set using this function.</p>
+<p>As a final note, in all cases we should check that the tests we run meet the assumptions of said test. For factorial ANOVAs, this means checking the previous assumptions for a one-way ANOVA, while also checking for a lack of multicollinearity between the factors in the design, which we won’t cover here.</p>
+</div>
+<div id="exercises-6" class="section level2">
+<h2><span class="header-section-number">7.6</span> Exercises</h2>
+<p>For these exercises, we will look at the core concepts from this lesson. Here, we’ll use a simulated data set that’s saved as a .csv in the inputs folder for this class.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="co"># install.packages(&quot;car&quot;) # install if necessary (once per machine)</span>
+<span class="kw">library</span>(car)
+<span class="kw">library</span>(ggpirate)</code></pre></div>
+<p>Next, we’ll load the data set for this exercise.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">factorial_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/factorial_data.csv&quot;</span>)</code></pre></div>
+<div id="question-1-6" class="section level3">
+<h3><span class="header-section-number">7.6.1</span> Question 1</h3>
+<p>Aggregate the data by subject such that you have 1 score per subject for the mean of the column Y across both A and B columns. Call the Y column mean_Y. Assign this to the object <strong>data_agg</strong>.</p>
+</div>
+<div id="question-2-6" class="section level3">
+<h3><span class="header-section-number">7.6.2</span> Question 2</h3>
+<p>Generate summary statistics for the data set and a pirate plot of the data set. We want means, SDs, and ns for the table of summary statistics.</p>
+</div>
+<div id="question-3-6" class="section level3">
+<h3><span class="header-section-number">7.6.3</span> Question 3</h3>
+<p>Define your contrasts such that you have main effects and interactions from any model fits. You may need to check your data types for this to work properly. <em>Hint</em>: use <code>mutate()</code> after the <code>ungroup()</code> function</p>
+</div>
+<div id="question-4-6" class="section level3">
+<h3><span class="header-section-number">7.6.4</span> Question 4</h3>
+<p>Fit the data set checking for all main effects and interactions.</p>
+</div>
+<div id="question-5-6" class="section level3">
+<h3><span class="header-section-number">7.6.5</span> Question 5</h3>
+<p>Refit your model from Question 5 using type-III sum of squares. Did that make any difference to your sum of squares? Why or why not?</p>
+</div>
+<div id="question-6-6" class="section level3">
+<h3><span class="header-section-number">7.6.6</span> Question 6</h3>
+<p>Explore the parameter estimates from your ANOVA model, and briefly report your findings in text (1 sentence max).</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simple-statistical-tests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulation-calculating-power-and-evaluating-the-null.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

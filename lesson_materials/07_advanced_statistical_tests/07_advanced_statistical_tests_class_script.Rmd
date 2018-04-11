@@ -1,0 +1,76 @@
+---
+title: "Advanced Statistical Tests -- Class Script"
+output: html_notebook
+---
+
+```{r 7_load_libraries, message = FALSE}
+library(tidyverse)
+# install.packages("car") # uncomment and run if needed
+library(car)
+```
+
+# Lesson Code
+
+Make simulated data for analyses. Note that subsets of this data will need to be produced by hand in class.
+
+```{r}
+# simulate data
+set.seed(1000)
+stroop_dat <- tibble(
+  subject = seq(1:60),
+  congruent = rnorm(mean = 400, sd = 30, n = 60),
+  incongruent = congruent + rnorm(mean = 60, sd = 10, n = 60),
+  neutral = congruent + rnorm(mean = 30, sd = 10, n = 60)
+  ) %>%
+  gather(key = cond, value = reaction_time, 2:4) %>% 
+  mutate(
+    cond = as.factor(cond),
+    log_RT = log(reaction_time)
+  )
+
+# set parameters
+set.seed(1000)
+means <- rep(c(80, 80, 100), 100)
+sds <- rep(c(5, 5, 7), 100)
+
+# simulate data
+cond <- rep(c("control", "drug_one", "drug_two"), 100)
+subject <- seq(1:300)
+
+smoking_dat <- tibble(
+  subject = subject,
+  cond = as.factor(cond),
+  outcome = rnorm(n = 300, mean = means, sd = sds)
+)
+
+# set parameters
+set.seed(1000)
+means <- rep(c(80, 85), 100)
+sds <- rep(c(5, 5, 7), 100)
+cond <- rep(c("control", "drug_one"), 100)
+subject <- seq(1:200)
+
+# simulate data
+smoking_dat_extra <- tibble(
+  subject = subject,
+  cond = as.factor(cond),
+  time_one = rnorm(n = 200, mean = means, sd = sds),
+  time_two = time_one + rnorm(n = 200, mean = 5, sd = sds)
+  ) %>%
+  gather(key = test_time,
+         value = recovery,
+         3:4
+         ) %>%
+  mutate(test_time = as.factor(test_time)) %>%
+  arrange(subject)
+
+# view the data
+smoking_dat_extra
+```
+
+Add your code chunks using insert, R on the top right panel of this window.
+
+```{r 7_your_code_chunk}
+
+```
+

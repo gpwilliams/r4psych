@@ -1,5 +1,7 @@
-# Simulation and Calculating Power
+# Simulation, Calculating Power, and Evaluating the Null
 
-In this session we'll cover how to simualte data and perform power analyses.
+In this session we'll cover how to simualte data, how to calculate effect sizes, how to perform power analyses, and how to evaluate evidence for the null hypothesis using the Neyman-Pearson framework using the two one-sided tests (TOST) procedure.
 
 Content to follow.
+
+

@@ -1,0 +1,97 @@
+---
+title: "07 - Advanced Statistical Tests Answers"
+output: html_notebook
+---
+
+# Introduction and Setup
+
+For these exercises, we will look at the core concepts from this lesson. Here, we'll use a simulated data set that's saved as a .csv in the inputs folder for this class.
+
+```{r 7_exercise_libraries, message=FALSE}
+library(tidyverse)
+# install.packages("car") # install if necessary (once per machine)
+library(car)
+library(ggpirate)
+```
+
+Next, we'll load the data set for this exercise.
+
+```{r message = FALSE}
+factorial_data <- read_csv("inputs/factorial_data.csv")
+```
+
+## Question 1
+
+Aggregate the data by subject such that you have 1 score per subject for the mean of the column Y across both A and B columns. Call the Y column mean_Y. Assign this to the object **data_agg**.
+
+```{r 7_question_one}
+data_agg <- factorial_data %>% 
+  group_by(subj_id, A, B) %>% 
+  summarise(mean_Y = mean(Y))
+```
+
+## Question 2
+
+Generate summary statistics for the data set and a pirate plot of the data set. We want means, SDs, and ns for the table of summary statistics.
+
+```{r 7_question_two_a}
+data_agg %>% 
+  group_by(A, B) %>% 
+  summarise(mean = mean(mean_Y),
+            sd = sd(mean_Y),
+            n = n()
+            )
+```
+
+```{r 7_question_two_b}
+data_agg %>% 
+  ggplot(mapping = aes(x = A, y = mean_Y)) +
+  facet_wrap(~ B) +
+  geom_pirate()
+```
+
+## Question 3
+
+Define your contrasts such that you have main effects and interactions from any model fits. You may need to check your data types for this to work properly. 
+*Hint*: use `mutate()` after the `ungroup()` function
+
+```{r 7_question_three}
+data_agg <- data_agg %>%
+  ungroup() %>%
+  as.tibble() %>%
+  mutate(A = factor(A),
+         B = factor(B)
+         )
+
+contrasts(data_agg$A) <- contr.sum
+contrasts(data_agg$B) <- contr.sum
+```
+
+## Question 4
+
+Fit the data set checking for all main effects and interactions.
+
+```{r 7_question_four}
+aov_fit <- aov(mean_Y ~ A * B, data = data_agg)
+summary(aov_fit)
+```
+
+## Question 5
+
+Refit your model from Question 5 using type-III sum of squares. Did that make any difference to your sum of squares? Why or why not?
+
+```{r 7_question_five}
+Anova(aov_fit, type = "III")
+```
+
+**Answer**: The sum of squares were unaffected as we had a balanced data set.
+
+## Question 6
+
+Explore the parameter estimates from your ANOVA model, and briefly report your findings in text (1 sentence max).
+
+```{r 7_question_six}
+summary.lm(aov_fit)
+```
+
+**Answer**: We found a significant main effect of B on (*t* = 2.93, *p* = .004), however the main effect of A, and the interaction between A and B was non-significant (both *p*s > .05).
