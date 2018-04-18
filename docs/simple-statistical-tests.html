@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -47,6 +47,15 @@
 
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117777827-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117777827-1');
+</script>
 
 
 <style type="text/css">
@@ -402,13 +411,13 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
   <span class="kw">sprintf</span>(
     <span class="st">&quot;https://docs.google.com/uc?id=%s&amp;export=download&quot;</span>, 
     id)
-  ) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">redist2 =</span> (scale_max +<span class="st"> </span><span class="dv">1</span>) -<span class="st"> </span>redist2,
-         <span class="dt">redist4 =</span> (scale_max +<span class="st"> </span><span class="dv">1</span>) -<span class="st"> </span>redist4) %&gt;%
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">redist2 =</span> (scale_max <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>redist2,
+         <span class="dt">redist4 =</span> (scale_max <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="op">-</span><span class="st"> </span>redist4) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">transmute</span>(PS, 
-            <span class="dt">Fair_Satisfied =</span> (fairness +<span class="st"> </span>satisfaction) /<span class="st"> </span><span class="dv">2</span>,
-            <span class="dt">Support =</span> (redist1 +<span class="st"> </span>redist2 +<span class="st"> </span>redist3 +<span class="st"> </span>redist4) /<span class="st"> </span><span class="dv">4</span>
-            ) %&gt;%
+            <span class="dt">Fair_Satisfied =</span> (fairness <span class="op">+</span><span class="st"> </span>satisfaction) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>,
+            <span class="dt">Support =</span> (redist1 <span class="op">+</span><span class="st"> </span>redist2 <span class="op">+</span><span class="st"> </span>redist3 <span class="op">+</span><span class="st"> </span>redist4) <span class="op">/</span><span class="st"> </span><span class="dv">4</span>
+            ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">rename_all</span>(tolower)</code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -434,7 +443,7 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 ## 10   104           4.50    3.50
 ## # ... with 295 more rows</code></pre>
 <p>Next, we’ll calculate some means and standard deviations for these two factors of interest. We’ve used the <code>summarise_at()</code> version of the <code>summarise()</code> function, as this allows us to pass two column names, and functions (<code>vars</code>) by which to produce our statistics.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data %&gt;%<span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;fair_satisfied&quot;</span>, <span class="st">&quot;support&quot;</span>), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;fair_satisfied&quot;</span>, <span class="st">&quot;support&quot;</span>), 
                            <span class="kw">vars</span>(mean, sd)
                            )</code></pre></div>
 <pre><code>## # A tibble: 1 x 4
@@ -450,21 +459,21 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <li>Visual inspection of the quantile-quantile plot which plotsthe correlation between our sample (observed values) and the normal distribution.</li>
 <li>The Shapiro-Wilk test, which is a statistical test of normality. Significant results indicate that the data are <strong>non-normal</strong>.</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data %&gt;%
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> fair_satisfied)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> fair_satisfied)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_qq</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data %&gt;%
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> support)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corr_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> support)) <span class="op">+</span>
 <span class="st">    </span><span class="kw">geom_qq</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(corr_data$fair_satisfied)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(corr_data<span class="op">$</span>fair_satisfied)</code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  corr_data$fair_satisfied
 ## W = 0.92602, p-value = 3.697e-11</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(corr_data$support)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(corr_data<span class="op">$</span>support)</code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -478,7 +487,7 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <p>Here, we’ll use <code>cor.test()</code>, which takes as an argument two columns from a data.frame or matrix, which are your two factors to compare, and produces test statistics, including <em>t</em>-values, <em>p</em>-values, and 95% confidence intervals.</p>
 <p>This test defaults to use Pearson’s R, and to a two-sided test of significance (i.e. you had no predictions for the direction of effect), but you can change this to “greater”, a positive relationship, or “less”, a negative relationship, which will adjust <em>p</em>-values accordingly.</p>
 <p>We’ll use Kendall’s Tau here. Note that you simply have to replace “kendall” with “pearson” if your data do not violate any test assumptions. Also, we’ll specify that we had a directional hypothesis, where there was a negative relationship between our factors (“less”).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(corr_data$fair_satisfied, corr_data$support,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor.test</span>(corr_data<span class="op">$</span>fair_satisfied, corr_data<span class="op">$</span>support,
          <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>,
          <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>
          )</code></pre></div>
@@ -501,8 +510,8 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <p><em>t</em>-tests allow us to see whether two means are significantly different from one another. Here, we’ll get a <em>t</em>-value and <em>p</em>-value. The <em>t</em>-value is the ratio of the difference between two groups of scores and the difference within the groups of scores. A larger <em>t</em>-value tells us the difference between the groups is large, and a smaller value tells us the difference is small (i.e. they are similar to one another). Nicely, a <em>t</em>-value of 10 tells us that the groups are 10 times as different from one another as they are within each other.</p>
 <p>For this next analysis, we’ll look at the <strong>lexdec</strong> data set from the <code>languageR</code> library that we’ve used in previous sessions. We’ll do this to save time on filtering the data too much, as above. The only thing we have to do is to remove the subjects we simulated for the other exercises (i.e. 22-30), so we only have real data.</p>
 <p>Can you understand the code below? Ask yourself, why might we use <code>as.character(22:30)</code> to state which subjects we should drop?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(!subject %in%<span class="st"> </span>(<span class="kw">as.character</span>(<span class="dv">22</span>:<span class="dv">30</span>)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>subject <span class="op">%in%</span><span class="st"> </span>(<span class="kw">as.character</span>(<span class="dv">22</span><span class="op">:</span><span class="dv">30</span>)))</code></pre></div>
 <div id="one-sample-t-tests" class="section level3">
 <h3><span class="header-section-number">6.3.1</span> One-Sample <em>t</em>-tests</h3>
 <p>Here, we want to assess whether the frequencies of words in the study (i.e. how often people use these words) differed significantly from some baseline value of word frequency.</p>
@@ -511,14 +520,14 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <div id="preparing-the-data" class="section level4">
 <h4><span class="header-section-number">6.3.1.1</span> Preparing the Data</h4>
 <p>First, we have to subset our raw data, which contains information on the subjects and items tested, and only get scores for the word frequencies.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_onesamp &lt;-<span class="st"> </span>lexdec %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(word) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_onesamp &lt;-<span class="st"> </span>lexdec <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(word) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">freq =</span> <span class="kw">mean</span>(frequency))</code></pre></div>
 <p>Below, we’ll use the <code>t.test()</code> function to run a <em>t</em>-test. Here, we input as the first value the data or scores we want to test, and in the second part, we specify the mean score in the population (mu) by which to compare the scores.</p>
 </div>
 <div id="running-the-test" class="section level4">
 <h4><span class="header-section-number">6.3.1.2</span> Running the Test</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(lexdec_onesamp$freq, <span class="dt">mu =</span> <span class="dv">4</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(lexdec_onesamp<span class="op">$</span>freq, <span class="dt">mu =</span> <span class="dv">4</span>)</code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -541,12 +550,12 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <h4><span class="header-section-number">6.3.2.1</span> Preparing the Data</h4>
 <p>We need to create scores aggregated by subject, as our raw data contains information on each subject and the items they responded to. To do this, we just need to calcualte a mean score over all items for each subject in the study. We’ll use the <code>group_by()</code> and <code>summarise()</code> functions from <strong>dplyr</strong> to do this.</p>
 <p>Additionally, we’ll calculate log-transformed mean reaction times. This is because reaction times are typically not normally distributed, so we should transform them to make them more normal prior to analysis. The log transformation is one way to achieve this.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_ind &lt;-<span class="st"> </span>lexdec %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(subject, native_language) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_ind &lt;-<span class="st"> </span>lexdec <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(subject, native_language) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">log_RT =</span> <span class="kw">mean</span>(<span class="kw">log</span>(RT), <span class="dt">na.rm =</span> T))</code></pre></div>
 <p>We’ll quickly calculate some descriptives for our study to see how the two groups look.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_ind %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(native_language) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_ind <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(native_language) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_log_RT =</span> <span class="kw">mean</span>(log_RT, <span class="dt">na.rm =</span> T),
             <span class="dt">sd_log_RT =</span> <span class="kw">sd</span>(log_RT, <span class="dt">na.rm =</span> T),
             <span class="dt">n =</span> <span class="kw">n</span>())</code></pre></div>
@@ -562,7 +571,7 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <p><code>dependent variable ~ condition</code></p>
 <p>The <code>~</code> (read: <a href="https://www.youtube.com/watch?v=InPByzCDoA4">tilde</a>) simply says that the thing on the left is a function of the thing on the right; i.e. our scores are a function of our conditions.</p>
 <p>Additionally, we specify where the data is stored (lexdec_ind), and whether the data are paired (i.e. paired-samples test) or not (i.e. independent-samples test). Here, we specify <code>FALSE</code>, as we want an independent samples <em>t</em>-test.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind, <span class="dt">paired =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(log_RT <span class="op">~</span><span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind, <span class="dt">paired =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -581,7 +590,7 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <h4><span class="header-section-number">6.3.2.3</span> Checking Assumptions</h4>
 <p>As with many tests <em>t</em>-tests make a number of assumptions, some of which are easily handled (e.g. are the data scalar or ordinal and randomly sampled with a large sample size?). However, these tests also assume that the data are normally distributed. We’ve done this for the correlation above, so we won’t do it again here. However, a final assumption is homogeneity of variance, in which the variance across our samples should be roughly equal. To test for this, we can run a Barlett test for parametric data, or a Fligner test for non-parametric data (using <code>fligner.test()</code>).</p>
 <p>Here, we’ll run the Barlett test:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bartlett.test</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bartlett.test</span>(log_RT <span class="op">~</span><span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)</code></pre></div>
 <pre><code>## 
 ##  Bartlett test of homogeneity of variances
 ## 
@@ -599,21 +608,21 @@ corr_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
 <p>Finally, we’ll gather the data together, assuming you’ll often have your data in a long format.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
 stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">60</span>),
+  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">60</span>),
   <span class="dt">congruent =</span> <span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">400</span>, <span class="dt">sd =</span> <span class="dv">30</span>, <span class="dt">n =</span> <span class="dv">60</span>),
-  <span class="dt">incongruent =</span> congruent +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">30</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>)
-  ) %&gt;%
-<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> condition, <span class="dt">value =</span> reaction_time, <span class="dv">2</span>:<span class="dv">3</span>) %&gt;%<span class="st"> </span>
+  <span class="dt">incongruent =</span> congruent <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">30</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>)
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> condition, <span class="dt">value =</span> reaction_time, <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(
     <span class="dt">log_RT =</span> <span class="kw">log</span>(reaction_time)
   )</code></pre></div>
 <p>Note that if your data is in a wide format, you specify the model formula like so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(data$dependent_variable_one, data$dependent_variable_two, <span class="dt">data =</span> data_name, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(data<span class="op">$</span>dependent_variable_one, data<span class="op">$</span>dependent_variable_two, <span class="dt">data =</span> data_name, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>In this format, you simply give the column names for where your data is stored for each condition, and R will compare the first entry against the second. However, I typically keep my data in long format, so we will mainly use the formula format for specifying our models. Using the formula notation is also useful for more complex designs where wide formatted data is unrealistic, so we’ll stick to this as our default way to specify our models.</p>
 <div id="running-the-test-2" class="section level4">
 <h4><span class="header-section-number">6.3.3.1</span> Running the Test</h4>
 <p>The paired-samples <em>t</em>-test formula takes the same form as the independent sampels <em>t</em>-test, only with <code>paired = TRUE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(log_RT ~<span class="st"> </span>condition, <span class="dt">data =</span> stroop_dat, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(log_RT <span class="op">~</span><span class="st"> </span>condition, <span class="dt">data =</span> stroop_dat, <span class="dt">paired =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -640,7 +649,7 @@ stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <div id="indpendent-samples-anova" class="section level4">
 <h4><span class="header-section-number">6.4.1.1</span> Indpendent-Samples ANOVA</h4>
 <p>We’ll simply refit the same data from the <code>lexdec</code> data set to get an idea of how similar <em>t</em>-tests and ANOVAs are. Again, we just need to specify our DV to the left of the condition.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anova_ind &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anova_ind &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT <span class="op">~</span><span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)
 <span class="kw">summary</span>(anova_ind)</code></pre></div>
 <pre><code>##                 Df Sum Sq Mean Sq F value Pr(&gt;F)  
 ## native_language  1 0.1070 0.10702   5.523 0.0304 *
@@ -655,7 +664,7 @@ stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <p><code>Error(observation_unit/factor)</code></p>
 <p>We always need to specify that this is an error term we’re adding, hence the name <code>Error()</code>. We then need to specify what our error term is. Since we’re using a paired-samples test, where the same people ttake part in both conditions, we need to tell R that our error term is for the condition factor within subjects, i.e. different people might react differently to the conditions. Finally, as always we need to specify where our data lies.</p>
 <p>Below, we’ll just refit the stroop data from the <em>t</em>-test example above.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anova_paired &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT ~<span class="st"> </span>condition +<span class="st"> </span><span class="kw">Error</span>(subject/condition), <span class="dt">data =</span> stroop_dat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">anova_paired &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT <span class="op">~</span><span class="st"> </span>condition <span class="op">+</span><span class="st"> </span><span class="kw">Error</span>(subject<span class="op">/</span>condition), <span class="dt">data =</span> stroop_dat)
 <span class="kw">summary</span>(anova_paired)</code></pre></div>
 <pre><code>## 
 ## Error: subject
@@ -692,7 +701,7 @@ stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <div id="running-the-test-3" class="section level5">
 <h5><span class="header-section-number">6.5.1.1.1</span> Running the Test</h5>
 <p>As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the <code>~</code>, and our conditions to the right. Here, we’ll assign this to the object <code>lm_ind</code>, and we’ll get a summary of the data using the <code>summary()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_ind &lt;-<span class="st"> </span><span class="kw">lm</span>(log_RT ~<span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_ind &lt;-<span class="st"> </span><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>native_language, <span class="dt">data =</span> lexdec_ind)
 <span class="kw">summary</span>(lm_ind)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -715,8 +724,8 @@ stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <p>Nicely, we get a lot of information from this model. As with the ANOVA, we have a test statistic (this time a <em>t</em>-value) and a <em>p</em>-value, under the heading <code>Pr(&gt;|t|)</code>.</p>
 <p>The <em>t</em>-value is the intercept term for our condition, divided by the standard error. The <em>p</em>-value here is the proportion of the <em>t</em> distribution which is greater than the <em>t</em> statistic. The <em>p</em>-value is just the proportion of the t distribution which is greater than the value of the t statistic (hence the weird notation).</p>
 <p>We also get some information that is more informative than the ANOVA. We get our intercept term (<code>(Intercept)</code>), which here is mean score for the English language group. Let’s see how that matches our mean scores:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_means &lt;-<span class="st"> </span>lexdec_ind %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(native_language) %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_means &lt;-<span class="st"> </span>lexdec_ind <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(native_language) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))
 lexdec_means</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
@@ -725,7 +734,7 @@ lexdec_means</code></pre></div>
 ## 1 English          6.33
 ## 2 Other            6.47</code></pre>
 <p>Under this, we have the difference from this intercept for the Other language group (<code>native_languageOther</code>). How does this relate to the means? Below, we’ll subtract the congruent scores from the incongruent scores.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_means$mean[<span class="dv">2</span>] -<span class="st"> </span>lexdec_means$mean[<span class="dv">1</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_means<span class="op">$</span>mean[<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span>lexdec_means<span class="op">$</span>mean[<span class="dv">1</span>]</code></pre></div>
 <pre><code>## [1] 0.1470395</code></pre>
 <p>As you can see, this value relates to the score for <code>native_languageOther</code>, which shows how the Other language group differs from the baseline, English language group.</p>
 <p>You might ask now, how did R know which condition to set as the intercept? R defaults to going alphabetically, so English comes before Other, hence it is the baseline. In simple cases like this, where we have only 2 levels, this is not a concern. But when we have more levels or factors, we need to pay attention to how we specify our contrasts in R.</p>
@@ -738,7 +747,7 @@ lexdec_means</code></pre></div>
 <div id="running-the-test-4" class="section level5">
 <h5><span class="header-section-number">6.5.1.2.1</span> Running the Test</h5>
 <p>As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the <code>~</code>, and our conditions to the right. Here, we’ll assign this to the object <code>lm_ind', and we'll get a summary of the data using the</code>summary()` function. Unlike with <em>t</em>-tests and ANOVA, we do not need to specify an error term if our data are within-subjects (or paired-samples), so we simply use the same formula for independent- and paried-samples tests. Note that this means that our model doesn’t account for how much of our outcome variable is predicted by subject-specific factors (i.e. variation between people). Some might respond more or less strongly to the effect of condition than others. As such, we can do a bit better with these models by fitting a mixed-effects model that can account for subject level effects. For now, we’ll leave that for another lesson. If you want to get linear model output while accounting for by-subjects effects like in an ANOVA, head over to the next lesson!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_pair &lt;-<span class="st"> </span><span class="kw">lm</span>(log_RT ~<span class="st"> </span>condition, <span class="dt">data =</span> stroop_dat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm_pair &lt;-<span class="st"> </span><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>condition, <span class="dt">data =</span> stroop_dat)
 <span class="kw">summary</span>(lm_pair)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -759,8 +768,8 @@ lexdec_means</code></pre></div>
 ## Multiple R-squared:  0.221,  Adjusted R-squared:  0.2144 
 ## F-statistic: 33.47 on 1 and 118 DF,  p-value: 6.066e-08</code></pre>
 <p>As before, we get our intercept term (<code>(Intercept)</code>), which here is mean score for the congruent condition. Let’s see how that matches our mean scores:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_means &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(condition) %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_means &lt;-<span class="st"> </span>stroop_dat <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(condition) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))
 stroop_means</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
@@ -769,7 +778,7 @@ stroop_means</code></pre></div>
 ## 1 congruent    5.98
 ## 2 incongruent  6.06</code></pre>
 <p>Under this, we have the difference from this intercept for the congruent condition (<code>conditionincongruent</code>). How does this relate to the means? Below, we’ll subtract the congruent scores from the incongruent scores.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_means$mean[<span class="dv">2</span>] -<span class="st"> </span>stroop_means$mean[<span class="dv">1</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_means<span class="op">$</span>mean[<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span>stroop_means<span class="op">$</span>mean[<span class="dv">1</span>]</code></pre></div>
 <pre><code>## [1] 0.07771698</code></pre>
 <p>As you can see, this value relates to the score for <code>conditionincongruent</code>, which shows how the incongruent condition differs from the baseline, congruent condition.</p>
 <p>Aside from this, we have a whole host of other information that we might want to consider, including an adjusted <span class="math inline">\(R^2\)</span>, which tells us about how much our explanatory predictors (e.g. condition) accounts for changes in the dependent variable. For now, this is all we need.</p>
@@ -798,7 +807,7 @@ stroop_means</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
 prob &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>), <span class="dv">50</span>)
 cond &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;intervention&quot;</span>), <span class="dv">50</span>)
-subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">100</span>)
+subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>)
 
 smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">subject =</span> subject,
@@ -806,7 +815,7 @@ smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">outcome =</span> <span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">prob =</span> prob)
 )</code></pre></div>
 <p>Let’s see what the rates of smoking look like:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat %&gt;%<span class="st"> </span><span class="kw">group_by</span>(cond) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(outcome))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cond) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(outcome))</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   cond          mean
 ##   &lt;chr&gt;        &lt;dbl&gt;
@@ -817,7 +826,7 @@ smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <div id="running-the-test-5" class="section level4">
 <h4><span class="header-section-number">6.5.2.2</span> Running the Test</h4>
 <p>The generalised linear model is specified using the <code>glm()</code> function. Here, we can specify a few extra details about our model or accept the defaults. We’ll overspecify to show these things work. Here, we’ve asked to fit the model using a binomial link function, using the <code>family = &quot;binomial&quot;</code> argument since our data come from a binomial decision and follow a binomial distribution.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_ind &lt;-<span class="st"> </span><span class="kw">glm</span>(outcome ~<span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_ind &lt;-<span class="st"> </span><span class="kw">glm</span>(outcome <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat, <span class="dt">family =</span> <span class="st">&quot;binomial&quot;</span>)
 <span class="kw">summary</span>(glm_ind)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -937,10 +946,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

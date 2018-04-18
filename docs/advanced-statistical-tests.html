@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -47,6 +47,15 @@
 
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117777827-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117777827-1');
+</script>
 
 
 <style type="text/css">
@@ -386,12 +395,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Finally, we’ll gather the data together, assuming you’ll often have your data in a long format.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
 stroop_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">60</span>),
+  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">60</span>),
   <span class="dt">congruent =</span> <span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">400</span>, <span class="dt">sd =</span> <span class="dv">30</span>, <span class="dt">n =</span> <span class="dv">60</span>),
-  <span class="dt">incongruent =</span> congruent +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">60</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>),
-  <span class="dt">neutral =</span> congruent +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">30</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>)
-  ) %&gt;%
-<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> cond, <span class="dt">value =</span> reaction_time, <span class="dv">2</span>:<span class="dv">4</span>) %&gt;%<span class="st"> </span>
+  <span class="dt">incongruent =</span> congruent <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">60</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>),
+  <span class="dt">neutral =</span> congruent <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">mean =</span> <span class="dv">30</span>, <span class="dt">sd =</span> <span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">60</span>)
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> cond, <span class="dt">value =</span> reaction_time, <span class="dv">2</span><span class="op">:</span><span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(
     <span class="dt">cond =</span> <span class="kw">as.factor</span>(cond),
     <span class="dt">log_RT =</span> <span class="kw">log</span>(reaction_time)
@@ -404,7 +413,7 @@ sds &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c
 
 <span class="co"># simulate data</span>
 cond &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>), <span class="dv">100</span>)
-subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">300</span>)
+subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">300</span>)
 
 smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">subject =</span> subject,
@@ -447,9 +456,9 @@ smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 ## 10      10 control     73.1
 ## # ... with 290 more rows</code></pre>
 <p>This is because I used <code>mutate()</code> to change the column from a character data type, to a factor data type. The nice thing about storing your factors this way is that we can see the levels that make up our factor:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(stroop_dat$cond)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(stroop_dat<span class="op">$</span>cond)</code></pre></div>
 <pre><code>## [1] &quot;congruent&quot;   &quot;incongruent&quot; &quot;neutral&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(smoking_dat$cond)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(smoking_dat<span class="op">$</span>cond)</code></pre></div>
 <pre><code>## [1] &quot;control&quot;  &quot;drug_one&quot; &quot;drug_two&quot;</code></pre>
 <p>If your data isn’t stored as a factor, you can convert it to one using <code>as.factor()</code> or <code>factor()</code> on your column (e.g. <code>data$factor &lt;- as.factor(data$factor)</code>).</p>
 </div>
@@ -458,18 +467,18 @@ smoking_dat &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <p>We can see how we specify our contrasts for our tests by using the <code>contrasts()</code> function any any factors.</p>
 <p>Let’s look back at the Stroop data when we only had two levels of condition, congruent and incongruent. Here, we’ll subset the data and then use the <code>contrasts()</code> function to look at the contrast matrix. We’ll also mutate the cond column to itself as a factor so we drop the level that is no longer present (i.e. neutral) ; this is just a little R trick!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make data 2 levels and convert condition to a factor</span>
-stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(cond %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>)) %&gt;%<span class="st"> </span>
+stroop_subset &lt;-<span class="st"> </span>stroop_dat <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(cond <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cond =</span> <span class="kw">factor</span>(cond))
 
 <span class="co"># see your contrasts</span>
-<span class="kw">contrasts</span>(stroop_subset$cond)</code></pre></div>
+<span class="kw">contrasts</span>(stroop_subset<span class="op">$</span>cond)</code></pre></div>
 <pre><code>##             incongruent
 ## congruent             0
 ## incongruent           1</code></pre>
 <p>We can see from our contrast matrix that the congruent condition is assigned a value of 0, and the incongruent condition is assigned a value of 1. What this means is that our intercept in our linear model is the congruent condition, and we evaluate the effect of a shift in condition by 1 point (i.e. to the incongruent condition) against this reference level. Remember that in a linear model, the intercept is the point on the y-axis where x is 0.</p>
 <p>Let’s fit a linear model to see how this works. Notice that we fit the model and then (<code>%&gt;%</code>) use the <code>summary()</code> function to see the output of the model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, stroop_subset) %&gt;%<span class="st"> </span><span class="kw">summary</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>cond, stroop_subset) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_subset)
@@ -489,8 +498,8 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 ## Multiple R-squared:  0.5158, Adjusted R-squared:  0.5117 
 ## F-statistic: 125.7 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>We can see that our parameter estimate for the intercept is 5.979, and being in the congruent condition adds 0.145 to the intercept value of 5.979, which sums to 6.124. How does this equate to our mean scores?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_subset %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(cond) %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_subset <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(cond) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   cond         mean
@@ -500,13 +509,13 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 <p>Great, our intercept corresponds to the mean of the congruent condition, and our effect of condition is the difference between the two means! That’s because we used treatment coding, which is the default in R. This means that the intercept is alwasy the first alphabetic level of our conditions.</p>
 <p>But what if we want to change the reference level of our intercept? This is important if we want to look at different contrasts when we have more than 1 level in a factor, or more than 2 factors in a model.</p>
 <p>To change our intercept, we must change our contrast matrix. To change this we use the <code>contrasts()</code> function on our condition factor, to see what our contrasts are, and we can then define the contrasts we’d like using some inbuilt functions in R. Here, we’ll change the coding to sum coding using <code>contr.sum</code>. (Others are available, such as <code>contr.helmert</code>, etc.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_subset$cond) &lt;-<span class="st"> </span>contr.sum
-<span class="kw">contrasts</span>(stroop_subset$cond)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_subset<span class="op">$</span>cond) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(stroop_subset<span class="op">$</span>cond)</code></pre></div>
 <pre><code>##             [,1]
 ## congruent      1
 ## incongruent   -1</code></pre>
 <p>Now, our contrast matrix sums to 0. Remember that our intercept is 0, so the intercept is now the mid-point between the 2 conditions, or the mean across both conditions. Let’s refit our model and see this in action.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, stroop_subset) %&gt;%<span class="st"> </span><span class="kw">summary</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>cond, stroop_subset) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_subset)
@@ -527,7 +536,7 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 ## F-statistic: 125.7 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Now our intercept is 6.052, and the effect of condition (now labelled <code>cond1</code>; the first (and only) contrast in our contrast matrix for condition) is -0.073. Crucially, since we only have 2 levels of condition, our interpretation of all of the statistics in this model remains the same, only our intercept paramter estimate is different to before. Further, the parameter estimate for condition (and the standard error of this estimate) are half as large as before, but this is just due to the scale on which our factor is evaluated; the <em>t</em>- and <em>p</em>-values remain the same.</p>
 <p>How does the intercept relate to our means? Check it out!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_subset %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_subset <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##    mean
 ##   &lt;dbl&gt;
@@ -538,13 +547,13 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 <div id="multilevel-regression" class="section level3">
 <h3><span class="header-section-number">7.2.2</span> Multilevel Regression</h3>
 <p>What happens if we have some more complex data? Let’s look at the contrast matrix for the full Stroop data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat<span class="op">$</span>cond)</code></pre></div>
 <pre><code>##             incongruent neutral
 ## congruent             0       0
 ## incongruent           1       0
 ## neutral               0       1</code></pre>
 <p>You can see that right now, the first row for the congruent condition sums to 0. Whereas the incongruent and neutral condition rows sum to 1. This means that the congruent condition will be the intercept in our model, and the incongruent and neutral conditions will be the other parameters in our model. Let’s see this in action.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) %&gt;%<span class="st"> </span>summary</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) <span class="op">%&gt;%</span><span class="st"> </span>summary</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_dat)
@@ -565,7 +574,7 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 ## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
 ## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Again, we’ll check how these parameters correspond to our means for each group.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat %&gt;%<span class="st"> </span><span class="kw">group_by</span>(cond) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(cond) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   cond         mean
 ##   &lt;fct&gt;       &lt;dbl&gt;
@@ -574,14 +583,14 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 ## 3 neutral      6.05</code></pre>
 <p>Great, the intercept is indeed the mean for the congruent condition, and the incongruent condition (cond2) and neutral (cond3) are the difference between the intercept mean and that reference level’s mean.</p>
 <p>Instead, we could get sum coded effects as before.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond) &lt;-<span class="st"> </span>contr.sum
-<span class="kw">contrasts</span>(stroop_dat$cond)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat<span class="op">$</span>cond) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(stroop_dat<span class="op">$</span>cond)</code></pre></div>
 <pre><code>##             [,1] [,2]
 ## congruent      1    0
 ## incongruent    0    1
 ## neutral       -1   -1</code></pre>
 <p>Now the first 2 rows sum to 1, which together makes 2, and the final row sums to -2. Together, the intercept or 0 is the average across these contrasts. How does this affect our model?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) %&gt;%<span class="st"> </span>summary</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) <span class="op">%&gt;%</span><span class="st"> </span>summary</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_dat)
@@ -602,7 +611,7 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 ## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
 ## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Now we can see that the intercept has changed, and now the congruent and incongruent condition are considered against the grand mean across all levels, so their terms have changed too.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(log_RT))</code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##    mean
 ##   &lt;dbl&gt;
@@ -610,17 +619,17 @@ stroop_subset &lt;-<span class="st"> </span>stroop_dat %&gt;%<span class="st"> <
 <p>Check the following values against the group means above: 6.0516 - 0.073 = 5.978613 and 6.0516 + 0.0728 = 6.124421, you can see that the group means for the congruent and incongruent condition equate to the intercept + the new paramter estimates.</p>
 <p>Again, however, the main effect of our model remains unchanged regardless of the coding scheme used.</p>
 <p>For now, we’ll return to using treatment coding and we’ll explore changing the order for the intercept. If we want to change the order, or determine exactly which level will be the intercept, we simply have to relevel our factor before defining our contrasts:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond) &lt;-<span class="st"> </span>contr.treatment
-stroop_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(stroop_dat$cond, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat<span class="op">$</span>cond) &lt;-<span class="st"> </span>contr.treatment
+stroop_dat<span class="op">$</span>cond &lt;-<span class="st"> </span><span class="kw">factor</span>(stroop_dat<span class="op">$</span>cond, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>))</code></pre></div>
 <p>Here, we simply asked R to remake our condition column from a factor of our condition column, but with specifically ordered levels.</p>
 <p>Now when we specify our treatment contrasts, the reference level (i.e. 0) will be the first level that we specified above (neutral, in this instance).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat$cond)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(stroop_dat<span class="op">$</span>cond)</code></pre></div>
 <pre><code>##             congruent incongruent
 ## neutral             0           0
 ## congruent           1           0
 ## incongruent         0           1</code></pre>
 <p>We’ll rerun the model to see how our intercept has changed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) %&gt;%<span class="st"> </span>summary</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(log_RT <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat) <span class="op">%&gt;%</span><span class="st"> </span>summary</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_dat)
@@ -646,7 +655,7 @@ stroop_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(str
 <h3><span class="header-section-number">7.2.3</span> Multilevel ANOVA</h3>
 <p>Let’s say we’re interested in main effects and we want to see if there is a main effect of condition in the numerical stroop task. Nicely, the <code>aov()</code> function defaults to give us main effects in the form of a traditional ANOVA output.</p>
 <p>Let’s see how this works.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT ~<span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stroop_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(log_RT <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> stroop_dat)
 <span class="kw">summary</span>(stroop_aov)</code></pre></div>
 <pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)    
 ## cond          2 0.6378  0.3189   61.35 &lt;2e-16 ***
@@ -681,7 +690,7 @@ stroop_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(str
 <div id="multiple-contrasts" class="section level3">
 <h3><span class="header-section-number">7.2.4</span> Multiple Contrasts</h3>
 <p>Let’s say we have the smoking data set, and we’re interested in whether two drugs differ from a placebo. We can fit the model with a treatment coded contrast matrix so that the intercept is the placebo (control group), and the other conditions are compared against this reference value. We’ll fit this with a linear model, seeing as we care about the model coefficients.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome ~<span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat)
 <span class="kw">summary</span>(smoking_lm)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -709,8 +718,8 @@ stroop_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(str
 <li>Calculate the differences in the parameter estimates for the two rows in the table.</li>
 </ol>
 <p>The first option is easiest if we only have a few levels in a factor. The second is handy if we have a lot of levels, but requires us to specify a complex contrast matrix. For the first option, we simply need to do something like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat$cond &lt;-<span class="st"> </span><span class="kw">factor</span>(smoking_dat$cond, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>, <span class="st">&quot;control&quot;</span>))
-smoking_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome ~<span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smoking_dat<span class="op">$</span>cond &lt;-<span class="st"> </span><span class="kw">factor</span>(smoking_dat<span class="op">$</span>cond, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>, <span class="st">&quot;control&quot;</span>))
+smoking_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome <span class="op">~</span><span class="st"> </span>cond, <span class="dt">data =</span> smoking_dat)
 <span class="kw">summary</span>(smoking_lm2)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -749,8 +758,8 @@ smoking_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(outcome ~<s
 <span class="kw">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)
 
 <span class="co"># convert to tibble and make dose a factor</span>
-tooth &lt;-<span class="st"> </span>ToothGrowth %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose)) %&gt;%
+tooth &lt;-<span class="st"> </span>ToothGrowth <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">as.tibble</span>()
 
 <span class="co"># see the output</span>
@@ -778,18 +787,18 @@ tooth</code></pre></div>
 <p>Or, to save on typing, like so (these two are equivalent):</p>
 <p><code>dependent variable ~ factor_one * factor_two</code></p>
 <p>First, we’ll check how our factors are instantiated (i.e. what are the contrasts)?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth$supp) </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth<span class="op">$</span>supp) </code></pre></div>
 <pre><code>##    VC
 ## OJ  0
 ## VC  1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth$dose)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth<span class="op">$</span>dose)</code></pre></div>
 <pre><code>##     1 2
 ## 0.5 0 0
 ## 1   1 0
 ## 2   0 1</code></pre>
 <p>Here, we’re interested in the main effects of both factors, and whether there’s an interaction between them. Since we aren’t going to get the parameter estimates from this model using the <code>summary.lm()</code> function, we don’t need to specify the contrast matrix required for the ANOVA here.</p>
 <p>We’ll save this as <strong>tooth_aov</strong> as we want to do some follow up tests later on.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose, <span class="dt">data =</span> tooth)
 <span class="kw">summary</span>(tooth_aov)</code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## supp         1  205.4   205.4  15.572 0.000231 ***
@@ -799,7 +808,7 @@ tooth</code></pre></div>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>As you can see, we have a significant main effect of both factors, and a significant interaction. As such, we need to do some follow up tests to see where our effect lies in the interaction. A quick check with a plot always helps:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> tooth, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> dose, <span class="dt">y =</span> len, <span class="dt">colour =</span> supp)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> tooth, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> dose, <span class="dt">y =</span> len, <span class="dt">colour =</span> supp)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/7_tooth_plot-1.png" width="672" /></p>
 <p>It looks like there’s a main effect of dose overall, but also that supplement type probably only matters for lower doses. Let’s check these using some pairwise tests. As such, perform pairwise comparisons to see where our differences lie.</p>
@@ -841,7 +850,7 @@ tooth</code></pre></div>
 ## VC:2-OJ:2      0.08  -4.718124  4.8781238 1.0000000</code></pre>
 <p>We get a lot of output here corresponding to every possible comparison we could ever want. We can remedy this by saving the output of TukeyHSD to an object, and selecting only the relevant information, <strong>supp:dose</strong>. Notice that we put this name in backticks so we can use the special character <code>:</code> without R interpreting it as something else.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tukey_aov &lt;-<span class="st"> </span><span class="kw">TukeyHSD</span>(tooth_aov, <span class="dt">conf.level =</span> <span class="fl">0.95</span>)
-tukey_aov$<span class="st">`</span><span class="dt">supp:dose</span><span class="st">`</span></code></pre></div>
+tukey_aov<span class="op">$</span><span class="st">`</span><span class="dt">supp:dose</span><span class="st">`</span></code></pre></div>
 <pre><code>##                diff        lwr        upr        p adj
 ## VC:0.5-OJ:0.5 -5.25 -10.048124 -0.4518762 2.425209e-02
 ## OJ:1-OJ:0.5    9.47   4.671876 14.2681238 4.612304e-06
@@ -867,9 +876,9 @@ tukey_aov$<span class="st">`</span><span class="dt">supp:dose</span><span class=
 <p>If you want to see whether there’s a main effect or interaction for 3 level factors, the easiest way is to simply run an ANOVA. With the <code>lm()</code> function, comparisons for the contribution of each factor in our model starts to become more difficult when we have factors with more than 2 levels. That’s because we have to construct some numeric variables for these factors, and we need to perform model comparisons on a full model (with interactions) and reduced models (without) to see which model best fits our data.</p>
 <p>To do this, we simply have to centre our two factors, with these stored as numeric variables.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># code new centered variables</span>
-tooth$supp_dev &lt;-<span class="st"> </span>(tooth$supp ==<span class="st"> &quot;VC&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(tooth$supp ==<span class="st"> &quot;VC&quot;</span>)
-tooth$dose_dev_one &lt;-<span class="st"> </span>(tooth$dose ==<span class="st"> &quot;0.5&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(tooth$dose ==<span class="st"> &quot;0.5&quot;</span>)
-tooth$dose_dev_two &lt;-<span class="st"> </span>(tooth$dose ==<span class="st"> &quot;1&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(tooth$dose ==<span class="st"> &quot;1&quot;</span>)
+tooth<span class="op">$</span>supp_dev &lt;-<span class="st"> </span>(tooth<span class="op">$</span>supp <span class="op">==</span><span class="st"> &quot;VC&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(tooth<span class="op">$</span>supp <span class="op">==</span><span class="st"> &quot;VC&quot;</span>)
+tooth<span class="op">$</span>dose_dev_one &lt;-<span class="st"> </span>(tooth<span class="op">$</span>dose <span class="op">==</span><span class="st"> &quot;0.5&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(tooth<span class="op">$</span>dose <span class="op">==</span><span class="st"> &quot;0.5&quot;</span>)
+tooth<span class="op">$</span>dose_dev_two &lt;-<span class="st"> </span>(tooth<span class="op">$</span>dose <span class="op">==</span><span class="st"> &quot;1&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(tooth<span class="op">$</span>dose <span class="op">==</span><span class="st"> &quot;1&quot;</span>)
 
 <span class="co"># inspect changes</span>
 <span class="kw">head</span>(tooth)</code></pre></div>
@@ -885,9 +894,9 @@ tooth$dose_dev_two &lt;-<span class="st"> </span>(tooth$dose ==<span class="st">
 <p>This centering works similarly to the contrast matrices we used before. In fact, it is often the better option if we have unbalanced data sets, as it accounts for the mismatch in the number of observations in each level of a factor. The centering used in this case is called <strong>deviation coding</strong> and is just like sum coding, only the parameter estimates and standard errors are half as large (but all other interpretations, e.g. <em>t</em>- and <em>p</em>-values remain the same).</p>
 <p>Now, when we fit a model with <strong>supp_dev</strong>, the intercept will be the mean of the two conditions.</p>
 <p>When it comes to fitting a 3 level factor, we need to do the same thing for only two of the levels. When we then add this to a model and test for an interaction, we test for the interaction for <strong>supp_dev</strong> across both columns for our deviation coded doses.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_lm_full &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp_dev *<span class="st"> </span>(dose_dev_one +<span class="st"> </span>dose_dev_two), <span class="dt">data =</span> tooth)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_lm_full &lt;-<span class="st"> </span><span class="kw">lm</span>(len <span class="op">~</span><span class="st"> </span>supp_dev <span class="op">*</span><span class="st"> </span>(dose_dev_one <span class="op">+</span><span class="st"> </span>dose_dev_two), <span class="dt">data =</span> tooth)</code></pre></div>
 <p>Next, we construct a reduced model, and use the <code>anova()</code> function to compare the two models against one another.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_lm_reduced &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp_dev +<span class="st"> </span>(dose_dev_one +<span class="st"> </span>dose_dev_two), <span class="dt">data =</span> tooth)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_lm_reduced &lt;-<span class="st"> </span><span class="kw">lm</span>(len <span class="op">~</span><span class="st"> </span>supp_dev <span class="op">+</span><span class="st"> </span>(dose_dev_one <span class="op">+</span><span class="st"> </span>dose_dev_two), <span class="dt">data =</span> tooth)
 <span class="kw">anova</span>(tooth_lm_full, tooth_lm_reduced)</code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
@@ -902,13 +911,13 @@ tooth$dose_dev_two &lt;-<span class="st"> </span>(tooth$dose ==<span class="st">
 <p>A quick and easy way to do so is to run a number of <em>t</em>-tests or linear models on subsets of the data, adjusting for the <em>p</em>-values where necessary.</p>
 <p>One way to achieve this for multifactorial designs is to create a new column which is a combination of the two factors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create combined factor column</span>
-tooth$interact &lt;-<span class="st"> </span><span class="kw">interaction</span>(tooth$supp, tooth$dose)
+tooth<span class="op">$</span>interact &lt;-<span class="st"> </span><span class="kw">interaction</span>(tooth<span class="op">$</span>supp, tooth<span class="op">$</span>dose)
 
 <span class="co"># check levels of our new factor</span>
-<span class="kw">levels</span>(tooth$interact)</code></pre></div>
+<span class="kw">levels</span>(tooth<span class="op">$</span>interact)</code></pre></div>
 <pre><code>## [1] &quot;OJ.0.5&quot; &quot;VC.0.5&quot; &quot;OJ.1&quot;   &quot;VC.1&quot;   &quot;OJ.2&quot;   &quot;VC.2&quot;</code></pre>
 <p>Then we simply use the <code>pairwise.t.test()</code> function, and supply it our dependent variable and our grouping factor. This method defaults to Holm’s sequential bonerroni, which is like bonferroni adjustment of <em>p</em>-values, but rather than multiplying them all by the total number of comparisons, we instead multiply them incrementally, so the largest <em>p</em>-value is multiplied by 1, the next smallest by 2, the next smallest by 3, etc.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairwise.t.test</span>(tooth$len, tooth$interact)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairwise.t.test</span>(tooth<span class="op">$</span>len, tooth<span class="op">$</span>interact)</code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -928,24 +937,24 @@ tooth$interact &lt;-<span class="st"> </span><span class="kw">interaction</span>
 <h4><span class="header-section-number">7.3.2.2</span> Two-Level Factors</h4>
 <p>Things are a lot easier when we have factors with only 2 levels. Let’s assume our data had only 2 factors with 2 levels each. How would we test for main effects and interactions with a linear model?</p>
 <p>To explore this question, we’ll subset our data to only 2 levels for dose, and we’ll keep only the original columns. (We use <code>dplyr::select</code> to be specific that we want select from the <code>dplyr</code> package, not another loaded package.). Remember, we want to recreate dose as a factor again so it doesn’t remember our old level.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub &lt;-<span class="st"> </span>tooth %&gt;%<span class="st"> </span>
-<span class="st">  </span>dplyr::<span class="kw">select</span>(<span class="dv">1</span> :<span class="st"> </span><span class="dv">3</span>) %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(dose %in%<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub &lt;-<span class="st"> </span>tooth <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="dv">1</span> <span class="op">:</span><span class="st"> </span><span class="dv">3</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(dose <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose))</code></pre></div>
 <p>Now, we should check our contrasts as usual.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$supp)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub<span class="op">$</span>supp)</code></pre></div>
 <pre><code>##    VC
 ## OJ  0
 ## VC  1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$dose)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub<span class="op">$</span>dose)</code></pre></div>
 <pre><code>##     1
 ## 0.5 0
 ## 1   1</code></pre>
 <p>We should make these sum coded contrasts so we can then get main effects from our model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$supp) &lt;-<span class="st"> </span>contr.sum
-<span class="kw">contrasts</span>(tooth_sub$dose) &lt;-<span class="st"> </span>contr.sum</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub<span class="op">$</span>supp) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(tooth_sub<span class="op">$</span>dose) &lt;-<span class="st"> </span>contr.sum</code></pre></div>
 <p>Then we can fit the model again.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub)
 <span class="kw">summary</span>(tooth_sub_lm)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -969,13 +978,13 @@ tooth$interact &lt;-<span class="st"> </span><span class="kw">interaction</span>
 ## F-statistic: 31.18 on 3 and 36 DF,  p-value: 4.098e-10</code></pre>
 <p>The only thing to note here is that we’ve used sum coding other than deviation coding with the 3-level case. Our interpretation of effects stays the same here, only our paramter estimates and standard errors will be twice as large with sum coding when compared to deviation coding.</p>
 <p>If your factors are not sum/deviation coded, then you won’t observe main effects. So we can test for the effect of dose at the first level of supplement as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub$supp) &lt;-<span class="st"> </span>contr.treatment
-<span class="kw">contrasts</span>(tooth_sub$supp)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(tooth_sub<span class="op">$</span>supp) &lt;-<span class="st"> </span>contr.treatment
+<span class="kw">contrasts</span>(tooth_sub<span class="op">$</span>supp)</code></pre></div>
 <pre><code>##    2
 ## OJ 0
 ## VC 1</code></pre>
 <p>OJ will now be our reference value for the intercept. Additionally, the effect of dose will be compared at this intercept value, so we now have simple effects of dose, and main effects of supplement. The interpretation for our interaction terms remains the same regardless of our coding approach.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub)
 <span class="kw">summary</span>(tooth_sub_lm2)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -1008,20 +1017,20 @@ tooth$interact &lt;-<span class="st"> </span><span class="kw">interaction</span>
 means &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">85</span>), <span class="dv">100</span>)
 sds &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)
 cond &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>), <span class="dv">100</span>)
-subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">200</span>)
+subject &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>)
 
 <span class="co"># simulate data</span>
 smoking_dat_extra &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">subject =</span> subject,
   <span class="dt">cond =</span> <span class="kw">as.factor</span>(cond),
   <span class="dt">time_one =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">mean =</span> means, <span class="dt">sd =</span> sds),
-  <span class="dt">time_two =</span> time_one +<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> sds)
-  ) %&gt;%
+  <span class="dt">time_two =</span> time_one <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">200</span>, <span class="dt">mean =</span> <span class="dv">5</span>, <span class="dt">sd =</span> sds)
+  ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(<span class="dt">key =</span> test_time,
          <span class="dt">value =</span> recovery,
-         <span class="dv">3</span>:<span class="dv">4</span>
-         ) %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">test_time =</span> <span class="kw">as.factor</span>(test_time)) %&gt;%
+         <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>
+         ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">test_time =</span> <span class="kw">as.factor</span>(test_time)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">arrange</span>(subject)
 
 <span class="co"># view the data</span>
@@ -1044,10 +1053,10 @@ smoking_dat_extra</code></pre></div>
 <div id="mixed-linear-models" class="section level3">
 <h3><span class="header-section-number">7.4.1</span> Mixed Linear Models</h3>
 <p>First, we’ll make sure our factors are sum coded so that we can obtain main effects of both factors.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(smoking_dat_extra$cond) &lt;-<span class="st"> </span>contr.sum
-<span class="kw">contrasts</span>(smoking_dat_extra$test_time) &lt;-<span class="st"> </span>contr.sum</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">contrasts</span>(smoking_dat_extra<span class="op">$</span>cond) &lt;-<span class="st"> </span>contr.sum
+<span class="kw">contrasts</span>(smoking_dat_extra<span class="op">$</span>test_time) &lt;-<span class="st"> </span>contr.sum</code></pre></div>
 <p>Then, we’ll refit the model as before.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mixed_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(recovery ~<span class="st"> </span>cond *<span class="st"> </span>test_time, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mixed_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(recovery <span class="op">~</span><span class="st"> </span>cond <span class="op">*</span><span class="st"> </span>test_time, 
                  <span class="dt">data =</span> smoking_dat_extra)
 <span class="kw">summary</span>(mixed_lm)</code></pre></div>
 <pre><code>## 
@@ -1077,8 +1086,8 @@ smoking_dat_extra</code></pre></div>
 <h3><span class="header-section-number">7.4.2</span> Mixed ANOVA</h3>
 <p>With a mixed ANOVA, we are simply just including an error term for our within-subjects factor. We do this in the same way as for within-subjects ANOVAs, only leaving the error term off the between-subjects factor.</p>
 <p>In this case, subjects take part in both test time conditions, so we need to nest this within our data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mixed_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(recovery ~<span class="st"> </span>cond *<span class="st"> </span>test_time +<span class="st"> </span>
-<span class="st">                   </span><span class="kw">Error</span>(subject/test_time), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mixed_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(recovery <span class="op">~</span><span class="st"> </span>cond <span class="op">*</span><span class="st"> </span>test_time <span class="op">+</span><span class="st"> </span>
+<span class="st">                   </span><span class="kw">Error</span>(subject<span class="op">/</span>test_time), 
                  <span class="dt">data =</span> smoking_dat_extra)
 <span class="kw">summary</span>(mixed_aov)</code></pre></div>
 <pre><code>## 
@@ -1106,8 +1115,8 @@ smoking_dat_extra</code></pre></div>
 <p>In some cases, you might notice that the output of your ANOVA models does not correspond to the output of that from SPSS or other statistical packages. That’s because R defaults to type-I sum of squares, and SPSS defaults to type-III sum of squares.</p>
 <p>Put simply, when you have an unbalanced design, such as when you have an unequal number of participants in each group, the way in which the sum of squares is calculated will affect the output and interpretation of your ANOVA.</p>
 <p>With type-I sum of squares, which is R’s default, the order in which you specify factors in your model will determine how much variance is explained by each factor. With type-I sum of squares, the terms are considered in the model in a sequential order. Take a look at this in action below. We’ll use the <strong>tooth_sub</strong> data from before, but we’ll remove the first observation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_unbalanced &lt;-<span class="st"> </span>tooth_sub[<span class="dv">2</span>:<span class="dv">40</span>,]</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">supp_first &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub_unbalanced)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_sub_unbalanced &lt;-<span class="st"> </span>tooth_sub[<span class="dv">2</span><span class="op">:</span><span class="dv">40</span>,]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">supp_first &lt;-<span class="st"> </span><span class="kw">aov</span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose, <span class="dt">data =</span> tooth_sub_unbalanced)
 <span class="kw">summary</span>(supp_first)</code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## supp         1  259.4   259.4  21.331 5.05e-05 ***
@@ -1116,7 +1125,7 @@ smoking_dat_extra</code></pre></div>
 ## Residuals   35  425.6    12.2                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dose_first &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>dose *<span class="st"> </span>supp, <span class="dt">data =</span> tooth_sub_unbalanced)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dose_first &lt;-<span class="st"> </span><span class="kw">aov</span>(len <span class="op">~</span><span class="st"> </span>dose <span class="op">*</span><span class="st"> </span>supp, <span class="dt">data =</span> tooth_sub_unbalanced)
 <span class="kw">summary</span>(dose_first)</code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## dose         1  753.3   753.3  61.948 2.98e-09 ***
@@ -1227,10 +1236,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

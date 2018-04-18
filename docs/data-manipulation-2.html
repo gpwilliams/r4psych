@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -47,6 +47,15 @@
 
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117777827-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117777827-1');
+</script>
 
 
 <style type="text/css">
@@ -407,8 +416,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="preparing-our-data" class="section level2">
 <h2><span class="header-section-number">5.3</span> Preparing our Data</h2>
 <p>Our data is quite messy as it stands. One of the biggest issues is that we have two variables contained within one column for both the <code>funRec</code> and <code>completion_time</code> columns. Let’s separate these two columns using the <code>separate()</code> function from <strong>tidyr</strong>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo &lt;-<span class="st"> </span>demo %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> funRec, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>)) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo &lt;-<span class="st"> </span>demo <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> funRec, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> completion_time, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start&quot;</span>, <span class="st">&quot;end&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>)
 <span class="kw">glimpse</span>(demo)</code></pre></div>
 <pre><code>## Observations: 29
@@ -435,7 +444,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>First off, we should probably drop any columns from the data that we don’t need to use. We’re not going to look at the programming languages they know, so we can drop all of these columns using <code>select()</code>. We’ll create a subset of our data that doesn’t contain these columns.</p>
 <p>Here, we’ll ask to keep all of the columns we want to keep. We can do this by name or column number.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># by name</span>
-demo %&gt;%<span class="st"> </span><span class="kw">select</span>(ID, 
+demo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(ID, 
                 LANGUAGE, 
                 progress, 
                 gender, 
@@ -448,7 +457,7 @@ demo %&gt;%<span class="st"> </span><span class="kw">select</span>(ID,
                 )</code></pre></div>
 <pre><code>## # A tibble: 29 x 10
 ##    ID    LANGUAGE progress gender   age tester fun   recommend start end  
-##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+##  * &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
 ##  1 22    OTHER    FINISH   female    30 GW     7     no        2018~ 2018~
 ##  2 23    &lt;NA&gt;     no       male      30 GW     6     yes       2018~ 2018~
 ##  3 24    ENGLISH  END      female    30 GW     4     yes       2018~ 2018~
@@ -461,10 +470,10 @@ demo %&gt;%<span class="st"> </span><span class="kw">select</span>(ID,
 ## 10 A2    English  END      female    33 RHB    4     yes       2018~ 2018~
 ## # ... with 19 more rows</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># by number</span>
-demo %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">8</span>:<span class="dv">16</span>))</code></pre></div>
+demo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>))</code></pre></div>
 <pre><code>## # A tibble: 29 x 10
 ##    ID    LANGUAGE progress gender   age tester fun   recommend start end  
-##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+##  * &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
 ##  1 22    OTHER    FINISH   female    30 GW     7     no        2018~ 2018~
 ##  2 23    &lt;NA&gt;     no       male      30 GW     6     yes       2018~ 2018~
 ##  3 24    ENGLISH  END      female    30 GW     4     yes       2018~ 2018~
@@ -478,11 +487,11 @@ demo %&gt;%<span class="st"> </span><span class="kw">select</span>(<span class="
 ## # ... with 19 more rows</code></pre>
 <p>Alternatively, we could have just specified the columns we wanted to drop. To do so, we can tell R to select all columns, except (<code>-</code>) column numbers 2 through 7. Remember, we have to concatenate these values to apply tell R to remove all of these columns, and not just the first one.</p>
 <p>This time, we’ll save our data as <code>demo_sub</code>, as we’ve made a subset of our original demographic data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub &lt;-<span class="st"> </span>demo %&gt;%<span class="st"> </span><span class="kw">select</span>(-<span class="kw">c</span>(<span class="dv">2</span>:<span class="dv">7</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub &lt;-<span class="st"> </span>demo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">c</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">7</span>))
 demo_sub</code></pre></div>
 <pre><code>## # A tibble: 29 x 10
 ##    ID    LANGUAGE progress gender   age tester fun   recommend start end  
-##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+##  * &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
 ##  1 22    OTHER    FINISH   female    30 GW     7     no        2018~ 2018~
 ##  2 23    &lt;NA&gt;     no       male      30 GW     6     yes       2018~ 2018~
 ##  3 24    ENGLISH  END      female    30 GW     4     yes       2018~ 2018~
@@ -506,11 +515,11 @@ demo_sub</code></pre></div>
 <div id="renaming-and-reordering-columns" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> Renaming and Reordering Columns</h3>
 <p>We can use the <code>rename()</code> function to change our columns names. We have some messy names here, so we’ll look at how we can rename them now. This renaming function takes the order of our new names are equal to our old names. Let’s just overwrite our old subsetted data to change the names.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub &lt;-<span class="st"> </span>demo_sub %&gt;%<span class="st"> </span><span class="kw">rename</span>(<span class="dt">language =</span> LANGUAGE)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub &lt;-<span class="st"> </span>demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rename</span>(<span class="dt">language =</span> LANGUAGE)
 demo_sub</code></pre></div>
 <pre><code>## # A tibble: 29 x 10
 ##    ID    language progress gender   age tester fun   recommend start end  
-##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+##  * &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
 ##  1 22    OTHER    FINISH   female    30 GW     7     no        2018~ 2018~
 ##  2 23    &lt;NA&gt;     no       male      30 GW     6     yes       2018~ 2018~
 ##  3 24    ENGLISH  END      female    30 GW     4     yes       2018~ 2018~
@@ -523,10 +532,10 @@ demo_sub</code></pre></div>
 ## 10 A2    English  END      female    33 RHB    4     yes       2018~ 2018~
 ## # ... with 19 more rows</code></pre>
 <p>Finally, what if we want to put the age and gender columns next to the ID column? We can use <code>select()</code> to pick out our first two columns, then <code>everything()</code> to grab every remaining column and stick them on the end.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">select</span>(ID, age, gender, <span class="kw">everything</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(ID, age, gender, <span class="kw">everything</span>())</code></pre></div>
 <pre><code>## # A tibble: 29 x 10
 ##    ID      age gender language progress tester fun   recommend start end  
-##    &lt;chr&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
+##  * &lt;chr&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;
 ##  1 22       30 female OTHER    FINISH   GW     7     no        2018~ 2018~
 ##  2 23       30 male   &lt;NA&gt;     no       GW     6     yes       2018~ 2018~
 ##  3 24       30 female ENGLISH  END      GW     4     yes       2018~ 2018~
@@ -556,10 +565,10 @@ demo_sub</code></pre></div>
 <p>The <strong>lubridate</strong> package has a number of useful functions that allow us to covert our data types to datetimes, as well as ways to run calculations on these times.</p>
 <p>One function we’ll use here is the <code>ymd_hms()</code> function, which converts data to the POSIXct format. The upshoot of this is that we can now subract one time from the other to get a duration.</p>
 <p>Below, we’ll mutate the start and end columns to be themselves, only converted to the proper datetime format. We’ll also create a new column, time, made up of subtracting the start times from the end times to get a duration.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub &lt;-<span class="st"> </span>demo_sub %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub &lt;-<span class="st"> </span>demo_sub <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">start =</span> <span class="kw">ymd_hms</span>(start),
          <span class="dt">end =</span> <span class="kw">ymd_hms</span>(end),
-         <span class="dt">time =</span> end -<span class="st"> </span>start
+         <span class="dt">time =</span> end <span class="op">-</span><span class="st"> </span>start
          )
 <span class="kw">glimpse</span>(demo_sub)</code></pre></div>
 <pre><code>## Observations: 29
@@ -579,19 +588,19 @@ demo_sub</code></pre></div>
 <p>We can perform any number of operations on our columns in <code>mutate()</code>. But what if we want to do this and only keep the new columns? We can use <code>transmute()</code>.</p>
 <p>Below, we’ll ask to keep the subject ID column, but to create our new start and end columns with mutate. Since the difference from the mean will (typically) be quite small, we can convert from hours to minutes by setting the units within our time variable to minutes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate difference from mean completion time</span>
-transmuted_time &lt;-<span class="st"> </span>demo_sub %&gt;%
+transmuted_time &lt;-<span class="st"> </span>demo_sub <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(
     <span class="dt">start =</span> <span class="kw">ymd_hms</span>(start),
     <span class="dt">end =</span> <span class="kw">ymd_hms</span>(end),
-    <span class="dt">time =</span> end -<span class="st"> </span>start
-  ) %&gt;%
+    <span class="dt">time =</span> end <span class="op">-</span><span class="st"> </span>start
+  ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">transmute</span>(
     ID,
-    <span class="dt">time_diff =</span> time -<span class="st"> </span><span class="kw">mean</span>(time)
+    <span class="dt">time_diff =</span> time <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(time)
   )
 
 <span class="co"># define the units of time, this can be mins, hours, days, etc.</span>
-<span class="kw">units</span>(transmuted_time$time_diff) &lt;-<span class="st"> &quot;mins&quot;</span>
+<span class="kw">units</span>(transmuted_time<span class="op">$</span>time_diff) &lt;-<span class="st"> &quot;mins&quot;</span>
 
 <span class="co"># print the object</span>
 transmuted_time</code></pre></div>
@@ -631,12 +640,12 @@ transmuted_time</code></pre></div>
 ## $ end       &lt;dttm&gt; 2018-03-23 00:25:51, 2018-03-26 02:15:52, 2018-03-2...
 ## $ time      &lt;time&gt; 1.327778 hours, 1.758889 hours, 1.113889 hours, 1.6...</code></pre>
 <p>You can see that we have a number of columns, but crucially, we have one where we kept track of the subject’s progress in our experiment. How many labels do we have for this? We can check for the unique labels in oru data using the <code>unique()</code> function. Alternatively, if our data is a factor, then it should have defined levels, so we could use the <code>levels()</code> function. To save time recoding our data types, we’ll just use the <code>unique()</code> function for now.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(demo_sub$progress)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(demo_sub<span class="op">$</span>progress)</code></pre></div>
 <pre><code>## [1] &quot;FINISH&quot; &quot;no&quot;     &quot;END&quot;    &quot;ethics&quot; NA</code></pre>
 <p>We have a few labels: FINISH, no, END, ethics, and NA. It looks like we have a slightly messy data set, as both FINISH and END indicate the same point of progress; these subjects completed the experiment. If we just want to subset our data to those who finished the experiment, we could use these labels to filter out observations.</p>
 <div id="filtering-with-logical-operations" class="section level3">
 <h3><span class="header-section-number">5.6.1</span> Filtering with Logical Operations</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(progress ==<span class="st"> &quot;FINISH&quot;</span> |<span class="st"> </span>progress ==<span class="st"> &quot;END&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(progress <span class="op">==</span><span class="st"> &quot;FINISH&quot;</span> <span class="op">|</span><span class="st"> </span>progress <span class="op">==</span><span class="st"> &quot;END&quot;</span>)</code></pre></div>
 <pre><code>## # A tibble: 23 x 11
 ##    ID    language progress gender       age tester fun   recommend
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -654,7 +663,7 @@ transmuted_time</code></pre></div>
 ## #   time &lt;time&gt;</code></pre>
 <p>Read the above command like, “filter to observations where the progress is equal to FINISH <strong>or</strong> the progress is equal to END”. Remember, to check if something is equal to another thing, we have to use double equals (<code>==</code>) rather than a single equal (<code>=</code>) as a single equal is an assignment operator. Finally, the pipe between these two statements is an OR operator, so we keep any observations that are equal to FINISH <strong>or</strong> equal to END.</p>
 <p>This type of filtering can get confusing if we have more than 2 conditions that we would like to check. One way around this is to use the %in% operator, which evaluates to TRUE if an observation is <strong>in</strong> a sequence that you provide. The best way to see how this works is to try it out yourself:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(progress %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(progress <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>))</code></pre></div>
 <pre><code>## # A tibble: 23 x 11
 ##    ID    language progress gender       age tester fun   recommend
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -675,9 +684,9 @@ transmuted_time</code></pre></div>
 </div>
 <div id="combining-filtering-criteria" class="section level3">
 <h3><span class="header-section-number">5.6.2</span> Combining Filtering Criteria</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(progress %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>),
-                    tester ==<span class="st"> &quot;RHB&quot;</span>,
-                    age &gt;<span class="st"> </span><span class="dv">30</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(progress <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>),
+                    tester <span class="op">==</span><span class="st"> &quot;RHB&quot;</span>,
+                    age <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>
                     )</code></pre></div>
 <pre><code>## # A tibble: 9 x 11
 ##   ID    language progress gender       age tester fun   recommend
@@ -696,7 +705,7 @@ transmuted_time</code></pre></div>
 <div id="removing-by-ceriteria" class="section level3">
 <h3><span class="header-section-number">5.6.3</span> Removing by Ceriteria</h3>
 <p>Similarly to keeping those that match some crtieria, we can remove those who meet some criteria. Let’s say we just want to look at those who haven’t finished the experiment. We can do this by using the <code>!</code> (read: not) operator. Here, we ask to <strong>not</strong> keep those who have their progress as FINISH or END.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(!progress %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span>progress <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>))</code></pre></div>
 <pre><code>## # A tibble: 6 x 11
 ##   ID    language progress gender   age tester fun   recommend
 ##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -712,13 +721,13 @@ transmuted_time</code></pre></div>
 <h3><span class="header-section-number">5.6.4</span> Handling NAs</h3>
 <p>We always need to be wary of NAs in R. If we ask R whether something is equal to an NA (an unknown value) it is very literal in that it tells us it can’t know. That’s because R has no information about what the NA is! Try filtering our data to only those with NAs for the language known.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this will not run</span>
-demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language ==<span class="st"> </span><span class="ot">NA</span>)</code></pre></div>
+demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(language <span class="op">==</span><span class="st"> </span><span class="ot">NA</span>)</code></pre></div>
 <pre><code>## # A tibble: 0 x 11
-## # ... with 11 variables: ID &lt;chr&gt;, language &lt;chr&gt;, progress &lt;chr&gt;,
-## #   gender &lt;chr&gt;, age &lt;int&gt;, tester &lt;chr&gt;, fun &lt;chr&gt;, recommend &lt;chr&gt;,
-## #   start &lt;dttm&gt;, end &lt;dttm&gt;, time &lt;time&gt;</code></pre>
+## # ... with 11 variables: ID &lt;chr&gt;, language &lt;chr&gt;, progress &lt;chr&gt;, gender
+## #   &lt;chr&gt;, age &lt;int&gt;, tester &lt;chr&gt;, fun &lt;chr&gt;, recommend &lt;chr&gt;, start
+## #   &lt;dttm&gt;, end &lt;dttm&gt;, time &lt;time&gt;</code></pre>
 <p>Instead, we have to surround our variable with the <code>is.na()</code> function, to check whether these values are NAs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(language))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(language))</code></pre></div>
 <pre><code>## # A tibble: 4 x 11
 ##   ID    language progress gender   age tester fun   recommend
 ##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -729,7 +738,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ## # ... with 3 more variables: start &lt;dttm&gt;, end &lt;dttm&gt;, time &lt;time&gt;</code></pre>
 <p>Also note that by default <code>filter()</code> excludes cases that don’t meet your criteria, or are NAs, so if you want to keep NAs you have to ask for them explicitly. Let’s look at filtering to only those who finished the experiment (FINISH or END) and those who we’re unsure about (NA).</p>
 <p>Here, we look for observations for progress that are equal to FINISH <strong>or</strong> equal to END <strong>or</strong> which are NAs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(progress ==<span class="st"> &quot;FINISH&quot;</span> |<span class="st"> </span>progress ==<span class="st"> &quot;END&quot;</span> |<span class="st"> </span><span class="kw">is.na</span>(progress))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(progress <span class="op">==</span><span class="st"> &quot;FINISH&quot;</span> <span class="op">|</span><span class="st"> </span>progress <span class="op">==</span><span class="st"> &quot;END&quot;</span> <span class="op">|</span><span class="st"> </span><span class="kw">is.na</span>(progress))</code></pre></div>
 <pre><code>## # A tibble: 24 x 11
 ##    ID    language progress gender       age tester fun   recommend
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -747,7 +756,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ## #   time &lt;time&gt;</code></pre>
 <p>Alternatively, we can filter our data to anything that is not an NA (or that does not meet any range of crieria). To do this, we use the <code>!</code> logical operator (read this as “not”).</p>
 <p>Similarly, we can combine turn this around and ask to not keep those that match the criteria above. Here, we have to ask to throw away those with progress that isn’t FINISH and isn’t END, <strong>and</strong> we want to throw out those with an NA for their progress.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(!progress %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>) &amp;<span class="st"> </span>!<span class="kw">is.na</span>(progress))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span>progress <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FINISH&quot;</span>, <span class="st">&quot;END&quot;</span>) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(progress))</code></pre></div>
 <pre><code>## # A tibble: 5 x 11
 ##   ID    language progress gender   age tester fun   recommend
 ##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -765,7 +774,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <p>We can arrange our data using <code>arrange()</code> from <strong>dplyr</strong>. Again, this function takes the data, and then sorts by any columns that you give it. This function defaults to having lowest mnumbers first. So, if we sorted by subject ID and trial ID, you would get the lowest value for subjects first, and their lowest number for trials first.</p>
 <p>We have a simple case here, where we only have one observation for each participant. Here, numbers come before letters, but those with numbered IDs were tested at the end of the experiment. How, then, should we order the data?</p>
 <p>One option is to order the data such that IDs appear in descending order (using the <code>desc()</code> function).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(ID))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(ID))</code></pre></div>
 <pre><code>## # A tibble: 29 x 11
 ##    ID    language progress gender       age tester fun   recommend
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -782,7 +791,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ## # ... with 19 more rows, and 3 more variables: start &lt;dttm&gt;, end &lt;dttm&gt;,
 ## #   time &lt;time&gt;</code></pre>
 <p>Alternatively, we know that the tester GW ran the experiment last, so we could sort by tester. But let’s say that we want to sort by who tested them first, and then by who started the experiment first. To do this, we simply need to provide the start and tester columns to the function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">arrange</span>(tester, start)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(tester, start)</code></pre></div>
 <pre><code>## # A tibble: 29 x 11
 ##    ID    language progress gender   age tester fun   recommend
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -799,7 +808,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ## # ... with 19 more rows, and 3 more variables: start &lt;dttm&gt;, end &lt;dttm&gt;,
 ## #   time &lt;time&gt;</code></pre>
 <p>Again, we can flip the order for tester by using the <code>desc()</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(tester), start)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(tester), start)</code></pre></div>
 <pre><code>## # A tibble: 29 x 11
 ##    ID    language progress gender   age tester fun   recommend
 ##    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    
@@ -822,7 +831,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <p>Finally, we get onto the most important section for psychologists; how to report summaries of your data.</p>
 <p><code>summarise()</code> collapses across all observations in your data set to produce a single row of data. Within the <code>summarise()</code> function, we have to specify what we would like to create. To do this, we just use the same functions we would use to create a new column in our original data set.</p>
 <p>Let’s say we want to calculate the average time spent on the experiment. We just need to specify what our column will be called (mean_time here), and how we should create this column. Here, we’ve created it by calculating the <code>mean()</code> over the time column in our data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time))</code></pre></div>
 <pre><code>## # A tibble: 1 x 1
 ##   mean_time       
 ##   &lt;time&gt;          
@@ -830,7 +839,7 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <p>Now we know that the average completion time was 1.45 minutes. However, this doesn’t tell us much. We might also want to know the standard deviation for the mean times, as well as the count (i.e. how many people completed the experiment). To do this, we just need to list more arguments.</p>
 <p>To add these summaries, we use the inbuilt <code>sd()</code> function, as well as the inbuilt <code>n()</code> function. We don’t pass anything to the <code>n()</code> function because it simply counts the number of observations over which we’ve summarised our data.</p>
 <p>You don’t need to understand the mutating part of this chain, but just know that it replaces the first cell in time with an NA.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time),
            <span class="dt">sd_time =</span> <span class="kw">sd</span>(time),
            <span class="dt">N =</span> <span class="kw">n</span>()
@@ -840,8 +849,8 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ##   &lt;time&gt;           &lt;time&gt;            &lt;int&gt;
 ## 1 1.44753831417625 0.275443582881955    29</code></pre>
 <p>Finally, we have to be wary of NAs when calculating our statistics with <code>summarise()</code>. Here, I’ll introduce a missing value to our data before we calculate our summary.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time =</span> <span class="kw">replace</span>(time, <span class="dv">1</span>, <span class="ot">NA</span>)) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time =</span> <span class="kw">replace</span>(time, <span class="dv">1</span>, <span class="ot">NA</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time),
            <span class="dt">sd_time =</span> <span class="kw">sd</span>(time),
            <span class="dt">N =</span> <span class="kw">n</span>()
@@ -852,8 +861,8 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ## 1 &lt;NA&gt;      NaN        29</code></pre>
 <p><strong>dplyr</strong> is strict, in that it will give you all NAs for the summary of a value if that value contains NAs. This is good as you’ll be aware if you have missing data before you report anything. To suppress this behaviour, we simply have to ask R to remove NAs when calculating the mean and standard deviation.</p>
 <p>To remove NAs, we need to explicitly set <code>na.rm = TRUE</code> in the functions we use. Read this as “Should I remove NAs? Yes!”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time =</span> <span class="kw">replace</span>(time, <span class="dv">1</span>, <span class="ot">NA</span>)) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time =</span> <span class="kw">replace</span>(time, <span class="dv">1</span>, <span class="ot">NA</span>)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">sd_time =</span> <span class="kw">sd</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">N =</span> <span class="kw">n</span>()
@@ -867,8 +876,8 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <h2><span class="header-section-number">5.9</span> Grouping Data</h2>
 <p>One of the most convenient functions in <strong>dplyr</strong> is the <code>group_by</code> function. This plays well with a number of the functions we’ve looked at above, but it’s most useful when calculating summaries.</p>
 <p>In this experiment, we cared about reaction times for those who are native and non-native English speakers. But did their completion times differ at all? To save on splitting our data and calculating summaries on the subsets of data, we can instead group our data by the language spoken, and pass these both to the <code>summary()</code> function. We do this using <code>group_by()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(language) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">sd_time =</span> <span class="kw">sd</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">N =</span> <span class="kw">n</span>()
@@ -884,9 +893,9 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 ## 6 &lt;NA&gt;     1.60111111111111 0.258434767023681      4</code></pre>
 <p>As you can see, we got a summary by all of the groups in our language column. Unfortunately for us here, R doesn’t identify groups with the same name but different capitalisation as the same group. To fix this, we can chain the functions we’ve used above before calculating our descriptive statistics.</p>
 <p>I’ll fix the names by setting the language column values to the language column values, only with all of the text in lowercase (using <code>tolower()</code> from baseR). This effectively overwrites the old values with our new, improved naming scheme.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">language =</span> <span class="kw">tolower</span>(language)) %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(language) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">language =</span> <span class="kw">tolower</span>(language)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">sd_time =</span> <span class="kw">sd</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">N =</span> <span class="kw">n</span>()
@@ -900,10 +909,10 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <p>At a glance, there doesn’t seem to be much of a difference in the completion time for the English and Other groups. However, for the NA group, subjects seem to take a little longer than the other two groups. That’s perhaps something we would look into if we wanted to analyse their data.</p>
 <p>Finally, we can use <code>group_by()</code> along with other functions, such as filtering our data to the two participants with the lowest times from the language groups. Let’s do that now.</p>
 <p>To do this, we use another function from baseR called <code>rank()</code>. This rank orders all scores from the smallest to the largest value. Thus, if we group by language and filter to times with a rank of 1, we will filter to the lowest time in our language groups.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">language =</span> <span class="kw">tolower</span>(language)) %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(language) %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(<span class="kw">rank</span>(time) ==<span class="st"> </span><span class="dv">1</span>) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">language =</span> <span class="kw">tolower</span>(language)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">rank</span>(time) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">glimpse</span>()</code></pre></div>
 <pre><code>## Observations: 3
 ## Variables: 11
@@ -923,11 +932,11 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <h3><span class="header-section-number">5.9.1</span> Ungrouping Data</h3>
 <p>Finally, if you want to perform further operations on a set of data after you’ve initially grouped it, you can ungroup the data using <code>ungroup()</code> prior to running further calculations.</p>
 <p>Below, we remove the quickest people in each group before calculating the grand mean.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">language =</span> <span class="kw">tolower</span>(language)) %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(language) %&gt;%
-<span class="st">  </span><span class="kw">filter</span>(<span class="kw">rank</span>(time) !=<span class="st"> </span><span class="dv">1</span>) %&gt;%
-<span class="st">  </span><span class="kw">ungroup</span>() %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_sub <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">language =</span> <span class="kw">tolower</span>(language)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">rank</span>(time) <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
             <span class="dt">sd_time =</span> <span class="kw">sd</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
             <span class="dt">N =</span> <span class="kw">n</span>()
@@ -945,19 +954,19 @@ demo_sub %&gt;%<span class="st"> </span><span class="kw">filter</span>(language 
 <span class="kw">library</span>(lubridate)
 
 <span class="co"># load, clean, and transform data</span>
-demo_clean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_demographic_data_wide.csv&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> funRec, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>)) %&gt;%
-<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> completion_time, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start&quot;</span>, <span class="st">&quot;end&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) %&gt;%
-<span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">8</span>:<span class="dv">16</span>)) %&gt;%
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">language =</span> LANGUAGE) %&gt;%
+demo_clean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_demographic_data_wide.csv&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> funRec, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">separate</span>(<span class="dt">col =</span> completion_time, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start&quot;</span>, <span class="st">&quot;end&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">8</span><span class="op">:</span><span class="dv">16</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">language =</span> LANGUAGE) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">start =</span> <span class="kw">ymd_hms</span>(start),
          <span class="dt">end =</span> <span class="kw">ymd_hms</span>(end),
-         <span class="dt">time =</span> end -<span class="st"> </span>start,
+         <span class="dt">time =</span> end <span class="op">-</span><span class="st"> </span>start,
          <span class="dt">language =</span> <span class="kw">tolower</span>(language)
          )</code></pre></div>
 <p>In one step, we’ve used several of the commands that we used above to clean our data and to get it in the correct format for what we want to do with it. We can then pass this cleaned data to our <code>group_by()</code> and <code>summarise()</code> functions to generate summaries as before.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_clean %&gt;%
-<span class="st">  </span><span class="kw">group_by</span>(language) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_clean <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(language) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_time =</span> <span class="kw">mean</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">sd_time =</span> <span class="kw">sd</span>(time, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
            <span class="dt">N =</span> <span class="kw">n</span>()
@@ -969,8 +978,8 @@ demo_clean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span 
 ## 2 other    1.47052777777778 0.303311384194351    10
 ## 3 &lt;NA&gt;     1.60111111111111 0.258434767023681     4</code></pre>
 <p>Or we can even plot the data using the pipe (<code>%&gt;%</code>) with <strong>ggplot2</strong>. Notice that the ggplot elements end the line in a <code>+</code> not a <code>%&gt;%</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_clean %&gt;%
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> language, <span class="dt">y =</span> time)) +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_clean <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> language, <span class="dt">y =</span> time)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
 <pre><code>## Don&#39;t know how to automatically pick scale for object of type difftime. Defaulting to continuous.</code></pre>
 <p><img src="R_for_Psych_files/figure-html/5_clean_plot-1.png" width="672" /></p>
@@ -1112,10 +1121,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
