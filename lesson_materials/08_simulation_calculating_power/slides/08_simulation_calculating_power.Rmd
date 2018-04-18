@@ -1,0 +1,874 @@
+---
+title: "08 Simulation and Calculating Power"
+subtitle: an introduction to simulation for statistical inference
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: ioslides_presentation
+---
+
+<style>
+pre {
+  width: 100%; /* 106%; */
+  left: 0; /* -60px; */
+  padding: 10px 15px 10px 15px; /* 10px 0 10px 60px; */
+  font-size: 16px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3) 
+```
+
+# Overview
+
+## Lesson Structure
+
+In this session we'll cover simulation for improving our statistical inferences, with a heavy focus on power.
+
+Specifically, we'll cover:
+
+- simulating data in R
+- simulation-based power analyses
+- packages for power analysis
+
+## Getting Started
+
+As always, we first need to load the `tidyverse` set of packages for this Chapter.
+
+```{r 8_load_packages, include = FALSE}
+library(tidyverse)
+library(cowplot)
+```
+
+```{r 8_load_packages_class, eval = FALSE}
+library(tidyverse)
+```
+
+## Simulating Data
+
+We'll look at randomly sampling data that adheres to the following distributions:
+
+- Uniform, using `runif()` (read: **r**andom **unif**orm)
+- Normal, using `rnorm()` (read: **r**andom **norm**al )
+- Binomial, using `rbinom()` (read: **r**andom **binom**ial)
+
+We'll look at randomly sampling data with and without replacement, and how we can determine bias in our sampling procedure.
+
+## The Uniform Distribution
+
+With the uniform distribution, we sample numbers such that all values are equally likely to be drawn from our range. 
+Try this out a few times:
+
+```{r 8_uniform_5_10}
+runif(n = 5, min = 1, max = 10)
+```
+
+You should get different numbers each time.
+
+## The Uniform Distribution
+
+You can increase the amount of numbers sampled by changing `n` to anything else.
+
+```{r 8_uniform_10_10}
+runif(n = 10, min = 1, max = 10)
+```
+
+Now we have 10 numbers between 1 and 10.
+
+## The Uniform Distribution
+
+Finally, we can change the minimum and maximum values, or the range of values we want to sample from. Try this:
+
+```{r 8_uniform_10_1}
+runif(n = 10, min = 0, max = 1)
+```
+
+## The Uniform Distribution
+
+What happens if we calculate the mean from 10 samples from a uniform distribution? What about 100, 1000, or even 10000?
+
+```{r 8_uniform_samples}
+runif(n = 10, min = 0, max = 1) %>% mean()
+runif(n = 100, min = 0, max = 1) %>% mean()
+runif(n = 1000, min = 0, max = 1) %>% mean()
+```
+
+## The Uniform Distribution
+
+With more samples, the mean better matches the mean of the sampling procedure. 
+
+Think about how this could impact your studies. 
+
+With small sample sizes, we're likely to get *skewed data that tends towards the extremes*.
+
+## The Normal Distribution
+
+- We can sample continuous data from the normal distribution. 
+
+- We might use this to generate data on a continuous scale with a normal distribution in the population, e.g. height and weight.
+
+- For this, we use the `rnorm()` function. 
+
+- This provides us with a good range of values if we know (or can guess at) the mean and standard deviation of a sample from a population. Try it for the IQ test:
+
+```{r 8_norm_10}
+rnorm(n = 10, mean = 100, sd = 15)
+```
+
+## The Normal Distribution
+
+#### Sample Size: Larger Samples Better Match Population
+
+```{r 8_norm_sample_sizes_class, eval = FALSE}
+set.seed(5)
+small_samp <- rnorm(n = 100, mean = 100, sd = 15)
+large_samp <- rnorm(n = 1000, mean = 100, sd = 15)
+
+ggplot() + geom_density(aes(small_samp)) + coord_cartesian(x = c(50, 150))
+ggplot() + geom_density(aes(large_samp)) + coord_cartesian(x = c(50, 150))
+```
+
+```{r 8_norm_sample_sizes_sample, include = FALSE}
+set.seed(5)
+small_samp <- rnorm(n = 100, mean = 100, sd = 15)
+large_samp <- rnorm(n = 1000, mean = 100, sd = 15)
+```
+
+```{r 8_norm_sample_sizes, echo = FALSE}
+theme_set(theme_gray())
+plot_grid(ggplot() + geom_density(aes(small_samp)) + coord_cartesian(x = c(50, 150)), 
+          ggplot() + geom_density(aes(large_samp)) + coord_cartesian(x = c(50, 150)), 
+          align = "h" # align axes
+          ) 
+```
+
+## The Normal Distribution
+
+#### Standard Deviation Effects: Larger SD, more Samples Needed to Find Mean
+
+```{r 8_norm_standard_deviation_class, eval = FALSE}
+set.seed(5)
+large_sd_samp <- rnorm(n = 1000, mean = 100, sd = 15)
+small_sd_samp <- rnorm(n = 1000, mean = 100, sd = 1.5)
+
+ggplot() + geom_density(aes(large_sd_samp)) + coord_cartesian(x = c(50, 150))
+ggplot() + geom_density(aes(small_sd_samp)) + coord_cartesian(x = c(50, 150))
+```
+
+```{r 8_norm_standard_deviation_sample, include = FALSE}
+set.seed(5)
+large_sd_samp <- rnorm(n = 1000, mean = 100, sd = 15)
+small_sd_samp <- rnorm(n = 1000, mean = 100, sd = 1.5)
+```
+
+```{r 8_norm_standard_deviation, echo = FALSE}
+theme_set(theme_gray())
+plot_grid(ggplot() + geom_density(aes(large_sd_samp)) + coord_cartesian(x = c(50, 150)), 
+          ggplot() + geom_density(aes(small_sd_samp)) + coord_cartesian(x = c(50, 150)), 
+          align = "h" # align axes
+          ) 
+```
+
+## The Binomial Distribution
+
+We might use this to generate data on a binomial scale, e.g. the probability of a success/failure in a task.
+- We sample from a binomial distribution using the `rbinom()` function. 
+- 3 arguments: `n` (observations), `size` trials per observation, `prob` probability of success vs. failure (e.g. 0.6 = 60%)
+
+Below, we'll get 10 observations, of 1 trial each, with a success rate of 50% on each trial.
+
+```{r 8_binomial_10}
+set.seed(1000)
+rbinom(n = 10, size = 1, prob = 0.5)
+```
+
+## The Binomial Distribution
+
+What if we want to make each observation the number of successes in 20 trials. Change the size argument to 20.
+
+```{r 8_binomial_size}
+set.seed(1000)
+rbinom(n = 10, size = 20, prob = 0.5)
+```
+
+- Same 50% success rate, but each observation is out of 20 trials.
+
+## The Binomial Distribution
+
+Convert it to proportions, divide the whole thing by the number of trials.
+
+```{r 8_binomial_proportion_10}
+set.seed(1000)
+rbinom(n = 10, size = 20, prob = 0.5) / 20
+```
+
+## The Binomial Distribution
+
+### Removing Redundancies
+
+Repetition of 20 in the code. Any need to repeat this? 
+- You can make mistakes with more repetitions
+- ...and it's harder to change your code for new cases
+- Avoid **magic numbers**; I know what 20 is now.
+
+```{r 8_redundancies}
+# define number of trials
+n_trials <- 20
+
+set.seed(1000)
+rbinom(n = 10, size = n_trials, prob = 0.5) / n_trials
+```
+
+- Calculate the mean of 1000 samples. Can you predict what you'll get? 
+
+## Flexible Sampling
+
+We can randomly sample discrete variables with pre-defined probabilities. We use the same function for characters and numbers, the `sample()` function.
+
+This is useful for creating dummy data sets where we might want to randomly sample names for participants, or outcomes with a bias on our draws.
+
+- Define what to sample from with `x` (for integers it's all positive numbers up to the one you define)
+- Define number of samples with `size`
+- Define if you want to add sampled things back to the pool with `replace`
+
+## Flexible Sampling
+
+Try this for all numbers up to and including 10.
+
+```{r 8_sample_10}
+set.seed(1000)
+sample(x = 10, size = 10, replace = TRUE)
+```
+
+## Flexible Sampling
+
+Did you notice how we got 3 twice? Let's change the `replace` argument to `FALSE` to see what happens.
+
+```{r 8_sample_10_replace}
+set.seed(1000)
+sample(x = 10, size = 10, replace = FALSE)
+```
+
+Now we only get unique numbers. If we ask to draw more numbers than we have unique values, this will fail.
+
+```{r 8_sample_11_replace, eval = FALSE}
+set.seed(1000)
+sample(x = 10, size = 11, replace = FALSE)
+```
+
+## Flexible Sampling
+
+We can also sample from characters, such as when we might want to create some data for the names of participants.
+
+```{r 8_sample_names}
+set.seed(1000)
+names <- c("Glenn", "Nik", "Vera", "Neil")
+sample(x = names, size = 2, replace = TRUE)
+```
+
+## Flexible Sampling
+
+We can also set some pre-defined probabilities for the things we'll sample from. Let's say the probability of selecting "Glenn" is most likely in 10 draws.
+
+```{r 8_sample_names_prob}
+set.seed(1000)
+names <- c("Glenn", "Nik", "Vera", "Neil")
+sample(x = names, size = 10, replace = TRUE, prob = c(0.7, 0.1, 0.1, 0.1))
+```
+
+Glenn gets drawn most often because this has the highest probability to be drawn (i.e. the first in `x` is related to the first in `prob`). 
+Let's see where this is useful...
+
+## Sampling for Inference
+
+We're studying a person who claims to be a psychic. We have 10 cards each with 1 of 5 symbols on the back. Can the psychic guess, above chance, which symbol is on the back of the card?
+
+Let's simulate their data for 10 attempts.
+
+```{r 8_psychic_binomial}
+# sample the true values of the cards
+set.seed(13)
+psychic_outcome <- rbinom(n = 1, size = 10, prob = 0.2)
+
+# see the true values
+psychic_outcome
+```
+
+## Sampling for Inference
+### The Psychic
+
+- They get it right 30% of the time but we know that on each trial the probability of a success is only 20% (i.e. 1 in 5). 
+- Was the psychic telling the truth, or should we have reason to doubt their claim?
+- Try a binomial test, define your data, number of samples, and the probability of success.
+
+## Sampling for Inference
+### The Psychic
+
+```{r 8_psychic_binomial_test}
+binom.test(x = psychic_outcome, n = 10, p = 0.2)
+```
+
+## Sampling for Inference
+### The Psychic
+
+Sample size was too small. Try 30% from 100 observations.
+
+```{r 8_psychic_binomial_test_100}
+binom.test(x = psychic_outcome * 10, n = 10 * 10, p = 0.2)
+```
+
+## Sampling for Inference
+### The Psychic
+
+- One test showed that we should reject the null, the psychic guesses above chance.
+
+- Should we trust this? We used random sampling. Maybe one study isn't enough!
+
+- In cases where you think claims are extraordinary, it's alright to ask for extraordinary evidence! 
+
+- Maybe NHST isn't best in this case, or maybe we just need replications.
+
+## Understanding Functions
+
+Before we can explore the effect of replications, we need to learn a bit about functions.
+
+User defined functions in R take the form of:
+
+```{r function_block, eval = FALSE}
+function_name <- function(parameters_to_vary) {
+  things_for_the_function_to_do
+}
+```
+
+- Define the name as a verb (it does something). 
+- What will it do it to? That goes in the `()`.
+- What will it do and return? That goes in the body `{}`.
+
+## Understanding p-values and Type-I Errors
+
+Our sampling procedure as a function:
+
+```{r 8_simulate_function}
+# define function name and parameters to vary
+simulate_psychic_test <- function(n_trials, prob_success) {
+  
+  # sample binomial data (successs or not) for varying trials and probabilities 
+  psychic_outcome <- rbinom(n = 1, size = n_trials, prob = prob_success)
+  
+  # run a binomial test on the sampled data against your proability
+  test <- binom.test(x = psychic_outcome, n = n_trials, p = prob_success)
+  
+  # retrieve the p-value, this is what is returned in our function
+  test$p.value
+}
+```
+
+## Understanding p-values and Type-I Errors
+
+Use your new function to sample and test against the probability of success. What is your *p*-value?
+
+```{r 8_do_simulate_function}
+simulate_psychic_test(n_trials = 100, prob_success = 0.2)
+```
+
+- Press play again and again, how do the *p*-values vary?
+
+## Understanding p-values and Type-I Errors
+
+R has a `replicate()` function which replicates whatever we ask it to do by a pre-defined number. 
+- This takes `n` -- the number of replication to carry out -- plus whatever you want to replicate.
+
+Can you predict what will happen?
+
+```{r 8_simulate_function_params}
+simulations <- replicate(n = 100, 
+                         simulate_psychic_test(n_trials = 100, 
+                                               prob_success = 0.2
+                                               )
+                         )
+```
+
+## Understanding p-values and Type-I Errors
+
+```{r 8_simulate_function_plot_class, eval = FALSE}
+ggplot() + 
+  geom_histogram(mapping = aes(simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+## Understanding p-values and Type-I Errors
+
+```{r 8_simulate_function_plot, echo = FALSE}
+ggplot() + 
+  geom_histogram(mapping = aes(simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+The red cut off line is the .05 significance level, here roughly **3 in 100 samples, or 3% of our simulated studies**. 
+
+How does it look with 10,000 simulated studies?
+
+## Understanding p-values and Type-I Errors
+
+```{r 8_simulate_function_replications}
+simulations <- replicate(n = 10000, 
+                         simulate_psychic_test(n_trials = 100, 
+                                               prob_success = 0.2
+                                               )
+                         )
+```
+
+## Understanding p-values and Type-I Errors
+
+```{r 8_simulate_function_replications_plot_class, eval = FALSE}
+ggplot() + 
+  geom_histogram(aes(simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+## Understanding p-values and Type-I Errors
+
+```{r 8_simulate_function_replications_plot, echo = FALSE}
+ggplot() + 
+  geom_histogram(aes(simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+Roughly **500 studies have a *p*-value below 0.05. Thats 5% of the 10,000 studies**. 
+You can get tiny *p*-values even when there's no true effect in the population.
+
+## Understanding Power and Type-II Errors
+
+Change our function so that we can give the psychic a different probability to the true probability of a success.
+
+```{r 8_function_type_II}
+# define function name and parameters to vary
+simulate_psychic_test <- function(n_trials, prob_success, psychic_success) {
+  
+  # sample binomial data (successs or not) for varying trials and probabilities 
+  psychic_outcome <- rbinom(n = 1, size = n_trials, prob = psychic_success)
+  
+  # run a binomial test on the sampled data against your proability
+  test <- binom.test(x = psychic_outcome, n = n_trials, p = prob_success)
+  
+  # retrieve the p-value, this is what is returned in our function
+  test$p.value
+}
+```
+
+## Understanding Power and Type-II Errors
+
+Sample some data where the psychic has a bias greater than the population.
+
+```{r 8_do_function_type_II}
+true_effect_simulations <- replicate(n = 1000, 
+                         simulate_psychic_test(n_trials = 100, 
+                                               prob_success = 0.2,
+                                               psychic_success = 0.25
+                                               )
+                         )
+```
+
+## Understanding Power and Type-II Errors
+
+```{r 8_function_type_II_plot_class, eval = FALSE}
+ggplot() + 
+  geom_histogram(aes(true_effect_simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+## Understanding Power and Type-II Errors
+
+```{r 8_function_type_II_plot, echo = FALSE}
+ggplot() + 
+  geom_histogram(aes(true_effect_simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+A much larger proportion of studies give us *p*-values below 0.05. Specifically, it's `r sum(true_effect_simulations < 0.05)`, or `r sum(true_effect_simulations < 0.05)/10`%.
+
+This is the power of the study, the ability to detect a true effect. 1-power is the type-II error rate.
+
+## Understanding Power and Type-II Errors
+
+At only `r sum(true_effect_simulations < 0.05)/10`%, this is inadequate for our purposes. We generally aim for at least 80% in psychology.
+
+Use simulation to determine trials needed for adequate power.
+
+```{r 8_do_function_type_II_power}
+true_effect_simulations <- replicate(n = 1000, 
+                         simulate_psychic_test(n_trials = 600, 
+                                               prob_success = 0.2,
+                                               psychic_success = 0.25
+                                               )
+                         )
+```
+
+## Understanding Power and Type-II Errors
+
+```{r 8_do_function_type_II_power_plot_class, eval = FALSE}
+ggplot() + 
+  geom_histogram(aes(true_effect_simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+## Understanding Power and Type-II Errors
+
+```{r 8_do_function_type_II_power_plot, echo = FALSE}
+ggplot() + 
+  geom_histogram(aes(true_effect_simulations),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=6))
+```
+
+## Understanding Power and Type-II Errors
+
+That looks better! Now, in most experiments, we'll get a *p*-value below 0.05. 
+How many studies detected this true effect? Our power for this study is:
+
+```{r 8_do_function_type_II_power_value}
+mean(true_effect_simulations < 0.05)
+```
+
+At 600 trials we now have an `r mean(true_effect_simulations < 0.05)*100`% chance to detect a true effect if present. 
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for Simple Designs
+
+What about an IQ test against the baseline with a set mean (100) and standard deviation (15)?
+
+```{r 8_IQ_sampler}
+calculate_IQ_power <- function(n, sample_mean, sample_sd, pop_mean, pop_sd) {
+  sample_data <- rnorm(n = n, mean = sample_mean, sd = sample_sd)
+  test <- t.test(sample_data, mu = pop_mean, sd = pop_sd)
+  test$p.value
+}
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for Simple Designs
+
+Test 60 people, with a mean difference of 5 points.
+
+```{r 8_do_IQ_sampler}
+p_vals <- replicate(1000, calculate_IQ_power(60, 105, 15, 100, 15))
+mean(p_vals < 0.05)
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for Simple Designs
+
+Great, `r mean(p_vals < 0.05)*100`% power is not bad at all. Maybe we should bump up the sample size a little to get to 80%.
+
+```{r 8_do_IQ_sampler_size}
+p_vals <- replicate(1000, calculate_IQ_power(75, 105, 15, 100, 15))
+mean(p_vals < 0.05)
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for Simple Designs
+
+Around 75 participants does a good job for us. What if the standard deviation for our sample was smaller than the population? 
+
+```{r 8_do_IQ_sampler_sd}
+p_vals <- replicate(1000, calculate_IQ_power(20, 105, 7.5, 100, 15))
+mean(p_vals < 0.05)
+```
+
+Now it looks like we only need around 20 participants to achieve the same power. 
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for Simple Designs
+
+What if the mean score is half as large as before? 
+
+```{r 8_IQ_sampler_power_value}
+p_vals <- replicate(1000, calculate_IQ_power(70, 102.5, 7.5, 100, 15))
+mean(p_vals < 0.05)
+```
+
+Now we need more participants, even though the standard deviation is as small as before.
+
+As you can see, sample size, effect sizes, and variance all affect the ability to detect a true effect.
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+We can build from what we know about sampling to work for any design.
+
+- For a *t*-test, just sample two sets of data using `rnorm()` and compare them against one another.
+- But we'll look at a more complex 2 by 2 between-subjects design, which can be adapted to most scenarios.
+
+Here, participants take part in 1 combination of 2 factors (A and B) each with 2 levels. We first have to create a tibble to hold our simulated data.
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+```{r 8_complex_data_design}
+# how many subjects?
+n <- 60
+
+# create your design
+design <- expand.grid(A = c(-.5, .5), B = c(-.5, .5))
+
+# create table of data
+data <- tibble(subject = 1: n,
+               A = rep(design$A, n/4),
+               B = rep(design$B, n/4)
+               )
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+Why pick -.5 and .5 for factor levels? Deviation coding for main effects (previous lesson)!
+
+```{r 8_data_peek}
+data # look at the data
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+Next, we need to set up our coefficients and error term for the linear model.
+
+- Intercept will be 400
+- A shift in Factor A to be the intercept + 30
+- A shift in B to be the intercept - 50
+- The interaction term to be the intercept - 40
+- Finally, our error term has a mean of 0 and standard deviation of 40
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+```{r 8_complex_data_coefficients}
+# set up coefficients
+alpha = 400
+beta1 = 30
+beta2 = -50
+beta3 = -40
+err <- rnorm(n, 0, sd = 40)
+
+# create data from the linear model
+data$y <- alpha + (beta1*data$A) + (beta2*data$B) + (beta3*data$A*data$B) + err
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+Have a look at the data again, it looks like it worked!
+
+```{r 8_data_peek_again}
+data
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+Check that your model fit matches the predefined coefficients. One cheat is to set the SD of the error term to a small amount to check everything worked.
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+```{r 8_fit_complex_data}
+fit <- lm(y ~ A * B, data = data)
+summary(fit)
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+You might want to put all of this in a big loop to sample data, refit your model, and capture *p*-values to calcualte power.
+
+But, that's costly in R compared to using inbuilt functions.
+
+One workaround is to fit a model on your dummy data once, then use the `simulate()` function on your fitted model object.
+
+We'll do this, but we want to make it into a function first!
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+Extracting coefficients, like *p*-values, from linear models can be a pain in R. Different models have different titles, and it's all stored in a big, unwieldy list.
+
+Try running `str()` on both **fit** and **tidy_table** to see what I mean...
+
+```{r 8_how_broom_works}
+tidy_table <- broom::tidy(fit)
+tidy_table
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+- This function takes your dummy data and a model fitted to that data. 
+- It then makes a new copy of your data and simulates the outcome variable. 
+- After that, it fits your model, before extracting the *p*-value (more on `broom::tidy()` in later lessons).
+- Note that we only get the effect for the 4th coefficient, the interaction.
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+```{r 8_complex_data_power_function}
+simulate_model_fit <- function(data, model_fit) {
+  # simulate data and add to tibble
+  new_data <- mutate(data, sim_y = simulate(fit)$sim_1)
+  
+  # refit model
+  refit_model <- lm(sim_y ~ A * B, data = new_data)
+  
+  # extract p-value for interaction
+  broom::tidy(refit_model)$p.value[4]
+}
+```
+
+## Flexible Power Analyses with Simulation
+
+### Simulation for More Complex Designs
+
+Simply use replicate on your function with your data and fitted model to get the power.
+
+```{r 8_power_for_complex_data}
+complex_power <- replicate(1000, simulate_model_fit(data, fit))
+mean(complex_power < .05)
+```
+
+Nice, we have very high power for this study!
+
+## Performing Power Analyses from Packages
+
+There are packages for calculating power without all this hassle. So why simulate?
+
+- Simulation is flexible, so you can get it to work for any design (and for any type of effect; main effect, interaction only, both?)
+- So far, no method except for simulation for linear mixed effects models
+- Makes you consider your data structure first, spotting design mistakes early
+
+## Performing Power Analyses from Packages
+
+For traditional analyses, there's a good number of ways to calculate power without simulation, e.g.:
+
+- `power.t.test()` for *t*-tests
+- `power.anova.test()` for ANOVAs
+
+Let's see how the ANOVA function works, and you can work back to the *t*-test function if necessary. 
+
+## Performing Power Analyses from Packages
+
+In this function, define the number of groups, and number of observations (typically participants) per group. Define the variance for the within and between subjects factors.
+
+## Performing Power Analyses from Packages
+
+Making the below assumptions, it looks like our study is overpowered.
+
+```{r 8_anova_test_power}
+power.anova.test(groups = 4, n = 20, between.var = 1, within.var = 3)
+```
+
+## Performing Power Analyses from Packages
+
+Alternatively, we can set our desired power (typically 80% in psychology), and this will work out the number of participants needed per group.
+
+```{r 8_anova_test_sample_size}
+power.anova.test(groups = 4, between.var = 1, within.var = 3, power = .80)
+```
+
+We only need 12 people in each group to achieve a power of 80% (this is rare in my research area).
+
+## Performing Power Analyses from Packages
+
+There are other options which allow you to specify means or effect sizes to determine power, and as such these may be more user friendly. 
+
+One option is the `pwr` package, which contains a number of functions for calcualting power with different designs.
+
+Have a look at this in your own time to see if it will be useful to you.
+
+# Exercises

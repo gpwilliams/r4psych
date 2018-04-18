@@ -401,6 +401,13 @@ combined_plots
 
 You can find further information on adding joint titles, annotations, etc. in [this article](https://htmlpreview.github.io/?https://github.com/wilkelab/cowplot/blob/master/inst/doc/plot_annotations.html) by Claus O. Wilke.
 
+Note that you can reset the the default styles inherited by cowplot so that your plots return to their defaults with the following code:
+
+```{r 3_cowplot_reset_defaults}
+theme_set(theme_gray())
+```
+
+
 ## Saving Plots
 
 Finally, if you've went to the work of producing a nice plot, then it'll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we'll use `ggsave()`. You can name your plot anything you like, but remember to add a file extension at the end. I've used .png as this format suffers from fewer artifacts when comapred to JPEG, and it's a pretty common filetype.

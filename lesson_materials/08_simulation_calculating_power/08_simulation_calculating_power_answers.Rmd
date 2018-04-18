@@ -1,0 +1,187 @@
+---
+title: "08 - Simulation and Calculating Power Answers"
+output: html_notebook
+---
+
+# Introduction and Setup
+
+For these exercises, we will look at the core concepts from this lesson. Here, you'll make your own data using simulation-based techniques, and you'll use those same techniques to calculate power for your design.
+
+```{r 8_exercise_libraries, message=FALSE}
+library(tidyverse)
+```
+
+## Question 1
+
+Create some data for 60 participants (split into two groups), A and B. Save this as a tibble called **sim_data**. 
+
+Make a column containing the subject ID (called **subject_id**), a column for condition (called **condition**), and a column for the outcome (called **outcome**). 
+
+You will have to use the `seq()` function to make sequential numbers for the subject ID, the `rep()` function with the `c()` function to make the conditions, and the `rnorm()` function with the `c()` function to make the scores.
+
+For the outcome column, we want a mean of 180, and standard deviation of 10 for the first group, and a mean of 190 and standard deviation of 10 for the second group.
+
+```{r 8_question_one}
+sim_data <- tibble(
+  subject_id = seq(1:60),
+  condition = c(rep("A", 30), rep("B", 30)),
+  outcome = c(rnorm(n = 30, mean = 180, sd = 10), 
+              rnorm(n = 30, mean = 190, sd = 10)
+              )
+  )
+```
+
+## Question 2
+
+Generate summary statistics for the data set. We want means, SDs, and ns for the table of summary statistics. How do these means and standard deviations match the sampling procedure? Are you surprised at all by these values?
+
+```{r 8_question_two_a}
+sim_data %>% 
+  group_by(condition) %>% 
+  summarise(mean = mean(outcome),
+            sd = sd(outcome),
+            n = n()
+            )
+```
+
+## Question 3
+
+Conduct an independent samples *t*-test looking at differences in the scores across the two groups.
+
+```{r 7_question_three}
+t.test(outcome ~ condition, data = sim_data, paired = FALSE)
+```
+
+## Question 4
+
+Turn the sampling procedure into a function called `sim_data`. 
+
+The arguments the function can take are:
+
+- n_one: the number of observations for group 1
+- n_two: the number of observations for group 2
+- mean_one: the mean score in the population for group 1
+- mean_two: the mean score in the population for group 2
+- sd_one: the standard deviation in the population for group 1
+- sd_two: the standard deviation in the population for group 2
+
+Remember that these arguments come within the paretheses after the blue `function` part. 
+
+*Hint*: Just copy and paste your code for 1, and replace the things you want to vary with the name of a variable that will define your function arguments.
+
+Test that your function works by passing it some parameters. Pass it an n of 80 for both groups, a mean of 200 and SD of 10 for group 1, and a mean of 195 and SD for 10 for group 2. 
+
+Assign the outcome of your function to an object to save the outcome. Call this object **new_data**.
+
+```{r 8_question_four}
+# simulation function
+sim_data <- function(n_one, n_two, mean_one, mean_two, sd_one, sd_two) {
+  tibble(
+    subject_id = seq(1 : (n_one + n_two)),
+    condition = c(rep("A", n_one), rep("B", n_two)),
+    outcome = c(rnorm(n = n_one, mean = mean_one, sd = sd_one), 
+                rnorm(n = n_two, mean = mean_two, sd = sd_two)
+                )
+  )
+}
+
+# test function
+new_data <- sim_data(80, 80, 200, 195, 10, 10)
+new_data
+```
+
+## Question 5
+
+Make a new function called `sim_test`, which uses your simulation function from above to make some data before it runs an independent samples *t*-test on the data. Finally, this function should output the *p*-value from the *t*-test. Note that this function should take as arguments the same arguments from the function in question 4. Can you figure out why this is the case? 
+
+Test that your function works by passing it the same arguments as in question 4, and assign this to the object `new_data_p`.
+
+```{r 8_question_five}
+# simulation and testing function
+sim_test <- function(n_one, n_two, mean_one, mean_two, sd_one, sd_two) {
+  new_data <- sim_data(n_one, n_two, mean_one, mean_two, sd_one, sd_two)
+  test <- t.test(outcome ~ condition, data = new_data, paired = FALSE)
+  test$p.value
+}
+
+# test function
+new_data_p <- sim_test(80, 80, 200, 195, 10, 10)
+new_data_p
+```
+
+## Question 6
+
+Calculate the power for your study based on the parameters from question 4 and 5 (ns of 80; mean of 200 and 195, SDs of 10). Do so by running your function 1000 times and capturing the p-values. Assign this to the object **power_data**.
+
+*Top Tip*: If you need to test your code (which you should), make sure you use a low number like 10 for your replications before running it 1000 times to answer this question. This will save time and avoid flooding your console etc. if you make a mistake.
+
+```{r 8_question_six}
+power_data <- replicate(1000, sim_test(80, 80, 200, 195, 10, 10))
+```
+
+## Question 7
+
+Calculate the power of your study from the *p*-values in question 6. What is the power for your study? (Your values will differ from mine as we aren't using `set.seed()`, but we're instead using proper random sampling.)
+
+```{r 8_question_seven}
+mean(power_data < .05)
+```
+
+**Answer**: The power for this study is 87.2%
+
+## Question 8
+
+Make a plot of the *p*-values from your simulated data. Make this with a binwidth of 0.05, a boundary of 0 and with white bars with a black border. 
+
+Also, make sure that the breaks happen at every 0.05 tick along the x-axis.
+
+What percentage of your data lie below the 0.05 line? What does this correspond to?
+
+```{r 8_question_eight}
+ggplot() + 
+  geom_histogram(mapping = aes(power_data),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value")
+```
+
+**Answer**: 87.2% of the p-values fall below the 0.05 line. This corresponds to the power of the study, or how often you'll find a significant effect given that the alternative hypothesis is true.
+
+## Question 9
+
+Remake your data from question 6, only with means of 200 in each group. Call this **power_data_null**. 
+
+Then calculate the power as in question 7, and plot your data as in question 8. 
+
+*Note*: The sampling procedure may take a while to run.
+
+What percentage of the data fall below the 0.05 line on the plot? What does this correspond to? What percentage falls within each bin above the 0.05 line? Are you surprised at the distribution of the *p*-values?
+
+```{r}
+# sample data
+power_data_null <- replicate(1000, sim_test(80, 80, 200, 200, 10, 10))
+
+# calculate power
+mean(power_data_null < .05)
+
+# plot p-value distribution
+ggplot() + 
+  geom_histogram(mapping = aes(power_data_null),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value")
+```
+
+**Answer**: Approximately 5% of the data fall below the 0.05 line. This corresponds to the false-positive (type-I error) rate of the study. 95% of the *p*-values fall above this boundary, but all *p*-values are roughly evenly distributed. I'm not surprised at this, as we should expect 5% of studies to yield a significant result when the null hypothesis is true, and an even distribution of *p*-values throughout.

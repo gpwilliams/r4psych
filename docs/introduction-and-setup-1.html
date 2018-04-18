@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,14 +25,14 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-04-11">
+<meta name="date" content="2018-04-17">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="advanced-statistical-tests.html">
+<link rel="prev" href="simulation-and-calculating-power.html">
 <link rel="next" href="mixed-effects-models.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -308,10 +308,36 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="7.6.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-6-6"><i class="fa fa-check"></i><b>7.6.6</b> Question 6</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="simulation-calculating-power-and-evaluating-the-null.html"><a href="simulation-calculating-power-and-evaluating-the-null.html"><i class="fa fa-check"></i><b>8</b> Simulation, Calculating Power, and Evaluating the Null</a></li>
-<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a></li>
-<li class="chapter" data-level="10" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>10</b> Creating Reproducible Documents</a><ul>
-<li class="chapter" data-level="10.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>10.1</b> The Final Lesson</a></li>
+<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a><ul>
+<li class="chapter" data-level="8.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#getting-started-5"><i class="fa fa-check"></i><b>8.1</b> Getting Started</a></li>
+<li class="chapter" data-level="8.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#simulating-data"><i class="fa fa-check"></i><b>8.2</b> Simulating Data</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-uniform-distribution"><i class="fa fa-check"></i><b>8.2.1</b> The Uniform Distribution</a></li>
+<li class="chapter" data-level="8.2.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-normal-distribution"><i class="fa fa-check"></i><b>8.2.2</b> The Normal Distribution</a></li>
+<li class="chapter" data-level="8.2.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-binomial-distribution"><i class="fa fa-check"></i><b>8.2.3</b> The Binomial Distribution</a></li>
+<li class="chapter" data-level="8.2.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-sampling"><i class="fa fa-check"></i><b>8.2.4</b> Flexible Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#sampling-for-inference"><i class="fa fa-check"></i><b>8.3</b> Sampling for Inference</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-p-values-and-type-i-errors"><i class="fa fa-check"></i><b>8.3.1</b> Understanding p-values and Type-I Errors</a></li>
+<li class="chapter" data-level="8.3.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-power-and-type-ii-errors"><i class="fa fa-check"></i><b>8.3.2</b> Understanding Power and Type-II Errors</a></li>
+<li class="chapter" data-level="8.3.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-power-analyses-with-simulation"><i class="fa fa-check"></i><b>8.3.3</b> Flexible Power Analyses with Simulation</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#performing-power-analyses-from-packages"><i class="fa fa-check"></i><b>8.4</b> Performing Power Analyses from Packages</a></li>
+<li class="chapter" data-level="8.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#exercises-7"><i class="fa fa-check"></i><b>8.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html"><i class="fa fa-check"></i><b>9</b> Introduction and Setup</a><ul>
+<li class="chapter" data-level="9.0.1" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-1-7"><i class="fa fa-check"></i><b>9.0.1</b> Question 1</a></li>
+<li class="chapter" data-level="9.1" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-2-7"><i class="fa fa-check"></i><b>9.1</b> Question 2</a></li>
+<li class="chapter" data-level="9.2" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-3-7"><i class="fa fa-check"></i><b>9.2</b> Question 3</a></li>
+<li class="chapter" data-level="9.3" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-4-7"><i class="fa fa-check"></i><b>9.3</b> Question 4</a></li>
+<li class="chapter" data-level="9.4" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-5-7"><i class="fa fa-check"></i><b>9.4</b> Question 5</a></li>
+<li class="chapter" data-level="9.5" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-6-7"><i class="fa fa-check"></i><b>9.5</b> Question 6</a></li>
+<li class="chapter" data-level="9.6" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-7-6"><i class="fa fa-check"></i><b>9.6</b> Question 7</a></li>
+<li class="chapter" data-level="9.7" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-8-6"><i class="fa fa-check"></i><b>9.7</b> Question 8</a></li>
+<li class="chapter" data-level="9.8" data-path="introduction-and-setup-1.html"><a href="introduction-and-setup-1.html#question-9-6"><i class="fa fa-check"></i><b>9.8</b> Question 9</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>10</b> Mixed Effects Models</a></li>
+<li class="chapter" data-level="11" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html"><i class="fa fa-check"></i><b>11</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="11.1" data-path="creating-reproducible-documents.html"><a href="creating-reproducible-documents.html#the-final-lesson"><i class="fa fa-check"></i><b>11.1</b> The Final Lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -333,18 +359,76 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="simulation-calculating-power-and-evaluating-the-null" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Simulation, Calculating Power, and Evaluating the Null</h1>
-<p>In this session we’ll cover how to simualte data, how to calculate effect sizes, how to perform power analyses, and how to evaluate evidence for the null hypothesis using the Neyman-Pearson framework using the two one-sided tests (TOST) procedure.</p>
-<p>Content to follow.</p>
+<div id="introduction-and-setup-1" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Introduction and Setup</h1>
+<p>For these exercises, we will look at the core concepts from this lesson. Here, you’ll make your own data using simulation-based techniques, and you’ll use those same techniques to calculate power for your design.</p>
+<div id="question-1-7" class="section level3">
+<h3><span class="header-section-number">9.0.1</span> Question 1</h3>
+<p>Create some data for 60 participants (split into two groups), A and B. Save this as a tibble called <strong>sim_data</strong>.</p>
+<p>Make a column containing the subject ID (called <strong>subject_id</strong>), a column for condition (called <strong>condition</strong>), and a column for the outcome (called <strong>outcome</strong>).</p>
+<p>You will have to use the <code>seq()</code> function to make sequential numbers for the subject ID, the <code>rep()</code> function with the <code>c()</code> function to make the conditions, and the <code>rnorm()</code> function with the <code>c()</code> function to make the scores.</p>
+<p>For the outcome column, we want a mean of 180, and standard deviation of 10 for the first group, and a mean of 190 and standard deviation of 10 for the second group.</p>
+</div>
+<div id="question-2-7" class="section level2">
+<h2><span class="header-section-number">9.1</span> Question 2</h2>
+<p>Generate summary statistics for the data set. We want means, SDs, and ns for the table of summary statistics. How do these means and standard deviations match the sampling procedure? Are you surprised at all by these values?</p>
+</div>
+<div id="question-3-7" class="section level2">
+<h2><span class="header-section-number">9.2</span> Question 3</h2>
+<p>Conduct an independent samples <em>t</em>-test looking at differences in the scores across the two groups.</p>
+</div>
+<div id="question-4-7" class="section level2">
+<h2><span class="header-section-number">9.3</span> Question 4</h2>
+<p>Turn the sampling procedure into a function called <code>sim_data</code>.</p>
+<p>The arguments the function can take are:</p>
+<ul>
+<li>n_one: the number of observations for group 1</li>
+<li>n_two: the number of observations for group 2</li>
+<li>mean_one: the mean score in the population for group 1</li>
+<li>mean_two: the mean score in the population for group 2</li>
+<li>sd_one: the standard deviation in the population for group 1</li>
+<li>sd_two: the standard deviation in the population for group 2</li>
+</ul>
+<p>Remember that these arguments come within the paretheses after the blue <code>function</code> part.</p>
+<p><em>Hint</em>: Just copy and paste your code for 1, and replace the things you want to vary with the name of a variable that will define your function arguments.</p>
+<p>Test that your function works by passing it some parameters. Pass it an n of 80 for both groups, a mean of 200 and SD of 10 for group 1, and a mean of 195 and SD for 10 for group 2.</p>
+<p>Assign the outcome of your function to an object to save the outcome. Call this object <strong>new_data</strong>.</p>
+</div>
+<div id="question-5-7" class="section level2">
+<h2><span class="header-section-number">9.4</span> Question 5</h2>
+<p>Make a new function called <code>sim_test</code>, which uses your simulation function from above to make some data before it runs an independent samples <em>t</em>-test on the data. Finally, this function should output the <em>p</em>-value from the <em>t</em>-test. Note that this function should take as arguments the same arguments from the function in question 4. Can you figure out why this is the case?</p>
+<p>Test that your function works by passing it the same arguments as in question 4, and assign this to the object <code>new_data_p</code>.</p>
+</div>
+<div id="question-6-7" class="section level2">
+<h2><span class="header-section-number">9.5</span> Question 6</h2>
+<p>Calculate the power for your study based on the parameters from question 4 and 5 (ns of 80; mean of 200 and 195, SDs of 10). Do so by running your function 1000 times and capturing the p-values. Assign this to the object <strong>power_data</strong>.</p>
+<p><em>Top Tip</em>: If you need to test your code (which you should), make sure you use a low number like 10 for your replications before running it 1000 times to answer this question. This will save time and avoid flooding your console etc. if you make a mistake.</p>
+</div>
+<div id="question-7-6" class="section level2">
+<h2><span class="header-section-number">9.6</span> Question 7</h2>
+<p>Calculate the power of your study from the <em>p</em>-values in question 6. What is the power for your study? (Your values will differ from mine as we aren’t using <code>set.seed()</code>, but we’re instead using proper random sampling.)</p>
+</div>
+<div id="question-8-6" class="section level2">
+<h2><span class="header-section-number">9.7</span> Question 8</h2>
+<p>Make a plot of the <em>p</em>-values from your simulated data. Make this with a binwidth of 0.05, a boundary of 0 and with white bars with a black border.</p>
+<p>Also, make sure that the breaks happen at every 0.05 tick along the x-axis.</p>
+<p>What percentage of your data lie below the 0.05 line? What does this correspond to?</p>
+</div>
+<div id="question-9-6" class="section level2">
+<h2><span class="header-section-number">9.8</span> Question 9</h2>
+<p>Remake your data from question 6, only with means of 200 in each group. Call this <strong>power_data_null</strong>.</p>
+<p>Then calculate the power as in question 7, and plot your data as in question 8.</p>
+<p><em>Note</em>: The sampling procedure may take a while to run.</p>
+<p>What percentage of the data fall below the 0.05 line on the plot? What does this correspond to? What percentage falls within each bin above the 0.05 line? Are you surprised at the distribution of the <em>p</em>-values?</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="advanced-statistical-tests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulation-and-calculating-power.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="mixed-effects-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -363,10 +447,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

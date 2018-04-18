@@ -1,0 +1,61 @@
+---
+title: "Simulation and Calculating Power -- Class Script"
+output: html_notebook
+---
+
+```{r 8_load_libraries, message = FALSE}
+library(tidyverse)
+```
+
+# Lesson Code
+
+## Make Functions
+
+```{r 8_functions}
+# simulate data and test against a reference
+simulate_psychic_test <- function(n_trials, prob_success) {
+  
+  # sample binomial data (successs or not) for varying trials and probabilities 
+  psychic_outcome <- rbinom(n = 1, size = n_trials, prob = prob_success)
+  
+  # run a binomial test on the sampled data against your proability
+  test <- binom.test(x = psychic_outcome, n = n_trials, p = prob_success)
+  
+  # retrieve the p-value, this is what is returned in our function
+  test$p.value
+}
+
+# simulate binomial data and test against a reference which varies to sample
+simulate_psychic_test <- function(n_trials, prob_success, psychic_success) {
+  
+  # sample binomial data (successs or not) for varying trials and probabilities 
+  psychic_outcome <- rbinom(n = 1, size = n_trials, prob = psychic_success)
+  
+  # run a binomial test on the sampled data against your proability
+  test <- binom.test(x = psychic_outcome, n = n_trials, p = prob_success)
+  
+  # retrieve the p-value, this is what is returned in our function
+  test$p.value
+}
+
+# simualte and refit data from fitted model object
+simulate_model_fit <- function(data, model_fit) {
+  # simulate data and add to tibble
+  new_data <- mutate(data, sim_y = simulate(fit)$sim_1)
+  
+  # refit model
+  refit_model <- lm(sim_y ~ A * B, data = new_data)
+  
+  # extract p-value for interaction
+  broom::tidy(refit_model)$p.value[4]
+}
+```
+
+## Your Code
+
+Add your code chunks using insert, R on the top right panel of this window.
+
+```{r 8_your_code_chunk}
+
+```
+

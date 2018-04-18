@@ -16,7 +16,7 @@ library(ggpirate)
 
 Next, we'll create the data set for this exercise.
 
-```{r message = FALSE}
+```{r 7_exercise_data, message = FALSE}
 factorial_data <- read_csv("inputs/factorial_data.csv")
 ```
 

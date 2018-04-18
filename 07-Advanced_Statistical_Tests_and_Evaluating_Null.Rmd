@@ -39,7 +39,7 @@ We'll generate 60 subjects, with the congruent reaction time being around 400ms,
 
 Finally, we'll gather the data together, assuming you'll often have your data in a long format.
 
-```{r 7_generate_data_multilevel_ANOVA}
+```{r 7_generate_data_multilevel_ANOVA_one}
 set.seed(1000)
 stroop_dat <- tibble(
   subject = seq(1:60),
@@ -56,7 +56,7 @@ stroop_dat <- tibble(
 
 To explore simple effects, we'll create some data that looks at the effects of a drug intervention on blood oxygen levels (outcome) for smokers. We have a control condition (placebo) where the oxygen level is on average 80mm Hg, "drug_one", which on average should be no different to the placebo, and "drug_two", which increases blood oxygen to around 100mm Hg. Here, we simply want to know if either of the drugs perform any better than the control condition. (Note, I have no idea if these are realistic values, but that's not the point of this exercise!)
 
-```{r}
+```{r 7_simulate_data_multilevel_ANOVA_two}
 # set parameters
 set.seed(1000)
 means <- rep(c(80, 80, 100), 100)
@@ -79,14 +79,14 @@ smoking_dat <- tibble(
 
 In the above examples, we've created data sets where our condition column is stored as a factor. Take a look at this:
 
-```{r}
+```{r 7_explore_data}
 stroop_dat
 smoking_dat
 ```
 
 This is because I used `mutate()` to change the column from a character data type, to a factor data type. The nice thing about storing your factors this way is that we can see the levels that make up our factor:
 
-```{r}
+```{r 7_explore_levels}
 levels(stroop_dat$cond)
 levels(smoking_dat$cond)
 ```
@@ -99,7 +99,7 @@ We can see how we specify our contrasts for our tests by using the `contrasts()`
 
 Let's look back at the Stroop data when we only had two levels of condition, congruent and incongruent. Here, we'll subset the data and then use the `contrasts()` function to look at the contrast matrix. We'll also mutate the cond column to itself as a factor so we drop the level that is no longer present (i.e. neutral) ; this is just a little R trick!
 
-```{r}
+```{r 7_filter_and_reset_levels_stroop}
 # make data 2 levels and convert condition to a factor
 stroop_subset <- stroop_dat %>% 
   filter(cond %in% c("congruent", "incongruent")) %>% 
@@ -113,13 +113,13 @@ We can see from our contrast matrix that the congruent condition is assigned a v
 
 Let's fit a linear model to see how this works. Notice that we fit the model and then (`%>%`) use the `summary()` function to see the output of the model:
 
-```{r}
+```{r 7_linear_model_stroop_subset}
 lm(log_RT ~ cond, stroop_subset) %>% summary()
 ```
 
 We can see that our parameter estimate for the intercept is 5.979, and being in the congruent condition adds 0.145 to the intercept value of 5.979, which sums to `r 5.979 + 0.145`. How does this equate to our mean scores?
 
-```{r}
+```{r 7_stroop_subse_group_means}
 stroop_subset %>% 
   group_by(cond) %>% 
   summarise(mean = mean(log_RT))
@@ -131,14 +131,14 @@ But what if we want to change the reference level of our intercept? This is impo
 
 To change our intercept, we must change our contrast matrix. To change this we use the `contrasts()` function on our condition factor, to see what our contrasts are, and we can then define the contrasts we'd like using some inbuilt functions in R. Here, we'll change the coding to sum coding using `contr.sum`. (Others are available, such as `contr.helmert`, etc.)
 
-```{r}
+```{r 7_sum_code_stroop_subset}
 contrasts(stroop_subset$cond) <- contr.sum
 contrasts(stroop_subset$cond)
 ```
 
 Now, our contrast matrix sums to 0. Remember that our intercept is 0, so the intercept is now the mid-point between the 2 conditions, or the mean across both conditions. Let's refit our model and see this in action.
 
-```{r}
+```{r 7_linear_model_recoded_stroop_subset}
 lm(log_RT ~ cond, stroop_subset) %>% summary()
 ```
 
@@ -146,7 +146,7 @@ Now our intercept is 6.052, and the effect of condition (now labelled `cond1`; t
 
 How does the intercept relate to our means? Check it out!
 
-```{r}
+```{r 7_stroop_subset_overall_mean}
 stroop_subset %>% summarise(mean = mean(log_RT))
 ```
 
@@ -156,19 +156,19 @@ The mean for both conditions is the intercept for our linear model.
 
 What happens if we have some more complex data? Let's look at the contrast matrix for the full Stroop data:
 
-```{r}
+```{r 7_stroop_contrasts}
 contrasts(stroop_dat$cond)
 ```
 
 You can see that right now, the first row for the congruent condition sums to 0. Whereas the incongruent and neutral condition rows sum to 1. This means that the congruent condition will be the intercept in our model, and the incongruent and neutral conditions will be the other parameters in our model. Let's see this in action.
 
-```{r}
+```{r 7_stroop_linear_model}
 lm(log_RT ~ cond, data = stroop_dat) %>% summary
 ```
 
 Again, we'll check how these parameters correspond to our means for each group. 
 
-```{r}
+```{r 7_stroop_group_means}
 stroop_dat %>% group_by(cond) %>% summarise(mean = mean(log_RT))
 ```
 
@@ -176,20 +176,20 @@ Great, the intercept is indeed the mean for the congruent condition, and the inc
 
 Instead, we could get sum coded effects as before. 
 
-```{r}
+```{r 7_stroop_contrasts_sum}
 contrasts(stroop_dat$cond) <- contr.sum
 contrasts(stroop_dat$cond)
 ```
 
 Now the first 2 rows sum to 1, which together makes 2, and the final row sums to -2. Together, the intercept or 0 is the average across these contrasts. How does this affect our model?
 
-```{r}
+```{r 7_stroop_linear_model_sum}
 lm(log_RT ~ cond, data = stroop_dat) %>% summary
 ```
 
 Now we can see that the intercept has changed, and now the congruent and incongruent condition are considered against the grand mean across all levels, so their terms have changed too.
 
-```{r}
+```{r 7_stroop_grand_means}
 stroop_dat %>% summarise(mean = mean(log_RT))
 ```
 
@@ -199,7 +199,7 @@ Again, however, the main effect of our model remains unchanged regardless of the
 
 For now, we'll return to using treatment coding and we'll explore changing the order for the intercept. If we want to change the order, or determine exactly which level will be the intercept, we simply have to relevel our factor before defining our contrasts:
 
-```{r}
+```{r 7_stroop_treatment}
 contrasts(stroop_dat$cond) <- contr.treatment
 stroop_dat$cond <- factor(stroop_dat$cond, levels = c("neutral", "congruent", "incongruent"))
 ```
@@ -208,13 +208,13 @@ Here, we simply asked R to remake our condition column from a factor of our cond
 
 Now when we specify our treatment contrasts, the reference level (i.e. 0) will be the first level that we specified above (neutral, in this instance).
 
-```{r}
+```{r 7_contrasts_stroop_treatment}
 contrasts(stroop_dat$cond)
 ```
 
 We'll rerun the model to see how our intercept has changed.
 
-```{r}
+```{r 7_stroop_linear_model_treatment}
 lm(log_RT ~ cond, data = stroop_dat) %>% summary
 ```
 
@@ -226,7 +226,7 @@ Let's say we're interested in main effects and we want to see if there is a main
 
 Let's see how this works.
 
-```{r}
+```{r 7_multilevel_anova_model}
 stroop_aov <- aov(log_RT ~ cond, data = stroop_dat)
 summary(stroop_aov)
 ```
@@ -235,7 +235,7 @@ Now, our model corresponds to the model output that we got using the `lm()` func
 
 However, if we've already fitted a model using the `aov()` function, but we want to retrieve the model coefficients, we can use a different type of `summary()` function, `summary.lm()`. This makes R give us our model with a linear model output. 
 
-```{r}
+```{r 7_summary_multilevel_anova_model}
 summary.lm(stroop_aov)
 ```
 
@@ -247,7 +247,7 @@ This contrast coding will become more important as we fit more factors in our mo
 
 Let's say we have the smoking data set, and we're interested in whether two drugs differ from a placebo. We can fit the model with a treatment coded contrast matrix so that the intercept is the placebo (control group), and the other conditions are compared against this reference value. We'll fit this with a linear model, seeing as we care about the model coefficients.
 
-```{r}
+```{r 7_smoking_linear_model_main_effects}
 smoking_lm <- lm(outcome ~ cond, data = smoking_dat)
 summary(smoking_lm)
 ```
@@ -261,7 +261,7 @@ We have two options:
 
 The first option is easiest if we only have a few levels in a factor. The second is handy if we have a lot of levels, but requires us to specify a complex contrast matrix. For the first option, we simply need to do something like this:
 
-```{r}
+```{r 7_relevel_smoking_data}
 smoking_dat$cond <- factor(smoking_dat$cond, levels = c("drug_one", "drug_two", "control"))
 smoking_lm2 <- lm(outcome ~ cond, data = smoking_dat)
 summary(smoking_lm2)
@@ -283,7 +283,7 @@ Most importantly, supplement is a factor with 2 levels, and dose is a numeric va
 
 Load the data, and save it as a tibble with the columns saved as factors:
 
-```{r}
+```{r 7_toothgrowth_data}
 # load the data
 data("ToothGrowth")
 
@@ -312,7 +312,7 @@ Or, to save on typing, like so (these two are equivalent):
 
 First, we'll check how our factors are instantiated (i.e. what are the contrasts)?
 
-```{r}
+```{r 7_tooth_contrasts}
 contrasts(tooth$supp) 
 contrasts(tooth$dose)
 ```
@@ -321,14 +321,14 @@ Here, we're interested in the main effects of both factors, and whether there's 
 
 We'll save this as **tooth_aov** as we want to do some follow up tests later on.
 
-```{r}
+```{r 7_tooth_aov}
 tooth_aov <- aov(len ~ supp * dose, data = tooth)
 summary(tooth_aov)
 ```
 
 As you can see, we have a significant main effect of both factors, and a significant interaction. As such, we need to do some follow up tests to see where our effect lies in the interaction. A quick check with a plot always helps:
 
-```{r}
+```{r 7_tooth_plot}
 ggplot(data = tooth, mapping = aes(x = dose, y = len, colour = supp)) +
   geom_boxplot()
 ```
@@ -339,13 +339,13 @@ It looks like there's a main effect of dose overall, but also that supplement ty
 
 One option is to perform multiple comparisons using Tukey Honest Significant Difference. We do this by applying the `TukeyHSD()` function to our fitted model **tooth_aov**. Here, we also have to specify the confidence level, which is by default 95%.
 
-```{r}
+```{r 7_tukey_comparisons}
 TukeyHSD(tooth_aov, conf.level = 0.95)
 ```
 
 We get a lot of output here corresponding to every possible comparison we could ever want. We can remedy this by saving the output of TukeyHSD to an object, and selecting only the relevant information, **supp:dose**. Notice that we put this name in backticks so we can use the special character `:` without R interpreting it as something else.
 
-```{r}
+```{r 7_tukey_comparisons_subset}
 tukey_aov <- TukeyHSD(tooth_aov, conf.level = 0.95)
 tukey_aov$`supp:dose`
 ```
@@ -358,7 +358,7 @@ If you want to see whether there's a main effect or interaction for 3 level fact
 
 To do this, we simply have to centre our two factors, with these stored as numeric variables.
 
-```{r}
+```{r 7_deviation_coding}
 # code new centered variables
 tooth$supp_dev <- (tooth$supp == "VC") - mean(tooth$supp == "VC")
 tooth$dose_dev_one <- (tooth$dose == "0.5") - mean(tooth$dose == "0.5")
@@ -374,13 +374,13 @@ Now, when we fit a model with **supp_dev**, the intercept will be the mean of th
 
 When it comes to fitting a 3 level factor, we need to do the same thing for only two of the levels. When we then add this to a model and test for an interaction, we test for the interaction for **supp_dev** across both columns for our deviation coded doses.
 
-```{r}
+```{r 7_linear_model_deviation_full}
 tooth_lm_full <- lm(len ~ supp_dev * (dose_dev_one + dose_dev_two), data = tooth)
 ```
 
 Next, we construct a reduced model, and use the `anova()` function to compare the two models against one another.
 
-```{r}
+```{r 7_linear_model_deviation_reduced}
 tooth_lm_reduced <- lm(len ~ supp_dev + (dose_dev_one + dose_dev_two), data = tooth)
 anova(tooth_lm_full, tooth_lm_reduced)
 ```
@@ -391,7 +391,7 @@ A quick and easy way to do so is to run a number of *t*-tests or linear models o
 
 One way to achieve this for multifactorial designs is to create a new column which is a combination of the two factors.
 
-```{r}
+```{r 7_create_interaction_column}
 # create combined factor column
 tooth$interact <- interaction(tooth$supp, tooth$dose)
 
@@ -401,7 +401,7 @@ levels(tooth$interact)
 
 Then we simply use the `pairwise.t.test()` function, and supply it our dependent variable and our grouping factor. This method defaults to Holm's sequential bonerroni, which is like bonferroni adjustment of *p*-values, but rather than multiplying them all by the total number of comparisons, we instead multiply them incrementally, so the largest *p*-value is multiplied by 1, the next smallest by 2, the next smallest by 3, etc.
 
-```{r}
+```{r 7_pairwise_t_tests}
 pairwise.t.test(tooth$len, tooth$interact)
 ```
 
@@ -413,7 +413,7 @@ Things are a lot easier when we have factors with only 2 levels. Let's assume ou
 
 To explore this question, we'll subset our data to only 2 levels for dose, and we'll keep only the original columns. (We use `dplyr::select` to be specific that we want select from the `dplyr` package, not another loaded package.). Remember, we want to recreate dose as a factor again so it doesn't remember our old level.
 
-```{r}
+```{r 7_subset_tooth}
 tooth_sub <- tooth %>% 
   dplyr::select(1 : 3) %>%
   filter(dose %in% c(0.5, 1)) %>%
@@ -422,21 +422,21 @@ tooth_sub <- tooth %>%
 
 Now, we should check our contrasts as usual.
 
-```{r}
+```{r 7_tooth_contrasts_again}
 contrasts(tooth_sub$supp)
 contrasts(tooth_sub$dose)
 ```
 
 We should make these sum coded contrasts so we can then get main effects from our model.
 
-```{r}
+```{r 7_tooth_contrasts_to_sum}
 contrasts(tooth_sub$supp) <- contr.sum
 contrasts(tooth_sub$dose) <- contr.sum
 ```
 
 Then we can fit the model again.
 
-```{r}
+```{r 7_refit_tooth_model}
 tooth_sub_lm <- lm(len ~ supp * dose, data = tooth_sub)
 summary(tooth_sub_lm)
 ```
@@ -445,14 +445,14 @@ The only thing to note here is that we've used sum coding other than deviation c
 
 If your factors are not sum/deviation coded, then you won't observe main effects. So we can test for the effect of dose at the first level of supplement as follows:
 
-```{r}
+```{r 7_tooth_treatment_contrasts}
 contrasts(tooth_sub$supp) <- contr.treatment
 contrasts(tooth_sub$supp)
 ```
 
 OJ will now be our reference value for the intercept. Additionally, the effect of dose will be compared at this intercept value, so we now have simple effects of dose, and main effects of supplement. The interpretation for our interaction terms remains the same regardless of our coding approach.
 
-```{r}
+```{r 7_tooth_linear_model_treatment}
 tooth_sub_lm2 <- lm(len ~ supp * dose, data = tooth_sub)
 summary(tooth_sub_lm2)
 ```
@@ -461,7 +461,7 @@ summary(tooth_sub_lm2)
 
 Mixed factorial analyses are just a special form of factorial analyses. Here, one factor is between subjects and another factor is within subjects. Here, we'll create some new data based on our smoking data that reflects a mixed design.
 
-```{r}
+```{r 7_simulate_data_for_mixed_analysis}
 # set parameters
 set.seed(1000)
 means <- rep(c(80, 85), 100)
@@ -493,14 +493,14 @@ Now our smoking data is a little more complex, and a simpler in parts. For one, 
 
 First, we'll make sure our factors are sum coded so that we can obtain main effects of both factors.
 
-```{r}
+```{r 7_sum_code_factors_mixed_analysis}
 contrasts(smoking_dat_extra$cond) <- contr.sum
 contrasts(smoking_dat_extra$test_time) <- contr.sum
 ```
 
 Then, we'll refit the model as before.
 
-```{r}
+```{r 7_refit_mixed_linear_model}
 mixed_lm <- lm(recovery ~ cond * test_time, 
                  data = smoking_dat_extra)
 summary(mixed_lm)
@@ -516,7 +516,7 @@ With a mixed ANOVA, we are simply just including an error term for our within-su
 
 In this case, subjects take part in both test time conditions, so we need to nest this within our data.
 
-```{r}
+```{r 7_mixed_linear_anova_model}
 mixed_aov <- aov(recovery ~ cond * test_time + 
                    Error(subject/test_time), 
                  data = smoking_dat_extra)
@@ -533,17 +533,17 @@ Put simply, when you have an unbalanced design, such as when you have an unequal
 
 With type-I sum of squares, which is R's default, the order in which you specify factors in your model will determine how much variance is explained by each factor. With type-I sum of squares, the terms are considered in the model in a sequential order. Take a look at this in action below. We'll use the **tooth_sub** data from before, but we'll remove the first observation.
 
-```{r}
+```{r 7_remove_data_tooth}
 tooth_sub_unbalanced <- tooth_sub[2:40,]
 ```
 
 
-```{r}
+```{r 7_supp_first_aov}
 supp_first <- aov(len ~ supp * dose, data = tooth_sub_unbalanced)
 summary(supp_first)
 ```
 
-```{r}
+```{r 7_supp_second_aov}
 dose_first <- aov(len ~ dose * supp, data = tooth_sub_unbalanced)
 summary(dose_first)
 ```
@@ -558,13 +558,13 @@ The way to refit our model with type-III sum of squares is to use the `Anova()` 
 
 First, install this package and load it, then run the function on the two model fits from above.
 
-```{r}
+```{r 7_install_load_car}
 # install.packages("car") # install once per machine
 library(car) # load each time you open R
 ```
 
 
-```{r}
+```{r 7_type_III_sum_of_squares}
 Anova(supp_first, type = "III")
 Anova(dose_first, type = "III")
 ```
@@ -586,7 +586,7 @@ library(ggpirate)
 
 Next, we'll load the data set for this exercise.
 
-```{r eval = FALSE}
+```{r 7_exercise_data, eval = FALSE}
 factorial_data <- read_csv("inputs/factorial_data.csv")
 ```
 

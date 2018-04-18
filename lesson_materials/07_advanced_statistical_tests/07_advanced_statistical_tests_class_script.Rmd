@@ -13,7 +13,7 @@ library(car)
 
 Make simulated data for analyses. Note that subsets of this data will need to be produced by hand in class.
 
-```{r}
+```{r 7_simulate_data}
 # simulate data
 set.seed(1000)
 stroop_dat <- tibble(
