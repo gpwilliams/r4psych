@@ -10,7 +10,7 @@ Specifically, we'll cover:
 
 ## Getting Started 
 
-As always, we first need to load the `tidyverse` set of packages for this Chapter.
+As always, we first need to load the `tidyverse` set of package to perform the data manipulation for this chapter.
 
 ```{r 8_load_packages, include = FALSE}
 library(tidyverse)

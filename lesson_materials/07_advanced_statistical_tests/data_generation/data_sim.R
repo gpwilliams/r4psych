@@ -56,3 +56,4 @@ Anova(aov(Y ~ A * B, factorial_data), type = "III")
 
 # save data
 write.csv(factorial_data, "../inputs/factorial_data.csv")
+write.csv(factorial_data, "../../09_mixed_effects_models/inputs/factorial_data.csv")

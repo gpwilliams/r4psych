@@ -1,0 +1,27 @@
+---
+title: "Mixed Effects Models -- Class Script"
+output: html_notebook
+---
+
+```{r 9_load_libraries, message = FALSE}
+library(tidyverse)
+library(lme4)
+library(languageR)
+```
+
+```{r 9_load_data}
+sleep_groups <- read_csv("inputs/sleep_study_with_sim_groups.csv")
+sleep_study <- read_csv("inputs/sleep_study_with_sim.csv")
+lex_dec <- as.tibble(lexdec) %>% select(Subject, Trial, Word, NativeLanguage, RT)
+```
+
+# Lesson Code
+
+## Your Code
+
+Add your code chunks using insert, R on the top right panel of this window.
+
+```{r 9_your_code_chunk}
+
+```
+

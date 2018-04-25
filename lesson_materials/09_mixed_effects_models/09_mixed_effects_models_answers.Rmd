@@ -1,0 +1,150 @@
+---
+title: "09 - Mixed Effects Models Answers"
+output: html_notebook
+---
+
+# Introduction and Setup
+
+For these exercises, we will look at the core concepts from this lesson. Here, you'll make your own data using simulation-based techniques, and you'll use those same techniques to calculate power for your design.
+
+```{r 9_exercise_libraries, message=FALSE}
+library(tidyverse)
+library(lme4)
+```
+
+```{r 9_load_data}
+dat <- read_csv("inputs/factorial_data.csv")
+```
+
+## Question 1
+
+Summarise the data, creating means, standard deviations, and ns for each group in the data set.
+
+```{r 9_question_one}
+dat %>% 
+  group_by(A, B) %>% 
+  summarise(mean = mean(Y),
+            sd = sd(Y),
+            n = n()
+            )
+```
+
+## Question 2
+
+Centre the factors A and B in preparation for fitting the model. Define the centred variables for A and B as **A_c** and **B_c** respectively. Return the data set to see what you did to the data frame.
+
+```{r 9_question_two_a}
+dat$A_c <- (dat$A == "A1") - mean(dat$A == "A1")
+dat$B_c <- (dat$B == "B1") - mean(dat$B == "B1")
+dat
+```
+
+## Question 3
+
+a. Find maximal random effects structure for the model and call this **maximal_model**. Return the a summary of the model output when you're done. Assume that the data from which this is taken is not nested. This model may take a while to fit, so be patient!
+
+b. Where is most of the variance explained? What does this tell us about the model (i.e. is it overfitting the data)? 
+c. Are there any perfect correlations between the random effects? What does this tell us about our random effects structure?
+
+```{r 9_question_three}
+maximal_model <- lmer(Y ~ A_c * B_c + 
+                        (1 + A_c * B_c | subj_id) + 
+                        (1 + A_c * B_c | item_id), 
+                      data = dat
+                      )
+summary(maximal_model)
+```
+**b. Answer**: Most of the variance is explained by the residuals. This means that we are unlikely to be overfitting the model, as our model doesn't explain all of the variance by our fixed and random factors.
+
+**c. Answer**: None of the random effects are perfectly correlated. This means that there the random effects cannot be perfectly collinear.
+
+## Question 4
+
+Explore the whether inclusion of the interaction significantly improves model fit over a model with just main effects. Be sure to include all random effects in all models.
+
+```{r 9_question_four}
+interaction_mod <- lmer(Y ~ A_c * B_c + 
+                          (1 + A_c * B_c | subj_id) + 
+                          (1 + A_c * B_c | item_id), 
+                        data = dat, 
+                        REML = F
+                        )
+main_mod <- lmer(Y ~ A_c + B_c + 
+                   (1 + A_c * B_c | subj_id) + 
+                   (1 + A_c * B_c | item_id), 
+                 data = dat, 
+                 REML = F
+                 )
+
+anova(interaction_mod, main_mod)
+```
+
+## Question 5
+
+Calculate *p*-values for the parameters in your maximal model (including interactions) using the normal approximation. Round each number to 2 decimal places. 
+
+```{r 9_question_five}
+interaction_mod %>% 
+  broom::tidy("fixed") %>% 
+  mutate(p_value = 2*(1 - pnorm(abs(statistic)))) %>%
+  mutate_if(is.numeric, funs(round(., 4)))
+```
+
+## Question 6
+
+Explore the interaction by subsetting the data to each level of factor A and fitting a model containing factor B. Then do the same for the remaining factor. Where does the interaction lie? 
+
+First, subset the data as described above, and assign this to four objects called A1_dat, A2_dat, B1_dat, and B2_dat respectively.
+
+```{r 9_question_six_data}
+A1_dat <- dat %>% filter(A == "A1")
+A2_dat <- dat %>% filter(A == "A2")
+B1_dat <- dat %>% filter(B == "B1")
+B2_dat <- dat %>% filter(B == "B2")
+```
+
+Then, fit four models looking at the main effect of one factor within each subset of data.
+
+```{r 9_question_six_models}
+A1_mod <- lmer(Y ~ B_c + (1 + B_c | subj_id) + (1 + B_c | item_id), dat = A1_dat)
+A2_mod <- lmer(Y ~ B_c + (1 + B_c | subj_id) + (1 + B_c | item_id), dat = A2_dat)
+B1_mod <- lmer(Y ~ A_c + (1 + A_c | subj_id) + (1 + A_c | item_id), dat = B1_dat)
+B2_mod <- lmer(Y ~ A_c + (1 + A_c | subj_id) + (1 + A_c | item_id), dat = B2_dat)
+```
+
+Next, extract a tidied version of the coefficients from each model and add a column identifying which comparison these models are from. Assign these to A1_comp, A2_comp, B1_comp and B2_comp respectively, showing that these objects contain the comparisons for each level.
+
+```{r 9_question_six_summaries}
+# extract tidied model outputs
+A1_comp <- A1_mod %>% broom::tidy("fixed") %>% mutate(comparison = "A1_vs_B") 
+A2_comp <- A2_mod %>% broom::tidy("fixed") %>% mutate(comparison = "A2_vs_B") 
+B1_comp <- B1_mod %>% broom::tidy("fixed") %>% mutate(comparison = "B1_vs_A") 
+B2_comp <- B2_mod %>% broom::tidy("fixed") %>% mutate(comparison = "B2_vs_A") 
+```
+
+Finally, bind the rows together from your comparisons, and create a *p*-value for your data using the normal approximation. Be sure to bonferroni correct your data. After the correction, make sure that you reset any *p*-values above 1 to 1 (as *p*-values above 1 don't make any sense).
+
+```{r}
+# set bonferroni correction
+bonferroni_correction <- 4
+
+# bind together
+all_estimates <- bind_rows(A1_comp, A2_comp, B1_comp, B2_comp) %>%
+  mutate(p_value = 2*(1 - pnorm(abs(statistic)))*bonferroni_correction,
+         p_value = ifelse(p_value > 1, 1, p_value)
+         )
+
+# show result
+all_estimates %>% select(comparison, everything())
+```
+
+
+**Answer**: There is a significant effect of B on A2, there is also a significant effect of A on B2. 
+
+## Question 7
+
+Make a plot showing the interaction between A and B.
+
+```{r}
+ggplot(data = dat, mapping = aes(x = A, y = Y, colour = B)) + geom_boxplot()
+```
