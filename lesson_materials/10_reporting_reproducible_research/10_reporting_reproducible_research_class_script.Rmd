@@ -1,0 +1,85 @@
+---
+title: "Mixed Effects Models -- Class Script"
+output: html_notebook
+---
+
+Notice that here we need to install 3 new pacakges. Only do this once per machine. Uncomment the `install.packages()` commands to install the packages.
+
+```{r 10_load_libraries, message = FALSE}
+library(tidyverse)
+# install.packages("sjstats")
+library(sjstats)
+# install.packages("effsize")
+library(effsize)
+# install.packages("TOSTER")
+library(TOSTER)
+```
+
+```{r 10_load_data}
+sleep_groups <- read_csv("inputs/sleep_study_with_sim_groups.csv")
+sleep_study <- read_csv("inputs/sleep_study_with_sim.csv")
+lex_dec <- as.tibble(lexdec) %>% select(Subject, Trial, Word, NativeLanguage, RT)
+```
+
+```{r 10_functions}
+# Optional Stopping Without Correction.
+# =============================================================================
+# sample data and make a tibble with DV and ID based on input group sample size
+# this is fixed at means of 100 and sd of 15 for each group
+sample_groups <- function(n_group){
+  group_one <- rnorm(n = n_group, mean = 100, sd = 15)
+  group_two <- rnorm(n = n_group, mean = 100, sd = 15)
+  data <- tibble(dv = c(group_one, group_two),
+                 id = c(rep("group_one", n_group),
+                        rep("group_two", n_group)
+                        )
+  )
+}
+
+# run a t-test and extract the p-value for a tibble
+# columns must be named dv and id for dependent variables and group ID
+test_groups <- function(tibble_data) {
+  test <- t.test(dv ~ id, data = tibble_data, paired = FALSE)
+  test$p.value
+}
+
+# optional stopping without correction:
+# sample data and extract p-values from a t-test
+# if non-significant, sample additional people and retest
+bias_test <- function(sample_size, additional_n) {
+  original_data <- sample_groups(sample_size)
+  p_val <- test_groups(original_data)
+  ifelse(p_val >= .05, 
+         p_val <- test_groups(
+           rbind(original_data, sample_groups(additional_n))
+           ),
+         p_val
+         )
+}
+
+# Bayes' Theorem: probability of a positive result being true with low prob hyp
+# =============================================================================
+test_prob_hyp_true <- function(power = 0.90, alpha = 0.05, hyp_chance = 0.01){
+  # calculate probabilities
+  prob_false <- 1 - hyp_chance
+  prob_positive <- power * hyp_chance + alpha * prob_false
+  prob_positive_is_true <- power * hyp_chance / prob_positive
+  
+  # output probability of a positive result being true
+  print(paste("There is a", 
+              round(prob_positive_is_true*100, 2), 
+              "% chance of a positive result being true.")
+  )
+}
+```
+
+# Lesson Code
+
+## Your Code
+
+Add your code chunks using insert, R on the top right panel of this window.
+
+```{r 10_your_code_chunk}
+
+```
+

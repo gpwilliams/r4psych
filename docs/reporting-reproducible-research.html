@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
+  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+
+  <meta property="og:title" content="R for Psych" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  
+  <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="github-repo" content="gpwilliams/r4psych" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="R for Psych" />
+  
+  <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
+  
+
+<meta name="author" content="Glenn Williams">
+
+
+<meta name="date" content="2018-05-01">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="mixed-effects-models.html">
+<link rel="next" href="references.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117777827-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117777827-1');
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R for Psych</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
+<li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
+<li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a><ul>
+<li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#question-1"><i class="fa fa-check"></i><b>1.7.1</b> Question 1</a></li>
+<li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#question-2"><i class="fa fa-check"></i><b>1.7.2</b> Question 2</a></li>
+<li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#question-3"><i class="fa fa-check"></i><b>1.7.3</b> Question 3</a></li>
+<li class="chapter" data-level="1.7.4" data-path="introduction.html"><a href="introduction.html#question-4"><i class="fa fa-check"></i><b>1.7.4</b> Question 4</a></li>
+<li class="chapter" data-level="1.7.5" data-path="introduction.html"><a href="introduction.html#question-5"><i class="fa fa-check"></i><b>1.7.5</b> Question 5</a></li>
+<li class="chapter" data-level="1.7.6" data-path="introduction.html"><a href="introduction.html#question-6"><i class="fa fa-check"></i><b>1.7.6</b> Question 6</a></li>
+<li class="chapter" data-level="1.7.7" data-path="introduction.html"><a href="introduction.html#question-7"><i class="fa fa-check"></i><b>1.7.7</b> Question 7</a></li>
+<li class="chapter" data-level="1.7.8" data-path="introduction.html"><a href="introduction.html#question-8"><i class="fa fa-check"></i><b>1.7.8</b> Question 8</a></li>
+<li class="chapter" data-level="1.7.9" data-path="introduction.html"><a href="introduction.html#question-9"><i class="fa fa-check"></i><b>1.7.9</b> Question 9</a></li>
+<li class="chapter" data-level="1.7.10" data-path="introduction.html"><a href="introduction.html#question-10"><i class="fa fa-check"></i><b>1.7.10</b> Question 10</a></li>
+<li class="chapter" data-level="1.7.11" data-path="introduction.html"><a href="introduction.html#question-11"><i class="fa fa-check"></i><b>1.7.11</b> Question 11</a></li>
+<li class="chapter" data-level="1.7.12" data-path="introduction.html"><a href="introduction.html#question-12"><i class="fa fa-check"></i><b>1.7.12</b> Question 12</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
+<li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
+<li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
+<li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-1-1"><i class="fa fa-check"></i><b>2.3.2</b> Question 1</a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-2-1"><i class="fa fa-check"></i><b>2.3.3</b> Question 2</a></li>
+<li class="chapter" data-level="2.3.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-3-1"><i class="fa fa-check"></i><b>2.3.4</b> Question 3</a></li>
+<li class="chapter" data-level="2.3.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-4-1"><i class="fa fa-check"></i><b>2.3.5</b> Question 4</a></li>
+<li class="chapter" data-level="2.3.6" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-5-1"><i class="fa fa-check"></i><b>2.3.6</b> Question 5</a></li>
+<li class="chapter" data-level="2.3.7" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-6-1"><i class="fa fa-check"></i><b>2.3.7</b> Question 6</a></li>
+<li class="chapter" data-level="2.3.8" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-7-1"><i class="fa fa-check"></i><b>2.3.8</b> Question 7</a></li>
+<li class="chapter" data-level="2.3.9" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-8-1"><i class="fa fa-check"></i><b>2.3.9</b> Question 8</a></li>
+<li class="chapter" data-level="2.3.10" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-9-1"><i class="fa fa-check"></i><b>2.3.10</b> Question 9</a></li>
+<li class="chapter" data-level="2.3.11" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-10-1"><i class="fa fa-check"></i><b>2.3.11</b> Question 10</a></li>
+<li class="chapter" data-level="2.3.12" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.12</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
+<li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
+<li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
+<li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
+<li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-1-2"><i class="fa fa-check"></i><b>3.7.2</b> Question 1</a></li>
+<li class="chapter" data-level="3.7.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-2-2"><i class="fa fa-check"></i><b>3.7.3</b> Question 2</a></li>
+<li class="chapter" data-level="3.7.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-3-2"><i class="fa fa-check"></i><b>3.7.4</b> Question 3</a></li>
+<li class="chapter" data-level="3.7.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-4-2"><i class="fa fa-check"></i><b>3.7.5</b> Question 4</a></li>
+<li class="chapter" data-level="3.7.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-5-2"><i class="fa fa-check"></i><b>3.7.6</b> Question 5</a></li>
+<li class="chapter" data-level="3.7.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-6-2"><i class="fa fa-check"></i><b>3.7.7</b> Question 6</a></li>
+<li class="chapter" data-level="3.7.8" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-7-2"><i class="fa fa-check"></i><b>3.7.8</b> Question 7</a></li>
+<li class="chapter" data-level="3.7.9" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-8-2"><i class="fa fa-check"></i><b>3.7.9</b> Question 8</a></li>
+<li class="chapter" data-level="3.7.10" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-9-2"><i class="fa fa-check"></i><b>3.7.10</b> Question 9</a></li>
+<li class="chapter" data-level="3.7.11" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.11</b> Additional Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a><ul>
+<li class="chapter" data-level="4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#getting-started-1"><i class="fa fa-check"></i><b>4.1</b> Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#loading-data"><i class="fa fa-check"></i><b>4.2.1</b> Loading Data</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#wide-and-long-data"><i class="fa fa-check"></i><b>4.2.2</b> Wide and Long Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#gathering-data"><i class="fa fa-check"></i><b>4.3.1</b> Gathering Data</a></li>
+<li class="chapter" data-level="4.3.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#separating-columns"><i class="fa fa-check"></i><b>4.3.2</b> Separating Columns</a></li>
+<li class="chapter" data-level="4.3.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#spreading-data"><i class="fa fa-check"></i><b>4.3.3</b> Spreading Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins"><i class="fa fa-check"></i><b>4.4.1</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins"><i class="fa fa-check"></i><b>4.4.2</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins"><i class="fa fa-check"></i><b>4.4.3</b> Binding Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-unique-and-duplicate-information"><i class="fa fa-check"></i><b>4.5</b> Checking for Unique and Duplicate Information</a></li>
+<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#introduction-and-setup"><i class="fa fa-check"></i><b>4.6.1</b> Introduction and Setup</a></li>
+<li class="chapter" data-level="4.6.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#long-and-wide-data"><i class="fa fa-check"></i><b>4.6.2</b> Long and Wide Data</a></li>
+<li class="chapter" data-level="4.6.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#uniting-and-separating-columns"><i class="fa fa-check"></i><b>4.6.3</b> Uniting and Separating Columns</a></li>
+<li class="chapter" data-level="4.6.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins-1"><i class="fa fa-check"></i><b>4.6.4</b> Mutating Joins</a></li>
+<li class="chapter" data-level="4.6.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins-1"><i class="fa fa-check"></i><b>4.6.5</b> Filtering Joins</a></li>
+<li class="chapter" data-level="4.6.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins-1"><i class="fa fa-check"></i><b>4.6.6</b> Binding Joins</a></li>
+<li class="chapter" data-level="4.6.7" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-duplicates"><i class="fa fa-check"></i><b>4.6.7</b> Checking for Duplicates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a><ul>
+<li class="chapter" data-level="5.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#getting-started-2"><i class="fa fa-check"></i><b>5.1</b> Getting Started</a></li>
+<li class="chapter" data-level="5.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#understanding-our-data"><i class="fa fa-check"></i><b>5.2</b> Understanding our Data</a></li>
+<li class="chapter" data-level="5.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#preparing-our-data"><i class="fa fa-check"></i><b>5.3</b> Preparing our Data</a></li>
+<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#renaming-and-reordering-columns"><i class="fa fa-check"></i><b>5.4.1</b> Renaming and Reordering Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#creating-and-changing-columns"><i class="fa fa-check"></i><b>5.5</b> Creating and Changing Columns</a></li>
+<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-with-logical-operations"><i class="fa fa-check"></i><b>5.6.1</b> Filtering with Logical Operations</a></li>
+<li class="chapter" data-level="5.6.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#combining-filtering-criteria"><i class="fa fa-check"></i><b>5.6.2</b> Combining Filtering Criteria</a></li>
+<li class="chapter" data-level="5.6.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#removing-by-ceriteria"><i class="fa fa-check"></i><b>5.6.3</b> Removing by Ceriteria</a></li>
+<li class="chapter" data-level="5.6.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#handling-nas"><i class="fa fa-check"></i><b>5.6.4</b> Handling NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#arranging-data"><i class="fa fa-check"></i><b>5.7</b> Arranging Data</a></li>
+<li class="chapter" data-level="5.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#summarising-data"><i class="fa fa-check"></i><b>5.8</b> Summarising Data</a></li>
+<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a><ul>
+<li class="chapter" data-level="5.9.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#ungrouping-data"><i class="fa fa-check"></i><b>5.9.1</b> Ungrouping Data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#chaining-many-functions"><i class="fa fa-check"></i><b>5.10</b> Chaining Many Functions</a></li>
+<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a><ul>
+<li class="chapter" data-level="5.11.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#csv-files"><i class="fa fa-check"></i><b>5.11.1</b> CSV Files</a></li>
+<li class="chapter" data-level="5.11.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#r-data-files"><i class="fa fa-check"></i><b>5.11.2</b> R Data Files</a></li>
+</ul></li>
+<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a><ul>
+<li class="chapter" data-level="5.12.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-1-4"><i class="fa fa-check"></i><b>5.12.1</b> Question 1</a></li>
+<li class="chapter" data-level="5.12.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-2-4"><i class="fa fa-check"></i><b>5.12.2</b> Question 2</a></li>
+<li class="chapter" data-level="5.12.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-3-4"><i class="fa fa-check"></i><b>5.12.3</b> Question 3</a></li>
+<li class="chapter" data-level="5.12.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-4-4"><i class="fa fa-check"></i><b>5.12.4</b> Question 4</a></li>
+<li class="chapter" data-level="5.12.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-5-4"><i class="fa fa-check"></i><b>5.12.5</b> Question 5</a></li>
+<li class="chapter" data-level="5.12.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-6-4"><i class="fa fa-check"></i><b>5.12.6</b> Question 6</a></li>
+<li class="chapter" data-level="5.12.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-7-4"><i class="fa fa-check"></i><b>5.12.7</b> Question 7</a></li>
+<li class="chapter" data-level="5.12.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-8-4"><i class="fa fa-check"></i><b>5.12.8</b> Question 8</a></li>
+<li class="chapter" data-level="5.12.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-9-4"><i class="fa fa-check"></i><b>5.12.9</b> Question 9</a></li>
+<li class="chapter" data-level="5.12.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-10-3"><i class="fa fa-check"></i><b>5.12.10</b> Question 10</a></li>
+<li class="chapter" data-level="5.12.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-11-1"><i class="fa fa-check"></i><b>5.12.11</b> Question 11</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a><ul>
+<li class="chapter" data-level="6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#getting-started-3"><i class="fa fa-check"></i><b>6.1</b> Getting Started</a></li>
+<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#analysing-real-data"><i class="fa fa-check"></i><b>6.2.1</b> Analysing Real Data</a></li>
+<li class="chapter" data-level="6.2.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#checking-assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Checking Assumptions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#running-a-correlation"><i class="fa fa-check"></i><b>6.2.3</b> Running a Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-sample-t-tests"><i class="fa fa-check"></i><b>6.3.1</b> One-Sample <em>t</em>-tests</a></li>
+<li class="chapter" data-level="6.3.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#independent-samples-t-tests"><i class="fa fa-check"></i><b>6.3.2</b> Independent-Samples <em>t</em>-tests</a></li>
+<li class="chapter" data-level="6.3.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#paired-samples-t-tests"><i class="fa fa-check"></i><b>6.3.3</b> Paired-Samples <em>t</em>-tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-way-anova"><i class="fa fa-check"></i><b>6.4.1</b> One-Way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#general-linear-model"><i class="fa fa-check"></i><b>6.5.1</b> General Linear Model</a></li>
+<li class="chapter" data-level="6.5.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#generalised-linear-model"><i class="fa fa-check"></i><b>6.5.2</b> Generalised Linear Model</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-1-5"><i class="fa fa-check"></i><b>6.6.1</b> Question 1</a></li>
+<li class="chapter" data-level="6.6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-2-5"><i class="fa fa-check"></i><b>6.6.2</b> Question 2</a></li>
+<li class="chapter" data-level="6.6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-3-5"><i class="fa fa-check"></i><b>6.6.3</b> Question 3</a></li>
+<li class="chapter" data-level="6.6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-4-5"><i class="fa fa-check"></i><b>6.6.4</b> Question 4</a></li>
+<li class="chapter" data-level="6.6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-5-5"><i class="fa fa-check"></i><b>6.6.5</b> Question 5</a></li>
+<li class="chapter" data-level="6.6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-6-5"><i class="fa fa-check"></i><b>6.6.6</b> Question 6</a></li>
+<li class="chapter" data-level="6.6.7" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-7-5"><i class="fa fa-check"></i><b>6.6.7</b> Question 7</a></li>
+<li class="chapter" data-level="6.6.8" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-8-5"><i class="fa fa-check"></i><b>6.6.8</b> Question 8</a></li>
+<li class="chapter" data-level="6.6.9" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-9-5"><i class="fa fa-check"></i><b>6.6.9</b> Question 9</a></li>
+<li class="chapter" data-level="6.6.10" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-10-4"><i class="fa fa-check"></i><b>6.6.10</b> Question 10</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests</a><ul>
+<li class="chapter" data-level="7.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#getting-started-4"><i class="fa fa-check"></i><b>7.1</b> Getting Started</a></li>
+<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-analyses"><i class="fa fa-check"></i><b>7.2</b> Multilevel Analyses</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#preparation-of-data"><i class="fa fa-check"></i><b>7.2.1</b> Preparation of Data</a></li>
+<li class="chapter" data-level="7.2.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-regression"><i class="fa fa-check"></i><b>7.2.2</b> Multilevel Regression</a></li>
+<li class="chapter" data-level="7.2.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-anova"><i class="fa fa-check"></i><b>7.2.3</b> Multilevel ANOVA</a></li>
+<li class="chapter" data-level="7.2.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-contrasts"><i class="fa fa-check"></i><b>7.2.4</b> Multiple Contrasts</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.3</b> Multifactorial Analyses</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-anova"><i class="fa fa-check"></i><b>7.3.1</b> Multifactorial ANOVA</a></li>
+<li class="chapter" data-level="7.3.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-regression"><i class="fa fa-check"></i><b>7.3.2</b> Multiple Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-analyses"><i class="fa fa-check"></i><b>7.4</b> Mixed Analyses</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-linear-models"><i class="fa fa-check"></i><b>7.4.1</b> Mixed Linear Models</a></li>
+<li class="chapter" data-level="7.4.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-anova"><i class="fa fa-check"></i><b>7.4.2</b> Mixed ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#a-note-on-sum-of-squares"><i class="fa fa-check"></i><b>7.5</b> A Note on Sum of Squares</a></li>
+<li class="chapter" data-level="7.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#exercises-6"><i class="fa fa-check"></i><b>7.6</b> Exercises</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-1-6"><i class="fa fa-check"></i><b>7.6.1</b> Question 1</a></li>
+<li class="chapter" data-level="7.6.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-2-6"><i class="fa fa-check"></i><b>7.6.2</b> Question 2</a></li>
+<li class="chapter" data-level="7.6.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-3-6"><i class="fa fa-check"></i><b>7.6.3</b> Question 3</a></li>
+<li class="chapter" data-level="7.6.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-4-6"><i class="fa fa-check"></i><b>7.6.4</b> Question 4</a></li>
+<li class="chapter" data-level="7.6.5" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-5-6"><i class="fa fa-check"></i><b>7.6.5</b> Question 5</a></li>
+<li class="chapter" data-level="7.6.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-6-6"><i class="fa fa-check"></i><b>7.6.6</b> Question 6</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a><ul>
+<li class="chapter" data-level="8.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#getting-started-5"><i class="fa fa-check"></i><b>8.1</b> Getting Started</a></li>
+<li class="chapter" data-level="8.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#simulating-data"><i class="fa fa-check"></i><b>8.2</b> Simulating Data</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-uniform-distribution"><i class="fa fa-check"></i><b>8.2.1</b> The Uniform Distribution</a></li>
+<li class="chapter" data-level="8.2.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-normal-distribution"><i class="fa fa-check"></i><b>8.2.2</b> The Normal Distribution</a></li>
+<li class="chapter" data-level="8.2.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-binomial-distribution"><i class="fa fa-check"></i><b>8.2.3</b> The Binomial Distribution</a></li>
+<li class="chapter" data-level="8.2.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-sampling"><i class="fa fa-check"></i><b>8.2.4</b> Flexible Sampling</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#sampling-for-inference"><i class="fa fa-check"></i><b>8.3</b> Sampling for Inference</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-p-values-and-type-i-errors"><i class="fa fa-check"></i><b>8.3.1</b> Understanding p-values and Type-I Errors</a></li>
+<li class="chapter" data-level="8.3.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-power-and-type-ii-errors"><i class="fa fa-check"></i><b>8.3.2</b> Understanding Power and Type-II Errors</a></li>
+<li class="chapter" data-level="8.3.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-power-analyses-with-simulation"><i class="fa fa-check"></i><b>8.3.3</b> Flexible Power Analyses with Simulation</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#performing-power-analyses-from-packages"><i class="fa fa-check"></i><b>8.4</b> Performing Power Analyses from Packages</a></li>
+<li class="chapter" data-level="8.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#exercises-7"><i class="fa fa-check"></i><b>8.5</b> Exercises</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#introduction-and-setup-1"><i class="fa fa-check"></i><b>8.5.1</b> Introduction and Setup</a></li>
+<li class="chapter" data-level="8.5.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-1-7"><i class="fa fa-check"></i><b>8.5.2</b> Question 1</a></li>
+<li class="chapter" data-level="8.5.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-2-7"><i class="fa fa-check"></i><b>8.5.3</b> Question 2</a></li>
+<li class="chapter" data-level="8.5.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-3-7"><i class="fa fa-check"></i><b>8.5.4</b> Question 3</a></li>
+<li class="chapter" data-level="8.5.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-4-7"><i class="fa fa-check"></i><b>8.5.5</b> Question 4</a></li>
+<li class="chapter" data-level="8.5.6" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-5-7"><i class="fa fa-check"></i><b>8.5.6</b> Question 5</a></li>
+<li class="chapter" data-level="8.5.7" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-6-7"><i class="fa fa-check"></i><b>8.5.7</b> Question 6</a></li>
+<li class="chapter" data-level="8.5.8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-7-6"><i class="fa fa-check"></i><b>8.5.8</b> Question 7</a></li>
+<li class="chapter" data-level="8.5.9" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-8-6"><i class="fa fa-check"></i><b>8.5.9</b> Question 8</a></li>
+<li class="chapter" data-level="8.5.10" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-9-6"><i class="fa fa-check"></i><b>8.5.10</b> Question 9</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a><ul>
+<li class="chapter" data-level="9.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#getting-started-6"><i class="fa fa-check"></i><b>9.1</b> Getting Started</a></li>
+<li class="chapter" data-level="9.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#why-mixed-effects-models"><i class="fa fa-check"></i><b>9.2</b> Why Mixed Effects Models</a></li>
+<li class="chapter" data-level="9.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#how-do-mixed-effects-models-work"><i class="fa fa-check"></i><b>9.3</b> How Do Mixed Effects Models Work?</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#fixed-and-random-effects"><i class="fa fa-check"></i><b>9.3.1</b> Fixed and Random Effects</a></li>
+<li class="chapter" data-level="9.3.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#specifying-your-random-effects-structure"><i class="fa fa-check"></i><b>9.3.2</b> Specifying your Random Effects Structure</a></li>
+<li class="chapter" data-level="9.3.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#partial-pooling-of-data"><i class="fa fa-check"></i><b>9.3.3</b> Partial-Pooling of Data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#interpreting-mixed-effects-model-output"><i class="fa fa-check"></i><b>9.4</b> Interpreting Mixed Effects Model Output</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#calculating-p-values-for-parameter-estimates"><i class="fa fa-check"></i><b>9.4.1</b> Calculating p-values for Parameter Estimates</a></li>
+<li class="chapter" data-level="9.4.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#model-selection"><i class="fa fa-check"></i><b>9.4.2</b> Model Selection</a></li>
+<li class="chapter" data-level="9.4.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#failure-to-converge-what-should-i-do"><i class="fa fa-check"></i><b>9.4.3</b> Failure to Converge: What Should I Do?</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#test-assumptions"><i class="fa fa-check"></i><b>9.5</b> Test Assumptions</a></li>
+<li class="chapter" data-level="9.6" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#generalised-mixed-effects-models"><i class="fa fa-check"></i><b>9.6</b> Generalised Mixed Effects Models</a></li>
+<li class="chapter" data-level="9.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#a-note-on-power-effect-sizes-and-pairwise-comparisons"><i class="fa fa-check"></i><b>9.7</b> A Note on Power, Effect Sizes, and Pairwise Comparisons</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#power"><i class="fa fa-check"></i><b>9.7.1</b> Power</a></li>
+<li class="chapter" data-level="9.7.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#effect-sizes"><i class="fa fa-check"></i><b>9.7.2</b> Effect Sizes</a></li>
+<li class="chapter" data-level="9.7.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#pairwise-comparisons"><i class="fa fa-check"></i><b>9.7.3</b> Pairwise Comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#exercises-8"><i class="fa fa-check"></i><b>9.8</b> Exercises</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-1-8"><i class="fa fa-check"></i><b>9.8.1</b> Question 1</a></li>
+<li class="chapter" data-level="9.8.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-2-8"><i class="fa fa-check"></i><b>9.8.2</b> Question 2</a></li>
+<li class="chapter" data-level="9.8.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-3-8"><i class="fa fa-check"></i><b>9.8.3</b> Question 3</a></li>
+<li class="chapter" data-level="9.8.4" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-4-8"><i class="fa fa-check"></i><b>9.8.4</b> Question 4</a></li>
+<li class="chapter" data-level="9.8.5" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-5-8"><i class="fa fa-check"></i><b>9.8.5</b> Question 5</a></li>
+<li class="chapter" data-level="9.8.6" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-6-8"><i class="fa fa-check"></i><b>9.8.6</b> Question 6</a></li>
+<li class="chapter" data-level="9.8.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-7-7"><i class="fa fa-check"></i><b>9.8.7</b> Question 7</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html"><i class="fa fa-check"></i><b>10</b> Reporting Reproducible Research</a><ul>
+<li class="chapter" data-level="10.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#getting-started-7"><i class="fa fa-check"></i><b>10.1</b> Getting Started</a></li>
+<li class="chapter" data-level="10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-reproducible-documents"><i class="fa fa-check"></i><b>10.2</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-a-reproducible-report"><i class="fa fa-check"></i><b>10.2.1</b> Creating a Reproducible Report</a></li>
+<li class="chapter" data-level="10.2.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#folder-structure-for-reproducible-analyses"><i class="fa fa-check"></i><b>10.2.2</b> Folder Structure for Reproducible Analyses</a></li>
+<li class="chapter" data-level="10.2.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#using-r-markdown-templates"><i class="fa fa-check"></i><b>10.2.3</b> Using R Markdown Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#open-science"><i class="fa fa-check"></i><b>10.3</b> Open Science</a></li>
+<li class="chapter" data-level="10.4" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#what-to-report"><i class="fa fa-check"></i><b>10.4</b> What to Report</a></li>
+<li class="chapter" data-level="10.5" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#effect-sizes-1"><i class="fa fa-check"></i><b>10.5</b> Effect Sizes</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#cohens-d-and-pearsons-r"><i class="fa fa-check"></i><b>10.5.1</b> Cohen’s d and Pearson’s r</a></li>
+<li class="chapter" data-level="10.5.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#calculating-effect-sizes"><i class="fa fa-check"></i><b>10.5.2</b> Calculating Effect Sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#confidence-intervals"><i class="fa fa-check"></i><b>10.6</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="10.7" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#evaluating-evidence-for-the-null-hypothesis"><i class="fa fa-check"></i><b>10.7</b> Evaluating Evidence for the Null Hypothesis</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#independent-samples-tost"><i class="fa fa-check"></i><b>10.7.1</b> Independent Samples TOST</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#understanding-problematic-design-choices"><i class="fa fa-check"></i><b>10.8</b> Understanding Problematic Design Choices</a><ul>
+<li class="chapter" data-level="10.8.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#optional-stopping-without-correction"><i class="fa fa-check"></i><b>10.8.1</b> Optional Stopping (Without Correction)</a></li>
+<li class="chapter" data-level="10.8.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#bad-hypotheses"><i class="fa fa-check"></i><b>10.8.2</b> Bad Hypotheses</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#the-final-lesson"><i class="fa fa-check"></i><b>10.9</b> The Final Lesson</a></li>
+<li class="chapter" data-level="10.10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#exercises-9"><i class="fa fa-check"></i><b>10.10</b> Exercises</a><ul>
+<li class="chapter" data-level="10.10.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-1-9"><i class="fa fa-check"></i><b>10.10.1</b> Question 1</a></li>
+<li class="chapter" data-level="10.10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-2-9"><i class="fa fa-check"></i><b>10.10.2</b> Question 2</a></li>
+<li class="chapter" data-level="10.10.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-3-9"><i class="fa fa-check"></i><b>10.10.3</b> Question 3</a></li>
+<li class="chapter" data-level="10.10.4" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-4-9"><i class="fa fa-check"></i><b>10.10.4</b> Question 4</a></li>
+<li class="chapter" data-level="10.10.5" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-5-9"><i class="fa fa-check"></i><b>10.10.5</b> Question 5</a></li>
+<li class="chapter" data-level="10.10.6" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-6-9"><i class="fa fa-check"></i><b>10.10.6</b> Question 6</a></li>
+<li class="chapter" data-level="10.10.7" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-7-8"><i class="fa fa-check"></i><b>10.10.7</b> Question 7</a></li>
+<li class="chapter" data-level="10.10.8" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-8-7"><i class="fa fa-check"></i><b>10.10.8</b> Question 8</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R for Psych</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reporting-reproducible-research" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Reporting Reproducible Research</h1>
+<p>In this session, we’ll cover how you can use Rmarkdown for reproducible documentation of analyses. In doing so, we’ll cover some aspects that improve the quality of your research, such as reporting effect sizes and the spread/uncertainty in your data (e.g. 95% confidence intervals) and drawing inferences from null results. Furthermore, we’ll cover some aspects of good research practice which go hand in hand with reproducible research, such as data and code archiving and pre-registration.</p>
+<p>Specifically, we’ll cover:</p>
+<ul>
+<li>Calculating effect sizes from the <em>r</em> and <em>d</em> families</li>
+<li>Evaluating evidence for the null hypothesis in the Neyman-Pearson framework using the two one-sides tests (TOST) procedure</li>
+<li>Calculating the 95% confidence interval for parameter estimates</li>
+<li>Simulation for understanding research practices</li>
+<li>Data and code archiving, and pre-registration on the <a href="https://osf.io/">Open Science Framework</a></li>
+</ul>
+<p>This session is heavily informed and inspired by the excellent <a href="https://www.coursera.org/learn/statistical-inferences">Improving Your Statistical Inferences</a> course by Daniel Lakens. If you get the chance, please enrol on this course. You won’t regret it!</p>
+<div id="getting-started-7" class="section level2">
+<h2><span class="header-section-number">10.1</span> Getting Started</h2>
+<p>As always, we first need to load the <code>tidyverse</code> set of package. However, for this chapter we also need the <strong>sjstats</strong>, <strong>effsize</strong>, and <strong>TOSTER</strong> packages. The first two of these new pacakges allow us to calcualte effect sizes, and the final package allows us to conduct the TOST procedure for evaluating evidence for the null hypothesis. Everything else for creating reproducible documents in R comes loaded with RStudio.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load packages</span>
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(sjstats)
+<span class="kw">library</span>(effsize)
+<span class="kw">library</span>(TOSTER)</code></pre></div>
+</div>
+<div id="creating-reproducible-documents" class="section level2">
+<h2><span class="header-section-number">10.2</span> Creating Reproducible Documents</h2>
+<div id="creating-a-reproducible-report" class="section level3">
+<h3><span class="header-section-number">10.2.1</span> Creating a Reproducible Report</h3>
+<p>When doing your research, you’ll often have to write up a number of reports for your studies, be this papers, presentations, or blog posts. One advantage of using R for your analyses is that every time you make a small change to your analysis, for example testing more participants, you have all of the code there to reproduce your analyses using the exact same method as before. However, even with R, you don’t want to recreate your results and translate your outputs every time you change to a new format. Imagine the pain involved in changing all of your table outputs and plots by hand every time you make a minor change? On top of this, you’re very likely to introduce some mistakes when transcribing your results. To remedy this, we can use R to produce reproducible reports.</p>
+<p>The advantage of this over simple scripts to conduct your analyses and a separate document used to write up these analyses is that every time you change something in regards to your experiment, you can automatically update everything in your report, reducing the chance of human error. Furthermore, by using reproducible reports, others can read your work and see how you calculated your statistics, which increases the transparency of your work. Why is this a good thing? Aside from catching mistakes in your code, you’re leaving a record for other researchers to follow in their own work. That complex analysis you did can then be reproduced by others, helping to push science forward!</p>
+<p>We’ve already used one method for producing reproducible reports in R; the R Notebook. This updates every time you save your document, without rerunning your code. However, we can also produce a similar R Markdown report which requires you to compile your code before it produces output. Here, you include text and code chunks like in your R Notebooks, but you use the Knit button create an output which translates your code into an HTML, PDF, or Word document. I’ve shown you how to do this below.</p>
+<div class="figure" style="text-align:center">
+<img style="width:50%;" src="img\R_markdown.png" alt="Creating an R Markdown Document in New File, then R Markdown... ">
+<p class="caption">
+Creating R Markdown Document
+</p>
+</div>
+<p>Once you’ve elected to create an R Markdown document, you can choose your output type. For documents, we have the options discussed above. But you can also create presentation slides in R. For the slides in this course, I used the ioslides option. This is nice if you want to include code or the outputs of code directly in your presentations; no more dragging and resizing images by hand!</p>
+<div class="figure" style="text-align:center">
+<img style="width:50%;" src="img\markdown_menus.png" alt="Options for Creating Different R Markdown Documents">
+<p class="caption">
+R Markdown Document Options
+</p>
+</div>
+<p>For this example, I’ll create an HTML document from our code, but all of the same principles apply with different outputs.</p>
+<p>First off, you need to pick a name for your document. Here, I’ve set it to <code>test_html_document</code>. This will be the title of your document once you’ve saved and rendered it.</p>
+<div class="figure" style="text-align:center">
+<img style="width:50%;" src="img\setting_markdown_options.png" alt="Defining Your Title and Author in the R Markdown Options">
+<p class="caption">
+Defining Your Title and Author in the R Markdown Options
+</p>
+</div>
+<p>Just save your document somewhere, preferably in its own folder, and you’re good to go. Once you’ve done that, you can change your code and text. Any time you want to render the HTML (or Word, or PDF file) just click the Knit button, and you’ll see a preview of your output once it is done making the document. You can use this to work on the fly, or just look at the output itself (i.e. double clicking the HTML file in your folder) to see how it looks on completion. R turns script like this below into a nice output!</p>
+<div class="figure" style="text-align:center">
+<img style="width:75%;" src="img\script_rmarkdown.png" alt="Code and Text in an R Markdown Document">
+<p class="caption">
+The Markdown Environment
+</p>
+</div>
+<p>Remember that anything in the code chunks (inserted with Insert, R) from the editor bar in RStudio will be evaluated and you’ll see the output of this code when rendered. You can also include in line code by using one backtick followed by R and then your code and closing this call with another backtick. This is nice for if you want to specify the mean and standard deviation for a group in text.</p>
+<p>Formatting text in Markdown is quite easy, and you can find an <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">R Markdown Cheat Sheet here</a>. This covers all of the basics of getting started, and gives you examples of how to do certain features. This does such a good job that I won’t cover it here.</p>
+</div>
+<div id="folder-structure-for-reproducible-analyses" class="section level3">
+<h3><span class="header-section-number">10.2.2</span> Folder Structure for Reproducible Analyses</h3>
+<p>Now, we can store all of our analysis and write up in one folder. One way to structue your work is by having everything for one experiment in one folder, called something like “Experiment 1”. Within this folder, you can have several sub-directories for the different things to do with your experiment. This can have as many sub-directories as you like, such as Ethics, Grant Applications, etc., but it’s often good practice to have a folder for your Data, Analysis, and Output. The Data folder should just contain any raw data for your experiment. The Analysis folder can contain any R scripts used to produce your outputs, such as a data cleaning script, which makes your raw data tidy and your code for your R Markdown document. Finally, your Output folder will be where your HTML/Word/PDF documents will get saved when knitted.</p>
+<p>Remember using relative file paths? This will be handy for getting R to read data from different folders within the Experiment 1 folder. For example, if we keep our R Markdown file in the Analysis sub folder, we can read data from the data folder by using two dots before the folder and file name. This tells R to look up from our current directory (the Analysis folder) by one folder. So now R is in the Experiment 1 folder. We then tell it to go to the Data folder <code>/Data/</code> and read the raw data from the .csv file called <code>raw_data.csv</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;../Data/raw_data.csv&quot;</span>)</code></pre></div>
+<p>Similarly, we can then keep a normal R script that will render our document for us (without using the Knit button) called something like <code>render_document.R</code> in our Analysis folder. In this, the only code we need is as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmarkdown::<span class="kw">render</span>(<span class="st">&#39;test_html_document.Rmd&#39;</span>, 
+                  <span class="dt">output_file =</span> <span class="st">&#39;../Output/test_html_document.html&#39;</span>
+                  )</code></pre></div>
+<p>When we run this code, R will execute everything in the R Markdown file, and save the rendered output in our Output folder. This is less convenient than using the Knit button, which is easy if you want your RMarkdown file and HTML output in the same folder. But if we want a nicely structured file system, using the above method is best.</p>
+<p>You can find an example of how this works in the <code>reproducible_example</code> folder on in the <code>lesson_materials</code> folder for lesson 10.</p>
+<p>Here, you’ll notice I use Kable for printing tables, e.g.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make example data</span>
+tooth_dat &lt;-<span class="st"> </span>ToothGrowth %&gt;%<span class="st"> </span><span class="kw">group_by</span>(supp) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_len =</span> <span class="kw">mean</span>(len))
+
+<span class="co"># print table</span>
+<span class="kw">library</span>(knitr)
+<span class="kw">kable</span>(tooth_dat) </code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">supp</th>
+<th align="right">mean_len</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">OJ</td>
+<td align="right">20.66333</td>
+</tr>
+<tr class="even">
+<td align="left">VC</td>
+<td align="right">16.96333</td>
+</tr>
+</tbody>
+</table>
+<p>This just turns data frames into a nice table output like you’d get in Word. The benefit over just printing data frames is that you get everything in a normal table output, so your data is ordered correctly. You can specify <a href="https://haozhu233.github.io/kableExtra/awesome_table_in_html.html">a number of options for Kable</a>, which I won’t cover here. But just know that you can change how anything looks to your liking.</p>
+</div>
+<div id="using-r-markdown-templates" class="section level3">
+<h3><span class="header-section-number">10.2.3</span> Using R Markdown Templates</h3>
+<p>We can use different R Markdown templates to save us from specifying too many options. One popular template is the 6th Edition APA article template from the <strong>papaja</strong> package. You can install this from GitHub using the following code. If the install doesn’t work check you’ve installed devtools first and install if needed by uncommenting the first line.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
+devtools::<span class="kw">install_github</span>(<span class="st">&quot;crsh/papaja&quot;</span>)</code></pre></div>
+<p>The <a href="https://github.com/crsh/papaja">GitHub page for pajapa</a> has lots of nice documentation on how to use the different helper functions from this package. This makes for easy and pretty reporting in your document.</p>
+<p>You may already have your workflow geared towards word, where you can easily use reference managers like Mendeley to input and report all of your references. One way to get the most out of this is to export your references as a .bib file, and include this in the same folder as your R Markdown document scripts. Then you just include the code <code>bibliography: bibliography.bib</code> under the output command in the header of your R Markdown file, and just use the shorthand to refer to your references in the R Markdown text, e.g. <code>@reference_date</code> and R will sort the references for you. You can find help on using bibliographies in RMarkdown at the <a href="https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html">RStudio website</a>.</p>
+<p>If all of this sounds a little overwhelming, you could just use RMarkdown to make your Results section, and copy those sections across to your working Word file on completion, but you lose a lot of the benefits of automation by doing so.</p>
+</div>
+</div>
+<div id="open-science" class="section level2">
+<h2><span class="header-section-number">10.3</span> Open Science</h2>
+<p>Reproducbile reports are just one step towards Open Science. Why should we adopt Open Science practices? Briefly, we improve the quality of our work, and create a more collaborative atmosphere in science. Here are just some ways to make your research more open. You should try to adopt:</p>
+<ul>
+<li><strong>Reproducible reports</strong>: all code for creating analyses and visualisations is included along with (and goes into making) the document, so people can see what you did. RMarkdown is useful for this.</li>
+<li><strong>Pre-prints</strong>: post your articles on a pre-print repository. This means that people can read and give you feedback on your work prior to publication. Many journal articles are fine with you having a pre-print out there, so that’s not much of a concern anymore. One example is the <a href="https://psyarxiv.com/">PsyAr<span class="math inline">\(\chi\)</span>iv</a> for articles in psychology.</li>
+<li><strong>Pre-registration and registered reports</strong>: post a document considering your hypotheses, study design (including all measured and manipulated variables), and a plan for analysis. This should include details such as a plan for how to exclude outliers, a justification for your <span class="math inline">\(\alpha\)</span>-level, the number and type of tests conducted, any correction to <em>p</em>-values if necessary, and a justification of your sample size. This sample size justification can be based on power analyses or even things like time/money constraints, but be clear how you defined your sample size. Pre-registrations allow us to distinguish confirmaty from exploratory analyses, and they formalise your type-I error rate, ensuring that researcher degrees of freedom (e.g. trying different tests, adding more participants, etc.) are considered so you don’t inflate your type-I error rate. You can pre-register your studies using a quick and easy form from <a href="https://aspredicted.org/">As Predicted</a>, or alternatively you can host your study data, materials, and code on the <a href="https://osf.io/">OSF</a> and include your pre-registration there.</li>
+<li><strong>Open access publishing</strong>: when possible, publish in Open Access journals. This means that everyone, including the general public, can access your research. If their tax money goes to your science, surely they should have access to the results. There are many Open Access journals, so I’ll leave it up to you to decide where to publish!</li>
+<li><strong>Open materials, data, and code</strong>: sharing your materials, data, and code allows for other researchers to build on your work. Furthermore, knowing that it’s out there on the web will make you spend more time checking everything is in order. One bonus is that if your hard drive burns down and you lose a local copy of your work, it’s hosted on a server somewhere, so you’ll always have access to it! Some repositories that are useful for this are the <a href="https://osf.io/">OSF</a> and <a href="https://github.com/">GitHub</a>.</li>
+</ul>
+<p>One thing to bear in mind when sharing your materials, data, and code associated with a project is that you should make everything easy to understand for someone who doesn’t know your study. That’s why it’s useful to include a README file along with your study data explaining (briefly) what was done, what each column and observation represents in your data, and how your code works. As such, commenting your code is a must. Just aim to explain why you’re doing something (not always what you’re doing) as that is often obvious from the code itself. Using a structured system for your folders and files makes it easier for people to know hwere to look (e.g. I want the raw data, so I’ll go to the Data folder and grab the raw_data.csv file!)</p>
+<p>All of this goes hand in hand with coding in R. We’ll briefly consider some of the problems associated with flexible analyses masquerading as confirmatory hypothesis testing later in this session in an attempt to hammer home the importance of pre-registration. Note that pre-registration doesn’t preclude flexible analyses or changes to your analysis plan; you just have to state what was changed and why. It’s purely a system of accountability, not restriction. One benefit is that you can use one-sided tests if you make a prediction and pre-register it! For me, pre-registration gets me to think deeply about a study prior to running it, often catching mistakes prior to running the study. This saves time and money re-reunning participants with the fixed study procedure. It also means that I have a record of what I have to do or what I did, so writing up reports is so much easier!</p>
+</div>
+<div id="what-to-report" class="section level2">
+<h2><span class="header-section-number">10.4</span> What to Report</h2>
+<p>Any report you submit should include a number of components that we’ve already covered in previous sessions. You should include graphs to display your data, along with descriptive (i.e. means, standard deviations, n, etc.) and inferential statistics (where test assumptions have been checked). We’ve covered all of this in previous sessions, but we haven’t spent much time on the other aspects. As such, we’ll look into what else you should report.</p>
+<p>Ideally, you should also try to include some measure of uncertainty around the parameter estimates in any models that you report, such as confidence intervals. Furthermore, you should try to include some measure of effect size, so we can really interpret the magnitude of an effect when significant. Finally, if have null results it’s often interesting to explore why this is. We can evaluate evidence in support of the null (no effect; contrasting with an insensitive study due to small sample size etc) under different frameworks, but we’ll cover one method in the Neyman-Pearson null hypothesis significance testing approach later in this lesson; the TOST procedure. We’ll explore ways to do these last 3 later in this session.</p>
+</div>
+<div id="effect-sizes-1" class="section level2">
+<h2><span class="header-section-number">10.5</span> Effect Sizes</h2>
+<p>When we encountered correlations, we covered effect sizes briefly as the base correlation function in R, <code>cor.test()</code>, by default reports a measure of standardised effect sizes. Unfortunately, not all R functions for running hypothesis tests report a measure of standardised effect size. Indeed, there is a lack of consistency of what is reported; e.g. <em>t</em>-tests but not ANOVAs report 95% confidence intervals around the parameter estimate(s). As such, we often have to do things like calculate standardised effect sizes using other means. Luckily, there are a number of packages that can do this for us.</p>
+<p>Although there are other packages out there for producing standardised effect sizes, we’ll use the <strong>sjstats</strong> package for calculating effect size estimates for ANOVA and linear regression models and the <strong>effsize</strong> package for calculating effect sizes from <em>t</em>-tests.</p>
+<p>But why should you report standardised effect sizes anyway? Well, as sample size increases, we’re more likely to find a significant effect between two groups even if this effect is really small. Effect sizes tell us how much we should care about the effect. But still, you can get similar information by looking at raw effect sizes (e.g. reaction times between group 1 and 2), so why report standarised effect sizes at all? Standised effect sizes allow us to compare effects across different studies (which often have different designs). As a result of this, meta-analysis is reliant on the reporting of standrdised effect sizes, so you’ll be doing science a favour by reporting standardised effect sizes and not forcing other researchers to recompute these values when it comes to including your study in a meta-analysis. Finally, many packages and programs that allow you to analytically calculate the planned power for a study rely on you using standarised effect sizes. So, at the very least, you’ll be doing yourself a favour in the future if you plan a similar study to one you’ve ran previously and you want to calculate your planned power prior to running the new study.</p>
+<div id="cohens-d-and-pearsons-r" class="section level3">
+<h3><span class="header-section-number">10.5.1</span> Cohen’s d and Pearson’s r</h3>
+<p>We have 2 families of effect sizes that we can choose to use in reporting our analyses; the <em>d</em> family and the <em>r</em> family. The differences between these families (and within the families) is briefly summarised below:</p>
+<ul>
+<li>The <strong><em>d</em> family</strong> reports standised effect sizes in terms of <strong>standardised mean differences</strong>. These go from 0 (no effect) to <span class="math inline">\(\infty\)</span> (infinity). The most simple case is Cohen’s <em>d</em> which is calculated by taking the differences between scores (e.g. across groups) and dividing them by the pooled standard deviation (i.e. ignoring grouping). This effect size family has different versions, such as:</li>
+<li><em>d</em><sub>z</sub> (i.e. the difference between x and y, z) for within-subjects designs;</li>
+<li><em>d</em><sub>av</sub> for a within-subjects design corrected for correlations between measures;</li>
+<li>or Hedge’s <em>g</em> for an unbiased version of Cohen’s <em>d</em> which corrects for the fact that we often do not know the population standard deviaiton.</li>
+</ul>
+<p>This final case typically provides a better estimate of effect size (population-based measures often overestimate effect sizes), especially for small sample sizes. Due to this independence of the study design, <a href="http://jakewestfall.org/blog/index.php/2016/03/25/five-different-cohens-d-statistics-for-within-subject-designs/">some researchers</a> argue that Cohen’s <em>d</em> does a better job than many <em>d</em>-like effect sizes as it is insensitive to your experimental design. Thus, it can be generalised more easily to different experimental designs that don’t match your study.</p>
+<ul>
+<li>The <strong><em>r</em> family</strong> reports standardised effect sizes in terms of the <strong>strength of association between variables</strong>. This is calculated in terms of the difference between our observations and the group mean, squared in order to stop negative scores cancelling out positive scores, and then summed up. These terms go from 0 (no association) to 1 (total association). Crucially, these can be reported in squared terms where we look at the proportion of total variance explained by an effect (e.g. based on <span class="math inline">\(r^2\)</span>). This effect size family, has different versions, such as:</li>
+<li><span class="math inline">\(\eta^2\)</span> (eta squared) for more than 2 sets of observations;</li>
+<li><span class="math inline">\(\omega^2\)</span> (omega squared) which corrects for the fact that we don’t know the population variance, only the sample variance; (This is good when sample size is small or when we have many levels in a factor.)</li>
+<li><span class="math inline">\(\epsilon^2\)</span> (epsilon squared), which is possibly the least biased of all alternatives.</li>
+</ul>
+<p>Crucially, these effect size estimates, such as <span class="math inline">\(\eta^2\)</span>, sum to 100%, so we can use partial forms of these explain variance by only 1 factor. This is useful in experimental designs, and allows us to compare effect sizes between studies.</p>
+<p>Selection of which effect size to use should come from an informed position. As such, I recommend that you read <a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2013.00863/full#h3">this great article by Daniel Lakens</a> which explains the differences between effect size measures above in relatively simple terms.</p>
+<p>How should you select between reporting <em>d</em> or <em>r</em>? When sample sizes are very different across groups, <em>d</em> is typically less biased than <em>r</em> (McGrath &amp; Meyer, 2006), but many find <em>r</em> easier to interpret.</p>
+<p>In using standardised effect sizes to calculate power you should generally avoid benchmarks, such as small, medium, and large effects, and instead focus on having an informed idea from the wider literature. However, be wary of publication bias which may overstate effect sizes. One alternative here is to specify your smallest effect size of interest in your study, and design your study around detecting that.</p>
+</div>
+<div id="calculating-effect-sizes" class="section level3">
+<h3><span class="header-section-number">10.5.2</span> Calculating Effect Sizes</h3>
+<div id="cohens-d-and-hedges-g" class="section level4">
+<h4><span class="header-section-number">10.5.2.1</span> Cohen’s d and Hedge’s g</h4>
+<p>Look at the reults of an independent-sample <em>t</em>-test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">5</span>)
+ind_t_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
+  <span class="dt">dv =</span> <span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">10</span>),
+         <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10000</span>, <span class="dt">mean =</span> <span class="dv">99</span>, <span class="dt">sd =</span> <span class="dv">10</span>)),
+  <span class="dt">id =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">10000</span>), <span class="kw">rep</span>(<span class="st">&quot;b&quot;</span>, <span class="dv">10000</span>))
+  )
+  
+<span class="kw">t.test</span>(dv ~<span class="st"> </span>id, <span class="dt">data =</span> ind_t_data)</code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  dv by id
+## t = 7.8329, df = 19998, p-value = 5.006e-15
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.8395062 1.3998889
+## sample estimates:
+## mean in group a mean in group b 
+##        100.0181         98.8984</code></pre>
+<p>It’s significant, but should we really care about this difference between these groups? One way to check this would be to look at the unstandardised effect sizes.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_t_data %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_dv =</span> <span class="kw">mean</span>(dv))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   id    mean_dv
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 a       100  
+## 2 b        98.9</code></pre>
+<p>Well, a mean difference of around 1.2 doesn’t seem like much to me. But, of course this all needs to be put in the perspective of the study you’re running. We can calculate standardised effect size for this study using the <code>cohen.d()</code> function from the <strong>effsize</strong> package. Here, we’ll make sure that we get effect sizes reported without the correction for paired data (as these samples are independent), and we’ll make sure that we get Hedge’s <em>g</em> and not Cohen’s <em>d</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cohen.d</span>(dv ~<span class="st"> </span>id, <span class="dt">paired =</span> F, <span class="dt">hedges.correction =</span> T, <span class="dt">data =</span> ind_t_data)</code></pre></div>
+<pre><code>## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.1107692 (negligible)
+## 95 percent confidence interval:
+##        inf        sup 
+## 0.08302822 0.13851023</code></pre>
+<p>Try changing the parameters in the arguments in the <code>cohen.d()</code> function above. How do the results change if we get Cohen’s <em>d</em>? Nicely, we get a 95% confidence interval around our estimates by default.</p>
+</div>
+<div id="eta-squared-and-omega-squared" class="section level4">
+<h4><span class="header-section-number">10.5.2.2</span> Eta Squared and Omega Squared</h4>
+<p>For calculating effect sizes from ANOVA designs, we’ll use the <strong>sjstats</strong> package. Here, we’ll see how we can simply calculate different alternatives from the <em>r</em> family of effect sizes using this package. For this example, we’ll use the <strong>ToothGrowth</strong> data set that we used in Chapter 7. Remember, this looks at the effect of different supplements, and doses of those supplements, on tooth growth in guinea pigs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the data</span>
+<span class="kw">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)
+
+<span class="co"># convert to tibble and make dose a factor</span>
+tooth &lt;-<span class="st"> </span>ToothGrowth %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose)) %&gt;%
+<span class="st">  </span><span class="kw">as.tibble</span>()
+
+<span class="co"># see the output</span>
+tooth</code></pre></div>
+<pre><code>## # A tibble: 60 x 3
+##      len supp  dose 
+##    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;
+##  1  4.20 VC    0.5  
+##  2 11.5  VC    0.5  
+##  3  7.30 VC    0.5  
+##  4  5.80 VC    0.5  
+##  5  6.40 VC    0.5  
+##  6 10.0  VC    0.5  
+##  7 11.2  VC    0.5  
+##  8 11.2  VC    0.5  
+##  9  5.20 VC    0.5  
+## 10  7.00 VC    0.5  
+## # ... with 50 more rows</code></pre>
+<p>Next, we’ll fit a linear model to the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth)
+<span class="kw">summary</span>(tooth_aov)</code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## supp         1  205.4   205.4  15.572 0.000231 ***
+## dose         2 2426.4  1213.2  92.000  &lt; 2e-16 ***
+## supp:dose    2  108.3    54.2   4.107 0.021860 *  
+## Residuals   54  712.1    13.2                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>OK, so we have a significant main effect of both factors, and a significant interaction. As such, we probably want the effect sizes for this. We can do this using the <code>eta_sq()</code> function for <span class="math inline">\(\eta^2\)</span> and <code>omega_sq()</code> for <span class="math inline">\(\omega^2\)</span>. For both functions, we can set the <code>partial</code> argument to true (<code>TRUE</code>/<code>T</code>) or false (<code>FALSE</code>/<code>F</code>) to get the partial forms of these effect sizes.</p>
+<div id="eta-squared" class="section level5">
+<h5><span class="header-section-number">10.5.2.2.1</span> Eta Squared</h5>
+<p>First, we’ll calculate <span class="math inline">\(\eta^2\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eta_sq</span>(tooth_aov, <span class="dt">partial =</span> F)</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   term       etasq
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 supp      0.0595
+## 2 dose      0.703 
+## 3 supp:dose 0.0314</code></pre>
+</div>
+<div id="omega-squared" class="section level5">
+<h5><span class="header-section-number">10.5.2.2.2</span> Omega Squared</h5>
+<p>Then we’ll calculate <span class="math inline">\(\omega^2\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">omega_sq</span>(tooth_aov, <span class="dt">partial =</span> F)</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   term      omegasq
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 supp       0.0555
+## 2 dose       0.693 
+## 3 supp:dose  0.0236</code></pre>
+<p>Try changing the partial argument in both of these functions to see how this works.</p>
+<p>Unfortunately, I’m not aware of any package at the moment that collects absolutely every effect size metric that you could possibly compute in R. However, as you can see it’s relatively easy to calculate effect sizes with many packages in R as long as you know what you want to calcualte.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="confidence-intervals" class="section level2">
+<h2><span class="header-section-number">10.6</span> Confidence Intervals</h2>
+<p>Any report should contain uncertainty about the parameter estimates. This can be easily calculated using the <code>confint()</code> function on any model object. There are different methods for calculating confidence intervals in this function. The default is profile based confidence intervals, but you can specify to calculate these via parameteric bootstrapping, which, assuming your model is correct (i.e. you’re not violating assumptions), tends to be preferred. We can try this with our fitted model, <code>tooth_aov</code>. How these are calculated tends to be more a concern for mixed effects models, but we can see how we get confidence intervals around our parameter estimates from our ANOVA model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(tooth_aov, <span class="dt">method =</span> <span class="st">&quot;boot&quot;</span>)</code></pre></div>
+<pre><code>##                   2.5 %    97.5 %
+## (Intercept)  10.9276907 15.532309
+## suppVC       -8.5059571 -1.994043
+## dose1         6.2140429 12.725957
+## dose2         9.5740429 16.085957
+## suppVC:dose1 -5.2846186  3.924619
+## suppVC:dose2  0.7253814  9.934619</code></pre>
+<p>It’s really that easy!</p>
+</div>
+<div id="evaluating-evidence-for-the-null-hypothesis" class="section level2">
+<h2><span class="header-section-number">10.7</span> Evaluating Evidence for the Null Hypothesis</h2>
+<p>Often in psychology we end up with a non-significant results from our statistical tests. However, it’s very difficult to interpret what this means. You may be tempted to conclude that a non-significant result means that there is no effect in the population, but this is incorrect. In fact, it’s likely that nothing in the real world has an effect size of exactly 0. As such, we need a way to determine whether or not an effect is small enough that we don’t care about it. One way to do this in the frequentist framework is with equivalence tests.</p>
+<p>One method for testing for equivalence is the two one-sided test (TOST) procedure (Schuirmann, 1987) whereby we specify the upper and lower bounds within which we deem effects to be statistcally equivalent. For example, let’s say we test two groups of people on an IQ test, and group 1 scores 100, while group 2 scores 102. This is a difference of 2 IQ points between groups. If our bounds for equivalence are difference scores of -5 and +5, we can say that any difference score within these bounds is statistically equivalent, and as such we can conclude the absence of an effect in the population. Since our score of 2 is between these bounds, we state that the two groups are equivalent.</p>
+<p>With the TOST procedure, we effectively test for an effect more extreme than our bounds using one-sided <em>t</em>-tests. As such, the null hypothesis of the TOST procedure is the presence of a true effect (i.e. the scores don’t differ from our upper and lower bounds; they aren’t within our equivalence bound) and the alternative hypothesis is that our effects fall within the lower and upper bounds (i.e. the scores differ from the lower and upper bounds; they are both smaller than the upper, and larger than the smaller bounds). This takes some getting used to, but just remember that <strong>significant effects reveal equivalence</strong>.</p>
+<div id="independent-samples-tost" class="section level3">
+<h3><span class="header-section-number">10.7.1</span> Independent Samples TOST</h3>
+<p>Here, we’ll take the data from our independent samples <em>t</em>-test from before. Remember, the data revealed that the difference between the groups was around 1.2 points on some test, as shown below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_t_data %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_dv =</span> <span class="kw">mean</span>(dv))</code></pre></div>
+<pre><code>## # A tibble: 2 x 2
+##   id    mean_dv
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 a       100  
+## 2 b        98.9</code></pre>
+<div id="tost-for-raw-scores" class="section level4">
+<h4><span class="header-section-number">10.7.1.1</span> TOST for Raw Scores</h4>
+<p>Here, we’ll test for equivalence based on raw scores and effect sizes in our samples. For the first case we’ll use the <code>TOSTtwo.raw()</code> function to calculate equivalence for an independent-samples <em>t</em>-test based on raw scores. First, we need to calculate some summary statistics from our groups.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make a summary</span>
+ind_summary &lt;-<span class="st"> </span>ind_t_data %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(dv),
+            <span class="dt">sd =</span> <span class="kw">sd</span>(dv),
+            <span class="dt">n =</span> <span class="kw">n</span>()
+            )
+ind_summary <span class="co"># return the summary</span></code></pre></div>
+<pre><code>## # A tibble: 2 x 4
+##   id     mean    sd     n
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+## 1 a     100    10.1 10000
+## 2 b      98.9  10.1 10000</code></pre>
+<p>Then, we’ll pass these results on to the function. Here, we’ll use a new function called <code>with()</code> which makes R evaluate our column names in the scope of the summary data frame (or more generally, in whatever data you pass to it). This just stops us from having to type <code>ind_summary$mean[1]</code>, <code>ind_summary$mean[2]</code>, etc. Within this, we use the TOST function and we have to define the means, standard deviations, and <em>n</em>s for each group. Group A here is always the first row in each column, so we use <code>mean[1]</code> to refer to their mean, etc. Aside from their details from the study, we need to determine our upper and lower bounds. These are -2 and 2 here, saying we don’t care about differences of only 2 between groups. Finally, we set our alpha level to determine out type-I error rate, and we specify if we assume equal variances.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(ind_summary, 
+     <span class="kw">TOSTtwo.raw</span>(<span class="dt">m1 =</span> mean[<span class="dv">1</span>],
+                 <span class="dt">m2 =</span> mean[<span class="dv">2</span>],
+                 <span class="dt">sd1 =</span> sd[<span class="dv">1</span>],
+                 <span class="dt">sd2 =</span> sd[<span class="dv">2</span>],
+                 <span class="dt">n1 =</span> n[<span class="dv">1</span>],
+                 <span class="dt">n2 =</span> n[<span class="dv">2</span>],
+                 <span class="dt">low_eqbound =</span> -<span class="dv">2</span>,
+                 <span class="dt">high_eqbound =</span> <span class="dv">2</span>, 
+                 <span class="dt">alpha =</span> <span class="fl">0.05</span>, 
+                 <span class="dt">var.equal =</span> <span class="ot">TRUE</span>
+                 )
+     )</code></pre></div>
+<pre><code>## Using alpha = 0.05 Student&#39;s t-test was significant, t(19998) = 7.832861, p = 5.005835e-15</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Using alpha = 0.05 the equivalence test based on Student&#39;s t-test was significant, t(19998) = -6.158168, p = 3.749734e-10</code></pre>
+<pre><code>## </code></pre>
+<p><img src="R_for_Psych_files/figure-html/10_tost_raw-1.png" width="672" /></p>
+<pre><code>## TOST results:
+##   t-value 1     p-value 1 t-value 2    p-value 2    df
+## 1  21.82389 1.135529e-104 -6.158168 3.749734e-10 19998
+## 
+## Equivalence bounds (raw scores):
+##   low bound raw high bound raw
+## 1            -2              2
+## 
+## TOST confidence interval:
+##   Lower Limit 90% CI raw Upper Limit 90% CI raw
+## 1              0.8845569               1.354838</code></pre>
+<p>Here, we get an output telling us the result of our test in regards to a normal <em>t</em>-test (NHST), and under the TOST procedure. We also get reminder of our equivalence bounds, and we get some confidence intervals around our scores. In this case, the normal <em>t</em>-test (NHST) was significant, as was the TOST in both directions. This means that although we found a statistically significant difference between the groups, they are statistically equivalent with our criteria. As you can see, differences between groups can be statistically significant, but the effect is so small that we don’t care.</p>
+</div>
+<div id="tost-for-effect-sizes" class="section level4">
+<h4><span class="header-section-number">10.7.1.2</span> TOST for Effect Sizes</h4>
+<p>Next, we’ll look at a case when we already know the means and standard deviations, but we define our bounds in terms of effect sizes. For this, we only need the <code>TOSTtwo()</code> function. The main difference here is that we specify our bounds in terms of effect sizes (in this case, Cohen’s <em>d</em>), but everything else remains the same. We’ll use a simpler case where we just input some values for the means, standard deviations, and <em>n</em>s.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">TOSTtwo</span>(
+  <span class="dt">m1 =</span> <span class="dv">100</span>,
+  <span class="dt">m2 =</span> <span class="dv">101</span>,
+  <span class="dt">sd1 =</span> <span class="dv">9</span>,
+  <span class="dt">sd2 =</span> <span class="fl">8.1</span>,
+  <span class="dt">n1 =</span> <span class="dv">192</span>,
+  <span class="dt">n2 =</span> <span class="dv">191</span>,
+  <span class="dt">low_eqbound_d =</span> -<span class="fl">0.3</span>, 
+  <span class="dt">high_eqbound_d =</span> <span class="fl">0.3</span>, 
+  <span class="dt">alpha =</span> <span class="fl">0.05</span>, 
+  <span class="dt">var.equal =</span> <span class="ot">FALSE</span>
+  )</code></pre></div>
+<pre><code>## Using alpha = 0.05 Welch&#39;s t-test was non-significant, t(377.2452) = -1.143038, p = 0.2537477</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Using alpha = 0.05 the equivalence test based on Welch&#39;s t-test  was significant, t(377.2452) = 1.792912, p = 0.03689397</code></pre>
+<pre><code>## </code></pre>
+<p><img src="R_for_Psych_files/figure-html/10_tost_effect_size-1.png" width="672" /></p>
+<pre><code>## TOST results:
+##   t-value 1  p-value 1 t-value 2    p-value 2       df
+## 1  1.792912 0.03689397 -4.078988 2.760588e-05 377.2452
+## 
+## Equivalence bounds (Cohen&#39;s d):
+##   low bound d high bound d
+## 1        -0.3          0.3
+## 
+## Equivalence bounds (raw scores):
+##   low bound raw high bound raw
+## 1      -2.56855        2.56855
+## 
+## TOST confidence interval:
+##   Lower Limit 90% CI raw Upper Limit 90% CI raw
+## 1              -2.442562              0.4425618</code></pre>
+<p>Here, we can see that the Welch’s independent samples <em>t</em>-test was non-significant, but the TOST was significant. This means that we didn’t find a significant difference between groups and the groups are statistically equivalent.</p>
+<p>This pacakge covers TOST for meta-analysis, one- independent- and paired-samples <em>t</em>-tests. Check out these functions by typing <code>??TOST</code> in the console. There’s a lot more to understanding this procedure than I can cover here, but if you’re interested in equivalence tests, you should check out <a href="http://journals.sagepub.com/doi/abs/10.1177/1948550617697177">this primer</a> by the package author, Daniel Lakens.</p>
+<p>Next, we’ll cover how we can use R to understand just why we need other open science practices along with the statistics that we calculate and report in R.</p>
+</div>
+</div>
+</div>
+<div id="understanding-problematic-design-choices" class="section level2">
+<h2><span class="header-section-number">10.8</span> Understanding Problematic Design Choices</h2>
+<p>Finally, we’ll touch briefly on why you should adopt Open Science practices now that you know how to create reproducible reports. We’ll use some simulations to explore cases where you may inadvertantly inflate your error rate through flexible analysis plans. Namely, we’ll look at optional stopping; choosing when you should stop recruiting participants on the fly based on your test statistics (and how to avoid inflating your error rate), and why statistics can’t save you from poor hypotheses.</p>
+<div id="optional-stopping-without-correction" class="section level3">
+<h3><span class="header-section-number">10.8.1</span> Optional Stopping (Without Correction)</h3>
+<p>The real strength in null hypothesis significance testing is that it enables us to make statements about how how often we’ll be wrong in the long run (i.e. to make a type-I error) if we make our inferences based on a certain threshold <em>p</em>-value. However, this is only the case if you stick to your research plan from the outset.</p>
+<p>Let’s look at a case where we can end up fooling ourselves that we have an effect when there isn’t a true effect in the population if we change our desgn on the fly. This example is inspired by the section on optional stopping in the <a href="https://www.coursera.org/learn/statistical-inferences">Improving your Statistical Inferences</a> course by Daniel Lakens.</p>
+<p>Here, we’ll test our hypothesis that two groups have different IQs (which isn’t the case), but if after the first 60 participants we have a non-significant result we’ll recruit another 20 and see how this affects our <em>p</em>-value distribution.</p>
+<p>First, we’ll make some functions to (1) sample data and put them in a tibble with a group identifier, (2) run a <em>t</em>-test on those groups and capture the <em>p</em>-value, and (3) a biased test where we run a <em>t</em>-test on our groups, but if it’s non-significant, we run additional participants and rerun the <em>t</em>-test with the larger sample size.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sample data and make a tibble with DV and ID based on input group sample size</span>
+<span class="co"># this is fixed at means of 100 and sd of 15 for each group</span>
+sample_groups &lt;-<span class="st"> </span>function(n_group){
+  group_one &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n_group, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
+  group_two &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n_group, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
+  data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">dv =</span> <span class="kw">c</span>(group_one, group_two),
+                 <span class="dt">id =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;group_one&quot;</span>, n_group),
+                        <span class="kw">rep</span>(<span class="st">&quot;group_two&quot;</span>, n_group)
+                        )
+  )
+}
+
+<span class="co"># run a t-test and extract the p-value for a tibble</span>
+<span class="co"># columns must be named dv and id for dependent variables and group ID</span>
+test_groups &lt;-<span class="st"> </span>function(tibble_data) {
+  test &lt;-<span class="st"> </span><span class="kw">t.test</span>(dv ~<span class="st"> </span>id, <span class="dt">data =</span> tibble_data, <span class="dt">paired =</span> <span class="ot">FALSE</span>)
+  test$p.value
+}
+
+<span class="co"># optional stopping without correction:</span>
+<span class="co"># sample data and extract p-values from a t-test</span>
+<span class="co"># if non-significant, sample additional people and retest</span>
+bias_test &lt;-<span class="st"> </span>function(sample_size, additional_n) {
+  original_data &lt;-<span class="st"> </span><span class="kw">sample_groups</span>(sample_size)
+  p_val &lt;-<span class="st"> </span><span class="kw">test_groups</span>(original_data)
+  <span class="kw">ifelse</span>(p_val &gt;=<span class="st"> </span>.<span class="dv">05</span>, 
+         p_val &lt;-<span class="st"> </span><span class="kw">test_groups</span>(
+           <span class="kw">rbind</span>(original_data, <span class="kw">sample_groups</span>(additional_n))
+           ),
+         p_val
+         )
+}</code></pre></div>
+<p>Now that we have our functions ready, we can caputre all <em>p</em>-values assuming we run the study 1000 times with the idea of testing and getting more participants before re-testing if non-significant.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>) <span class="co"># uncomment if you want different values each time</span>
+p_vals &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="kw">bias_test</span>(<span class="dv">30</span>, <span class="dv">10</span>))
+
+<span class="co"># calculate the proportion of p-values below .05</span>
+<span class="kw">mean</span>(p_vals &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<pre><code>## [1] 0.088</code></pre>
+<p>What we see is that 8.8% of our <em>p</em>-values are signficant below the .05 <span class="math inline">\(\alpha\)</span>-level. Really though, this should be 5% if the null hypothesis is true (which it is). This means that we’re inflating our type-I error rate by being so flexible in our testing and analysis procedure. It’s easy to fool yourself this way!</p>
+<p>Let’s have a look at a plot of our <em>p</em>-values. You can see that we have many more <em>p</em>-values below the .05 threshold. This is despite the fact that <em>p</em>-values should be evenly distributed under the null hypothesis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(p_vals),
+                 <span class="dt">binwidth =</span> <span class="fl">0.05</span>,
+                 <span class="dt">boundary =</span> <span class="dv">0</span>,
+                 <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), 
+                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>)
+                     ) +
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) +
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>))
+p_plot</code></pre></div>
+<p><img src="R_for_Psych_files/figure-html/10_optional_stopping_plot-1.png" width="672" /></p>
+<p>One way to remedy this situation is through optional stopping with a <em>p</em>-value correction. If you specify how many times you will look at your data and run a test before deciding whether or not to test more participants, you can correct your <em>p</em>-value to account for the infaltion in type-I error rate. One simple way is with the Bonferroni correction. Take your <em>p</em>-value, and multiply it by how many times you tested the data. There are less conservative procedures out there, but this is one simple method.</p>
+</div>
+<div id="bad-hypotheses" class="section level3">
+<h3><span class="header-section-number">10.8.2</span> Bad Hypotheses</h3>
+<p>If you have an outlandish hypothesis, where your hypothesis is unlikely to be true, you have a very low chance that a positive result indicates your hypothesis is true. We’ll explore an example from the excellent <a href="http://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a> by Richard McElreath to test the truth of this statement. (Honestly, this book has changed how I understand statistics!)</p>
+<p>To test this idea this, we can rely on Bayes’ theorem. I won’t show you the ins and outs of this theorem, but just know that the function that allows you to change the power of your study, your alpha level, and the probability that your hypothesis is true. The default values make sure that you have a design with 90% power and a 5% <span class="math inline">\(\alpha\)</span>-level, assuming that your hypothesis only has a 1% chance of being true.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_prob_hyp_true &lt;-<span class="st"> </span>function(<span class="dt">power =</span> <span class="fl">0.90</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">hyp_chance =</span> <span class="fl">0.01</span>){
+  <span class="co"># calculate probabilities</span>
+  prob_false &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>hyp_chance
+  prob_positive &lt;-<span class="st"> </span>power *<span class="st"> </span>hyp_chance +<span class="st"> </span>alpha *<span class="st"> </span>prob_false
+  prob_positive_is_true &lt;-<span class="st"> </span>power *<span class="st"> </span>hyp_chance /<span class="st"> </span>prob_positive
+  
+  <span class="co"># output probability of a positive result being true</span>
+  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;There is a&quot;</span>, 
+              <span class="kw">round</span>(prob_positive_is_true*<span class="dv">100</span>, <span class="dv">2</span>), 
+              <span class="st">&quot;% chance of a positive result being true.&quot;</span>)
+  )
+}</code></pre></div>
+<p>We’ll test the probability of a positive result being true under these default assumptions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">test_prob_hyp_true</span>()</code></pre></div>
+<pre><code>## [1] &quot;There is a 15.38 % chance of a positive result being true.&quot;</code></pre>
+<p>But what if we change the probability of the hypothesis being true to even 25%?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">test_prob_hyp_true</span>(<span class="dt">hyp_chance =</span> <span class="fl">0.25</span>)</code></pre></div>
+<pre><code>## [1] &quot;There is a 85.71 % chance of a positive result being true.&quot;</code></pre>
+<p>Even with only a <span class="math inline">\(\frac{1}{4}\)</span> chance of our hypothesis being true, we can now more confidently accept a positive result as being positive. The take home message here is that even if you design and test your studies to your best abilities, with very high power, positive findings based on bad hypotheses are likely to be misleading; good statistics can’t save you from bad hypotheses.</p>
+</div>
+</div>
+<div id="the-final-lesson" class="section level2">
+<h2><span class="header-section-number">10.9</span> The Final Lesson</h2>
+<p>Congratulations, you’ve made it! Now watch this video and follow Jeff’s advice.</p>
+<iframe width="560" height="315" align="center" src="https://www.youtube.com/embed/HuYUoLM8BNA?rel=0&amp;showinfo=0&amp;start=12" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+<p>If you ever get stuck with anything, these two book covers always help me.</p>
+<p><img src="..\img\Cat.jpg-large"; style="max-width:350px"; align="left"> <img src="..\img\Frog.jpg-large"; style="max-width:350px"; align="right></p>
+</div>
+<div id="exercises-9" class="section level2">
+<h2><span class="header-section-number">10.10</span> Exercises</h2>
+<p>For these exercises, we will look at the core concepts from this lesson. As always, load the libraries necessary for this lesson.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(effsize)
+<span class="kw">library</span>(TOSTER)</code></pre></div>
+<p>For this exercise, we’ll look at doing a full analysis using a data set and report from the excellent <a href="https://sites.trinity.edu/osl">Open Stats Lab</a>.</p>
+<p>Schroeder and Epley(2015) explored whether you’d be more likely to get a new job after delivering a speech describing your skills, or if you wrote a speech and had a potential employer read it out.</p>
+<p>Prediction: A person’s speech (i.e., vocal tone, cadence, and pitch) communicates information about intelligence better than written words. Participants: 39 professional recruiters in one of two conditions. Conditions: Listen to audio recording of speech, or read speech aloud. Dependent Variable: Intellect aggregated across intelligence, competence, and thoughtfulness.</p>
+<p>Also rated overall impression (composite of positive and negative), and how likely they would be to hire them (0 = not at all, 10 = extremely likely).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># unique URL to the data</span>
+id &lt;-<span class="st"> &quot;0Bz-rhZ21ShvOei1MM24xNndnQ00&quot;</span> <span class="co"># google file ID</span>
+
+<span class="co"># read in the data</span>
+raw_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(
+  <span class="kw">sprintf</span>(
+  <span class="st">&quot;https://docs.google.com/uc?id=%s&amp;export=download&quot;</span>, id)
+  )</code></pre></div>
+<div id="question-1-9" class="section level3">
+<h3><span class="header-section-number">10.10.1</span> Question 1</h3>
+<p>Subset the data to the columns relevant to the research question, and make the names all lowercase for consistency. Call this, <code>data_subset</code>.</p>
+</div>
+<div id="question-2-9" class="section level3">
+<h3><span class="header-section-number">10.10.2</span> Question 2</h3>
+<p>Summarise the data, creating means, standard deviations, and ns for each group in the data set. Call this <code>data_summary</code>. Put the summary in a table using the <code>kable()</code> command.</p>
+</div>
+<div id="question-3-9" class="section level3">
+<h3><span class="header-section-number">10.10.3</span> Question 3</h3>
+<p>Create a plot to display the differences across the groups.</p>
+</div>
+<div id="question-4-9" class="section level3">
+<h3><span class="header-section-number">10.10.4</span> Question 4</h3>
+<p>Test the assumptions of an independent-samples <em>t</em>-test.</p>
+</div>
+<div id="question-5-9" class="section level3">
+<h3><span class="header-section-number">10.10.5</span> Question 5</h3>
+<p>Assuming the test assumptions are met, fit a model to your data, save this as <code>t_test_output</code>. For this case, we will just look at the effect of Intellect. Output the test on completion. (Note: do not use <code>summary()</code> here, instead just type the name of the object.)</p>
+</div>
+<div id="question-6-9" class="section level3">
+<h3><span class="header-section-number">10.10.6</span> Question 6</h3>
+<p>Calculate effect sizes for the <em>t</em>-test. The choice of effect size is up to you.</p>
+</div>
+<div id="question-7-8" class="section level3">
+<h3><span class="header-section-number">10.10.7</span> Question 7</h3>
+<p>Perform a TOST on your data evaluating the equivalence against a lower bound of -0.5 and upper bound of 0.5. What does this tell us? (Hint: Use the <code>with()</code> function on the data_summary object to access the columns for that data source.)</p>
+</div>
+<div id="question-8-7" class="section level3">
+<h3><span class="header-section-number">10.10.8</span> Question 8</h3>
+<p>A. Fit a linear model to the data. Save this as <code>lm_test_output</code>. How does this compare with the <em>t</em>-test? B. Output 95% confidence intervals for the linear model. Why do they differ to that of the <em>t</em>-test?</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mixed-effects-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

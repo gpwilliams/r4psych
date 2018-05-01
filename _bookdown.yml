@@ -16,7 +16,7 @@ rmd_files: [
 "07-Advanced_Statistical_Tests_and_Evaluating_Null.Rmd", 
 "08-Simulation_and_Calculating_Power.Rmd", 
 "09-Mixed_Effects_Models.Rmd", 
-"10-Creating_Reproducible_Documents.Rmd",
+"10-Reporting_Reproducible_Research.Rmd",
 "11-references.Rmd"
 ]
 clean: [packages.bib, bookdown.bbl]

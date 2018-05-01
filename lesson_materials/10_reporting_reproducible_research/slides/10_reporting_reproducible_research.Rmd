@@ -1,0 +1,623 @@
+---
+title: "10 Reporting Reproducible Research"
+subtitle: RMarkdown and Reporting Results
+author: Glenn Williams
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: ioslides_presentation
+---
+
+<style>
+pre {
+  width: 100%; /* 106%; */
+  left: 0; /* -60px; */
+  padding: 10px 15px 10px 15px; /* 10px 0 10px 60px; */
+  font-size: 15px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width = 5, fig.height = 3) 
+```
+
+# Overview
+
+## Lesson Structure
+
+In this session we'll cover reproducible reporting in RMarkdown.
+
+Specifically, we'll cover:
+
+- Calculating effect sizes from the *r* and *d* families
+- Evaluating evidence for the null hypothesis
+- Calculating 95% confidence intervals
+- Simulation for understanding research practices
+- Data and code archiving, and pre-registration on the [Open Science Framework](https://osf.io/)
+
+## Getting Started
+
+As always, we first need to load the `tidyverse` set of packages for this Chapter. We'll also need the **sjstats**, **effsize**, and **TOSTER** packages. The first two for effect sizes, and the last for doing equivalence tests.
+
+```{r 10_load_packages, include = FALSE}
+library(tidyverse)
+library(sjstats)
+library(effsize)
+library(TOSTER)
+```
+
+```{r 10_load_packages_class, eval = FALSE}
+# load packages
+library(tidyverse)
+library(sjstats)
+library(effsize)
+library(TOSTER)
+```
+
+## Creating Reproducible Documents
+### Creating a Reproducible Report
+
+- R makes your analysis procedure clear - you write in code what you did!
+- R makes re-calculating analyses quick and easy!
+- Papers, presentations, or blog posts rely on you reporting statistics. Transcription introduces human error. Let's avoid this!
+- If I can read your code, I can implement your methods easily
+
+## Creating Reproducible Documents
+### R Notebooks and Markdown Documents
+
+You've already used R Notebooks:
+
+- Instant updating of rendered document on saving
+- Live preview of changes to the document
+- Saved as an HTML document
+- **But**, you can't save this as Word or HTML
+
+## Creating Reproducible Documents
+### R Notebooks and Markdown Documents
+
+R Markdown documents are more flexible:
+
+- Doesn't update rendered document on saving 
+- No live preview
+- **But**, flexible outputs; HTML, Word, PDF
+
+Really, it just takes changing the document type from a notebook to an html/word document.
+The code and text etc. remains the same! You just knit the file each time to render it.
+
+## Creating Reproducible Documents
+### How to make an RMarkdown file...
+
+<img src="../../../img/R_markdown.png"; style="max-width:450px">
+
+## Creating Reproducible Documents
+### How to make an RMarkdown file...
+
+Choose your output type; Documents (HTML/Word/PDF), presentations (this one; ioslides), etc.
+
+<img src="../../../img/markdown_menus.png"; style="max-width:450px">
+
+## Creating Reproducible Documents
+### How to make an RMarkdown file...
+
+The same principles apply to all documents; name it and put your name in there.
+
+e.g. `test_html_document`: title on rendering the document. 
+
+<img src="../../../img/setting_markdown_options.png"; style="max-width:450px">
+
+## Creating Reproducible Documents
+### How to make an RMarkdown file...
+
+- Save the document somewhere
+- change code and text; code chunks for code, plain text for writing.
+- formatting text is done via markdown, e.g. \*\*bold text\*\*
+- plenty of cheat sheets out there -- see this chapter for that!
+
+## Creating Reproducible Documents
+### How to make an RMarkdown file...
+
+- Knit the document to make it render 
+- Errors in code = fail to knit; but tells you the line where it fails!
+- See output in RStudio, or double click output (e.g. HTML document)
+
+## Creating Reproducible Documents
+### How to make an RMarkdown file...
+
+<img src="../../../img/script_rmarkdown.png"; style="max-width:450px">
+
+## Folder Structure for Reproducible Analyses
+
+- 1 experiment, 1 folder
+- subfolders for different tasks; Data, Analysis, Outputs
+- use **relative** file paths to read data from other folders, e.g.
+
+```{r 10_read_above_folder, eval = FALSE}
+data <- read_csv("../Data/raw_data.csv")
+```
+
+Say we're in the **Analysis** folder, this goes up one out of that folder, then looks in the **Data** folder, finally reading in the **raw_data.csv** file.
+
+## Folder Structure for Reproducible Analyses
+
+- Edit your RMarkdown file in the **Analysis** folder, then...
+- Render it in the **Outputs** folder by creating and running another R script (not RMarkdown, R). 
+
+This just needs the following line:
+
+```{r 10_render_html, eval = FALSE}
+rmarkdown::render('test_html_document.Rmd', 
+                  output_file = '../Output/test_html_document.html'
+                  )
+```
+
+- Real example in your **lesson_materials** folder
+
+## Creating Reproducible Documents
+### Tables
+
+How to make it a table from a data frame? Kable it!
+
+```{r 10_kable}
+# make example data
+tooth_dat <- ToothGrowth %>% group_by(supp) %>% summarise(mean_len = mean(len))
+# print table
+library(knitr)
+kable(tooth_dat) 
+```
+
+It's that simple. There are more ways to customise, but details of that are online.
+
+## Creating Reproducible Documents
+### Using R Markdown Templates
+
+- There are several document templates out there. Check GitHub and google for examples
+- Papaja is for 6th Edition APA paper templates
+- When installing from GitHub, you will need devtools installed
+
+```{r 10_papaja, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("crsh/papaja")
+```
+
+*We won't use this here, but it's good to know about templates*.
+
+## Creating Reproducible Documents
+### Using R Markdown Templates
+
+With any document, you can make your own reference file, e.g. references.bib
+- typically used for LaTeX documents
+- any reference manager should make a .bib file for you.
+- put the .bib file in the same folder as your Rmarkdown script, load in the YAML header, e.g.
+
+```{}
+---
+title: "Sample Document"
+output: html_document
+bibliography: bibliography.bib
+---
+```
+
+## Open Science
+
+If you have reproducible analyses, you may as well go the whole way.
+
+- **Reproducible reports**: code included and used for analyses/plots
+- **Pre-prints**: repository, e.g. [PsyAr$\chi$iv](https://psyarxiv.com/) -- get instant feedback, open to anyone to read.
+- **Pre-registration and registered reports**: full analysis plan (including outliers, $\alpha$-level, sample size justification) and hypotheses. Distinguishes exploratory from confirmatory research, formalises type-I error rate. AsPredicted.org/OSF for this. **Let me convince you about this!**
+
+## Open Science
+
+- **Open access publishing**: Let tax payers see the result of their taxes.
+- **Open materials, data, and code**: Share everything. You have back ups, can check errors, or learn from others.
+
+Crucial: **README** file (can be plain text) explaining all variables and how to understand data etc.
+
+## What to Report
+
+- We've covered inferential and descriptive statistics, as well as plots
+- Want to know if we should *care* if something is significant:
+  - Effect sizes: can be raw or standardised, raw is provided by parameter estimates, so we'll look at standardised
+  - Measure of uncertainty around estimates: e.g. 95% confidence interval from model fit
+  - Whether the null is evidence of absence
+  
+## Effect Sizes
+
+Why report standardised effect size? 
+
+- Allows comparison across studies/designs
+- Crucial for meta-analysis
+- Useful for analytic power analyses (i.e. not simulation-based (although possible here too))
+
+We saw $r$ and $r^2$ in correlation. But what about *t*-tests and ANOVA?
+
+- **sjstats** package for ANOVA and linear regression models
+- **effsize** package for *t*-tests
+
+## Cohen's d and Pearson's r
+
+2 families of effect sizes: $d$ and $r$
+
+$d$ = **standardised mean differences**. These go from 0 (no effect) to $\infty$ (infinity)
+- e.g. Cohen's $d$ = differences between group scores divided by pooled $SD$
+
+Different forms, e.g. 
+
+- *d*~z~ for within-subjects designs
+- *d*~av~ for within-subjects designs corrected for correlations between measures
+- Hedge's *g* for unbiased form (don't know population $SD$). Better for small sample sizes, and doesn't overstate effect sizes as much.
+
+The choice is up to you!
+
+## Cohen's d and Pearson's r
+
+2 families of effect sizes: $d$ and $r$
+
+$r$ = **strength of association between variables**. Goes from 0 (no association) to 1 (complete association). Sum of squared differences between observations and the mean.
+
+Different forms, e.g.
+
+- $\eta^2$ (eta squared) for more than 2 sets of observations;
+- $\omega^2$ (omega squared) corrects due to not knowing population variance. Better for small samples/many levels.
+- $\epsilon^2$ (epsilon squared), possibly the least biased.
+
+Have partial forms (which don't sum to 100%) to explain variance explained by 1 factor independently.
+
+## Cohen's d and Pearson's r 
+
+- Cohen's $d$ is typically less biased than Pearson's $r$ for uneven sample sizes
+- But $r$ is typically easier to understand.
+- For both, avoid benchmarks in planning your studies! Use the literature, but beware of **publication bias** which overstates effect sizes
+
+## Effect sizes
+### Cohen's d and Hedge's g
+
+Make some data for a *t*-test
+
+```{r 10_make_t_test_data}
+set.seed(5)
+ind_t_data <- tibble(
+  dv = c(rnorm(n = 10000, mean = 100, sd = 10),
+         rnorm(n = 10000, mean = 99, sd = 10)),
+  id = c(rep("a", 10000), rep("b", 10000))
+  )
+ind_t_data %>% group_by(id) %>% summarise(mean_dv = mean(dv))
+```
+
+## Effect sizes
+### Cohen's d and Hedge's g 
+
+Look at the reults of an independent-sample *t*-test. Do we really care? That mean difference was tiny!
+
+```{r 10_t_test}
+t.test(dv ~ id, data = ind_t_data)
+```
+
+## Effect sizes
+### Cohen's d and Hedge's g 
+
+Use the `cohen.d()` function. How do results change with and without Hedge's correction?
+
+```{r 10_cohen_d}
+cohen.d(dv ~ id, paired = F, hedges.correction = T, data = ind_t_data)
+```
+
+## Effect sizes
+### Eta Squared and Omega Squared
+
+First, make some data for a 3 by 2 ANOVA.
+ 
+```{r 10_tooth_data}
+# load the data
+data("ToothGrowth")
+# convert to tibble and make dose a factor
+tooth <- ToothGrowth %>%
+  mutate(dose = factor(dose)) %>%
+  as.tibble()
+# see the output
+tooth
+```
+
+## Effect sizes
+### Eta Squared and Omega Squared
+
+Next, we'll fit a linear model to the data.
+
+```{r 10_tooth_summary}
+tooth_aov <- aov(len ~ supp * dose, data = tooth)
+summary(tooth_aov)
+```
+
+## Effect sizes
+### Eta Squared
+
+First, we'll calculate $\eta^2$.
+
+```{r 10_eta_sq}
+eta_sq(tooth_aov, partial = F)
+```
+
+## Effect sizes
+### Omega Squared
+
+Then we'll calculate $\omega^2$. 
+
+Try changing the partial argument of both to see how it affects results.
+
+```{r 10_omega_sq}
+omega_sq(tooth_aov, partial = F)
+```
+
+## Confidence Intervals
+
+- Report the confidence intervals around your parameter estimates as a measure of uncertainty.
+- This is easy to do for any fitted model object (e.g. our ANOVA before).
+- Different methods to calculate; bootstrapping generally seen as the best.
+
+```{r 10_confint}
+confint(tooth_aov, method = "boot")
+```
+
+## Evaluating Evidence for the Null Hypothesis
+
+- What about when you have a non-significant result? That **doesn't** mean there's no difference in the population.
+- How do you evaluate whether samples are equivalent (e.g. group 1 is practically the same as group 2)?
+- One method in NHST is equivalence testing; e.g. the TOST procedure
+- TOST = two one-sided tests. 
+
+## The TOST Procedure
+
+- Set your upper and lower bounds for differences between groups of scores
+- This is the boundary within which you say the samples are equivalent
+- e.g. group 1 mean = 10, group 2 = 11, if the lower bound is 8 and upper 12, these are equivalent.
+- You're basically saying you don't care about the small differences between groups, but you're putting a number to what is "small"
+
+## The TOST Procedure
+
+- You ask; is this score the same as the upper bound? Is it the same as the lower?
+- 2 null hypotheses: one is the effect is less than or equal to the lower bound, the other is the effect is more than or equal to the upper bound
+- non-significant effect = scores aren't within the bounds, i.e. there is a true effect
+- significant effect = scores are within the bounds, i.e. they are equivalent
+
+## TOST for the independent t-test
+
+Remember the data from before?
+
+```{r 10_tost_group_summary}
+ind_t_data %>% group_by(id) %>% summarise(mean_dv = mean(dv))
+```
+
+## TOST for the independent t-test
+
+Make a summary of your data by group.
+
+```{r 10_tost_descriptives}
+# make a summary
+ind_summary <- ind_t_data %>% 
+  group_by(id) %>% 
+  summarise(mean = mean(dv),
+            sd = sd(dv),
+            n = n()
+            )
+ind_summary # return the summary
+```
+
+## TOST for the independent t-test; raw scores
+
+Run the TOST; `with()` means we don't keep doing `data$column`
+
+```{r 10_tost_raw_code, eval = FALSE}
+with(ind_summary, 
+     TOSTtwo.raw(m1 = mean[1],
+                 m2 = mean[2],
+                 sd1 = sd[1],
+                 sd2 = sd[2],
+                 n1 = n[1],
+                 n2 = n[2],
+                 low_eqbound = -2,
+                 high_eqbound = 2, 
+                 alpha = 0.05, 
+                 var.equal = TRUE
+                 )
+     )
+```
+
+## TOST for the independent t-test; raw scores
+
+```{r 10_tost_raw, echo = FALSE}
+with(ind_summary, 
+     TOSTtwo.raw(m1 = mean[1],
+                 m2 = mean[2],
+                 sd1 = sd[1],
+                 sd2 = sd[2],
+                 n1 = n[1],
+                 n2 = n[2],
+                 low_eqbound = -2,
+                 high_eqbound = 2, 
+                 alpha = 0.05, 
+                 var.equal = TRUE
+                 )
+     )
+```
+
+## TOST for the independent t-test
+
+We get an output of regular NHST *t*-tests, as well as TOST *t*-tests
+- *t*-test (NHST) was significant
+- TOST was significant in both directions
+- i.e. statistically significant, but practically meaningless
+
+## TOST for the independent t-test; effect sizes
+
+```{r 10_tost_effect_size_code, eval = FALSE}
+TOSTtwo(
+  m1 = 100,
+  m2 = 101,
+  sd1 = 9,
+  sd2 = 8.1,
+  n1 = 192,
+  n2 = 191,
+  low_eqbound_d = -0.3, 
+  high_eqbound_d = 0.3, 
+  alpha = 0.05, 
+  var.equal = FALSE
+  )
+```
+
+## TOST for the independent t-test; effect sizes
+
+```{r 10_tost_effect_size, echo = FALSE}
+TOSTtwo(
+  m1 = 100,
+  m2 = 101,
+  sd1 = 9,
+  sd2 = 8.1,
+  n1 = 192,
+  n2 = 191,
+  low_eqbound_d = -0.3, 
+  high_eqbound_d = 0.3, 
+  alpha = 0.05, 
+  var.equal = FALSE
+  )
+```
+
+## TOST for the independent t-test
+
+- *t*-test was non-significant
+- TOST was significant
+- no significant difference, and groups are equivalent
+
+This was a crash course in the TOST. Check Daniel Lakens' work for a primer on this.
+
+## Understanding Problematic Design Choices
+
+Final part of the course. 
+
+- Why do you need to consider pre-registration? It helps you to not fool yourself!
+- We'll look at flexible analysis; specifically optional stopping
+- Strength of NHST is when we stick to your plan.
+- More freedom = increased type-I errors (dodgy conclusions commence!)
+
+## Understanding Problematic Design Choices
+
+- Run the optional stopping functions in your class script.
+
+```{r 10_optional_stopping_functions, echo = FALSE}
+# sample data and make a tibble with DV and ID based on input group sample size
+# this is fixed at means of 100 and sd of 15 for each group
+sample_groups <- function(n_group){
+  group_one <- rnorm(n = n_group, mean = 100, sd = 15)
+  group_two <- rnorm(n = n_group, mean = 100, sd = 15)
+  data <- tibble(dv = c(group_one, group_two),
+                 id = c(rep("group_one", n_group),
+                        rep("group_two", n_group)
+                        )
+  )
+}
+
+# run a t-test and extract the p-value for a tibble
+# columns must be named dv and id for dependent variables and group ID
+test_groups <- function(tibble_data) {
+  test <- t.test(dv ~ id, data = tibble_data, paired = FALSE)
+  test$p.value
+}
+
+# optional stopping without correction:
+# sample data and extract p-values from a t-test
+# if non-significant, sample additional people and retest
+bias_test <- function(sample_size, additional_n) {
+  original_data <- sample_groups(sample_size)
+  p_val <- test_groups(original_data)
+  ifelse(p_val >= .05, 
+         p_val <- test_groups(
+           rbind(original_data, sample_groups(additional_n))
+           ),
+         p_val
+         )
+}
+```
+
+- Run a test with 30 people in each group. If it comes up non-significant, recruit another 10 and re-test.
+- What happens to the number of *p*-values below the .05 threshold? 
+- Remember, under the null (assumed here), they should be evenly distributed (i.e. 5% below .05 $\alpha$-level)
+
+```{r 10_optional_stopping_p_val}
+set.seed(100) # uncomment if you want different values each time
+p_vals <- replicate(n = 1000, bias_test(30, 10))
+mean(p_vals < .05)
+```
+
+## Understanding Problematic Design Choices
+### Optional Stopping (Without Correction)
+
+Let's plot these *p*-values. They aren't evenly distributed!
+- Easy fix, **Bonferroni correction**: multiply your *p*-value by the number of times you tested.
+
+## Understanding Problematic Design Choices
+### Optional Stopping (Without Correction)
+
+```{r 10_optional_stopping_plot_code, eval = FALSE}
+p_plot <- ggplot() + 
+  geom_histogram(aes(p_vals),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=8))
+p_plot
+```
+
+## Understanding Problematic Design Choices
+### Optional Stopping (Without Correction)
+
+```{r 10_optional_stopping_plot, echo = FALSE}
+p_plot <- ggplot() + 
+  geom_histogram(aes(p_vals),
+                 binwidth = 0.05,
+                 boundary = 0,
+                 fill = "white",
+                 colour = "black") +
+  scale_x_continuous(limits = c(0, 1), 
+                     breaks = seq(from = 0, to = 1, by = 0.05)
+                     ) +
+  geom_vline(xintercept = 0.05, linetype = 2, colour = "red") +
+  labs(x = "p-value") +
+  theme(axis.text.x = element_text(size=8))
+p_plot
+```
+
+## Understanding Problematic Design Choices
+
+The final lesson: good statistics can't save you from bad hypotheses.
+
+- Run the function that tests for the probability of a positive result being a true effect
+- Default parameters: 90% power, $\alpha$-level of 5%, chance of hypothesis being true is 1%.
+
+```{r 10_test_true_hyp_function, echo = FALSE}
+test_prob_hyp_true <- function(power = 0.90, alpha = 0.05, hyp_chance = 0.01){
+  # calculate probabilities
+  prob_false <- 1 - hyp_chance
+  prob_positive <- power * hyp_chance + alpha * prob_false
+  prob_positive_is_true <- power * hyp_chance / prob_positive
+  
+  # output probability of a positive result being true
+  print(paste("There is a", 
+              round(prob_positive_is_true*100, 2), 
+              "% chance of a positive result being true.")
+  )
+}
+```
+
+```{r 10_test_prob_true_default}
+test_prob_hyp_true()
+```
+
+## If You Get Stuck; My Favourite Covers
+
+<img src="../../../img/Cat.jpg-large"; style="max-width:350px"; align="left">
+<img src="../../../img/Frog.jpg-large"; style="max-width:350px"; align="right>
+
+# Exercises

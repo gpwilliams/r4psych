@@ -1,0 +1,153 @@
+---
+title: "10 - Reporting Reproducible Research"
+output: html_notebook
+---
+
+# Introduction and Setup
+
+For these exercises, we will look at the core concepts from this lesson. As always, load the libraries necessary for this lesson.
+
+```{r 10_exercise_libraries, message=FALSE}
+library(tidyverse)
+library(effsize)
+library(TOSTER)
+```
+
+For this exercise, we'll look at doing a full analysis using a data set and report from the excellent [Open Stats Lab](https://sites.trinity.edu/osl).
+
+Schroeder and Epley(2015) explored whether you'd be more likely to get a new job after delivering a speech describing your skills, or if you wrote a speech and had a potential employer read it out.
+
+Prediction: A person's speech (i.e., vocal tone, cadence, and pitch) communicates information about intelligence better than written words.
+Participants: 39 professional recruiters in one of two conditions. 
+Conditions: Listen to audio recording of speech, or read speech aloud.
+Dependent Variable: Intellect aggregated across intelligence, competence, and thoughtfulness.
+
+Also rated overall impression (composite of positive and negative), and how likely they would be to hire them (0 = not at all, 10 = extremely likely).
+
+```{r 10_load_data}
+# unique URL to the data
+id <- "0Bz-rhZ21ShvOei1MM24xNndnQ00" # google file ID
+
+# read in the data
+raw_data <- read_csv(
+  sprintf(
+  "https://docs.google.com/uc?id=%s&export=download", id)
+  )
+```
+
+## Question 1
+
+Subset the data to the columns relevant to the research question, and make the names all lowercase for consistency. 
+
+Call this, `data_subset`.
+
+```{r 10_question_one}
+data_subset <- raw_data %>% 
+  select(CONDITION, 
+         Intellect_Rating,
+         Impression_Rating,
+         Hire_Rating
+         ) %>%
+  mutate(CONDITION = as.factor(CONDITION)) %>%
+  rename_all(tolower)
+```
+
+## Question 2
+
+Summarise the data, creating means, standard deviations, and ns for each group in the data set. Call this `data_summary`. Put the summary in a table using the `kable()` command.
+
+```{r 10_question_two}
+data_summary <- data_subset %>% 
+  group_by(condition) %>% 
+  summarise(mean_intellect = mean(intellect_rating),
+            sd_intellect = sd(intellect_rating),
+            n = n()
+            )
+knitr::kable(data_summary)
+```
+
+## Question 3
+
+Create a plot to display the differences across the groups.
+
+```{r 9_question_three}
+ggplot(data = data_subset, 
+       mapping = aes(x = condition, y = intellect_rating)
+       ) +
+  geom_boxplot()
+```
+
+## Question 4
+
+Test the assumptions of an independent-samples *t*-test.
+
+```{r 10_question_four}
+# bartlett test
+bartlett.test(intellect_rating ~ condition, data = data_subset)
+
+# qq-plot
+ggplot(data = data_subset, mapping = aes(sample = intellect_rating)) +
+  stat_qq()
+```
+
+**Answer**: The homogeneity of variances assumption is met, as is the assumption of normality; therefore we can procede with the independent-samples *t*-test.
+
+## Question 5
+
+Assuming the test assumptions are met, fit a model to your data, save this as `t_test_output`. For this case, we will just look at the effect of Intellect. Output the test on completion. (Note: do not use `summary()` here, instead just type the name of the object.)
+
+```{r 10_question_five}
+t_test_output <- t.test(intellect_rating ~ condition, 
+                        paired = F, 
+                        data = data_subset
+                        )
+t_test_output
+```
+
+## Question 6
+
+Calculate effect sizes for the *t*-test. The choice of effect size is up to you.
+
+```{r 10_question_six}
+cohen.d(intellect_rating ~ condition, 
+        paired = F, 
+        hedges.correction = T, 
+        data = data_subset
+        )
+```
+
+## Question 7
+
+Perform a TOST on your data evaluating the equivalence against a lower bound of -0.5 and upper bound of 0.5. What does this tell us? (Hint: Use the `with()` function on the data_summary object to access the columns for that data source.)
+
+```{r 10_question_seven}
+with(data_summary, 
+     TOSTtwo.raw(m1 = mean_intellect[1],
+                 m2 = mean_intellect[2],
+                 sd1 = sd_intellect[1],
+                 sd2 = sd_intellect[2],
+                 n1 = n[1],
+                 n2 = n[2],
+                 low_eqbound = -0.5,
+                 high_eqbound = 0.5, 
+                 alpha = 0.05, 
+                 var.equal = TRUE
+                 )
+     )
+```
+
+**Answer**: The NHST is significant, indicating a statistical difference between the groups. The TOST is non-significant, indicating that the two groups are non-equivalent. This means that the difference between groups is large enough for us to care about them.
+
+## Question 8
+
+A. Fit a linear model to the data. Save this as `lm_test_output`. How does this compare with the *t*-test?
+B. Output 95% confidence intervals for the linear model. Why do they differ to that of the *t*-test?
+
+```{r}
+lm_test_output <- lm(intellect_rating ~ condition, data = data_subset)
+summary(lm_test_output)
+confint(lm_test_output)
+```
+
+
+
