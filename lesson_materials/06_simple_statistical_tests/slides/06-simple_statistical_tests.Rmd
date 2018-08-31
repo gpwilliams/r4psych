@@ -372,8 +372,8 @@ summary(anova_paired)
 
 General form:
 
-$$Y = \beta_0 + \beta_1 + X + e$$
-- Outcome = intercept + slope + condition effect + residual error
+$$Y = \beta_0 + \beta_1X + e$$
+- Outcome = intercept + slope $\times$ condition effect + residual error
 - *Note*: We do not fit a perfect model, hence error term
 - Residuals = distance of observed values from predicted values
 
