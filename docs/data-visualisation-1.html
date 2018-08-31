@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-05-01">
+<meta name="date" content="2018-08-31">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -443,16 +443,16 @@ starwars</code></pre></div>
 <pre><code>## # A tibble: 87 x 13
 ##    name     height  mass hair_color skin_color eye_color birth_year gender
 ##    &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Luke Sk~    172  77.0 blond      fair       blue            19.0 male  
-##  2 C-3PO       167  75.0 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-##  3 R2-D2        96  32.0 &lt;NA&gt;       white, bl~ red             33.0 &lt;NA&gt;  
-##  4 Darth V~    202 136   none       white      yellow          41.9 male  
-##  5 Leia Or~    150  49.0 brown      light      brown           19.0 female
-##  6 Owen La~    178 120   brown, gr~ light      blue            52.0 male  
-##  7 Beru Wh~    165  75.0 brown      light      blue            47.0 female
-##  8 R5-D4        97  32.0 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-##  9 Biggs D~    183  84.0 black      light      brown           24.0 male  
-## 10 Obi-Wan~    182  77.0 auburn, w~ fair       blue-gray       57.0 male  
+##  1 Luke Sk~    172    77 blond      fair       blue            19   male  
+##  2 C-3PO       167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+##  3 R2-D2        96    32 &lt;NA&gt;       white, bl~ red             33   &lt;NA&gt;  
+##  4 Darth V~    202   136 none       white      yellow          41.9 male  
+##  5 Leia Or~    150    49 brown      light      brown           19   female
+##  6 Owen La~    178   120 brown, gr~ light      blue            52   male  
+##  7 Beru Wh~    165    75 brown      light      blue            47   female
+##  8 R5-D4        97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+##  9 Biggs D~    183    84 black      light      brown           24   male  
+## 10 Obi-Wan~    182    77 auburn, w~ fair       blue-gray       57   male  
 ## # ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
 ## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <p>I know that the starwars data set is saved as a tibble. That allowed me to just print its name to see the first 10 entries. But be wary of this with large data sets where you don’t know how it’s stored. You don’t want to flood your console if your data is stored as a <code>data.frame</code>!</p>
@@ -460,7 +460,7 @@ starwars</code></pre></div>
 </div>
 <div id="plotting-in-ggplot2" class="section level3">
 <h3><span class="header-section-number">2.1.2</span> Plotting in ggplot2</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> starwars) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> starwars) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height))</code></pre></div>
 <pre><code>## Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
 <p><img src="R_for_Psych_files/figure-html/2_simple_point_plot-1.png" width="672" /></p>
@@ -484,13 +484,13 @@ starwars</code></pre></div>
 <div id="cleaning-before-plotting" class="section level3">
 <h3><span class="header-section-number">2.1.3</span> Cleaning Before Plotting</h3>
 <p>We saw before that R gave us a warning that we have rows containing missing values. In this instance, this just means that 28 people weren’t plotted because they didn’t have height and/or mass values. I’ll save filtering data properly (and what the <code>%&gt;%</code> (read pipe) symbol does) for another lesson, but we’ll get rid of them for now by running this code, below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars &lt;-<span class="st"> </span>starwars %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">drop_na</span>(height, mass)</code></pre></div>
 </div>
 <div id="changing-your-aesthetics" class="section level3">
 <h3><span class="header-section-number">2.1.4</span> Changing Your Aesthetics</h3>
 <p>Let’s say we’re interested in showing the relationship between mass and height within genders. How can we do this? One way would be to add colour to our the points on the plot in order to highlight the different genders.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
                            <span class="dt">y =</span> height, 
                            <span class="dt">colour =</span> gender
@@ -502,7 +502,7 @@ starwars</code></pre></div>
 <p>Warnings are different to errors in that your code will still work, but you need to check out whether it did what you wanted it to do. On the other hand, errors indicate you did something wrong and your code will fail to run.</p>
 <p>Now, we now have colour to see the relationship between mass and height across the genders in the data set. But it’s a little difficult to see this relationship given the outlier. Let’s see what that outlier is, and whether we should remove it from our data.</p>
 <p>Again, you’ll learn how this filtering works in later lessons. But for now, I just want to show you how it’s useful to understand your data prior to creating a final plot of your data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars %&gt;%<span class="st"> </span><span class="kw">filter</span>(mass &gt;<span class="st"> </span><span class="dv">1000</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>)</code></pre></div>
 <pre><code>## # A tibble: 1 x 13
 ##   name     height  mass hair_color skin_color  eye_color birth_year gender
 ##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
@@ -512,26 +512,26 @@ starwars</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># overwrite data to remove outlier (keep all with mass below 1000)</span>
 <span class="co"># filtered_starwars &lt;- filtered_starwars %&gt;% filter(mass &lt; 1000) # not run</span></code></pre></div>
 <p>Of course, it’s Jabba the Hutt. We could choose to throw Jabba out of our data by using the code above to overwrite the data (commented out), but for now, we’ll see just how powerful ggplot is without throwing away our data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
                            <span class="dt">y =</span> height, 
                            <span class="dt">colour =</span> gender
                            )
-             ) +
+             ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_replot_point_plot_with_colour-1.png" width="672" /></p>
 <p>This time we added a function <code>coord_cartesian()</code> to the end of our <code>ggplot()</code> call. We defined the limits of the x axis to be between 0 and 180. This way, we can get a better look at the trends in our data.</p>
 <p>Why do we define limits inside this function? Well, we could have also manually defined the scale with <code>scale_x_continuous(limits = c(0, 180))</code>. This may seem more inuitive, but it throws out the data points outside the limits prior to plotting. Why is this a problem? ggplot has some nice functionalities such as drawing lines of best fit for you based on the data in the plot. If you throw data away while plotting, your line of best fit will shift. So, if you decide that you want to change your scale but keep your model fits for all data, use <code>coord_cartesian()</code>.</p>
 <p>Given this is an outlier, your choice doesn’t matter if you’re just trying to show trends like this, but your choice is important if you want to show any inferential statistics associated with the data.</p>
 <p>Next up, we’ll look at changing a few components of the points on the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
                            <span class="dt">y =</span> height, 
                            <span class="dt">colour =</span> gender
                            ),
              <span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="co"># opacity</span>
              <span class="dt">shape =</span> <span class="dv">17</span>, <span class="co"># triangles</span>
-             <span class="dt">size =</span> <span class="dv">4</span>) +<span class="st"> </span><span class="co"># bigger points</span>
+             <span class="dt">size =</span> <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="co"># bigger points</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_adding_constant_visual_changes_to_plots-1.png" width="672" /></p>
 <p>We’ve added 3 variables outside of the <code>aes()</code> mapping. This means that all of the points within the plot are changed in the same way:</p>
@@ -542,12 +542,12 @@ starwars</code></pre></div>
 </ol>
 <p>If we put these variables within the <code>aes()</code> mappings and associated them with a variable within the data set, such as <code>gender</code>, then each point would be affected differently depending on which level of the gender factor the individual data points belong to. It’s important to remember that everything within <code>aes()</code> is mapped onto variables with which to display your data. So, the x location, y location, and anything else that you define within <code>aes()</code> can vary by your data set. Everything outside of it will affect all levels of your data.</p>
 <p>Here, we’ll define colour both within and outside the <code>aes()</code> mapping, causing a clash. Try this plot below to see how clashes are resolved in ggplot:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
                            <span class="dt">y =</span> height, 
                            <span class="dt">colour =</span> gender
                            ),
-             <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
+             <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_clashes_with_aes_and_constants_within_plots-1.png" width="672" /></p>
 <p>The different colours for each level of gender are now gone, along with the legend! Our variable definition for <code>colour</code> outside of the <code>aes()</code> mappings overrides that within <code>aes()</code>. This is because we’ve manually set the aesthetic properties of our plot by defining colour as an argument of the geom function, rather than of the aethetic mapping.</p>
@@ -559,7 +559,7 @@ starwars</code></pre></div>
 </ul>
 <p>Bear in mind that colour and fill are different properties that we can control within our plots. Below, I’ve used hex values to specify the exact colours that I’d like for the colour (around the border) and the fill for our points. You can find a nice hex selector at <a href="http://htmlcolorcodes.com/">htmlcolorcodes.com</a> which will allow you to customise your plot colours to your liking. Just change the letters and numbers after the <code>#</code> in the <code>colour</code> call, and you can change the colours to your liking.</p>
 <p>In the example below I chose my colours based on the diverging colourblind safe selection of colours from <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">Color Brewer</a>. I’d recommend that you use this if you’re going to include colour in any plots for papers/presentations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
                            <span class="dt">y =</span> height, 
                            <span class="dt">colour =</span> gender
@@ -569,17 +569,17 @@ starwars</code></pre></div>
              <span class="dt">shape =</span> <span class="dv">21</span>,
              <span class="dt">size =</span> <span class="dv">8</span>,
              <span class="dt">stroke =</span> <span class="dv">3</span>
-             ) +
+             ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_colour_and_fill-1.png" width="672" /></p>
 <p>Try to mess about with the different definitions that we provided above. Change the colour, size, and stroke values to see how these variables work.</p>
 <p>We’ve used the aesthetics above to define categorical data by colour. But what happens if we use continuous data?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
                            <span class="dt">y =</span> height, 
                            <span class="dt">colour =</span> birth_year
                            )
-             ) +
+             ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_colour_gradient-1.png" width="672" /></p>
 <p>You can see that we get a sliding scale for the hue of the points. Pretty neat, but also quite difficult to get a real idea of where on the scale the points lie.</p>
@@ -600,7 +600,7 @@ starwars</code></pre></div>
 <p>Bar plots are one of the most common plots you’ll come across in Psychology. They’re most useful for representing counts of data that are divided into categories. For example, you could use a bar plot to show the number of male and female participants in your study. Using our simulated data set, we can use a bar plot to show the counts of males and females in our data set.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> gender)
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_bar_plot-1.png" width="672" /></p>
 <p>You’ll often find that psychologists like to plot continuous data in a bar plot. I’ve done this myself, but we can do better. One alternative would be to use a boxplot, a violin plot, or even a pirate plot which we’ll explore in the next lesson (well, we are plotting with Rrrrrrrrr…).</p>
@@ -623,7 +623,7 @@ starwars</code></pre></div>
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
                      <span class="dt">y =</span> reaction_time
                      )
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_box_plot-1.png" width="672" /></p>
 <p>We can see that the median reaction time is highest for those in the mismatch condition. Notice also that the interquartile range is larger, and so is the upper limit of the whiskers. This all suggests that those in the mismatch group vary more from each other than those in the match condition.</p>
@@ -638,7 +638,7 @@ starwars</code></pre></div>
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
                      <span class="dt">y =</span> reaction_time
                      )
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_violin</span>(
     <span class="dt">trim =</span> <span class="ot">FALSE</span>,
     <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)
@@ -653,14 +653,14 @@ starwars</code></pre></div>
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
                      <span class="dt">fill =</span> response_condition
                      )
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="co"># alpha = opacity</span></code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/2_density_plot-1.png" width="672" /></p>
 </div>
 <div id="histograms" class="section level3">
 <h3><span class="header-section-number">2.2.5</span> Histograms</h3>
 <p>If you have relatively few observations, a histogram may be more appropriate than a density plot. But, we’ll just stick to the same data as before to see how this works. Here, it’s often useful to set the <code>binwidth</code> prior to plotting. ggplot will try to set it to a default if it can, but this may not be what you want. Here, we’ve set the <code>binwidth</code> to 50, so we count how many observations we have for reaction times in 50ms bins, i.e. from 225 to 275ms, from 275 to 325ms etc. We also set the <code>fill</code> of the bars to white, and the <code>colour</code> to black so we get white bars with a black outline.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
                  <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
@@ -758,10 +758,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

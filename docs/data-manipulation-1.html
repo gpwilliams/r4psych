@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-05-01">
+<meta name="date" content="2018-08-31">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -516,7 +516,7 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gather</span>(<span class="dt">data =</span> demo_wide,
        <span class="dt">key =</span> prog_lang,
        <span class="dt">value =</span> known,
-       <span class="dv">2</span>:<span class="dv">7</span>
+       <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>
        )</code></pre></div>
 <pre><code>## # A tibble: 174 x 8
 ##    ID    LANGUAGE progress gender   age tester prog_lang known
@@ -537,11 +537,11 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <div id="the-pipe" class="section level4">
 <h4><span class="header-section-number">4.3.1.1</span> The Pipe</h4>
 <p>At this point, I’ll introduce you to a new way of writing our commands which is better when we want to apply several functions. Instead of nesting it all together, we can write our commands from left to right, like how we read English text. Here, we can use the pipe <code>%&gt;%</code> at the end of a line, which can be read as “and then do…”. Below, we simply give our data.frame, demo_wide, and use the pipe to apply the gather function. This is the same code as above, just represented in a different way. Read this like, “take our data, and then, gather the columns together.”</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gather</span>(
     <span class="dt">key =</span> prog_lang,
     <span class="dt">value =</span> known,
-    <span class="dv">2</span>:<span class="dv">7</span>
+    <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>
     )</code></pre></div>
 <pre><code>## # A tibble: 174 x 8
 ##    ID    LANGUAGE progress gender   age tester prog_lang known
@@ -558,12 +558,12 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 ## 10 A2    English  END      female    33 RHB    C++           1
 ## # ... with 164 more rows</code></pre>
 <p>Still, we’re left with the same grouping problem, so we can apply another function, <code>arrange()</code> at the end to arrange the data by ID.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_wide <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gather</span>(
     <span class="dt">key =</span> prog_lang,
     <span class="dt">value =</span> known,
-    <span class="dv">2</span>:<span class="dv">7</span>
-    ) %&gt;%
+    <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>
+    ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">arrange</span>(ID)</code></pre></div>
 <pre><code>## # A tibble: 174 x 8
 ##    ID    LANGUAGE progress gender   age tester prog_lang  known
@@ -581,15 +581,15 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 ## # ... with 164 more rows</code></pre>
 <p>This is now in a better format. However, we have a lot of rows with NA in the language, where people don’t know that language. This is redundant information. Additionally, the known column is now redundant if we remove the languages people don’t know, so we can remove this column too.</p>
 <p>We’ll save this data under the name demo_gathered for comparison with the long formatted data set we already loaded.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span>demo_wide %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span>demo_wide <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">gather</span>(
     <span class="dt">key =</span> prog_lang,
     <span class="dt">value =</span> known,
-    <span class="dv">2</span>:<span class="dv">7</span>,
+    <span class="dv">2</span><span class="op">:</span><span class="dv">7</span>,
     <span class="dt">na.rm =</span> <span class="ot">TRUE</span>
-    ) %&gt;%
-<span class="st">  </span><span class="kw">arrange</span>(ID) %&gt;%
-<span class="st">  </span><span class="kw">select</span>(-known)</code></pre></div>
+    ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(ID) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>known)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered</code></pre></div>
 <pre><code>## # A tibble: 54 x 7
 ##    ID    LANGUAGE progress gender   age tester prog_lang 
@@ -613,7 +613,7 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <p>In our wide formatted data, we have two columns which store two data points in each cell: funRec has information on whether people found the experiment fun, and whether they’d recommend it to others. Let’s split this into separate columns. We just need to supply the name of the column to separate <code>col</code>, and what you want it split into, as a list of the names the columns should take, <code>into</code>.</p>
 <p>As in previous examples, I’ll remove the middle rows from the data here, but feel free to print them all yourself in R. I’ve presented the code to do this below.</p>
 <p><em>Remember, if we want to supply multiple names, we need to concatenate (<code>c</code>) these names together.</em></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(
     <span class="dt">col =</span> funRec,
     <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>)
@@ -633,7 +633,7 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 ## 10 27    GW     5     no        2018-03-21 03:23:57_2018-03-21 04:28:01
 ## # ... with 44 more rows</code></pre>
 <p>Take a look at the two new columns. They are both parsed as characters, even though the fun column only contains numbers. We can ask R to convert the data types for the split column during in the separate function using <code>convert = TRUE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(
     <span class="dt">col =</span> funRec,
     <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>),
@@ -656,12 +656,12 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <p>That looks much better!</p>
 <p><code>separate()</code> is smart enough to know how to separate values if they are split by special characters. Before, we had an underscore in the funRec column, so it split the data by that. If this fails, you can directly specify how the values are separated using the <code>sep</code> argument.</p>
 <p>We also wanted to split the completion_time column. It looks like the first value is the start time, and the second is the end time. So lets separate these together with the funRec column.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(
     <span class="dt">col =</span> funRec,
     <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>),
     <span class="dt">convert =</span> <span class="ot">TRUE</span>
-    ) %&gt;%
+    ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(
     <span class="dt">col =</span> completion_time,
     <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start_time&quot;</span>, <span class="st">&quot;end_time&quot;</span>)
@@ -684,12 +684,12 @@ demo_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 ## # ... with 44 more rows</code></pre>
 <p>Oops, it looks like separate struggled to split our completion_time column correctly. That’s because it wants to split at every dash, whitespace, colon, and underscore; pretty much the whole completion_time column! Let’s be more specific and tell <code>separate()</code> to just split the columns at the underscore.</p>
 <p>Let’s also overwrite our demo_wide data (assign the new data to the old data name) to use this new format in the next section.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span>demo_gathered %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered &lt;-<span class="st"> </span>demo_gathered <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(
     <span class="dt">col =</span> funRec,
     <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;fun&quot;</span>, <span class="st">&quot;recommend&quot;</span>),
     <span class="dt">convert =</span> <span class="ot">TRUE</span>
-    ) %&gt;%
+    ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(
     <span class="dt">col =</span> completion_time,
     <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;start_time&quot;</span>, <span class="st">&quot;end_time&quot;</span>),
@@ -742,22 +742,22 @@ demo_gathered</code></pre></div>
 <p>What if we want to go from long format to wide format? This can be useful if we want to do a paired-samples <em>t</em>-test, where we might want the first scores in one column, and the second scores in another. (We’ll cover <em>t</em>-tests in Lesson 6.)</p>
 <p>To make our long data wide, we use the <code>spread()</code> function from tidyr.</p>
 <p>To spread our data we need a <code>key</code>, the column containing the values we’d like to make column headers. We then also need a value, indicating the column containing the scores associated with the values. Often, this would be conditions in an experiment and test results. Our problem here is a little more complex. Remember that we dropped the redundant column telling us whether or not people knew a programming language? Well, we need this back so we have a <code>value</code> column to work from. We’ll <strong>mutate</strong> our data to create this column. To do this, we use the <code>mutate()</code> function from <strong>dplyr</strong>. (We’ll look at this process in detail in Lesson 5.) Here, we just set everything in our new known column to 1 as we know if a language is present in a participant’s row, then they know it!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">known =</span> <span class="dv">1</span>) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">demo_gathered <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">known =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> prog_lang, <span class="dt">value =</span> known)</code></pre></div>
 <pre><code>## # A tibble: 29 x 11
 ##    ID      fun recommend start_time    end_time   `C++` FORTRAN JavaScript
 ##    &lt;chr&gt; &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
-##  1 22        7 no        2018-03-22 2~ 2018-03-2~  1.00    1.00       1.00
-##  2 23        6 yes       2018-03-26 0~ 2018-03-2~  1.00   NA         NA   
-##  3 24        4 yes       2018-03-21 1~ 2018-03-2~ NA       1.00      NA   
-##  4 25        0 no        2018-03-25 1~ 2018-03-2~  1.00    1.00      NA   
-##  5 26        4 no        2018-03-24 0~ 2018-03-2~ NA      NA         NA   
-##  6 27        5 no        2018-03-21 0~ 2018-03-2~ NA       1.00       1.00
-##  7 28        0 no        2018-03-25 2~ 2018-03-2~ NA      NA         NA   
-##  8 29        6 no        2018-03-24 1~ 2018-03-2~ NA      NA          1.00
-##  9 30        1 yes       2018-03-22 0~ 2018-03-2~ NA       1.00      NA   
-## 10 A2        4 yes       2018-03-23 0~ 2018-03-2~  1.00    1.00       1.00
+##  1 22        7 no        2018-03-22 2~ 2018-03-2~     1       1          1
+##  2 23        6 yes       2018-03-26 0~ 2018-03-2~     1      NA         NA
+##  3 24        4 yes       2018-03-21 1~ 2018-03-2~    NA       1         NA
+##  4 25        0 no        2018-03-25 1~ 2018-03-2~     1       1         NA
+##  5 26        4 no        2018-03-24 0~ 2018-03-2~    NA      NA         NA
+##  6 27        5 no        2018-03-21 0~ 2018-03-2~    NA       1          1
+##  7 28        0 no        2018-03-25 2~ 2018-03-2~    NA      NA         NA
+##  8 29        6 no        2018-03-24 1~ 2018-03-2~    NA      NA          1
+##  9 30        1 yes       2018-03-22 0~ 2018-03-2~    NA       1         NA
+## 10 A2        4 yes       2018-03-23 0~ 2018-03-2~     1       1          1
 ## # ... with 19 more rows, and 3 more variables: Python &lt;dbl&gt;, R &lt;dbl&gt;,
 ## #   Ruby &lt;dbl&gt;</code></pre>
 <p>Great, that looks exactly the same as our demo_wide data, only with our nicely split columns.</p>
@@ -771,7 +771,7 @@ demo_gathered</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>)</code></pre></div>
 <p>To make these examples easier to digest, we’ll simply look at a single trial for an individual participant. Again, to do this we’ll use some subsetting techniques that we’ll go into in more detail in Lesson 5.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># keep only trials (rows) where the word is ant</span>
-lexdec_subset &lt;-<span class="st"> </span>lexdec_data %&gt;%<span class="st"> </span><span class="kw">filter</span>(word ==<span class="st"> &quot;ant&quot;</span>)</code></pre></div>
+lexdec_subset &lt;-<span class="st"> </span>lexdec_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(word <span class="op">==</span><span class="st"> &quot;ant&quot;</span>)</code></pre></div>
 <p>How does the data look? We have 26 recorded entries. For two participants, they have missing values (NA) for these trials, indicating that they didn’t complete this trial, or the trial wasn’t recorded.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_subset</code></pre></div>
 <pre><code>## # A tibble: 25 x 9
@@ -868,8 +868,8 @@ demo_gathered</code></pre></div>
 <li>Merge with the demographic data set in a long format, but exclude the prog_lang column and filter the leftover duplicate rows prior to merging.</li>
 </ol>
 <p>For now, we’ll stick with 1 as it required fewer steps. But first, we want to transform our nicely tidied demographic data set into a wide format. Just reuse the code from the spreading section to do this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_demo_wide &lt;-<span class="st"> </span>demo_gathered %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">known =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="co"># create a value column</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_demo_wide &lt;-<span class="st"> </span>demo_gathered <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">known =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># create a value column</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> prog_lang, <span class="dt">value =</span> known) <span class="co"># data to wide format</span>
 
 <span class="co"># see the output</span>
@@ -896,11 +896,11 @@ tidy_demo_wide</code></pre></div>
 <pre><code>## # A tibble: 5 x 6
 ##   subject trial native_language progress correct    RT
 ##   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
-## 1 A1        157 English         &lt;NA&gt;     correct   876
-## 2 23         41 &lt;NA&gt;            no       correct   602
-## 3 24         43 ENGLISH         END      correct   541
-## 4 28         NA &lt;NA&gt;            ethics   &lt;NA&gt;       NA
-## 5 A2         NA English         END      &lt;NA&gt;       NA</code></pre>
+## 1 A1        157 English         &lt;NA&gt;     correct  876.
+## 2 23         41 &lt;NA&gt;            no       correct  602.
+## 3 24         43 ENGLISH         END      correct  541.
+## 4 28         NA &lt;NA&gt;            ethics   &lt;NA&gt;      NA 
+## 5 A2         NA English         END      &lt;NA&gt;      NA</code></pre>
 <p>As you can see, we now have 1 row for each subject.</p>
 <p>In cases where we don’t have data on a subject, we simply have NAs in those cells.</p>
 <ul>
@@ -917,16 +917,16 @@ tidy_demo_wide</code></pre></div>
 <pre><code>## # A tibble: 24 x 6
 ##    subject trial native_language progress correct    RT
 ##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
-##  1 A3         41 Other           END      correct   607
-##  2 C          86 English         END      correct   725
-##  3 D         138 Other           END      correct   628
-##  4 I         105 Other           END      correct   560
-##  5 J          43 Other           END      correct   516
-##  6 K         183 English         END      correct   442
-##  7 M1        171 English         END      correct   427
-##  8 M2        117 Other           END      correct   530
-##  9 P         115 Other           END      correct   533
-## 10 R1         30 English         END      correct   483
+##  1 A3         41 Other           END      correct  607.
+##  2 C          86 English         END      correct  725.
+##  3 D         138 Other           END      correct  628.
+##  4 I         105 Other           END      correct  560.
+##  5 J          43 Other           END      correct  516.
+##  6 K         183 English         END      correct  442.
+##  7 M1        171 English         END      correct  427.
+##  8 M2        117 Other           END      correct  530.
+##  9 P         115 Other           END      correct  533.
+## 10 R1         30 English         END      correct  483.
 ## # ... with 14 more rows</code></pre>
 </div>
 <div id="left-join" class="section level4">
@@ -937,16 +937,16 @@ tidy_demo_wide</code></pre></div>
 <pre><code>## # A tibble: 25 x 6
 ##    subject trial native_language progress correct    RT
 ##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
-##  1 A1        157 English         &lt;NA&gt;     correct   876
-##  2 A3         41 Other           END      correct   607
-##  3 C          86 English         END      correct   725
-##  4 D         138 Other           END      correct   628
-##  5 I         105 Other           END      correct   560
-##  6 J          43 Other           END      correct   516
-##  7 K         183 English         END      correct   442
-##  8 M1        171 English         END      correct   427
-##  9 M2        117 Other           END      correct   530
-## 10 P         115 Other           END      correct   533
+##  1 A1        157 English         &lt;NA&gt;     correct  876.
+##  2 A3         41 Other           END      correct  607.
+##  3 C          86 English         END      correct  725.
+##  4 D         138 Other           END      correct  628.
+##  5 I         105 Other           END      correct  560.
+##  6 J          43 Other           END      correct  516.
+##  7 K         183 English         END      correct  442.
+##  8 M1        171 English         END      correct  427.
+##  9 M2        117 Other           END      correct  530.
+## 10 P         115 Other           END      correct  533.
 ## # ... with 15 more rows</code></pre>
 </div>
 <div id="right-join" class="section level4">
@@ -957,16 +957,16 @@ tidy_demo_wide</code></pre></div>
 <pre><code>## # A tibble: 29 x 6
 ##    subject trial native_language progress correct    RT
 ##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;
-##  1 22        116 OTHER           FINISH   correct   467
-##  2 23         41 &lt;NA&gt;            no       correct   602
-##  3 24         43 ENGLISH         END      correct   541
-##  4 25         NA &lt;NA&gt;            ethics   &lt;NA&gt;       NA
-##  5 26         NA english         ethics   &lt;NA&gt;       NA
-##  6 27        114 ENGLISH         END      correct   586
-##  7 28         NA &lt;NA&gt;            ethics   &lt;NA&gt;       NA
-##  8 29         NA english         ethics   &lt;NA&gt;       NA
-##  9 30         77 &lt;NA&gt;            &lt;NA&gt;     correct   608
-## 10 A2         NA English         END      &lt;NA&gt;       NA
+##  1 22        116 OTHER           FINISH   correct  467.
+##  2 23         41 &lt;NA&gt;            no       correct  602.
+##  3 24         43 ENGLISH         END      correct  541.
+##  4 25         NA &lt;NA&gt;            ethics   &lt;NA&gt;      NA 
+##  5 26         NA english         ethics   &lt;NA&gt;      NA 
+##  6 27        114 ENGLISH         END      correct  586.
+##  7 28         NA &lt;NA&gt;            ethics   &lt;NA&gt;      NA 
+##  8 29         NA english         ethics   &lt;NA&gt;      NA 
+##  9 30         77 &lt;NA&gt;            &lt;NA&gt;     correct  608.
+## 10 A2         NA English         END      &lt;NA&gt;      NA 
 ## # ... with 19 more rows</code></pre>
 </div>
 </div>
@@ -1017,7 +1017,7 @@ tidy_demo_wide</code></pre></div>
 <pre><code>## # A tibble: 1 x 9
 ##   subject trial native_language word  class frequency length correct    RT
 ##   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;
-## 1 A1        157 English         ant   anim~      5.35      3 correct   876</code></pre>
+## 1 A1        157 English         ant   anim~      5.35      3 correct  876.</code></pre>
 <p>In this case, we only get participant A1 from the lexdec_subset data set, as we do not have any demographic information on this subject in the tidy_demo_wide data set.</p>
 </div>
 </div>
@@ -1047,7 +1047,7 @@ tidy_demo_wide</code></pre></div>
 
 <span class="co"># demographic data</span>
 ex_demo_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="st"> </span><span class="dv">6</span>),
+  <span class="dt">subject =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="st"> </span><span class="dv">6</span>),
   <span class="dt">height =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">170</span>, <span class="dv">160</span>, <span class="dv">165</span>, <span class="ot">NA</span>, <span class="dv">180</span>),
   <span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">70</span>, <span class="dv">65</span>, <span class="dv">80</span>, <span class="ot">NA</span>, <span class="dv">77</span>, <span class="dv">90</span>),
   <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">19</span>, <span class="ot">NA</span>, <span class="dv">22</span>, <span class="dv">28</span>)
@@ -1082,12 +1082,12 @@ messy_demo_data</code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   subject height_weight   age
 ##     &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt;
-## 1       1 NA_70          18.0
-## 2       2 170_65         19.0
-## 3       3 160_80         19.0
-## 4       4 165_NA         NA  
-## 5       5 NA_77          22.0
-## 6       6 180_90         28.0</code></pre>
+## 1       1 NA_70            18
+## 2       2 170_65           19
+## 3       3 160_80           19
+## 4       4 165_NA           NA
+## 5       5 NA_77            22
+## 6       6 180_90           28</code></pre>
 <div id="question-3-3" class="section level4">
 <h4><span class="header-section-number">4.6.3.1</span> Question 3</h4>
 <p>Separate the messy columns into two tidy columns for height and weight. Should you convert the values when separating the column? If so, why?</p>
@@ -1191,10 +1191,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

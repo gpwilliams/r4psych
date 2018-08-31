@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-05-01">
+<meta name="date" content="2018-08-31">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -492,14 +492,14 @@ The Markdown Environment
 <p>Remember using relative file paths? This will be handy for getting R to read data from different folders within the Experiment 1 folder. For example, if we keep our R Markdown file in the Analysis sub folder, we can read data from the data folder by using two dots before the folder and file name. This tells R to look up from our current directory (the Analysis folder) by one folder. So now R is in the Experiment 1 folder. We then tell it to go to the Data folder <code>/Data/</code> and read the raw data from the .csv file called <code>raw_data.csv</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;../Data/raw_data.csv&quot;</span>)</code></pre></div>
 <p>Similarly, we can then keep a normal R script that will render our document for us (without using the Knit button) called something like <code>render_document.R</code> in our Analysis folder. In this, the only code we need is as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmarkdown::<span class="kw">render</span>(<span class="st">&#39;test_html_document.Rmd&#39;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rmarkdown<span class="op">::</span><span class="kw">render</span>(<span class="st">&#39;test_html_document.Rmd&#39;</span>, 
                   <span class="dt">output_file =</span> <span class="st">&#39;../Output/test_html_document.html&#39;</span>
                   )</code></pre></div>
 <p>When we run this code, R will execute everything in the R Markdown file, and save the rendered output in our Output folder. This is less convenient than using the Knit button, which is easy if you want your RMarkdown file and HTML output in the same folder. But if we want a nicely structured file system, using the above method is best.</p>
 <p>You can find an example of how this works in the <code>reproducible_example</code> folder on in the <code>lesson_materials</code> folder for lesson 10.</p>
 <p>Here, you’ll notice I use Kable for printing tables, e.g.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make example data</span>
-tooth_dat &lt;-<span class="st"> </span>ToothGrowth %&gt;%<span class="st"> </span><span class="kw">group_by</span>(supp) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_len =</span> <span class="kw">mean</span>(len))
+tooth_dat &lt;-<span class="st"> </span>ToothGrowth <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(supp) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_len =</span> <span class="kw">mean</span>(len))
 
 <span class="co"># print table</span>
 <span class="kw">library</span>(knitr)
@@ -528,7 +528,7 @@ tooth_dat &lt;-<span class="st"> </span>ToothGrowth %&gt;%<span class="st"> </sp
 <h3><span class="header-section-number">10.2.3</span> Using R Markdown Templates</h3>
 <p>We can use different R Markdown templates to save us from specifying too many options. One popular template is the 6th Edition APA article template from the <strong>papaja</strong> package. You can install this from GitHub using the following code. If the install doesn’t work check you’ve installed devtools first and install if needed by uncommenting the first line.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
-devtools::<span class="kw">install_github</span>(<span class="st">&quot;crsh/papaja&quot;</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/papaja&quot;</span>)</code></pre></div>
 <p>The <a href="https://github.com/crsh/papaja">GitHub page for pajapa</a> has lots of nice documentation on how to use the different helper functions from this package. This makes for easy and pretty reporting in your document.</p>
 <p>You may already have your workflow geared towards word, where you can easily use reference managers like Mendeley to input and report all of your references. One way to get the most out of this is to export your references as a .bib file, and include this in the same folder as your R Markdown document scripts. Then you just include the code <code>bibliography: bibliography.bib</code> under the output command in the header of your R Markdown file, and just use the shorthand to refer to your references in the R Markdown text, e.g. <code>@reference_date</code> and R will sort the references for you. You can find help on using bibliographies in RMarkdown at the <a href="https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html">RStudio website</a>.</p>
 <p>If all of this sounds a little overwhelming, you could just use RMarkdown to make your Results section, and copy those sections across to your working Word file on completion, but you lose a lot of the benefits of automation by doing so.</p>
@@ -590,7 +590,7 @@ ind_t_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
   <span class="dt">id =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;a&quot;</span>, <span class="dv">10000</span>), <span class="kw">rep</span>(<span class="st">&quot;b&quot;</span>, <span class="dv">10000</span>))
   )
   
-<span class="kw">t.test</span>(dv ~<span class="st"> </span>id, <span class="dt">data =</span> ind_t_data)</code></pre></div>
+<span class="kw">t.test</span>(dv <span class="op">~</span><span class="st"> </span>id, <span class="dt">data =</span> ind_t_data)</code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -603,14 +603,14 @@ ind_t_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 ## mean in group a mean in group b 
 ##        100.0181         98.8984</code></pre>
 <p>It’s significant, but should we really care about this difference between these groups? One way to check this would be to look at the unstandardised effect sizes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_t_data %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_dv =</span> <span class="kw">mean</span>(dv))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_t_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(id) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_dv =</span> <span class="kw">mean</span>(dv))</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   id    mean_dv
 ##   &lt;chr&gt;   &lt;dbl&gt;
-## 1 a       100  
+## 1 a       100. 
 ## 2 b        98.9</code></pre>
 <p>Well, a mean difference of around 1.2 doesn’t seem like much to me. But, of course this all needs to be put in the perspective of the study you’re running. We can calculate standardised effect size for this study using the <code>cohen.d()</code> function from the <strong>effsize</strong> package. Here, we’ll make sure that we get effect sizes reported without the correction for paired data (as these samples are independent), and we’ll make sure that we get Hedge’s <em>g</em> and not Cohen’s <em>d</em>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cohen.d</span>(dv ~<span class="st"> </span>id, <span class="dt">paired =</span> F, <span class="dt">hedges.correction =</span> T, <span class="dt">data =</span> ind_t_data)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cohen.d</span>(dv <span class="op">~</span><span class="st"> </span>id, <span class="dt">paired =</span> F, <span class="dt">hedges.correction =</span> T, <span class="dt">data =</span> ind_t_data)</code></pre></div>
 <pre><code>## 
 ## Hedges&#39;s g
 ## 
@@ -627,8 +627,8 @@ ind_t_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
 <span class="kw">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)
 
 <span class="co"># convert to tibble and make dose a factor</span>
-tooth &lt;-<span class="st"> </span>ToothGrowth %&gt;%
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose)) %&gt;%
+tooth &lt;-<span class="st"> </span>ToothGrowth <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dose =</span> <span class="kw">factor</span>(dose)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">as.tibble</span>()
 
 <span class="co"># see the output</span>
@@ -636,19 +636,19 @@ tooth</code></pre></div>
 <pre><code>## # A tibble: 60 x 3
 ##      len supp  dose 
 ##    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;
-##  1  4.20 VC    0.5  
-##  2 11.5  VC    0.5  
-##  3  7.30 VC    0.5  
-##  4  5.80 VC    0.5  
-##  5  6.40 VC    0.5  
-##  6 10.0  VC    0.5  
-##  7 11.2  VC    0.5  
-##  8 11.2  VC    0.5  
-##  9  5.20 VC    0.5  
-## 10  7.00 VC    0.5  
+##  1   4.2 VC    0.5  
+##  2  11.5 VC    0.5  
+##  3   7.3 VC    0.5  
+##  4   5.8 VC    0.5  
+##  5   6.4 VC    0.5  
+##  6  10   VC    0.5  
+##  7  11.2 VC    0.5  
+##  8  11.2 VC    0.5  
+##  9   5.2 VC    0.5  
+## 10   7   VC    0.5  
 ## # ... with 50 more rows</code></pre>
 <p>Next, we’ll fit a linear model to the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(len ~<span class="st"> </span>supp *<span class="st"> </span>dose, <span class="dt">data =</span> tooth)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tooth_aov &lt;-<span class="st"> </span><span class="kw">aov</span>(len <span class="op">~</span><span class="st"> </span>supp <span class="op">*</span><span class="st"> </span>dose, <span class="dt">data =</span> tooth)
 <span class="kw">summary</span>(tooth_aov)</code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## supp         1  205.4   205.4  15.572 0.000231 ***
@@ -662,23 +662,19 @@ tooth</code></pre></div>
 <h5><span class="header-section-number">10.5.2.2.1</span> Eta Squared</h5>
 <p>First, we’ll calculate <span class="math inline">\(\eta^2\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">eta_sq</span>(tooth_aov, <span class="dt">partial =</span> F)</code></pre></div>
-<pre><code>## # A tibble: 3 x 2
-##   term       etasq
-##   &lt;chr&gt;      &lt;dbl&gt;
-## 1 supp      0.0595
-## 2 dose      0.703 
-## 3 supp:dose 0.0314</code></pre>
+<pre><code>##        term etasq
+## 1      supp 0.059
+## 2      dose 0.703
+## 3 supp:dose 0.031</code></pre>
 </div>
 <div id="omega-squared" class="section level5">
 <h5><span class="header-section-number">10.5.2.2.2</span> Omega Squared</h5>
 <p>Then we’ll calculate <span class="math inline">\(\omega^2\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">omega_sq</span>(tooth_aov, <span class="dt">partial =</span> F)</code></pre></div>
-<pre><code>## # A tibble: 3 x 2
-##   term      omegasq
-##   &lt;chr&gt;       &lt;dbl&gt;
-## 1 supp       0.0555
-## 2 dose       0.693 
-## 3 supp:dose  0.0236</code></pre>
+<pre><code>##        term omegasq
+## 1      supp   0.055
+## 2      dose   0.693
+## 3 supp:dose   0.024</code></pre>
 <p>Try changing the partial argument in both of these functions to see how this works.</p>
 <p>Unfortunately, I’m not aware of any package at the moment that collects absolutely every effect size metric that you could possibly compute in R. However, as you can see it’s relatively easy to calculate effect sizes with many packages in R as long as you know what you want to calcualte.</p>
 </div>
@@ -706,18 +702,18 @@ tooth</code></pre></div>
 <div id="independent-samples-tost" class="section level3">
 <h3><span class="header-section-number">10.7.1</span> Independent Samples TOST</h3>
 <p>Here, we’ll take the data from our independent samples <em>t</em>-test from before. Remember, the data revealed that the difference between the groups was around 1.2 points on some test, as shown below.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_t_data %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_dv =</span> <span class="kw">mean</span>(dv))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_t_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(id) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean_dv =</span> <span class="kw">mean</span>(dv))</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   id    mean_dv
 ##   &lt;chr&gt;   &lt;dbl&gt;
-## 1 a       100  
+## 1 a       100. 
 ## 2 b        98.9</code></pre>
 <div id="tost-for-raw-scores" class="section level4">
 <h4><span class="header-section-number">10.7.1.1</span> TOST for Raw Scores</h4>
 <p>Here, we’ll test for equivalence based on raw scores and effect sizes in our samples. For the first case we’ll use the <code>TOSTtwo.raw()</code> function to calculate equivalence for an independent-samples <em>t</em>-test based on raw scores. First, we need to calculate some summary statistics from our groups.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make a summary</span>
-ind_summary &lt;-<span class="st"> </span>ind_t_data %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(id) %&gt;%<span class="st"> </span>
+ind_summary &lt;-<span class="st"> </span>ind_t_data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(id) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(dv),
             <span class="dt">sd =</span> <span class="kw">sd</span>(dv),
             <span class="dt">n =</span> <span class="kw">n</span>()
@@ -726,7 +722,7 @@ ind_summary <span class="co"># return the summary</span></code></pre></div>
 <pre><code>## # A tibble: 2 x 4
 ##   id     mean    sd     n
 ##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-## 1 a     100    10.1 10000
+## 1 a     100.   10.1 10000
 ## 2 b      98.9  10.1 10000</code></pre>
 <p>Then, we’ll pass these results on to the function. Here, we’ll use a new function called <code>with()</code> which makes R evaluate our column names in the scope of the summary data frame (or more generally, in whatever data you pass to it). This just stops us from having to type <code>ind_summary$mean[1]</code>, <code>ind_summary$mean[2]</code>, etc. Within this, we use the TOST function and we have to define the means, standard deviations, and <em>n</em>s for each group. Group A here is always the first row in each column, so we use <code>mean[1]</code> to refer to their mean, etc. Aside from their details from the study, we need to determine our upper and lower bounds. These are -2 and 2 here, saying we don’t care about differences of only 2 between groups. Finally, we set our alpha level to determine out type-I error rate, and we specify if we assume equal variances.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">with</span>(ind_summary, 
@@ -736,29 +732,40 @@ ind_summary <span class="co"># return the summary</span></code></pre></div>
                  <span class="dt">sd2 =</span> sd[<span class="dv">2</span>],
                  <span class="dt">n1 =</span> n[<span class="dv">1</span>],
                  <span class="dt">n2 =</span> n[<span class="dv">2</span>],
-                 <span class="dt">low_eqbound =</span> -<span class="dv">2</span>,
+                 <span class="dt">low_eqbound =</span> <span class="op">-</span><span class="dv">2</span>,
                  <span class="dt">high_eqbound =</span> <span class="dv">2</span>, 
                  <span class="dt">alpha =</span> <span class="fl">0.05</span>, 
                  <span class="dt">var.equal =</span> <span class="ot">TRUE</span>
                  )
      )</code></pre></div>
-<pre><code>## Using alpha = 0.05 Student&#39;s t-test was significant, t(19998) = 7.832861, p = 5.005835e-15</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## 
-## Using alpha = 0.05 the equivalence test based on Student&#39;s t-test was significant, t(19998) = -6.158168, p = 3.749734e-10</code></pre>
-<pre><code>## </code></pre>
-<p><img src="R_for_Psych_files/figure-html/10_tost_raw-1.png" width="672" /></p>
 <pre><code>## TOST results:
-##   t-value 1     p-value 1 t-value 2    p-value 2    df
-## 1  21.82389 1.135529e-104 -6.158168 3.749734e-10 19998
+## t-value lower bound: 21.82   p-value lower bound: 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
+## t-value upper bound: -6.16   p-value upper bound: 0.0000000004
+## degrees of freedom : 19998
 ## 
 ## Equivalence bounds (raw scores):
-##   low bound raw high bound raw
-## 1            -2              2
+## low eqbound: -2 
+## high eqbound: 2
 ## 
 ## TOST confidence interval:
-##   Lower Limit 90% CI raw Upper Limit 90% CI raw
-## 1              0.8845569               1.354838</code></pre>
+## lower bound 90% CI: 0.885
+## upper bound 90% CI:  1.355
+## 
+## NHST confidence interval:
+## lower bound 95% CI: 0.84
+## upper bound 95% CI:  1.4
+## 
+## Equivalence Test Result:
+## The equivalence test was significant, t(19998) = -6.158, p = 0.000000000375, given equivalence bounds of -2.000 and 2.000 (on a raw scale) and an alpha of 0.05.</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Null Hypothesis Test Result:
+## The null hypothesis test was significant, t(19998) = 7.833, p = 0.00000000000000501, given an alpha of 0.05.</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Based on the equivalence test and the null-hypothesis test combined, we can conclude that the observed effect is statistically different from zero and statistically equivalent to zero.</code></pre>
+<pre><code>## </code></pre>
+<p><img src="R_for_Psych_files/figure-html/10_tost_raw-1.png" width="672" /></p>
 <p>Here, we get an output telling us the result of our test in regards to a normal <em>t</em>-test (NHST), and under the TOST procedure. We also get reminder of our equivalence bounds, and we get some confidence intervals around our scores. In this case, the normal <em>t</em>-test (NHST) was significant, as was the TOST in both directions. This means that although we found a statistically significant difference between the groups, they are statistically equivalent with our criteria. As you can see, differences between groups can be statistically significant, but the effect is so small that we don’t care.</p>
 </div>
 <div id="tost-for-effect-sizes" class="section level4">
@@ -771,32 +778,43 @@ ind_summary <span class="co"># return the summary</span></code></pre></div>
   <span class="dt">sd2 =</span> <span class="fl">8.1</span>,
   <span class="dt">n1 =</span> <span class="dv">192</span>,
   <span class="dt">n2 =</span> <span class="dv">191</span>,
-  <span class="dt">low_eqbound_d =</span> -<span class="fl">0.3</span>, 
+  <span class="dt">low_eqbound_d =</span> <span class="op">-</span><span class="fl">0.3</span>, 
   <span class="dt">high_eqbound_d =</span> <span class="fl">0.3</span>, 
   <span class="dt">alpha =</span> <span class="fl">0.05</span>, 
   <span class="dt">var.equal =</span> <span class="ot">FALSE</span>
   )</code></pre></div>
-<pre><code>## Using alpha = 0.05 Welch&#39;s t-test was non-significant, t(377.2452) = -1.143038, p = 0.2537477</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## 
-## Using alpha = 0.05 the equivalence test based on Welch&#39;s t-test  was significant, t(377.2452) = 1.792912, p = 0.03689397</code></pre>
-<pre><code>## </code></pre>
-<p><img src="R_for_Psych_files/figure-html/10_tost_effect_size-1.png" width="672" /></p>
 <pre><code>## TOST results:
-##   t-value 1  p-value 1 t-value 2    p-value 2       df
-## 1  1.792912 0.03689397 -4.078988 2.760588e-05 377.2452
+## t-value lower bound: 1.79    p-value lower bound: 0.037
+## t-value upper bound: -4.08   p-value upper bound: 0.00003
+## degrees of freedom : 377.25
 ## 
 ## Equivalence bounds (Cohen&#39;s d):
-##   low bound d high bound d
-## 1        -0.3          0.3
+## low eqbound: -0.3 
+## high eqbound: 0.3
 ## 
 ## Equivalence bounds (raw scores):
-##   low bound raw high bound raw
-## 1      -2.56855        2.56855
+## low eqbound: -2.5686 
+## high eqbound: 2.5686
 ## 
 ## TOST confidence interval:
-##   Lower Limit 90% CI raw Upper Limit 90% CI raw
-## 1              -2.442562              0.4425618</code></pre>
+## lower bound 90% CI: -2.443
+## upper bound 90% CI:  0.443
+## 
+## NHST confidence interval:
+## lower bound 95% CI: -2.72
+## upper bound 95% CI:  0.72
+## 
+## Equivalence Test Result:
+## The equivalence test was significant, t(377.25) = 1.793, p = 0.0369, given equivalence bounds of -2.569 and 2.569 (on a raw scale) and an alpha of 0.05.</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Null Hypothesis Test Result:
+## The null hypothesis test was non-significant, t(377.25) = -1.143, p = 0.254, given an alpha of 0.05.</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Based on the equivalence test and the null-hypothesis test combined, we can conclude that the observed effect is statistically not different from zero and statistically equivalent to zero.</code></pre>
+<pre><code>## </code></pre>
+<p><img src="R_for_Psych_files/figure-html/10_tost_effect_size-1.png" width="672" /></p>
 <p>Here, we can see that the Welch’s independent samples <em>t</em>-test was non-significant, but the TOST was significant. This means that we didn’t find a significant difference between groups and the groups are statistically equivalent.</p>
 <p>This pacakge covers TOST for meta-analysis, one- independent- and paired-samples <em>t</em>-tests. Check out these functions by typing <code>??TOST</code> in the console. There’s a lot more to understanding this procedure than I can cover here, but if you’re interested in equivalence tests, you should check out <a href="http://journals.sagepub.com/doi/abs/10.1177/1948550617697177">this primer</a> by the package author, Daniel Lakens.</p>
 <p>Next, we’ll cover how we can use R to understand just why we need other open science practices along with the statistics that we calculate and report in R.</p>
@@ -814,7 +832,7 @@ ind_summary <span class="co"># return the summary</span></code></pre></div>
 <p>First, we’ll make some functions to (1) sample data and put them in a tibble with a group identifier, (2) run a <em>t</em>-test on those groups and capture the <em>p</em>-value, and (3) a biased test where we run a <em>t</em>-test on our groups, but if it’s non-significant, we run additional participants and rerun the <em>t</em>-test with the larger sample size.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># sample data and make a tibble with DV and ID based on input group sample size</span>
 <span class="co"># this is fixed at means of 100 and sd of 15 for each group</span>
-sample_groups &lt;-<span class="st"> </span>function(n_group){
+sample_groups &lt;-<span class="st"> </span><span class="cf">function</span>(n_group){
   group_one &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n_group, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
   group_two &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n_group, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
   data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">dv =</span> <span class="kw">c</span>(group_one, group_two),
@@ -826,18 +844,18 @@ sample_groups &lt;-<span class="st"> </span>function(n_group){
 
 <span class="co"># run a t-test and extract the p-value for a tibble</span>
 <span class="co"># columns must be named dv and id for dependent variables and group ID</span>
-test_groups &lt;-<span class="st"> </span>function(tibble_data) {
-  test &lt;-<span class="st"> </span><span class="kw">t.test</span>(dv ~<span class="st"> </span>id, <span class="dt">data =</span> tibble_data, <span class="dt">paired =</span> <span class="ot">FALSE</span>)
-  test$p.value
+test_groups &lt;-<span class="st"> </span><span class="cf">function</span>(tibble_data) {
+  test &lt;-<span class="st"> </span><span class="kw">t.test</span>(dv <span class="op">~</span><span class="st"> </span>id, <span class="dt">data =</span> tibble_data, <span class="dt">paired =</span> <span class="ot">FALSE</span>)
+  test<span class="op">$</span>p.value
 }
 
 <span class="co"># optional stopping without correction:</span>
 <span class="co"># sample data and extract p-values from a t-test</span>
 <span class="co"># if non-significant, sample additional people and retest</span>
-bias_test &lt;-<span class="st"> </span>function(sample_size, additional_n) {
+bias_test &lt;-<span class="st"> </span><span class="cf">function</span>(sample_size, additional_n) {
   original_data &lt;-<span class="st"> </span><span class="kw">sample_groups</span>(sample_size)
   p_val &lt;-<span class="st"> </span><span class="kw">test_groups</span>(original_data)
-  <span class="kw">ifelse</span>(p_val &gt;=<span class="st"> </span>.<span class="dv">05</span>, 
+  <span class="kw">ifelse</span>(p_val <span class="op">&gt;=</span><span class="st"> </span>.<span class="dv">05</span>, 
          p_val &lt;-<span class="st"> </span><span class="kw">test_groups</span>(
            <span class="kw">rbind</span>(original_data, <span class="kw">sample_groups</span>(additional_n))
            ),
@@ -849,21 +867,21 @@ bias_test &lt;-<span class="st"> </span>function(sample_size, additional_n) {
 p_vals &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="kw">bias_test</span>(<span class="dv">30</span>, <span class="dv">10</span>))
 
 <span class="co"># calculate the proportion of p-values below .05</span>
-<span class="kw">mean</span>(p_vals &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<span class="kw">mean</span>(p_vals <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
 <pre><code>## [1] 0.088</code></pre>
 <p>What we see is that 8.8% of our <em>p</em>-values are signficant below the .05 <span class="math inline">\(\alpha\)</span>-level. Really though, this should be 5% if the null hypothesis is true (which it is). This means that we’re inflating our type-I error rate by being so flexible in our testing and analysis procedure. It’s easy to fool yourself this way!</p>
 <p>Let’s have a look at a plot of our <em>p</em>-values. You can see that we have many more <em>p</em>-values below the .05 threshold. This is despite the fact that <em>p</em>-values should be evenly distributed under the null hypothesis.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>() +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(p_vals),
                  <span class="dt">binwidth =</span> <span class="fl">0.05</span>,
                  <span class="dt">boundary =</span> <span class="dv">0</span>,
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) +
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>)
-                     ) +
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>))
 p_plot</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/10_optional_stopping_plot-1.png" width="672" /></p>
@@ -873,15 +891,15 @@ p_plot</code></pre></div>
 <h3><span class="header-section-number">10.8.2</span> Bad Hypotheses</h3>
 <p>If you have an outlandish hypothesis, where your hypothesis is unlikely to be true, you have a very low chance that a positive result indicates your hypothesis is true. We’ll explore an example from the excellent <a href="http://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a> by Richard McElreath to test the truth of this statement. (Honestly, this book has changed how I understand statistics!)</p>
 <p>To test this idea this, we can rely on Bayes’ theorem. I won’t show you the ins and outs of this theorem, but just know that the function that allows you to change the power of your study, your alpha level, and the probability that your hypothesis is true. The default values make sure that you have a design with 90% power and a 5% <span class="math inline">\(\alpha\)</span>-level, assuming that your hypothesis only has a 1% chance of being true.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_prob_hyp_true &lt;-<span class="st"> </span>function(<span class="dt">power =</span> <span class="fl">0.90</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">hyp_chance =</span> <span class="fl">0.01</span>){
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_prob_hyp_true &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">power =</span> <span class="fl">0.90</span>, <span class="dt">alpha =</span> <span class="fl">0.05</span>, <span class="dt">hyp_chance =</span> <span class="fl">0.01</span>){
   <span class="co"># calculate probabilities</span>
-  prob_false &lt;-<span class="st"> </span><span class="dv">1</span> -<span class="st"> </span>hyp_chance
-  prob_positive &lt;-<span class="st"> </span>power *<span class="st"> </span>hyp_chance +<span class="st"> </span>alpha *<span class="st"> </span>prob_false
-  prob_positive_is_true &lt;-<span class="st"> </span>power *<span class="st"> </span>hyp_chance /<span class="st"> </span>prob_positive
+  prob_false &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>hyp_chance
+  prob_positive &lt;-<span class="st"> </span>power <span class="op">*</span><span class="st"> </span>hyp_chance <span class="op">+</span><span class="st"> </span>alpha <span class="op">*</span><span class="st"> </span>prob_false
+  prob_positive_is_true &lt;-<span class="st"> </span>power <span class="op">*</span><span class="st"> </span>hyp_chance <span class="op">/</span><span class="st"> </span>prob_positive
   
   <span class="co"># output probability of a positive result being true</span>
   <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;There is a&quot;</span>, 
-              <span class="kw">round</span>(prob_positive_is_true*<span class="dv">100</span>, <span class="dv">2</span>), 
+              <span class="kw">round</span>(prob_positive_is_true<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>), 
               <span class="st">&quot;% chance of a positive result being true.&quot;</span>)
   )
 }</code></pre></div>
@@ -979,10 +997,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

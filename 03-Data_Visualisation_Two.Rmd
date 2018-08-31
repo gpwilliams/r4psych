@@ -117,11 +117,11 @@ For the additional lines:
 ```{r 3_pirate_plot}
 ggplot(data = rt_data, 
        mapping = aes(x = response_condition, 
-                     y = reaction_time)
+                     y = reaction_time,
+                     colour = response_condition,
+                     fill = response_condition)
        ) +
-  geom_pirate(mapping = aes(colour = response_condition, 
-                            fill = response_condition)
-              ) +
+  geom_pirate() +
   labs(x = "Motor Skill", y = "Reaction Time (ms)") +
   scale_x_discrete(labels = c("Impaired", "Intact")) +
   scale_y_continuous(limits = c(0, 600), 

@@ -323,8 +323,8 @@ As before, we have a significant difference between the two congruency condition
 
 In this section, we'll look at linear regression. We would typically fit a linear model when we predict a linear relationship between one or more variable(s), e.g. $X$, and a continuous dependent variable, e.g. $Y$. This relationship for any one subject (or item) can be described as:
 
-$$Y = \beta_0 + \beta_1 + X + e$$
-Where $Y$, the outcome or dependent variable, is calcualted by the individual's intercept value $\beta_0$ (i.e. typically the score at 0 on the x-axis of a graph), their slope term $\beta_1$, or how much to increase their $Y$ value for every tick of the x-axis, and an error term $e$, which is the residual error from our model.
+$$Y = \beta_0 + \beta_1 X + e$$
+Where $Y$, the outcome or dependent variable, is calcualted by the individual's intercept value $\beta_0$ (i.e. typically the score at 0 on the x-axis of a graph), their slope term $\beta_1$, or how much to increase their $Y$ value for every tick of the x-axis, multiplied by their value along the X axis ($X$), and an error term $e$, which is the residual error from our model.
 
 The residual error (or simply residuals) show the difference between our predicted values from our model and observed values from our data. (Remember our QQ-plot? This looks at how your residuals are distributed. If they are normally distributed, then we're OK!)
 

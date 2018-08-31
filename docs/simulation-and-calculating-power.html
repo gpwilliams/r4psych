@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-05-01">
+<meta name="date" content="2018-08-31">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -467,13 +467,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>##  [1] 0.90863606 0.60394266 0.78368223 0.47517589 0.03186038 0.51023136
 ##  [7] 0.51073424 0.58464829 0.76034355 0.08140943</code></pre>
 <p>What happens if we calculate the mean from 10 samples from a uniform distribution? What about 100, 1000, or even 10000?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
 <pre><code>## [1] 0.4962173</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
 <pre><code>## [1] 0.4754119</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
 <pre><code>## [1] 0.4878579</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">10000</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) %&gt;%<span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">10000</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</code></pre></div>
 <pre><code>## [1] 0.5000408</code></pre>
 <p>As you can see, as we draw more samples, the mean of these samples better represents the true distribution of our sampling procedure. Think about how this could impact your studies. With small sample sizes, we’re likely to get skewed data that tends towards the extremes.</p>
 </div>
@@ -490,18 +490,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 small_samp &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
 large_samp &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
 
-<span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(small_samp)) +<span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
+<span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(small_samp)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_norm_sample_sizes-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(large_samp)) +<span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(large_samp)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_norm_sample_sizes-2.png" width="672" /></p>
 <p>As before, the data seem to fit the population distribution better when we have larger sample sizes. Let’s change the standard deviation to see how variance in our samples influences the distribution of effects. Here, we’ll just focus on the larger sample size:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">5</span>)
 large_sd_samp &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">15</span>)
 small_sd_samp &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="fl">1.5</span>)
 
-<span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(large_sd_samp)) +<span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
+<span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(large_sd_samp)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_norm_standard_deviation-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(small_sd_samp)) +<span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(small_sd_samp)) <span class="op">+</span><span class="st"> </span><span class="kw">coord_cartesian</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_norm_standard_deviation-2.png" width="672" /></p>
 <p>As you can see, as we sample from a population with a smaller standard deviation, our samples will be closer to the mean score. This has important implications for our statistical tests; the larger the standard deviation within our samples, the more samples we’ll need to detect an effect.</p>
 </div>
@@ -519,14 +519,14 @@ small_sd_samp &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span 
 <pre><code>##  [1]  9 12  7 11 10  7 11 10  8  9</code></pre>
 <p>Now each trial roughly follows a 50% success rate as before, but each observation is out of 20 trials. We can convert these to proportions by simply dividing the whole thing by the same value as our size argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1000</span>)
-<span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) /<span class="st"> </span><span class="dv">20</span></code></pre></div>
+<span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>) <span class="op">/</span><span class="st"> </span><span class="dv">20</span></code></pre></div>
 <pre><code>##  [1] 0.45 0.60 0.35 0.55 0.50 0.35 0.55 0.50 0.40 0.45</code></pre>
 <p>Did you notice the repetition of 20 in our code? We’ll save some repetition for the value of 20 by defining the number of trials in a separate object, and passing the name of this object to our argument. This should get you used to using objects as holders for values as a precursor to writing your own functions!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># define number of trials</span>
 n_trials &lt;-<span class="st"> </span><span class="dv">20</span>
 
 <span class="kw">set.seed</span>(<span class="dv">1000</span>)
-<span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">size =</span> n_trials, <span class="dt">prob =</span> <span class="fl">0.5</span>) /<span class="st"> </span>n_trials</code></pre></div>
+<span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">size =</span> n_trials, <span class="dt">prob =</span> <span class="fl">0.5</span>) <span class="op">/</span><span class="st"> </span>n_trials</code></pre></div>
 <pre><code>##  [1] 0.45 0.60 0.35 0.55 0.50 0.35 0.55 0.50 0.40 0.45</code></pre>
 <p>Also, I think our code is a bit more readable now that we know what the 20 represents!</p>
 <p>Can you guess what the mean of a 1000 samples might look like? What about the distribution of these? Try calculating the mean of 1000 samples of 20 trials with a probability of 0.5 and plot this out using a histrogram.</p>
@@ -587,7 +587,7 @@ psychic_outcome</code></pre></div>
 ##                    0.3</code></pre>
 <p>So, it seems that although they performed above chance, the sample size is too small to consider this difference between the observed and expected probability of success to be meaningful.</p>
 <p>What if we change it so the psychic got it right 30 times in 100 chances? We’ll simply multiply the number of successes and observations by 10 and test for a significant difference between the observed and expected probability.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">binom.test</span>(<span class="dt">x =</span> psychic_outcome *<span class="st"> </span><span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">10</span> *<span class="st"> </span><span class="dv">10</span>, <span class="dt">p =</span> <span class="fl">0.2</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">binom.test</span>(<span class="dt">x =</span> psychic_outcome <span class="op">*</span><span class="st"> </span><span class="dv">10</span>, <span class="dt">n =</span> <span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="dv">10</span>, <span class="dt">p =</span> <span class="fl">0.2</span>)</code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 
@@ -605,13 +605,13 @@ psychic_outcome</code></pre></div>
 <div id="understanding-p-values-and-type-i-errors" class="section level3">
 <h3><span class="header-section-number">8.3.1</span> Understanding p-values and Type-I Errors</h3>
 <p>User defined functions in R take the form of:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_name &lt;-<span class="st"> </span>function(parameters_to_vary) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_name &lt;-<span class="st"> </span><span class="cf">function</span>(parameters_to_vary) {
   things_for_the_function_to_do
 }</code></pre></div>
 <p>We first have to specify a name for our function. Often, it’s best to use verb-like naming here, as your functions are things you want to do to something (e.g. calculate descriptive statitics etc.). You then assign to this name how the function works. Within the function call in parentheses, you can define different parameters of your function that you’d like to vary. This simply makes your function flexible to doing things to data with different inputs. Finally, within the body of the function, <code>{here is the body}</code>, we define things to do to your parameters that are passed to the function. The last thing that you type in your function is what your function returns to you when you run it (i.e. what you will see when you run the function).</p>
 <p>Let’s transform our sampling and testing procedure into a function. I’ve commented this code so you understand how it works.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># define function name and parameters to vary</span>
-simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_success) {
+simulate_psychic_test &lt;-<span class="st"> </span><span class="cf">function</span>(n_trials, prob_success) {
   
   <span class="co"># sample binomial data (successs or not) for varying trials and probabilities </span>
   psychic_outcome &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">size =</span> n_trials, <span class="dt">prob =</span> prob_success)
@@ -620,7 +620,7 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
   test &lt;-<span class="st"> </span><span class="kw">binom.test</span>(<span class="dt">x =</span> psychic_outcome, <span class="dt">n =</span> n_trials, <span class="dt">p =</span> prob_success)
   
   <span class="co"># retrieve the p-value, this is what is returned in our function</span>
-  test$p.value
+  test<span class="op">$</span>p.value
 }</code></pre></div>
 <p>Congratulations, you’ve just made your first user-defined function in R! Here, we’ve defined a function that will take a number of trials and a probability of success on each trial. It will then sample some data under those parameters, before testing it against the probability of success. Finally, it will extract the <em>p</em>-value from that test and return it to you. Let’s see this in action.</p>
 <p>Run and rerun the code below several times to see what happens. What do the <em>p</em>-values look like? Remember, a value below 0.05 is typical in psychology for the cut-off point where we’ll reject the null hypothesis of no difference between the observed and predicted probabilities of success.</p>
@@ -634,17 +634,17 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
                                                <span class="dt">prob_success =</span> <span class="fl">0.2</span>
                                                )
                          )</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(simulations),
                  <span class="dt">binwidth =</span> <span class="fl">0.05</span>,
                  <span class="dt">boundary =</span> <span class="dv">0</span>,
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) +
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>)
-                     ) +
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_simulate_function_plot-1.png" width="672" /></p>
 <p>The red cut-off line shows the number of values that fall below our 0.05 cut-off point for our <em>p</em>-values. That looks like roughly 3 in 100 samples, or 3% of our simulated studies.</p>
@@ -654,17 +654,17 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
                                                <span class="dt">prob_success =</span> <span class="fl">0.2</span>
                                                )
                          )</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(simulations),
                  <span class="dt">binwidth =</span> <span class="fl">0.05</span>,
                  <span class="dt">boundary =</span> <span class="dv">0</span>,
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) +
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>)
-                     ) +
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_simulate_function_replications_plot-1.png" width="672" /></p>
 <p>Here we have roughly 500 studies showing <em>p</em>-values below 0.05. Thats 5% of the 10,000 studies. Is that surprising? Even when there’s no effect in the population, with repeated sampling we’re bound to find some cases where we have <em>p</em>-values below 0.05. That’s why replications are so important for our research!</p>
@@ -674,7 +674,7 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
 <h3><span class="header-section-number">8.3.2</span> Understanding Power and Type-II Errors</h3>
 <p>What if we change our function so that we can give the psychic a different probability to the true probability of a success?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># define function name and parameters to vary</span>
-simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_success, psychic_success) {
+simulate_psychic_test &lt;-<span class="st"> </span><span class="cf">function</span>(n_trials, prob_success, psychic_success) {
   
   <span class="co"># sample binomial data (successs or not) for varying trials and probabilities </span>
   psychic_outcome &lt;-<span class="st"> </span><span class="kw">rbinom</span>(<span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">size =</span> n_trials, <span class="dt">prob =</span> psychic_success)
@@ -683,7 +683,7 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
   test &lt;-<span class="st"> </span><span class="kw">binom.test</span>(<span class="dt">x =</span> psychic_outcome, <span class="dt">n =</span> n_trials, <span class="dt">p =</span> prob_success)
   
   <span class="co"># retrieve the p-value, this is what is returned in our function</span>
-  test$p.value
+  test<span class="op">$</span>p.value
 }</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">true_effect_simulations &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> <span class="dv">1000</span>, 
                          <span class="kw">simulate_psychic_test</span>(<span class="dt">n_trials =</span> <span class="dv">100</span>, 
@@ -691,17 +691,17 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
                                                <span class="dt">psychic_success =</span> <span class="fl">0.25</span>
                                                )
                          )</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(true_effect_simulations),
                  <span class="dt">binwidth =</span> <span class="fl">0.05</span>,
                  <span class="dt">boundary =</span> <span class="dv">0</span>,
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) +
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>)
-                     ) +
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_function_type_II_plot-1.png" width="672" /></p>
 <p>Now it looks like we have a much larger proportion of studies that give us <em>p</em>-values below 0.05. Actually, it’s 211, or 21.1%.</p>
@@ -714,21 +714,21 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
                                                <span class="dt">psychic_success =</span> <span class="fl">0.25</span>
                                                )
                          )</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() +<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(true_effect_simulations),
                  <span class="dt">binwidth =</span> <span class="fl">0.05</span>,
                  <span class="dt">boundary =</span> <span class="dv">0</span>,
                  <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) +
+                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), 
                      <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.05</span>)
-                     ) +
-<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) +
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) +
+                     ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">linetype =</span> <span class="dv">2</span>, <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>))</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/8_do_function_type_II_power_plot-1.png" width="672" /></p>
 <p>That looks better! Now, in most experiments, we’ll get a <em>p</em>-value below 0.05. How many studies detected this true effect? Our power for this study is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(true_effect_simulations &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(true_effect_simulations <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
 <pre><code>## [1] 0.821</code></pre>
 <p>Great, at 600 trials we now have an 82.1% chance to detect a true effect if present. It looks like we’ll have one tired psychic by the end of this experiment!</p>
 <p>As long as you can construct data that fits the form of your planned experiment you can use simulation to calculate the predicted power under the parameters that you set. <a href="https://youtu.be/avHLWnX2ehQ">As long as we have <em>t</em></a>- or <em>p</em>-values to capture, we can simulate data, fit our model, and count the number of <em>p</em>-values below our threshold (or <em>t</em>-values above our threshold) where we reject the null hypothesis in order to come up with the power of our study. Typically, around 1000 samples is enough for this.</p>
@@ -739,28 +739,28 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
 <h4><span class="header-section-number">8.3.3.1</span> Simulation for Simple Designs</h4>
 <p>Now we understand how we can use simulation to create data sets and observe the probability that we’ll detect a true effect with a simple design, we can build on our knowledge to look at more complex designs.</p>
 <p>Let’s return to the IQ study data. Remember, that the IQ test has a mean of 100 and standard deviation of 15. Let’s run a power analysis to detect whether a predicted sample of people differ from this average range.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">calculate_IQ_power &lt;-<span class="st"> </span>function(n, sample_mean, sample_sd, pop_mean, pop_sd) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">calculate_IQ_power &lt;-<span class="st"> </span><span class="cf">function</span>(n, sample_mean, sample_sd, pop_mean, pop_sd) {
   sample_data &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> n, <span class="dt">mean =</span> sample_mean, <span class="dt">sd =</span> sample_sd)
   test &lt;-<span class="st"> </span><span class="kw">t.test</span>(sample_data, <span class="dt">mu =</span> pop_mean, <span class="dt">sd =</span> pop_sd)
-  test$p.value
+  test<span class="op">$</span>p.value
 }</code></pre></div>
 <p>Now let’s run our function, replicated 1000 times. We’ll sample assuming our population and sample have the same standard deviation, but the sample mean is 5 points higher than the general population. Finally, we’ll sample 60 people.</p>
 <p>We’ll then calculate the mean number of <em>p</em>-values below our 0.05 cut off point to see our power.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_vals &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">calculate_IQ_power</span>(<span class="dv">60</span>, <span class="dv">105</span>, <span class="dv">15</span>, <span class="dv">100</span>, <span class="dv">15</span>))
-<span class="kw">mean</span>(p_vals &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<span class="kw">mean</span>(p_vals <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
 <pre><code>## [1] 0.735</code></pre>
 <p>Great, 73.5% power is not bad at all. Maybe we should bump up the sample size a little to get to 80%.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_vals &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">calculate_IQ_power</span>(<span class="dv">75</span>, <span class="dv">105</span>, <span class="dv">15</span>, <span class="dv">100</span>, <span class="dv">15</span>))
-<span class="kw">mean</span>(p_vals &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<span class="kw">mean</span>(p_vals <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
 <pre><code>## [1] 0.835</code></pre>
 <p>It looks like around 75 participants does a good job for us. What if the standard deviation for our sample was smaller? i.e. what if the samples tend to be more similar in their mean scores?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_vals &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">calculate_IQ_power</span>(<span class="dv">20</span>, <span class="dv">105</span>, <span class="fl">7.5</span>, <span class="dv">100</span>, <span class="dv">15</span>))
-<span class="kw">mean</span>(p_vals &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<span class="kw">mean</span>(p_vals <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
 <pre><code>## [1] 0.82</code></pre>
 <p>Now it looks like we only need around 20 participants to achieve the same power.</p>
 <p>What if the mean score is half as large as before?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_vals &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">calculate_IQ_power</span>(<span class="dv">70</span>, <span class="fl">102.5</span>, <span class="fl">7.5</span>, <span class="dv">100</span>, <span class="dv">15</span>))
-<span class="kw">mean</span>(p_vals &lt;<span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
+<span class="kw">mean</span>(p_vals <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</code></pre></div>
 <pre><code>## [1] 0.793</code></pre>
 <p>Now we need more participants, even though the standard deviation is as small as before.</p>
 <p>As you can see, sample size, effect sizes, and variance all affect the ability to detect a true effect.</p>
@@ -773,29 +773,29 @@ simulate_psychic_test &lt;-<span class="st"> </span>function(n_trials, prob_succ
 n &lt;-<span class="st"> </span><span class="dv">60</span>
 
 <span class="co"># create your design</span>
-design &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">A =</span> <span class="kw">c</span>(-.<span class="dv">5</span>, .<span class="dv">5</span>), <span class="dt">B =</span> <span class="kw">c</span>(-.<span class="dv">5</span>, .<span class="dv">5</span>))
+design &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">A =</span> <span class="kw">c</span>(<span class="op">-</span>.<span class="dv">5</span>, .<span class="dv">5</span>), <span class="dt">B =</span> <span class="kw">c</span>(<span class="op">-</span>.<span class="dv">5</span>, .<span class="dv">5</span>))
 
 <span class="co"># create table of data</span>
-data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">subject =</span> <span class="dv">1</span>:<span class="st"> </span>n,
-               <span class="dt">A =</span> <span class="kw">rep</span>(design$A, n/<span class="dv">4</span>),
-               <span class="dt">B =</span> <span class="kw">rep</span>(design$B, n/<span class="dv">4</span>)
+data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">subject =</span> <span class="dv">1</span><span class="op">:</span><span class="st"> </span>n,
+               <span class="dt">A =</span> <span class="kw">rep</span>(design<span class="op">$</span>A, n<span class="op">/</span><span class="dv">4</span>),
+               <span class="dt">B =</span> <span class="kw">rep</span>(design<span class="op">$</span>B, n<span class="op">/</span><span class="dv">4</span>)
                )
 
 <span class="co"># look at the data</span>
 data</code></pre></div>
 <pre><code>## # A tibble: 60 x 3
-##    subject      A      B
-##      &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-##  1       1 -0.500 -0.500
-##  2       2  0.500 -0.500
-##  3       3 -0.500  0.500
-##  4       4  0.500  0.500
-##  5       5 -0.500 -0.500
-##  6       6  0.500 -0.500
-##  7       7 -0.500  0.500
-##  8       8  0.500  0.500
-##  9       9 -0.500 -0.500
-## 10      10  0.500 -0.500
+##    subject     A     B
+##      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1       1  -0.5  -0.5
+##  2       2   0.5  -0.5
+##  3       3  -0.5   0.5
+##  4       4   0.5   0.5
+##  5       5  -0.5  -0.5
+##  6       6   0.5  -0.5
+##  7       7  -0.5   0.5
+##  8       8   0.5   0.5
+##  9       9  -0.5  -0.5
+## 10      10   0.5  -0.5
 ## # ... with 50 more rows</code></pre>
 <p>Notice that we defined our two condition columns with the values of -.5 and .5. Think back to how this is modelled in a linear model in R. What might the intercept term be? It will be the mean across both conditions.</p>
 <p>Next, we need to set up the coefficients and error term for our model. We want the intercept to be 400, a shift in A to be the intercept + 30, a shift in B to be the intercept - 50, and the interaction term to be the intercept - 40. Finally, our error term has a mean of 0 and standard deviation of 40.</p>
@@ -803,31 +803,31 @@ data</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set up coefficients</span>
 alpha =<span class="st"> </span><span class="dv">400</span>
 beta1 =<span class="st"> </span><span class="dv">30</span>
-beta2 =<span class="st"> </span>-<span class="dv">50</span>
-beta3 =<span class="st"> </span>-<span class="dv">40</span>
+beta2 =<span class="st"> </span><span class="op">-</span><span class="dv">50</span>
+beta3 =<span class="st"> </span><span class="op">-</span><span class="dv">40</span>
 err &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">40</span>)
 
 <span class="co"># create data from the linear model</span>
-data$y &lt;-<span class="st"> </span>alpha +<span class="st"> </span>(beta1*data$A) +<span class="st"> </span>(beta2*data$B) +<span class="st"> </span>(beta3*data$A*data$B) +<span class="st"> </span>err
+data<span class="op">$</span>y &lt;-<span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>(beta1<span class="op">*</span>data<span class="op">$</span>A) <span class="op">+</span><span class="st"> </span>(beta2<span class="op">*</span>data<span class="op">$</span>B) <span class="op">+</span><span class="st"> </span>(beta3<span class="op">*</span>data<span class="op">$</span>A<span class="op">*</span>data<span class="op">$</span>B) <span class="op">+</span><span class="st"> </span>err
 
 <span class="co"># see the data</span>
 data</code></pre></div>
 <pre><code>## # A tibble: 60 x 4
-##    subject      A      B     y
-##      &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-##  1       1 -0.500 -0.500   421
-##  2       2  0.500 -0.500   472
-##  3       3 -0.500  0.500   408
-##  4       4  0.500  0.500   443
-##  5       5 -0.500 -0.500   423
-##  6       6  0.500 -0.500   479
-##  7       7 -0.500  0.500   405
-##  8       8  0.500  0.500   386
-##  9       9 -0.500 -0.500   498
-## 10      10  0.500 -0.500   428
+##    subject     A     B     y
+##      &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1       1  -0.5  -0.5  421.
+##  2       2   0.5  -0.5  472.
+##  3       3  -0.5   0.5  408.
+##  4       4   0.5   0.5  443.
+##  5       5  -0.5  -0.5  423.
+##  6       6   0.5  -0.5  479.
+##  7       7  -0.5   0.5  405.
+##  8       8   0.5   0.5  386.
+##  9       9  -0.5  -0.5  498.
+## 10      10   0.5  -0.5  428.
 ## # ... with 50 more rows</code></pre>
 <p>Let’s see how this data would look when modelled.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y ~<span class="st"> </span>A *<span class="st"> </span>B, <span class="dt">data =</span> data)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>A <span class="op">*</span><span class="st"> </span>B, <span class="dt">data =</span> data)
 <span class="kw">summary</span>(fit)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -852,19 +852,19 @@ data</code></pre></div>
 <p>Finally, we need to fit a model to our simulated data and extract the <em>p</em>-value. We need to do this fitting and extracting process several times before we can calculate our power to detect an effect. However, we need to know which effect we’re interested in detecting. Is it just an effect of A, B, or the interaction? That choice is up to you, but for now we’ll simply look at the probability to detect an effect for the interaction.</p>
 <p>Thankfully, we can save on writing long functions and/or loops when we have some data like this by fitting our model once, and then using the <code>simulate()</code> function in R.</p>
 <p>In this function, we need to pass our original data and model fit. We then create new data from our original data, but with a simulated response variable (<code>sim_y</code>) made from the <code>simulate()</code> function which is applied to our original model. We then refit the model with our new data and response variable, and we use a helper function <code>broom::tidy()</code> which puts model outputs in a nice table so we can easily select the <em>p</em>-value for the 4th row (i.e. the interaction). Try running <code>str()</code> on both <strong>fit</strong> and <strong>tidy_table</strong> to see what I mean.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simulate_model_fit &lt;-<span class="st"> </span>function(data, model_fit) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simulate_model_fit &lt;-<span class="st"> </span><span class="cf">function</span>(data, model_fit) {
   <span class="co"># simulate data and add to tibble</span>
-  new_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">sim_y =</span> <span class="kw">simulate</span>(fit)$sim_1)
+  new_data &lt;-<span class="st"> </span><span class="kw">mutate</span>(data, <span class="dt">sim_y =</span> <span class="kw">simulate</span>(fit)<span class="op">$</span>sim_<span class="dv">1</span>)
   
   <span class="co"># refit model</span>
-  refit_model &lt;-<span class="st"> </span><span class="kw">lm</span>(sim_y ~<span class="st"> </span>A *<span class="st"> </span>B, <span class="dt">data =</span> new_data)
+  refit_model &lt;-<span class="st"> </span><span class="kw">lm</span>(sim_y <span class="op">~</span><span class="st"> </span>A <span class="op">*</span><span class="st"> </span>B, <span class="dt">data =</span> new_data)
   
   <span class="co"># extract p-value for interaction</span>
-  broom::<span class="kw">tidy</span>(refit_model)$p.value[<span class="dv">4</span>]
+  broom<span class="op">::</span><span class="kw">tidy</span>(refit_model)<span class="op">$</span>p.value[<span class="dv">4</span>]
 }</code></pre></div>
 <p>Finally, we can use <code>replicate()</code> to do this process however many times we’d like. We then calculate the power by seeing how often we find <em>p</em>-values below 0.05 for the interaction term.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">complex_power &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">1000</span>, <span class="kw">simulate_model_fit</span>(data, fit))
-<span class="kw">mean</span>(complex_power &lt;<span class="st"> </span>.<span class="dv">05</span>)</code></pre></div>
+<span class="kw">mean</span>(complex_power <span class="op">&lt;</span><span class="st"> </span>.<span class="dv">05</span>)</code></pre></div>
 <pre><code>## [1] 0.529</code></pre>
 <p>Nice, we have very high power for this study!</p>
 <p>Feel free to reuse and adapt the script above to your own needs. Try looking at the impact of inputting different parameter estimates and designs.</p>
@@ -997,10 +997,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>R for Psych</title>
   <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.6 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
   <meta property="og:title" content="R for Psych" />
   <meta property="og:type" content="book" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Glenn Williams">
 
 
-<meta name="date" content="2018-05-01">
+<meta name="date" content="2018-08-31">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -481,7 +481,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##   Group = col_character()
 ## )</code></pre>
 <p>If we were to fit this data to a traditional linear model, and we ignored the fact that we have a random effect in our study (Group), then our linear model coefficients might look like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(Reaction ~<span class="st"> </span>Days, <span class="dt">data =</span> sleep_groups)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lm</span>(Reaction <span class="op">~</span><span class="st"> </span>Days, <span class="dt">data =</span> sleep_groups)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = Reaction ~ Days, data = sleep_groups)
@@ -490,11 +490,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## (Intercept)         Days  
 ##       371.7         15.4</code></pre>
 <p>That is, we would get an intercept of approximately 351.5 and a slope of approximately 10.3 which is used to define the relationship for days on reaction times across all participants. This type of model looks against the raw data for the study looks like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleep_groups, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction)) +
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> T, <span class="kw">aes</span>(<span class="dt">col =</span> Group), <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">na.rm =</span> T, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">se =</span> F) +
-<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">180</span>, <span class="dv">1020</span>)) +
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">10</span>) -<span class="st"> </span><span class="dv">1</span>) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleep_groups, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> T, <span class="kw">aes</span>(<span class="dt">col =</span> Group), <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">na.rm =</span> T, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">se =</span> F) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">180</span>, <span class="dv">1020</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>But, you can see from the colour of the points that we have 3 distinct groups of participants in our model. It’s clear that the three groups have different intercepts, and group 3 has a much steeper slope than the other two groups. Perhaps, then, we should model this difference across groups, even if it’s not the main factor of interest in our study.</p>
@@ -503,14 +503,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h4><span class="header-section-number">9.3.1.2</span> Random Intercepts</h4>
 <p>We define a mixed effects model in a similar way to a traditional linear model. Here, the only difference is we run the model using the <code>lmer()</code> function from <strong>lme4</strong>, rather than the <code>lm()</code> function from base R, and we specify our random effects as well.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fit random intercepts model</span>
-intercepts_model &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction ~<span class="st"> </span>Days +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Group), <span class="dt">data =</span> sleep_groups)</code></pre></div>
+intercepts_model &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Group), <span class="dt">data =</span> sleep_groups)</code></pre></div>
 <p>As with regular linear models, we define our response variable as the column name to the left of the <code>~</code> (read: tilde). We then define our fixed effects to the right of the <code>~</code>.</p>
 <p>After this, we define our random effects in parentheses. Here, we have specified that we want <strong>random intercept (1)</strong> for each group; <code>(1 | Group)</code>. Notice that we have a <code>|</code> (read: pipe) between the 1 and group. This specifies what you want to calculate, by which random factor - here it is random intercepts (1) by the Group random factor.</p>
 <p>Finally, as always we specify our data set, which should be in long format.</p>
 <p>Let’s see how defining random intercepts affects the coefficients for the groups in our model. We can extract model coefficients using the <code>coef()</code> function. I specifically got the Group coefficients by asking for this using the dollar notation after the function call. To make this easier on the eyes I’ve renamed the columns, and created an identifier for the intercepts and slopes (i.e. the Group column).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># see group coefficients</span>
-model_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(intercepts_model)$Group %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days) %&gt;%<span class="st"> </span>
+model_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(intercepts_model)<span class="op">$</span>Group <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">rownames_to_column</span>(<span class="st">&quot;Group&quot;</span>)
 
 <span class="co"># see coefficients</span>
@@ -527,16 +527,16 @@ model_coefs</code></pre></div>
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Days, 
                      <span class="dt">y =</span> Reaction, 
                      <span class="dt">colour =</span> Group)
-       ) +
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> T, <span class="dt">alpha =</span> <span class="fl">0.5</span>) +
+       ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> T, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_abline</span>(<span class="kw">aes</span>(<span class="dt">intercept =</span> Intercept, 
                   <span class="dt">slope =</span> Slope,
                   <span class="dt">colour =</span> Group
                   ),
               <span class="dt">size =</span> <span class="fl">1.5</span>
-              ) +
-<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">180</span>, <span class="dv">1020</span>)) +
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">10</span>) -<span class="st"> </span><span class="dv">1</span>) +
+              ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">180</span>, <span class="dv">1020</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)
 
 <span class="co"># see the plot</span>
@@ -550,11 +550,11 @@ model_coef_plot</code></pre></div>
 <p>Alternatively, we can specify a random effects structure with random slopes but fixed intercepts. We might pick this form if we expect all groups to start off at around the same score, but that the effects of days on reaction times differs across groups.</p>
 <p>To specify this random effects structure, we change the 1 to a 0 in our random effects structure (specifying no or 0 random intercepts) and we put Days to the left of the <code>|</code>, meaning that we want to calculate random slopes for the effect of Days for each Group.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fit random intercepts model</span>
-model &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction ~<span class="st"> </span>Days +<span class="st"> </span>(<span class="dv">0</span> +<span class="st"> </span>Days |<span class="st"> </span>Group), <span class="dt">data =</span> sleep_groups)
+model &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">0</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Group), <span class="dt">data =</span> sleep_groups)
 
 <span class="co"># see group coefficients</span>
-model_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(model)$Group %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days) %&gt;%<span class="st"> </span>
+model_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(model)<span class="op">$</span>Group <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">rownames_to_column</span>(<span class="st">&quot;Group&quot;</span>)
 
 <span class="co"># see coefficients</span>
@@ -566,7 +566,7 @@ model_coefs</code></pre></div>
 <p>Next, we’ll join these coefficients to our original data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sleep_groups_rans &lt;-<span class="st"> </span><span class="kw">left_join</span>(sleep_groups, model_coefs, <span class="dt">by =</span> <span class="st">&quot;Group&quot;</span>)</code></pre></div>
 <p>Then we’ll plot our original data with our new, random intercepts model. Here, we’ll use a new, cheat function from ggplot, <code>%+%</code> (read: add components). This takes a fitted plot from ggplot, and replaces the data from that plot with whatever comes to the right of the function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_coef_plot %+%<span class="st"> </span>sleep_groups_rans</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_coef_plot <span class="op">%+%</span><span class="st"> </span>sleep_groups_rans</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>In the above plot, we can now see that our data has the same intercept across groups, but different slopes. It seems that the effect of days without sleep is greatest for group 3.</p>
 </div>
@@ -574,11 +574,11 @@ model_coefs</code></pre></div>
 <h4><span class="header-section-number">9.3.1.4</span> Random Intercepts and Slopes</h4>
 <p>Finally, we can specify that we want random intercepts and slopes for the group. Here, we just change the 0 back to a 1 in the random effects call.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fit random intercepts model</span>
-model &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction ~<span class="st"> </span>Days +<span class="st"> </span>(<span class="dv">1</span> +<span class="st"> </span>Days |<span class="st"> </span>Group), <span class="dt">data =</span> sleep_groups)</code></pre></div>
+model &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Group), <span class="dt">data =</span> sleep_groups)</code></pre></div>
 <p>Let’s see how these coefficients look.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># see group coefficients</span>
-model_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(model)$Group %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days) %&gt;%<span class="st"> </span>
+model_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(model)<span class="op">$</span>Group <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">rownames_to_column</span>(<span class="st">&quot;Group&quot;</span>)
 
 <span class="co"># see coefficients</span>
@@ -590,7 +590,7 @@ model_coefs</code></pre></div>
 <p>Next, we’ll join these coefficients to our original data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sleep_groups_ranis &lt;-<span class="st"> </span><span class="kw">left_join</span>(sleep_groups, model_coefs, <span class="dt">by =</span> <span class="st">&quot;Group&quot;</span>)</code></pre></div>
 <p>Then we’ll plot our original data with our new, random intercepts and random slopes model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_coef_plot %+%<span class="st"> </span>sleep_groups_ranis</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_coef_plot <span class="op">%+%</span><span class="st"> </span>sleep_groups_ranis</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>As you can see, our model now fits random intercepts and slopes for each group of our participants.</p>
 </div>
@@ -609,8 +609,8 @@ model_coefs</code></pre></div>
 <p>This is often the case when you have a repeated measures design where participants provide multiple observations through responding to several items. In this instance, each observation comes from an individual subject on an individual item at the same time, making each observation a unique combination of these random factors. Hence, the random effects of subjects and items are said to be crossed.</p>
 <p>For this example, our data could look like the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">crossed_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">Subject =</span> <span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">2</span>, <span class="dv">5</span>),
-  <span class="dt">Item =</span> <span class="kw">rep</span>(<span class="dv">1</span>:<span class="dv">5</span>, <span class="dt">each =</span> <span class="dv">2</span>),
+  <span class="dt">Subject =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">5</span>),
+  <span class="dt">Item =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">each =</span> <span class="dv">2</span>),
   <span class="dt">Condition =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dv">2</span>), <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="dv">3</span>)),
   <span class="dt">Response =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">10</span>)
 )
@@ -620,23 +620,23 @@ crossed_data</code></pre></div>
 ##      &lt;int&gt; &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;
 ##  1       1     1 A             92.8
 ##  2       2     1 B             85.0
-##  3       1     2 A            108  
-##  4       2     2 B            109  
-##  5       1     3 B            100  
-##  6       2     3 A            106  
+##  3       1     2 A            108. 
+##  4       2     2 B            109. 
+##  5       1     3 B            100. 
+##  6       2     3 A            106. 
 ##  7       1     4 B             92.8
-##  8       2     4 A            111  
-##  9       1     5 B            118  
-## 10       2     5 A            105</code></pre>
+##  8       2     4 A            111. 
+##  9       1     5 B            118. 
+## 10       2     5 A            105.</code></pre>
 <p>Here, both participants take part in both conditions (A or B), hence this is a within-subjects design (but note that this dummy set is not balanced; real designs should be where possible). The condition (A or B) is therefore within individual subjects and individual items, but items are not only associated with one subject. Hence, our random effects are crossed, and should look like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Response ~<span class="st"> </span>Condition +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Item), <span class="dt">data =</span> crossed_data)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Response <span class="op">~</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Item), <span class="dt">data =</span> crossed_data)</code></pre></div>
 </div>
 <div id="nested-random-effects" class="section level5">
 <h5><span class="header-section-number">9.3.2.1.2</span> Nested Random Effects</h5>
 <p>Sometimes we get cases when our data are not crossed. For example, if you’re testing participants from separate classes in separate schools, then your data can be said to be nested. The data are nested because observations come from students, which are a part of a specific class, and a specific school. In this instance, you should construct your data to reflect this nesting, ending up with something like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nested_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">Student =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">10</span>),
-  <span class="dt">Class =</span> <span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">5</span>), <span class="dv">2</span>),
+  <span class="dt">Student =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>),
+  <span class="dt">Class =</span> <span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dv">2</span>),
   <span class="dt">School =</span> <span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">5</span>)),
   <span class="dt">Intervention =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>), <span class="dv">5</span>),
   <span class="dt">Outcome =</span> <span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">200</span>, <span class="dt">sd =</span> <span class="dv">20</span>)
@@ -646,39 +646,39 @@ nested_data</code></pre></div>
 <pre><code>## # A tibble: 10 x 5
 ##    Student Class School Intervention Outcome
 ##      &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
-##  1       1     1   1.00 yes              195
-##  2       2     2   1.00 no               191
-##  3       3     3   1.00 yes              184
-##  4       4     4   1.00 no               169
-##  5       5     5   1.00 yes              249
-##  6       6     1   2.00 no               232
-##  7       7     2   2.00 yes              224
-##  8       8     3   2.00 no               199
-##  9       9     4   2.00 yes              170
-## 10      10     5   2.00 no               171</code></pre>
+##  1       1     1      1 yes             195.
+##  2       2     2      1 no              191.
+##  3       3     3      1 yes             184.
+##  4       4     4      1 no              169.
+##  5       5     5      1 yes             249.
+##  6       6     1      2 no              232.
+##  7       7     2      2 yes             224.
+##  8       8     3      2 no              199.
+##  9       9     4      2 yes             170.
+## 10      10     5      2 no              171.</code></pre>
 <p>As you can see, your data are structured so that you have individuals with an identifier (column) for the class that they’re in and for the school that they’re in. We then have a column indicating whether or not students received an intervention, and their outcome on some test.</p>
 <p>As a result, class 1 in school 1 is different to class 1 in school 2. How do you tell R to treat the data such that classes are nested within schools? Or to account for the school and class effects for each participant? We use a formula like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Outcome ~<span class="st"> </span>Intervention +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>School/Class/Student), <span class="dt">data =</span> nested_data)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Outcome <span class="op">~</span><span class="st"> </span>Intervention <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>School<span class="op">/</span>Class<span class="op">/</span>Student), <span class="dt">data =</span> nested_data)</code></pre></div>
 <p>Here, our random effects structure defines random intercepts for students, adjusting for similarities for students within the same class and school.</p>
 <p>It’s sometimes hard to figure out if you have nested or crossed (i.e. not nested) data, and you can help your thinking (and Rs functioning) by simply using unique class identifiers for your school and class combinations. We can make this by simply pasting the identifiers for the School and Class together.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nested_data$Class_ID &lt;-<span class="st"> </span><span class="kw">paste</span>(nested_data$School, nested_data$Class, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nested_data<span class="op">$</span>Class_ID &lt;-<span class="st"> </span><span class="kw">paste</span>(nested_data<span class="op">$</span>School, nested_data<span class="op">$</span>Class, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>)
 nested_data</code></pre></div>
 <pre><code>## # A tibble: 10 x 6
 ##    Student Class School Intervention Outcome Class_ID
 ##      &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;   
-##  1       1     1   1.00 yes              195 1_1     
-##  2       2     2   1.00 no               191 1_2     
-##  3       3     3   1.00 yes              184 1_3     
-##  4       4     4   1.00 no               169 1_4     
-##  5       5     5   1.00 yes              249 1_5     
-##  6       6     1   2.00 no               232 2_1     
-##  7       7     2   2.00 yes              224 2_2     
-##  8       8     3   2.00 no               199 2_3     
-##  9       9     4   2.00 yes              170 2_4     
-## 10      10     5   2.00 no               171 2_5</code></pre>
+##  1       1     1      1 yes             195. 1_1     
+##  2       2     2      1 no              191. 1_2     
+##  3       3     3      1 yes             184. 1_3     
+##  4       4     4      1 no              169. 1_4     
+##  5       5     5      1 yes             249. 1_5     
+##  6       6     1      2 no              232. 2_1     
+##  7       7     2      2 yes             224. 2_2     
+##  8       8     3      2 no              199. 2_3     
+##  9       9     4      2 yes             170. 2_4     
+## 10      10     5      2 no              171. 2_5</code></pre>
 <p>Now your results will be exactly the same if you use either of these two formulas:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Outcome ~<span class="st"> </span>Intervention +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>School/Class_ID), <span class="dt">data =</span> nested_data)
-<span class="kw">lmer</span>(Outcome ~<span class="st"> </span>Intervention +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>School) +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Class_ID), <span class="dt">data =</span> nested_data)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Outcome <span class="op">~</span><span class="st"> </span>Intervention <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>School<span class="op">/</span>Class_ID), <span class="dt">data =</span> nested_data)
+<span class="kw">lmer</span>(Outcome <span class="op">~</span><span class="st"> </span>Intervention <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>School) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Class_ID), <span class="dt">data =</span> nested_data)</code></pre></div>
 <p>If you don’t have unique identifiers, using this second structure will give you incorrect results as R will think that every class was in every school, which is not the case.</p>
 <p>These random effects structures take the simplest form where we have random intercepts only. In most cases, it’s best to fit a more complex model depending upon the data you have.</p>
 </div>
@@ -692,45 +692,45 @@ nested_data</code></pre></div>
 ##      &lt;int&gt; &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;
 ##  1       1     1 A             92.8
 ##  2       2     1 B             85.0
-##  3       1     2 A            108  
-##  4       2     2 B            109  
-##  5       1     3 B            100  
-##  6       2     3 A            106  
+##  3       1     2 A            108. 
+##  4       2     2 B            109. 
+##  5       1     3 B            100. 
+##  6       2     3 A            106. 
 ##  7       1     4 B             92.8
-##  8       2     4 A            111  
-##  9       1     5 B            118  
-## 10       2     5 A            105</code></pre>
+##  8       2     4 A            111. 
+##  9       1     5 B            118. 
+## 10       2     5 A            105.</code></pre>
 <p>Here, we could fit random intercepts and slopes for subjects and items by adding condition (our slope term, or change in response for changes in 1 unit of condition) to the left of each term (along with the random intercept).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Outcome ~<span class="st"> </span>Condition +<span class="st"> </span>(<span class="dv">1</span> +<span class="st"> </span>Condition |<span class="st"> </span>Subject) +<span class="st"> </span>(<span class="dv">1</span> +<span class="st"> </span>Condition |<span class="st"> </span>Item), <span class="dt">data =</span> data)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(Outcome <span class="op">~</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">|</span><span class="st"> </span>Item), <span class="dt">data =</span> data)</code></pre></div>
 <p>What if participants take part in several blocks of this study? We might expect that their performance will improve from block to block. Here, we’d just have to add a fixed effect of study block and random effects on any factors that are affected by the blocking. If you repeat your items across blocks with the same subjects, you’d have random effects of block on subjects and items (along with condition). If you have new items in each block, you’d only have random slopes of block for subjects. These random effects structures look like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># same items within each block</span>
 <span class="kw">lmer</span>(
-  Outcome ~<span class="st"> </span>Condition +<span class="st"> </span>Block +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>Condition +<span class="st"> </span>Block |<span class="st"> </span>Subject) +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>Condition +<span class="st"> </span>Block |<span class="st"> </span>Item), 
+  Outcome <span class="op">~</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>Block <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>Block <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>Block <span class="op">|</span><span class="st"> </span>Item), 
   <span class="dt">data =</span> data
   )
 
 <span class="co"># new items within each block</span>
 <span class="kw">lmer</span>(
-  Outcome ~<span class="st"> </span>Condition +<span class="st"> </span>Block +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>Condition +<span class="st"> </span>Block |<span class="st"> </span>Subject) +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>Condition |<span class="st"> </span>Item), 
+  Outcome <span class="op">~</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>Block <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>Block <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">|</span><span class="st"> </span>Item), 
   <span class="dt">data =</span> data
   )</code></pre></div>
 <p>As you might have guessed, for any between subjects factors, we cannot have a random slope of condition for that factor for each subject as subjects only see one condition. Here, our model might look like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(
-  Outcome ~<span class="st"> </span>Condition +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>Condition |<span class="st"> </span>Item), 
+  Outcome <span class="op">~</span><span class="st"> </span>Condition <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Condition <span class="op">|</span><span class="st"> </span>Item), 
   <span class="dt">data =</span> data
   )</code></pre></div>
 <p>Where we can have random slopes for condition by item (as all items presumably see all conditions), but only random intercepts for subjects as they only see one condition.</p>
 <p>Finally, as with all linear models, if we want an interaction between factors, we simply use an asterisk between factors to define our interactions, or a colon if we only want the interaction term and not main effects. This could take the form below if we want random intercepts and slopes for both factors on subjects and items, with main effects and interactions on our fixed factors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lmer</span>(
-  Outcome ~<span class="st"> </span>factor_A *<span class="st"> </span>factor_B +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>factor_A *<span class="st"> </span>factor_B |<span class="st"> </span>Subject) +<span class="st"> </span>
-<span class="st">    </span>(<span class="dv">1</span> +<span class="st"> </span>factor_A *<span class="st"> </span>factor_B |<span class="st"> </span>Item), 
+  Outcome <span class="op">~</span><span class="st"> </span>factor_A <span class="op">*</span><span class="st"> </span>factor_B <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>factor_A <span class="op">*</span><span class="st"> </span>factor_B <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>factor_A <span class="op">*</span><span class="st"> </span>factor_B <span class="op">|</span><span class="st"> </span>Item), 
   <span class="dt">data =</span> data
   )</code></pre></div>
 <p>If you’d like to find out more about different structures, <a href="http://rpsychologist.com/r-guide-longitudinal-lme-lmer">Kristoffer Magnusson has a great guide</a> on this.</p>
@@ -749,7 +749,7 @@ nested_data</code></pre></div>
 ## )</code></pre>
 <p>First off, we’ll fit a linear model to the data using complete pooling. This means that all of our data from each participant is put together to come up with one mean intercept and slope which is the same across all participants.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fit model</span>
-complete_pooling &lt;-<span class="st"> </span><span class="kw">lm</span>(Reaction ~<span class="st"> </span>Days, <span class="dt">data =</span> sleep_study)
+complete_pooling &lt;-<span class="st"> </span><span class="kw">lm</span>(Reaction <span class="op">~</span><span class="st"> </span>Days, <span class="dt">data =</span> sleep_study)
 
 <span class="co"># tidy up and print model coefficients</span>
 complete_pooling_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(complete_pooling)
@@ -757,13 +757,13 @@ complete_pooling_coefs</code></pre></div>
 <pre><code>## (Intercept)        Days 
 ##   252.09397    10.03451</code></pre>
 <p>Next, we’ll fit this model against our mean scores (with standard errors), observing how an increase in the days without sleep decreases reaction time.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleep_study, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction)) +
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> sleep_study, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Days, <span class="dt">y =</span> Reaction)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_abline</span>(<span class="kw">aes</span>(<span class="dt">intercept =</span> complete_pooling_coefs[<span class="dv">1</span>], 
                   <span class="dt">slope =</span> complete_pooling_coefs[<span class="dv">2</span>]
                   ),
               <span class="dt">colour =</span> <span class="st">&quot;#F8766D&quot;</span>,
               <span class="dt">size =</span> <span class="fl">1.5</span>
-              ) +
+              ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> <span class="st">&quot;mean_se&quot;</span>, 
                <span class="dt">geom =</span> <span class="st">&quot;pointrange&quot;</span>,
                <span class="dt">na.rm =</span> T,
@@ -771,7 +771,7 @@ complete_pooling_coefs</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>You can see that this line fits the mean scores pretty well. But how does the data look at the individual level? Again, we’ll save this plot as an object so we can update it later on. We’ll also join these coefficients with our data so that we can easily update our plot when we explore different pooling choices.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">complete &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">Subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">21</span>),
+  <span class="dt">Subject =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">21</span>),
   <span class="dt">Intercept =</span> complete_pooling_coefs[[<span class="dv">1</span>]],
   <span class="dt">Slope =</span> complete_pooling_coefs[[<span class="dv">2</span>]],
   <span class="dt">Model =</span> <span class="st">&quot;complete_pooling&quot;</span>
@@ -783,14 +783,14 @@ model_coefs &lt;-<span class="st"> </span><span class="kw">left_join</span>(slee
        <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Days, 
                      <span class="dt">y =</span> Reaction, 
                      <span class="dt">colour =</span> Model)
-       ) +
+       ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_abline</span>(<span class="kw">aes</span>(<span class="dt">intercept =</span> Intercept, 
                   <span class="dt">slope =</span> Slope,
                   <span class="dt">colour =</span> Model),
               <span class="dt">size =</span> <span class="fl">1.5</span>
-              ) +
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> T) +
-<span class="st">  </span><span class="kw">facet_wrap</span>(~Subject)
+              ) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> T) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Subject)
 
 <span class="co"># see the plot</span>
 pooling_plot</code></pre></div>
@@ -798,10 +798,10 @@ pooling_plot</code></pre></div>
 <p>Wow, so it looks like the model fits participant 18 very well. But what about participants 1, 2, and 14? Maybe a different model would fit their data better. It doesn’t do a good job of explaining their responses, that’s for sure!</p>
 <p>One alternative to this complete pooling method is the opposite: no pooling. Here, we instead fit an individual intercepts and slopes to each individual in the data. We can do this by using the <code>lmer()</code> function from <strong>lme4</strong>. Here, our formula takes the form where reaction times are a function of the days (of deprived sleep) within each participant.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fit the model</span>
-no_pooling &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction ~<span class="st"> </span>Days |<span class="st"> </span>Subject, <span class="dt">data =</span> sleep_study)
+no_pooling &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">|</span><span class="st"> </span>Subject, <span class="dt">data =</span> sleep_study)
 
 <span class="co"># extract and view model coefficients</span>
-no_pooling_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(no_pooling)$Subject %&gt;%<span class="st"> </span>
+no_pooling_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(no_pooling)<span class="op">$</span>Subject <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">rename</span>(<span class="dt">Intercept =</span> <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>, <span class="dt">Slope =</span> Days)
 
 <span class="kw">head</span>(no_pooling_coefs)</code></pre></div>
@@ -814,41 +814,41 @@ no_pooling_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(no_p
 ## 6  9.56681539  263.1536</code></pre>
 <p>We can see for the first 6 participants their intercepts and slopes (Days) all differ from one another. How does this look in our plot? First, we’ll add the two coefficients together for easy plotting.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">none &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">Subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">21</span>),
-  <span class="dt">Intercept =</span> no_pooling_coefs$Intercept,
-  <span class="dt">Slope =</span> no_pooling_coefs$Slope,
+  <span class="dt">Subject =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">21</span>),
+  <span class="dt">Intercept =</span> no_pooling_coefs<span class="op">$</span>Intercept,
+  <span class="dt">Slope =</span> no_pooling_coefs<span class="op">$</span>Slope,
   <span class="dt">Model =</span> <span class="st">&quot;no_pooling&quot;</span>
 )
 complete_none &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(complete, none)
 model_coefs &lt;-<span class="st"> </span><span class="kw">left_join</span>(sleep_study, complete_none, <span class="dt">by =</span> <span class="st">&quot;Subject&quot;</span>)</code></pre></div>
 <p>Now we’ve got our data in the correct format for plotting, we can have a look at how our models fit our data. Which do you think best matches the individual? Is this model any good when we have a lot of missing data?</p>
 <p>Take a look at participant 20. Do you think the no pooling model is any better than the complete pooling model? What about participant 2?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooling_plot %+%<span class="st"> </span>model_coefs</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooling_plot <span class="op">%+%</span><span class="st"> </span>model_coefs</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>Finally, we get to where <strong>lme4</strong> shines; partial pooling of results. Here, we’ll fit a mixed effects model where we have fixed effects of Days, which are assumed to be</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">partial_pooling &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction ~<span class="st"> </span>Days +<span class="st"> </span>(Days |<span class="st"> </span>Subject), <span class="dt">data =</span> sleep_study)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">partial_pooling &lt;-<span class="st"> </span><span class="kw">lmer</span>(Reaction <span class="op">~</span><span class="st"> </span>Days <span class="op">+</span><span class="st"> </span>(Days <span class="op">|</span><span class="st"> </span>Subject), <span class="dt">data =</span> sleep_study)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract model coefficients</span>
-partial_pooling_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(partial_pooling)$Subject
+partial_pooling_coefs &lt;-<span class="st"> </span><span class="kw">coef</span>(partial_pooling)<span class="op">$</span>Subject
 
 <span class="co"># make a tibble for partial pooling</span>
 partial &lt;-<span class="st"> </span><span class="kw">tibble</span>(
-  <span class="dt">Subject =</span> <span class="kw">seq</span>(<span class="dv">1</span>:<span class="dv">21</span>),
-  <span class="dt">Intercept =</span> partial_pooling_coefs$<span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>,
-  <span class="dt">Slope =</span> partial_pooling_coefs$Days,
+  <span class="dt">Subject =</span> <span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">21</span>),
+  <span class="dt">Intercept =</span> partial_pooling_coefs<span class="op">$</span><span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span>,
+  <span class="dt">Slope =</span> partial_pooling_coefs<span class="op">$</span>Days,
   <span class="dt">Model =</span> <span class="st">&quot;partial_pooling&quot;</span>
 )
 
 <span class="co"># clean up and combine with other models</span>
-partial &lt;-<span class="st"> </span>partial %&gt;%
+partial &lt;-<span class="st"> </span>partial <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">left_join</span>(sleep_study, <span class="dt">by =</span> <span class="st">&quot;Subject&quot;</span>)
 
 all_pools &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(model_coefs, partial)</code></pre></div>
 <p>Next, we can plot the different models against one another to see what happens.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooling_plot %+%<span class="st"> </span>all_pools</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooling_plot <span class="op">%+%</span><span class="st"> </span>all_pools</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <p>As with TJ’s article, we’ll also zoom in to some of these participants too see what happens.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subset_pools &lt;-<span class="st"> </span>all_pools %&gt;%<span class="st"> </span><span class="kw">filter</span>(Subject %in%<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">19</span>, <span class="dv">20</span>))
-pooling_plot %+%<span class="st"> </span>subset_pools</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subset_pools &lt;-<span class="st"> </span>all_pools <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Subject <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">19</span>, <span class="dv">20</span>))
+pooling_plot <span class="op">%+%</span><span class="st"> </span>subset_pools</code></pre></div>
 <p><img src="R_for_Psych_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <p>Here, you can see that in the first two cases (1 and 2), the coefficients of the partial pooling model closely matches that of the no pooling model, showing that this model closely captures the individual differences within each participant.</p>
 <p>Look at participant 20. You’ll notice that the partial and complete pooling lines are more similar to one another. That’s because while the partial pooling model fits individual intercepts and slopes for each participant, it is pulled towards the mean, i.e. the overall intercept and slope across all participants. That’s called shrinkage, where extreme values are pulled towards the average. This means that in cases where we have missing data, our model takes the best bet based on the grand mean, rather than trying to guess an individual intercept and slope based on that one person’s data.</p>
@@ -859,11 +859,11 @@ pooling_plot %+%<span class="st"> </span>subset_pools</code></pre></div>
 <h2><span class="header-section-number">9.4</span> Interpreting Mixed Effects Model Output</h2>
 <p>Now that we’ve seen how mixed effects models work, we’ll look at how to interpret the output of a mixed effects model. For this part, we’ll use the <code>lexdec</code> dataset from the <code>languageR</code> library. Load this by loading the library and running the code below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(languageR)
-lex_dec &lt;-<span class="st"> </span><span class="kw">as.tibble</span>(lexdec) %&gt;%<span class="st"> </span>
+lex_dec &lt;-<span class="st"> </span><span class="kw">as.tibble</span>(lexdec) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(Subject, Trial, Word, NativeLanguage, RT)</code></pre></div>
 <p>In this data set, we have log transformed reaction times for English words rated by native and non-native speakers of English. Let’s assume that we are interested in the influence of native language on reaction times. First, we want to set the intercept to the mean across both groups. Since the data isn’t perfectly balanced, we should avoid the base <code>contrasts()</code> method from R, and instead centre our factors, so that one level is around -.5 and the other is .5. If your values aren’t exactly -.5/.5, then your data set is unbalanced, so your should use this method.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># centre the factor</span>
-lex_dec$lang_c &lt;-<span class="st"> </span>(lex_dec$NativeLanguage ==<span class="st"> &quot;English&quot;</span>) -<span class="st"> </span><span class="kw">mean</span>(lex_dec$NativeLanguage ==<span class="st"> &quot;English&quot;</span>)
+lex_dec<span class="op">$</span>lang_c &lt;-<span class="st"> </span>(lex_dec<span class="op">$</span>NativeLanguage <span class="op">==</span><span class="st"> &quot;English&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(lex_dec<span class="op">$</span>NativeLanguage <span class="op">==</span><span class="st"> &quot;English&quot;</span>)
 
 <span class="co"># see the result</span>
 <span class="kw">head</span>(lex_dec)</code></pre></div>
@@ -877,7 +877,7 @@ lex_dec$lang_c &lt;-<span class="st"> </span>(lex_dec$NativeLanguage ==<span cla
 ## 5 A1         32 dog        English         6.03  0.429
 ## 6 A1         33 blackberry English         6.18  0.429</code></pre>
 <p>Then we’ll fit our model. We’ll start out with a relatively simple model where we have crossed random effects with random intercepts by subjects (Subject) and items (Word). We’ll then get a summary of our model to see what the <code>lmer</code> output looks like. We’ll fit all models with ML since we’re going to compare them to one another.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_mod &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~<span class="st"> </span>lang_c +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_mod &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT <span class="op">~</span><span class="st"> </span>lang_c <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)
 <span class="kw">summary</span>(lexdec_mod)</code></pre></div>
 <pre><code>## Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
 ## Formula: RT ~ lang_c + (1 | Subject) + (1 | Word)
@@ -899,8 +899,8 @@ lex_dec$lang_c &lt;-<span class="st"> </span>(lex_dec$NativeLanguage ==<span cla
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error t value
-## (Intercept)  6.38509    0.02983   214.1
-## lang_c      -0.15582    0.05770    -2.7
+## (Intercept)  6.38509    0.02983 214.048
+## lang_c      -0.15582    0.05770  -2.701
 ## 
 ## Correlation of Fixed Effects:
 ##        (Intr)
@@ -915,19 +915,21 @@ lex_dec$lang_c &lt;-<span class="st"> </span>(lex_dec$NativeLanguage ==<span cla
 <p>We can easily calculate these using Kenward-Roger or Satterthwaite approximations, which are provided by the <strong>lmerTest</strong> and <strong>afex</strong> packages in R.</p>
 <p>However, to avoid loading more packages, we can use the normal approximation to calculate <em>p</em>-values. The reasoning here is that with higher degrees of freedom, the t distribution matches the z distribution. Thus, we can treat the t-value as a z-value, essentially assuming infinite degrees of freedom.</p>
 <p>Here, we look up the <em>p</em>-value that matches the absolute (non-signed) <em>t</em>-value for our parameters in the normal distribution. Then we subtract that value from 1 to get the probability of a <em>t</em>-value exceeding the one we have, and multiply that by 2 to get a two-tailed <em>p</em>-value.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_mod %&gt;%<span class="st"> </span>
-<span class="st">  </span>broom::<span class="kw">tidy</span>(<span class="st">&quot;fixed&quot;</span>) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p_value =</span> <span class="dv">2</span>*(<span class="dv">1</span> -<span class="st"> </span><span class="kw">pnorm</span>(<span class="kw">abs</span>(statistic))))</code></pre></div>
-<pre><code>##          term   estimate  std.error  statistic     p_value
-## 1 (Intercept)  6.3850897 0.02983012 214.048401 0.000000000
-## 2      lang_c -0.1558212 0.05769542  -2.700755 0.006918227</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_mod <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span>broom<span class="op">::</span><span class="kw">tidy</span>(<span class="st">&quot;fixed&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p_value =</span> <span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pnorm</span>(<span class="kw">abs</span>(statistic))))</code></pre></div>
+<pre><code>## # A tibble: 2 x 5
+##   term        estimate std.error statistic p_value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)    6.39     0.0298    214.   0      
+## 2 lang_c        -0.156    0.0577     -2.70 0.00692</code></pre>
 <p>Just be aware that this approach somewhat inflates type-I error rates (but only slightly so with large samples).</p>
 <p>Another alternative we can use to assess whether we have a main effect of a factor with multiple levels is to use a model comparisons approach, which we’ll look at next.</p>
 </div>
 <div id="model-selection" class="section level3">
 <h3><span class="header-section-number">9.4.2</span> Model Selection</h3>
 <p>With the model comparisons approach, we simply fit our full model, and a model that is exactly the same as the full model, only without the fixed effect of interest. Here, because we want to check for a main effect of language, we simply fit a model with only an intercept term (and without an effect of language). Notice that the random effects stay the same.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_mod_reduced &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~<span class="st"> </span><span class="dv">1</span> +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_mod_reduced &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)</code></pre></div>
 <p>Then, we use the <code>anova()</code> function to check whether inclusion of the language fixed factor significantly improves model fit. Notice also that if we originally fit our models with REML, R will refit them with ML instead.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(lexdec_mod, lexdec_mod_reduced)</code></pre></div>
 <pre><code>## Data: lex_dec
@@ -944,8 +946,8 @@ lex_dec$lang_c &lt;-<span class="st"> </span>(lex_dec$NativeLanguage ==<span cla
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Here, we’re interested in the change in log-likelihood when we add terms to our model. Here, the increase in degrees of freedom should be one for each model you compare. We can see that adding the fixed effect of language significantly improved model fit, <span class="math inline">\(\chi^2(1) = 6.261, p = 0.012\)</span>. This means that we have a significant main effect of language.</p>
 <p>We can similarly use this method to assess whether or not we should include random effects in our model, however whether or not you should select your random effects on the fly is again up for debate.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_slope &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~<span class="st"> </span>lang_c +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(lang_c ||<span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)
-lexdec_slope_cov &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~<span class="st"> </span>lang_c +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(lang_c |<span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lexdec_slope &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT <span class="op">~</span><span class="st"> </span>lang_c <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(lang_c <span class="op">||</span><span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)
+lexdec_slope_cov &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT <span class="op">~</span><span class="st"> </span>lang_c <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(lang_c <span class="op">|</span><span class="st"> </span>Word), <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F)
 <span class="kw">anova</span>(lexdec_mod, lexdec_slope, lexdec_slope_cov)</code></pre></div>
 <pre><code>## Data: lex_dec
 ## Models:
@@ -984,8 +986,8 @@ lexdec_slope_cov &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error t value
-## (Intercept)  6.38509    0.02983   214.1
-## lang_c      -0.15582    0.05770    -2.7
+## (Intercept)  6.38509    0.02983 214.048
+## lang_c      -0.15582    0.05770  -2.701
 ## 
 ## Correlation of Fixed Effects:
 ##        (Intr)
@@ -1013,8 +1015,8 @@ lexdec_slope_cov &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error t value
-## (Intercept)  6.38509    0.02984  213.96
-## lang_c      -0.15582    0.05797   -2.69
+## (Intercept)  6.38509    0.02984 213.961
+## lang_c      -0.15582    0.05797  -2.688
 ## 
 ## Correlation of Fixed Effects:
 ##        (Intr)
@@ -1042,8 +1044,8 @@ lexdec_slope_cov &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error t value
-## (Intercept)  6.38509    0.02984  213.97
-## lang_c      -0.15582    0.05796   -2.69
+## (Intercept)  6.38509    0.02984 213.969
+## lang_c      -0.15582    0.05796  -2.688
 ## 
 ## Correlation of Fixed Effects:
 ##        (Intr)
@@ -1055,12 +1057,12 @@ lexdec_slope_cov &lt;-<span class="st"> </span><span class="kw">lmer</span>(RT ~
 <p>Often, when you attempt to fit the maximal random effects structure you will get an error saying that your model failed to converge. This means that you don’t have enough information in your data (or your data is so noisy) that you cannot properly identify the full variance covariance matrix for the model. This happens a lot if you have variances that are equal or nearly equal to 0, or correlations in terms that are equal to -1 or 1.</p>
 <p>One way to avoid problems with converging is to centre your factors (as we have done above) and use numeric predictors in your model. You can also try to use a different optimiser by specifying the options in <code>lme4</code>. You can specify your optimiser like so. Check out the summaries of these models to see how they differ. Basically, these optimisers are just different methods for attempting to find the best fitting model for your data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nelder_mod &lt;-<span class="st"> </span><span class="kw">lmer</span>(
-  RT ~<span class="st"> </span>lang_c +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(lang_c |<span class="st"> </span>Word), 
+  RT <span class="op">~</span><span class="st"> </span>lang_c <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(lang_c <span class="op">|</span><span class="st"> </span>Word), 
   <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F, 
   <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;Nelder_Mead&quot;</span>)
   )
 boby_mod &lt;-<span class="st"> </span><span class="kw">lmer</span>(
-  RT ~<span class="st"> </span>lang_c +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>Subject) +<span class="st"> </span>(lang_c |<span class="st"> </span>Word), 
+  RT <span class="op">~</span><span class="st"> </span>lang_c <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>Subject) <span class="op">+</span><span class="st"> </span>(lang_c <span class="op">|</span><span class="st"> </span>Word), 
   <span class="dt">data =</span> lex_dec, <span class="dt">REML =</span> F, 
   <span class="dt">control =</span> <span class="kw">lmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>)
      )</code></pre></div>
@@ -1094,18 +1096,18 @@ boby_mod &lt;-<span class="st"> </span><span class="kw">lmer</span>(
 <p>Generalised mixed effects models are performed in a similar way to mixed effects models, but are applied to cases when your outcome or dependent variable is not normally distributed, e.g. logistic regression for binary response data. These models use the same logic as generalised linear models, and the interpretation is very similar to mixed effects models. However here the <em>p</em>-values are calculated for the fixed effects coefficients straight out of the model!</p>
 <p>We implement these models for binary response data like so:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glmer</span>(
-  DV_binom ~<span class="st"> </span><span class="co"># binomial dependent variable</span>
-<span class="st">    </span>A *<span class="st"> </span>B +<span class="st"> </span><span class="co"># fixed effects</span>
-<span class="st">    </span>(A *<span class="st"> </span>B |<span class="st"> </span>subject) +<span class="st"> </span>(A *<span class="st"> </span>B |<span class="st"> </span>item), <span class="co"># random effects </span>
+  DV_binom <span class="op">~</span><span class="st"> </span><span class="co"># binomial dependent variable</span>
+<span class="st">    </span>A <span class="op">*</span><span class="st"> </span>B <span class="op">+</span><span class="st"> </span><span class="co"># fixed effects</span>
+<span class="st">    </span>(A <span class="op">*</span><span class="st"> </span>B <span class="op">|</span><span class="st"> </span>subject) <span class="op">+</span><span class="st"> </span>(A <span class="op">*</span><span class="st"> </span>B <span class="op">|</span><span class="st"> </span>item), <span class="co"># random effects </span>
   <span class="dt">family =</span> binomial, <span class="co"># family: type of distribution</span>
   <span class="dt">data =</span> data, 
   <span class="kw">glmerControl</span>(<span class="dt">optimizer =</span> <span class="st">&quot;bobyqa&quot;</span>) <span class="co"># options; notice glmerControl (not lmer)</span>
   )</code></pre></div>
 <p>For proportions, we simply set the weights of the model to the number of success and provide the proportions as our dependent variable.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glmer</span>(
-  DV_prop ~<span class="st"> </span><span class="co"># dependent variable as a proportion</span>
-<span class="st">    </span>A *<span class="st"> </span>B +<span class="st"> </span><span class="co"># fixed effects</span>
-<span class="st">    </span>(A *<span class="st"> </span>B |<span class="st"> </span>subject) +<span class="st"> </span>(A *<span class="st"> </span>B |<span class="st"> </span>item), <span class="co"># random effects </span>
+  DV_prop <span class="op">~</span><span class="st"> </span><span class="co"># dependent variable as a proportion</span>
+<span class="st">    </span>A <span class="op">*</span><span class="st"> </span>B <span class="op">+</span><span class="st"> </span><span class="co"># fixed effects</span>
+<span class="st">    </span>(A <span class="op">*</span><span class="st"> </span>B <span class="op">|</span><span class="st"> </span>subject) <span class="op">+</span><span class="st"> </span>(A <span class="op">*</span><span class="st"> </span>B <span class="op">|</span><span class="st"> </span>item), <span class="co"># random effects </span>
   <span class="dt">family =</span> binomial, <span class="co"># family: type of distribution</span>
   <span class="dt">weights =</span> N_observations, <span class="co"># number of observations making up the proportion</span>
   <span class="dt">data =</span> data,
@@ -1113,9 +1115,9 @@ boby_mod &lt;-<span class="st"> </span><span class="kw">lmer</span>(
   )</code></pre></div>
 <p>Alternatively, we can calculate these within the model if we have the number of successes and the number of observations as columns in our model.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">glmer</span>(
-  DV_successes/N_observations ~<span class="st"> </span><span class="co"># calculate proportion</span>
-<span class="st">    </span>A *<span class="st"> </span>B +<span class="st"> </span><span class="co"># fixed effects</span>
-<span class="st">    </span>(A *<span class="st"> </span>B |<span class="st"> </span>subject) +<span class="st"> </span>(A *<span class="st"> </span>B |<span class="st"> </span>item), <span class="co"># random effects </span>
+  DV_successes<span class="op">/</span>N_observations <span class="op">~</span><span class="st"> </span><span class="co"># calculate proportion</span>
+<span class="st">    </span>A <span class="op">*</span><span class="st"> </span>B <span class="op">+</span><span class="st"> </span><span class="co"># fixed effects</span>
+<span class="st">    </span>(A <span class="op">*</span><span class="st"> </span>B <span class="op">|</span><span class="st"> </span>subject) <span class="op">+</span><span class="st"> </span>(A <span class="op">*</span><span class="st"> </span>B <span class="op">|</span><span class="st"> </span>item), <span class="co"># random effects </span>
   <span class="dt">family =</span> binomial, <span class="co"># family: type of distribution</span>
   <span class="dt">weights =</span> N_observations, <span class="co"># number of observations making up the proportion</span>
   <span class="dt">data =</span> data,
@@ -1213,10 +1215,11 @@ gitbook.start({
 "facebook": true,
 "twitter": true,
 "google": false,
+"linkedin": false,
 "weibo": false,
 "instapper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",

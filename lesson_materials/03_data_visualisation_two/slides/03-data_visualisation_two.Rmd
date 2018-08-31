@@ -170,7 +170,10 @@ library(ggpirate)
 
 ```{r 3_pirate_plot}
 ggplot(data = rt_data, 
-       mapping = aes(x = response_condition, y = reaction_time)
+       mapping = aes(x = response_condition, 
+                     y = reaction_time, 
+                     fill = response_condition, 
+                    colour = response_condition)
        ) +
   geom_pirate()
 ```
@@ -182,7 +185,9 @@ ggplot(data = rt_data,
 ```{r 3_pirate_plot_object}
 pirate_plot <- ggplot(data = rt_data, 
                       mapping = aes(x = response_condition, 
-                                    y = reaction_time)
+                                    y = reaction_time,
+                                    fill = response_condition, 
+                                    colour = response_condition)
                       )
 pirate_plot # enter name in console to see the plot!
 ```
@@ -199,25 +204,22 @@ pirate_plot + geom_pirate()
 
 ```{r 3_pirate_plot_object_custom_code, eval = FALSE}
 pirate_plot + 
-  geom_pirate(mapping = aes(fill = response_condition, 
-                            colour = response_condition)
-              ) +
+  geom_pirate() +
   labs(x = "Response Condition", y = "Reaction Time (ms)") +
   scale_x_discrete(labels = c("Match", "Mismatch")) +
   theme_classic() +
   scale_fill_manual(values = c("red", "blue")) +
   scale_colour_manual(values = c("red", "blue")) +
   geom_hline(yintercept = 480, linetype = 2) + 
-  annotate(geom = "text", x = 1, y = 500, label = "Very Slow Performance")
+  annotate(geom = "text", x = 1, y = 500, 
+           label = "Very Slow Performance")
 ```
 
 ## Extreme Customisation!
 
 ```{r 3_pirate_plot_object_custom_graph, echo = FALSE}
 pirate_plot + 
-  geom_pirate(mapping = aes(fill = response_condition, 
-                            colour = response_condition)
-              ) +
+  geom_pirate() +
   labs(x = "Response Condition", y = "Reaction Time (ms)") +
   scale_x_discrete(labels = c("Match", "Mismatch")) +
   theme_classic() +
