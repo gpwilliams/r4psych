@@ -1,12 +1,12 @@
 # About
 
-This book is part of the post-graduate and staff R for Psychology course taught at Abertay University by Glenn Williams. You can find the compiled book at http://glennwilliams.me/r4psych/
+This book is part of the post-graduate and staff R for Psychology course taught at Abertay University by Glenn Williams. You can find the compiled book at https://glennwilliams.me/r4psych/
 
 Download the lesson materials (https://github.com/gpwilliams/r4psych/tree/master/lesson_materials) to follow along with the slides and exercises from the workshops.
 
 # License
 
-This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+This work is licensed under the Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-nd/3.0/us/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
 # Acknowledgements
 
