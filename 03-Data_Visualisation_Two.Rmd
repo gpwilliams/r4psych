@@ -424,7 +424,45 @@ You can do a whole bunch of other things with ggplot, like adding vertical and h
 
 ### Main Exercises
 
-If all this complexity hasn't given you [nausea](https://youtu.be/JidJV1ue1lI), try out the exercises below. We'll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I'll be there to help out where necessary.
+If all this complexity hasn't given you [nausea](https://youtu.be/JidJV1ue1lI), try out the exercises below. 
+
+You may have to install the `languageR` library if you don't have it installed already. We're going to use the `lexdec` data set from this package. This contains lexical decision times (is this a word or not?) for a range of subjects with different native languages over different words. We also get information on the class of the words (animal or plant), and on the frequency of the words (i.e. how often they occur in most texts). Finally, our dependent variable is reaction time in the lexical decision task.
+
+Execute the following code to load the data set, clean it, and create an aggregated version of the data set along with some fictional demographics.
+
+```{r 3-exercise-data-sets}
+# install.packages("languageR") # install if needed
+library(languageR) # load the package containing the lexdec data
+
+ # lexical decision times split by subject and item
+lex_dec <- lexdec %>%
+  select(Subject, NativeLanguage, Trial, Word, Class, Frequency, RT) %>%
+  rename_all(tolower) %>%
+  rename(native_language = nativelanguage, reaction_time = rt) %>%
+  as.tibble()
+
+# aggregate by items to explore differences in items
+lex_dec_items <- lex_dec %>%
+  group_by(word, class, frequency) %>%
+  summarise(mean_RT = mean(reaction_time),
+            sd_RT = sd(reaction_time)
+  )
+
+# ensure same values for gender and age columns
+set.seed(1892)
+
+# create demographic information
+# here, I've simulated gender and age data
+lex_demog <- lex_dec %>%
+  distinct(subject, native_language) %>%
+  mutate(age = rnorm(n = nrow(.), mean = 35, sd = 7),
+         gender = sample(c("male", "female"), 
+                      size = nrow(.), 
+                      replace = TRUE)
+         )
+```
+
+Try to solve these questions before resorting to the solutions.
 
 ### Question 1
 

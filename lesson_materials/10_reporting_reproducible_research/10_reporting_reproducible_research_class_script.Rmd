@@ -3,7 +3,7 @@ title: "Mixed Effects Models -- Class Script"
 output: html_notebook
 ---
 
-Notice that here we need to install 3 new pacakges. Only do this once per machine. Uncomment the `install.packages()` commands to install the packages.
+Notice that here we need to install 3 new packages. Only do this once per machine. Uncomment the `install.packages()` commands to install the packages.
 
 ```{r 10_load_libraries, message = FALSE}
 library(tidyverse)
@@ -13,11 +13,13 @@ library(sjstats)
 library(effsize)
 # install.packages("TOSTER")
 library(TOSTER)
+# install.packages("languageR")
+library(languageR)
 ```
 
 ```{r 10_load_data}
-sleep_groups <- read_csv("inputs/sleep_study_with_sim_groups.csv")
-sleep_study <- read_csv("inputs/sleep_study_with_sim.csv")
+sleep_groups <- read_csv("../09_mixed_effects_models/inputs/sleep_study_with_sim_groups.csv")
+sleep_study <- read_csv("../09_mixed_effects_models/inputs/sleep_study_with_sim.csv")
 lex_dec <- as.tibble(lexdec) %>% select(Subject, Trial, Word, NativeLanguage, RT)
 ```
 

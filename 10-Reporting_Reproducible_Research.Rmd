@@ -474,7 +474,7 @@ library(effsize)
 library(TOSTER)
 ```
 
-For this exercise, we'll look at doing a full analysis using a data set and report from the excellent [Open Stats Lab](https://sites.trinity.edu/osl).
+For this exercise, we'll look at doing a full analysis using a data set and report from the excellent [Open Stats Lab](https://sites.trinity.edu/osl). For simplicity, we’ll load this data directly from a csv file stored on GitHub. (To get a link for this, you must view the raw file on GitHub online.)
 
 Schroeder and Epley(2015) explored whether you'd be more likely to get a new job after delivering a speech describing your skills, or if you wrote a speech and had a potential employer read it out.
 
@@ -486,13 +486,9 @@ Dependent Variable: Intellect aggregated across intelligence, competence, and th
 Also rated overall impression (composite of positive and negative), and how likely they would be to hire them (0 = not at all, 10 = extremely likely).
 
 ```{r 10_load_data, eval=FALSE}
-# unique URL to the data
-id <- "0Bz-rhZ21ShvOei1MM24xNndnQ00" # google file ID
-
 # read in the data
 raw_data <- read_csv(
-  sprintf(
-  "https://docs.google.com/uc?id=%s&export=download", id)
+  "https://raw.githubusercontent.com/gpwilliams/r4psych/master/lesson_materials/10_reporting_reproducible_research/inputs/schroeder_epley_2015.csv"
   )
 ```
 

@@ -25,7 +25,7 @@ library(tidyverse)
 library(tidyverse)
 ```
 
-In this session, we'll use simulated data, and data from real studies using the the [Open Stats Lab (OSL)](https://sites.trinity.edu/osl) resources. For each section/analysis, we'll just load the data as and when we need it.
+In this session, we'll use simulated data, and data from real studies using the the [Open Stats Lab (OSL)](https://sites.trinity.edu/osl) resources (hosted on my GitHub account). For each section/analysis, we'll just load the data as and when we need it.
 
 ## Correlation
 
@@ -33,7 +33,7 @@ We use correlations when we want to see if there's a significant relationship be
 
 More specifically, we have to know a little bit about variance, covariance, and correlation coefficients to grasp correlation and other tests.
 
-**Variance** tells you how much your data is spread out from the mean, it's the average of the squared differences from the mean. Why do we square the differences? That's so negative values don't cancel out positve values, so we can still have an idea of how much our scores vary.
+**Variance** tells you how much your data is spread out from the mean, it's the average of the squared differences from the mean. Why do we square the differences? That's so negative values don't cancel out positive values, so we can still have an idea of how much our scores vary.
 
 No variance (i.e. all values are the same) is 0, and larger numbers represent more variance in your data. The square root of the variance is the standard deviation, which we can use to get exact distances of our data from the mean. Your mean +- your standard deviation multiplied by 1.96 represents 95% of the coverage of your data.
 
@@ -47,12 +47,11 @@ In this example, we'll look at a study by Dawtry, Sutton, and Sibley (2015). In 
 
 Our aim here is to test the simple hypothesis that people who see society as fair and are thus satisfied with the current state of affairs will less supportive of wealth redistribution.
 
-Below, we will load their raw data from the Google Drive link from the OSL, and clean it up to only look at the relevant sources of information.
+We'll load and clean up the data set from the Open Stats Lab. For simplicity, we'll load this data directly from a csv file stored on GitHub. (To get a link for this, you must view the raw file on GitHub online.)
 
 First, we'll load the data using `read_csv()`, then we'll recode the reverse-scores questions of **redist2** and **redist4** so all of the questions assessing redistribution are on the same scale. 
 
 Then we'll transmute the data, keeping only the columns we need, and calculating the mean scores for perceptions of fairness and satisfaction with distribution of wealth in society (i.e. one factor), and mean support for redistribution (our second factor). 
-
 During this process, we'll also keep the participant IDs. Finally, we'll make everything lowercase, because it looks better!
 
 ```{r 6_load_online_csv_data}
@@ -473,9 +472,9 @@ In this last case, you just specify to weight successes by the number of observa
 
 ## Exercises
 
-For these exercises, we will look at the core concepts from this lesson.
+If you don't have access to these, please [download the repository from GitHub](https://github.com/gpwilliams/r4psych) and open the **lesson_materials** folder. Open the relevant folder for this lesson. If you work out of the file **06_simple_statistical_tests.Rmd** the code below will work to load the data set. If this fails then quit R and open it up from the .Rmd file above so your working directory is in the correct folder.
 
-For these exercises we'll use simulated data sets from the **inputs** folder. This data was saved as a .csv, so we need to use `read_csv()` to load the data into R.
+This data was saved as a .csv, so we need to use `read_csv()` to load the data into R.
 
 ```{r 6_exercise_libraries, eval = FALSE}
 library(tidyverse)

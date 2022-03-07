@@ -75,13 +75,13 @@ sleep_groups <- read_csv("lesson_materials/09_mixed_effects_models/inputs/sleep_
 
 If we were to fit this data to a traditional linear model, and we ignored the fact that we have a random effect in our study (Group), then our linear model coefficients might look like this:
 
-```{r}
+```{r lm-reaction-days}
 lm(Reaction ~ Days, data = sleep_groups)
 ```
 
 That is, we would get an intercept of approximately 351.5 and a slope of approximately 10.3 which is used to define the relationship for days on reaction times across all participants. This type of model looks against the raw data for the study looks like this:
 
-```{r}
+```{r plot-lm-reaction-days}
 ggplot(data = sleep_groups, mapping = aes(x = Days, y = Reaction)) +
   geom_point(na.rm = T, aes(col = Group), alpha = 0.5) +
   geom_smooth(method = "lm", na.rm = T, col = "black", se = F) +
@@ -96,7 +96,7 @@ But, you can see from the colour of the points that we have 3 distinct groups of
 
 We define a mixed effects model in a similar way to a traditional linear model. Here, the only difference is we run the model using the `lmer()` function from **lme4**, rather than the `lm()` function from base R, and we specify our random effects as well. 
 
-```{r}
+```{r random-intercepts}
 # fit random intercepts model
 intercepts_model <- lmer(Reaction ~ Days + (1 | Group), data = sleep_groups)
 ```
@@ -109,7 +109,7 @@ Finally, as always we specify our data set, which should be in long format.
 
 Let's see how defining random intercepts affects the coefficients for the groups in our model. We can extract model coefficients using the `coef()` function. I specifically got the Group coefficients by asking for this using the dollar notation after the function call. To make this easier on the eyes I've renamed the columns, and created an identifier for the intercepts and slopes (i.e. the Group column).
 
-```{r}
+```{r coef-random-intercepts}
 # see group coefficients
 model_coefs <- coef(intercepts_model)$Group %>% 
   rename(Intercept = `(Intercept)`, Slope = Days) %>% 
@@ -123,13 +123,13 @@ How would this model look against our raw data?
 
 First, we'll join these coefficients to our original data so we can plot the individual lines.
 
-```{r}
+```{r add-random-intercepts-to-speep-groups}
 sleep_groups_rani <- left_join(sleep_groups, model_coefs, by = "Group")
 ```
 
 Then we'll plot our original data with our new, random intercepts model. We'll save this under the name `model_coef_plot` because we can use a simple ggplot function to update models without repeating code.
 
-```{r}
+```{r plot-random-intercepts}
 model_coef_plot <- ggplot(data = sleep_groups_rani, 
        mapping = aes(x = Days, 
                      y = Reaction, 
@@ -160,8 +160,8 @@ Alternatively, we can specify a random effects structure with random slopes but 
 
 To specify this random effects structure, we change the 1 to a 0 in our random effects structure (specifying no or 0 random intercepts) and we put Days to the left of the `|`, meaning that we want to calculate random slopes for the effect of Days for each Group.
 
-```{r}
-# fit random intercepts model
+```{r random-slopes}
+# fit random slopes model
 model <- lmer(Reaction ~ Days + (0 + Days | Group), data = sleep_groups)
 
 # see group coefficients
@@ -175,13 +175,13 @@ model_coefs
 
 Next, we'll join these coefficients to our original data.
 
-```{r}
+```{r add-random-slopes-to-sleep-group}
 sleep_groups_rans <- left_join(sleep_groups, model_coefs, by = "Group")
 ```
 
 Then we'll plot our original data with our new, random intercepts model. Here, we'll use a new, cheat function from ggplot, `%+%` (read: add components). This takes a fitted plot from ggplot, and replaces the data from that plot with whatever comes to the right of the function. 
 
-```{r}
+```{r plot-random-slopes}
 model_coef_plot %+% sleep_groups_rans
 ```
 
@@ -191,14 +191,14 @@ In the above plot, we can now see that our data has the same intercept across gr
 
 Finally, we can specify that we want random intercepts and slopes for the group. Here, we just change the 0 back to a 1 in the random effects call.
 
-```{r}
+```{r random-intercepts-and-slopes}
 # fit random intercepts model
 model <- lmer(Reaction ~ Days + (1 + Days | Group), data = sleep_groups)
 ```
 
 Let's see how these coefficients look.
 
-```{r}
+```{r coef-random-intercepts-and-slopes}
 # see group coefficients
 model_coefs <- coef(model)$Group %>% 
   rename(Intercept = `(Intercept)`, Slope = Days) %>% 
@@ -211,13 +211,13 @@ model_coefs
 
 Next, we'll join these coefficients to our original data.
 
-```{r}
+```{r add-random-intercepts-and-slopes-to-sleep-groups}
 sleep_groups_ranis <- left_join(sleep_groups, model_coefs, by = "Group")
 ```
 
 Then we'll plot our original data with our new, random intercepts and random slopes model.
 
-```{r}
+```{r plot-random-intercepts-and-slopes}
 model_coef_plot %+% sleep_groups_ranis
 ```
 
@@ -243,7 +243,7 @@ This is often the case when you have a repeated measures design where participan
 
 For this example, our data could look like the following:
 
-```{r}
+```{r make-crossed-data}
 crossed_data <- tibble(
   Subject = rep(1:2, 5),
   Item = rep(1:5, each = 2),
@@ -255,7 +255,7 @@ crossed_data
 
 Here, both participants take part in both conditions (A or B), hence this is a within-subjects design (but note that this dummy set is not balanced; real designs should be where possible). The condition (A or B) is therefore within individual subjects and individual items, but items are not only associated with one subject. Hence, our random effects are crossed, and should look like this:
 
-```{r eval = FALSE}
+```{r fit-crossed-data, eval = FALSE}
 lmer(Response ~ Condition + (1 | Subject) + (1 | Item), data = crossed_data)
 ```
 
@@ -263,7 +263,7 @@ lmer(Response ~ Condition + (1 | Subject) + (1 | Item), data = crossed_data)
 
 Sometimes we get cases when our data are not crossed. For example, if you're testing participants from separate classes in separate schools, then your data can be said to be nested. The data are nested because observations come from students, which are a part of a specific class, and a specific school. In this instance, you should construct your data to reflect this nesting, ending up with something like this:
 
-```{r}
+```{r make-nested-data}
 nested_data <- tibble(
   Student = seq(1:10),
   Class = rep(seq(1:5), 2),
@@ -279,7 +279,7 @@ As you can see, your data are structured so that you have individuals with an id
 
 As a result, class 1 in school 1 is different to class  1 in school 2. How do you tell R to treat the data such that classes are nested within schools? Or to account for the school and class effects for each participant? We use a formula like this:
 
-```{r eval = FALSE}
+```{r fit-nested-data, eval = FALSE}
 lmer(Outcome ~ Intervention + (1 | School/Class/Student), data = nested_data)
 ```
 
@@ -287,14 +287,14 @@ Here, our random effects structure defines random intercepts for students, adjus
 
 It's sometimes hard to figure out if you have nested or crossed (i.e. not nested) data, and you can help your thinking (and Rs functioning) by simply using unique class identifiers for your school and class combinations. We can make this by simply pasting the identifiers for the School and Class together.
 
-```{r}
+```{r update-labels-nested-data}
 nested_data$Class_ID <- paste(nested_data$School, nested_data$Class, sep = "_")
 nested_data
 ```
 
 Now your results will be exactly the same if you use either of these two formulas:
 
-```{r eval = FALSE}
+```{r fit-nested-crossed, eval = FALSE}
 lmer(Outcome ~ Intervention + (1 | School/Class_ID), data = nested_data)
 lmer(Outcome ~ Intervention + (1 | School) + (1 | Class_ID), data = nested_data)
 ```
@@ -307,19 +307,19 @@ These random effects structures take the simplest form where we have random inte
 
 Let's say we have a within subjects design, where participants see half of the items in our study in one condition, and half in another condition. Let's take the `crossed_data` example from before.
 
-```{r}
+```{r print-crossed-data}
 crossed_data
 ```
 
 Here, we could fit random intercepts and slopes for subjects and items by adding condition (our slope term, or change in response for changes in 1 unit of condition) to the left of each term (along with the random intercept).
 
-```{r eval = FALSE}
+```{r fit-maximal-crossed, eval = FALSE}
 lmer(Outcome ~ Condition + (1 + Condition | Subject) + (1 + Condition | Item), data = data)
 ```
 
 What if participants take part in several blocks of this study? We might expect that their performance will improve from block to block. Here, we'd just have to add a fixed effect of study block and random effects on any factors that are affected by the blocking. If you repeat your items across blocks with the same subjects, you'd have random effects of block on subjects and items (along with condition). If you have new items in each block, you'd only have random slopes of block for subjects. These random effects structures look like this:
 
-```{r eval = FALSE}
+```{r items-and-blocks, eval = FALSE}
 # same items within each block
 lmer(
   Outcome ~ Condition + Block + 
@@ -339,7 +339,7 @@ lmer(
 
 As you might have guessed, for any between subjects factors, we cannot have a random slope of condition for that factor for each subject as subjects only see one condition. Here, our model might look like this:
 
-```{r eval = FALSE}
+```{r between-subj-random-effects, eval = FALSE}
 lmer(
   Outcome ~ Condition + 
     (1 | Subject) + 
@@ -352,7 +352,7 @@ Where we can have random slopes for condition by item (as all items presumably s
 
 Finally, as with all linear models, if we want an interaction between factors, we simply use an asterisk between factors to define our interactions, or a colon if we only want the interaction term and not main effects. This could take the form below if we want random intercepts and slopes for both factors on subjects and items, with main effects and interactions on our fixed factors.
 
-```{r eval = FALSE}
+```{r interaction-factors, eval = FALSE}
 lmer(
   Outcome ~ factor_A * factor_B + 
     (1 + factor_A * factor_B | Subject) + 
@@ -379,7 +379,7 @@ sleep_study <- read_csv("lesson_materials/09_mixed_effects_models/inputs/sleep_s
 
 First off, we'll fit a linear model to the data using complete pooling. This means that all of our data from each participant is put together to come up with one mean intercept and slope which is the same across all participants.
 
-```{r}
+```{r fit-complete-pooling}
 # fit model
 complete_pooling <- lm(Reaction ~ Days, data = sleep_study)
 
@@ -390,7 +390,7 @@ complete_pooling_coefs
 
 Next, we'll fit this model against our mean scores (with standard errors), observing how an increase in the days without sleep decreases reaction time. 
 
-```{r message = FALSE}
+```{r plot-complete-pooling, message = FALSE}
 ggplot(data = sleep_study, mapping = aes(x = Days, y = Reaction)) +
   geom_abline(aes(intercept = complete_pooling_coefs[1], 
                   slope = complete_pooling_coefs[2]
@@ -406,7 +406,7 @@ ggplot(data = sleep_study, mapping = aes(x = Days, y = Reaction)) +
 
 You can see that this line fits the mean scores pretty well. But how does the data look at the individual level? Again, we'll save this plot as an object so we can update it later on. We'll also join these coefficients with our data so that we can easily update our plot when we explore different pooling choices.
 
-```{r}
+```{r coef-complete-pooling}
 complete <- tibble(
   Subject = seq(1:21),
   Intercept = complete_pooling_coefs[[1]],
@@ -419,7 +419,7 @@ model_coefs <- left_join(sleep_study, complete, by = "Subject")
 
 Let's see how the data look with no pooling.
 
-```{r}
+```{r no-pooling}
 pooling_plot <- ggplot(data = model_coefs, 
        mapping = aes(x = Days, 
                      y = Reaction, 
@@ -441,7 +441,7 @@ Wow, so it looks like the model fits participant 18 very well. But what about pa
 
 One alternative to this complete pooling method is the opposite: no pooling. Here, we instead fit an individual intercepts and slopes to each individual in the data. We can do this by using the `lmer()` function from **lme4**. Here, our formula takes the form where reaction times are a function of the days (of deprived sleep) within each participant.
 
-```{r}
+```{r fit-no-pooling}
 # fit the model
 no_pooling <- lmer(Reaction ~ Days | Subject, data = sleep_study)
 
@@ -454,7 +454,7 @@ head(no_pooling_coefs)
 
 We can see for the first 6 participants their intercepts and slopes (Days) all differ from one another. How does this look in our plot? First, we'll add the two coefficients together for easy plotting.
 
-```{r}
+```{r coef-no-pooling}
 none <- tibble(
   Subject = seq(1:21),
   Intercept = no_pooling_coefs$Intercept,
@@ -469,17 +469,17 @@ Now we've got our data in the correct format for plotting, we can have a look at
 
 Take a look at participant 20. Do you think the no pooling model is any better than the complete pooling model? What about participant 2?
 
-```{r}
+```{r plot-pooling-no-pooling}
 pooling_plot %+% model_coefs
 ```
 
 Finally, we get to where **lme4** shines; partial pooling of results. Here, we'll fit a mixed effects model where we have fixed effects of Days, which are assumed to be 
 
-```{r}
+```{r fit-partial-pooling}
 partial_pooling <- lmer(Reaction ~ Days + (Days | Subject), data = sleep_study)
 ```
 
-```{r}
+```{r coef-partial-pooling}
 # extract model coefficients
 partial_pooling_coefs <- coef(partial_pooling)$Subject
 
@@ -500,13 +500,13 @@ all_pools <- bind_rows(model_coefs, partial)
 
 Next, we can plot the different models against one another to see what happens.
 
-```{r}
+```{r plot-partial-pooling}
 pooling_plot %+% all_pools
 ```
 
 As with TJ's article, we'll also zoom in to some of these participants too see what happens.
 
-```{r}
+```{r subset-partial-pooling}
 subset_pools <- all_pools %>% filter(Subject %in% c(1, 2, 19, 20))
 pooling_plot %+% subset_pools
 ```
@@ -521,7 +521,7 @@ If you'd like to learn more about how this works, I really recommend consulting 
 
 Now that we've seen how mixed effects models work, we'll look at how to interpret the output of a mixed effects model. For this part, we'll use the `lexdec` dataset from the `languageR` library. Load this by loading the library and running the code below.
 
-```{r}
+```{r languageR-data}
 library(languageR)
 lex_dec <- as.tibble(lexdec) %>% 
   select(Subject, Trial, Word, NativeLanguage, RT)
@@ -529,7 +529,7 @@ lex_dec <- as.tibble(lexdec) %>%
 
 In this data set, we have log transformed reaction times for English words rated by native and non-native speakers of English. Let's assume that we are interested in the influence of native language on reaction times. First, we want to set the intercept to the mean across both groups. Since the data isn't perfectly balanced, we should avoid the base `contrasts()` method from R, and instead centre our factors, so that one level is around -.5 and the other is .5. If your values aren't exactly -.5/.5, then your data set is unbalanced, so your should use this method.
 
-```{r}
+```{r center-factors}
 # centre the factor
 lex_dec$lang_c <- (lex_dec$NativeLanguage == "English") - mean(lex_dec$NativeLanguage == "English")
 
@@ -539,7 +539,7 @@ head(lex_dec)
 
 Then we'll fit our model. We'll start out with a relatively simple model where we have crossed random effects with random intercepts by subjects (Subject) and items (Word). We'll then get a summary of our model to see what the `lmer` output looks like. We'll fit all models with ML since we're going to compare them to one another.
 
-```{r}
+```{r fit-lexdec-lme4}
 lexdec_mod <- lmer(RT ~ lang_c + (1 | Subject) + (1 | Word), data = lex_dec, REML = F)
 summary(lexdec_mod)
 ```
@@ -575,7 +575,7 @@ library(broom.mixed) # load broom.mixed
 
 Then we can tidy up our `lme4` output and calculate *p*-values using the normal approximation as follows:
 
-```{r}
+```{r calculate-p-value-mixed-model}
 lexdec_mod %>% 
   tidy("fixed") %>% 
   mutate(p_value = 2*(1 - pnorm(abs(statistic))))
@@ -589,13 +589,13 @@ Another alternative we can use to assess whether we have a main effect of a fact
 
 With the model comparisons approach, we simply fit our full model, and a model that is exactly the same as the full model, only without the fixed effect of interest. Here, because we want to check for a main effect of language, we simply fit a model with only an intercept term (and without an effect of language). Notice that the random effects stay the same.
 
-```{r}
+```{r lexdec-reduced}
 lexdec_mod_reduced <- lmer(RT ~ 1 + (1 | Subject) + (1 | Word), data = lex_dec, REML = F)
 ```
 
 Then, we use the `anova()` function to check whether inclusion of the language fixed factor significantly improves model fit. Notice also that if we originally fit our models with REML, R will refit them with ML instead.
 
-```{r}
+```{r anova-model-comparison}
 anova(lexdec_mod, lexdec_mod_reduced)
 ```
 
@@ -603,7 +603,7 @@ Here, we're interested in the change in log-likelihood when we add terms to our 
 
 We can similarly use this method to assess whether or not we should include random effects in our model, however whether or not you should select your random effects on the fly is again up for debate. 
 
-```{r}
+```{r suppress-slopes}
 lexdec_slope <- lmer(RT ~ lang_c + (1 | Subject) + (lang_c || Word), data = lex_dec, REML = F)
 lexdec_slope_cov <- lmer(RT ~ lang_c + (1 | Subject) + (lang_c | Word), data = lex_dec, REML = F)
 anova(lexdec_mod, lexdec_slope, lexdec_slope_cov)
@@ -617,13 +617,13 @@ summary(lexdec_mod)
 
 Look at the next model, with random slopes added. Here, we use the double pipe (`||`) in our random effects to specify that we want random intercepts and slopes, but we don't want to calculate the intercept-slope covariance. (But, note that this only works for numeric, continuous predictors; centering again helps here.) This can be seen in our random effects where we have `Word lang_c` which shows the slope for language by item, `Word.1 (Intercept)` which is the intercept for items, and `Subject (Intercept)` which shows the intercept for the subjects.
 
-```{r}
+```{r print-lexdec-slope}
 summary(lexdec_slope)
 ```
 
 Finally, if we look at the more complex model, we can see that we have intercepts and slopes for the items, and we've calculated the covariance between these terms (in the `Corr` column.
 
-```{r}
+```{r print-lexdec-cov}
 summary(lexdec_slope_cov)
 ```
 
@@ -635,7 +635,7 @@ Often, when you attempt to fit the maximal random effects structure you will get
 
 One way to avoid problems with converging is to centre your factors (as we have done above) and use numeric predictors in your model. You can also try to use a different optimiser by specifying the options in `lme4`. You can specify your optimiser like so. Check out the summaries of these models to see how they differ. Basically, these optimisers are just different methods for attempting to find the best fitting model for your data.
 
-```{r eval = FALSE}
+```{r comparing-optimizers, eval = FALSE}
 nelder_mod <- lmer(
   RT ~ lang_c + (1 | Subject) + (lang_c | Word), 
   data = lex_dec, REML = F, 
@@ -685,7 +685,7 @@ Generalised mixed effects models are performed in a similar way to mixed effects
 
 We implement these models for binary response data like so:
 
-```{r eval = FALSE}
+```{r binary-mixed-model, eval = FALSE}
 glmer(
   DV_binom ~ # binomial dependent variable
     A * B + # fixed effects
@@ -698,7 +698,7 @@ glmer(
 
 For proportions, we simply set the weights of the model to the number of success and provide the proportions as our dependent variable.
 
-```{r eval = FALSE}
+```{r proportion-mixed-model, eval = FALSE}
 glmer(
   DV_prop ~ # dependent variable as a proportion
     A * B + # fixed effects
@@ -712,7 +712,7 @@ glmer(
 
 Alternatively, we can calculate these within the model if we have the number of successes and the number of observations as columns in our model.
 
-```{r eval = FALSE}
+```{r proportion-mixed-model-2, eval = FALSE}
 glmer(
   DV_successes/N_observations ~ # calculate proportion
     A * B + # fixed effects
@@ -742,7 +742,9 @@ Pairwise comparisons can be conducted in the same way as for linear models. You 
 
 ## Exercises
 
-For these exercises, we will look at the core concepts from this lesson. Here, you'll make your own data using simulation-based techniques, and you'll use those same techniques to calculate power for your design.
+For these exercises, we will look at the core concepts from this lesson. Here, we'll use a simulated data set that's saved as a .csv in the inputs folder.
+
+If you don't have access to these, please [download the repository from GitHub](https://github.com/gpwilliams/r4psych) and open the **lesson_materials** folder. Open the relevant folder for this lesson. If you work out of the file **09_mixed_effects_models.Rmd** the code below will work to load the data set. If this fails then quit R and open it up from the .Rmd file above so your working directory is in the correct folder.
 
 ```{r 9_exercise_libraries, eval = FALSE}
 library(tidyverse)

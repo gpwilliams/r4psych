@@ -575,7 +575,9 @@ As a final note, in all cases we should check that the tests we run meet the ass
 
 ## Exercises
 
-For these exercises, we will look at the core concepts from this lesson. Here, we'll use a simulated data set that's saved as a .csv in the inputs folder for this class.
+For these exercises, we will look at the core concepts from this lesson. Here, we'll use a simulated data set that's saved as a .csv in the inputs folder.
+
+If you don't have access to these, please [download the repository from GitHub](https://github.com/gpwilliams/r4psych) and open the **lesson_materials** folder. Open the relevant folder for this lesson. If you work out of the file **07_advanced_statistical_tests.Rmd** the code below will work to load the data set. If this fails then quit R and open it up from the .Rmd file above so your working directory is in the correct folder.
 
 ```{r 7_exercise_libraries, eval = FALSE}
 library(tidyverse)
