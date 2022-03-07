@@ -846,7 +846,40 @@ div.csl-indent {
 <h2><span class="header-section-number">3.7</span> Exercises</h2>
 <div id="main-exercises-1" class="section level3" number="3.7.1">
 <h3><span class="header-section-number">3.7.1</span> Main Exercises</h3>
-<p>If all this complexity hasn’t given you <a href="https://youtu.be/JidJV1ue1lI">nausea</a>, try out the exercises below. We’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary.</p>
+<p>If all this complexity hasn’t given you <a href="https://youtu.be/JidJV1ue1lI">nausea</a>, try out the exercises below.</p>
+<p>You may have to install the <code>languageR</code> library if you don’t have it installed already. We’re going to use the <code>lexdec</code> data set from this package. This contains lexical decision times (is this a word or not?) for a range of subjects with different native languages over different words. We also get information on the class of the words (animal or plant), and on the frequency of the words (i.e. how often they occur in most texts). Finally, our dependent variable is reaction time in the lexical decision task.</p>
+<p>Execute the following code to load the data set, clean it, and create an aggregated version of the data set along with some fictional demographics.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="data-visualisation-2.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;languageR&quot;) # install if needed</span></span>
+<span id="cb132-2"><a href="data-visualisation-2.html#cb132-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(languageR) <span class="co"># load the package containing the lexdec data</span></span>
+<span id="cb132-3"><a href="data-visualisation-2.html#cb132-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-4"><a href="data-visualisation-2.html#cb132-4" aria-hidden="true" tabindex="-1"></a> <span class="co"># lexical decision times split by subject and item</span></span>
+<span id="cb132-5"><a href="data-visualisation-2.html#cb132-5" aria-hidden="true" tabindex="-1"></a>lex_dec <span class="ot">&lt;-</span> lexdec <span class="sc">%&gt;%</span></span>
+<span id="cb132-6"><a href="data-visualisation-2.html#cb132-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Subject, NativeLanguage, Trial, Word, Class, Frequency, RT) <span class="sc">%&gt;%</span></span>
+<span id="cb132-7"><a href="data-visualisation-2.html#cb132-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower) <span class="sc">%&gt;%</span></span>
+<span id="cb132-8"><a href="data-visualisation-2.html#cb132-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">native_language =</span> nativelanguage, <span class="at">reaction_time =</span> rt) <span class="sc">%&gt;%</span></span>
+<span id="cb132-9"><a href="data-visualisation-2.html#cb132-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.tibble</span>()</span>
+<span id="cb132-10"><a href="data-visualisation-2.html#cb132-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-11"><a href="data-visualisation-2.html#cb132-11" aria-hidden="true" tabindex="-1"></a><span class="co"># aggregate by items to explore differences in items</span></span>
+<span id="cb132-12"><a href="data-visualisation-2.html#cb132-12" aria-hidden="true" tabindex="-1"></a>lex_dec_items <span class="ot">&lt;-</span> lex_dec <span class="sc">%&gt;%</span></span>
+<span id="cb132-13"><a href="data-visualisation-2.html#cb132-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(word, class, frequency) <span class="sc">%&gt;%</span></span>
+<span id="cb132-14"><a href="data-visualisation-2.html#cb132-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_RT =</span> <span class="fu">mean</span>(reaction_time),</span>
+<span id="cb132-15"><a href="data-visualisation-2.html#cb132-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_RT =</span> <span class="fu">sd</span>(reaction_time)</span>
+<span id="cb132-16"><a href="data-visualisation-2.html#cb132-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;word&#39;, &#39;class&#39;. You can override using the `.groups`
+## argument.</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="data-visualisation-2.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ensure same values for gender and age columns</span></span>
+<span id="cb134-2"><a href="data-visualisation-2.html#cb134-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1892</span>)</span>
+<span id="cb134-3"><a href="data-visualisation-2.html#cb134-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb134-4"><a href="data-visualisation-2.html#cb134-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create demographic information</span></span>
+<span id="cb134-5"><a href="data-visualisation-2.html#cb134-5" aria-hidden="true" tabindex="-1"></a><span class="co"># here, I&#39;ve simulated gender and age data</span></span>
+<span id="cb134-6"><a href="data-visualisation-2.html#cb134-6" aria-hidden="true" tabindex="-1"></a>lex_demog <span class="ot">&lt;-</span> lex_dec <span class="sc">%&gt;%</span></span>
+<span id="cb134-7"><a href="data-visualisation-2.html#cb134-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(subject, native_language) <span class="sc">%&gt;%</span></span>
+<span id="cb134-8"><a href="data-visualisation-2.html#cb134-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="fu">nrow</span>(.), <span class="at">mean =</span> <span class="dv">35</span>, <span class="at">sd =</span> <span class="dv">7</span>),</span>
+<span id="cb134-9"><a href="data-visualisation-2.html#cb134-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">gender =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&quot;male&quot;</span>, <span class="st">&quot;female&quot;</span>), </span>
+<span id="cb134-10"><a href="data-visualisation-2.html#cb134-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">size =</span> <span class="fu">nrow</span>(.), </span>
+<span id="cb134-11"><a href="data-visualisation-2.html#cb134-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb134-12"><a href="data-visualisation-2.html#cb134-12" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
+<p>Try to solve these questions before resorting to the solutions.</p>
 </div>
 <div id="question-1-2" class="section level3" number="3.7.2">
 <h3><span class="header-section-number">3.7.2</span> Question 1</h3>

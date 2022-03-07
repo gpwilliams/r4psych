@@ -7,7 +7,7 @@ output: html_notebook
 
 For these exercises, we will look at the core concepts from this lesson.
 
-For these exercises we'll use a simulated data set I created in the **data_generation** folder. This data was saved as a tibble in the RData file, so we just use `load()` to open this data into R.
+For these exercises we'll a simulated data set I created in the **data_generation** folder which is saved to the inputs folder as `sim_data.RData`. This data was saved as a tibble in the RData file, so we just use `load()` to open this data into R.
 
 ```{r 5_exercise_libraries_data, message=FALSE}
 # load libraries

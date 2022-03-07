@@ -544,7 +544,7 @@ div.csl-indent {
 <div id="getting-started-4" class="section level2" number="7.1">
 <h2><span class="header-section-number">7.1</span> Getting Started</h2>
 <p>As always, we first need to load the <code>tidyverse</code> set of packages for this Chapter.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="advanced-statistical-tests.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="advanced-statistical-tests.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="multilevel-analyses" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Multilevel Analyses</h2>
@@ -555,39 +555,39 @@ div.csl-indent {
 <p>We’ll simulate data for a numerical stroop task, where subjects need to pick the highest value number from two numbers. Crucially, these numbers can be displayed such that the highest number is biggest in font size (congruent), smallest in font size (incongruent), or the two numbers have their fonts at an equal size (neutral). Our hypothesis is that participants will identify the larger number most quickly if the size and magnitude of the number of congruent, slower if they are neutral, and slowest if they are incongruent.</p>
 <p>We’ll generate 60 subjects, with the congruent reaction time being around 400ms, the incongruent reaction time being on average 60ms slower than this, and the neutral condition around 30ms slower than the congruent condition (and thus around 30ms faster than the neutral condition).</p>
 <p>Finally, we’ll gather the data together, assuming you’ll often have your data in a long format.</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="advanced-statistical-tests.html#cb324-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
-<span id="cb324-2"><a href="advanced-statistical-tests.html#cb324-2" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb324-3"><a href="advanced-statistical-tests.html#cb324-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
-<span id="cb324-4"><a href="advanced-statistical-tests.html#cb324-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">congruent =</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">30</span>, <span class="at">n =</span> <span class="dv">60</span>),</span>
-<span id="cb324-5"><a href="advanced-statistical-tests.html#cb324-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">incongruent =</span> congruent <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">60</span>),</span>
-<span id="cb324-6"><a href="advanced-statistical-tests.html#cb324-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">neutral =</span> congruent <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">30</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">60</span>)</span>
-<span id="cb324-7"><a href="advanced-statistical-tests.html#cb324-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb324-8"><a href="advanced-statistical-tests.html#cb324-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> cond, <span class="at">value =</span> reaction_time, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb324-9"><a href="advanced-statistical-tests.html#cb324-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb324-10"><a href="advanced-statistical-tests.html#cb324-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">cond =</span> <span class="fu">as.factor</span>(cond),</span>
-<span id="cb324-11"><a href="advanced-statistical-tests.html#cb324-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_RT =</span> <span class="fu">log</span>(reaction_time)</span>
-<span id="cb324-12"><a href="advanced-statistical-tests.html#cb324-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="advanced-statistical-tests.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb327-2"><a href="advanced-statistical-tests.html#cb327-2" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb327-3"><a href="advanced-statistical-tests.html#cb327-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
+<span id="cb327-4"><a href="advanced-statistical-tests.html#cb327-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">congruent =</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">30</span>, <span class="at">n =</span> <span class="dv">60</span>),</span>
+<span id="cb327-5"><a href="advanced-statistical-tests.html#cb327-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">incongruent =</span> congruent <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">60</span>),</span>
+<span id="cb327-6"><a href="advanced-statistical-tests.html#cb327-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">neutral =</span> congruent <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">30</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">60</span>)</span>
+<span id="cb327-7"><a href="advanced-statistical-tests.html#cb327-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb327-8"><a href="advanced-statistical-tests.html#cb327-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> cond, <span class="at">value =</span> reaction_time, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb327-9"><a href="advanced-statistical-tests.html#cb327-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb327-10"><a href="advanced-statistical-tests.html#cb327-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">cond =</span> <span class="fu">as.factor</span>(cond),</span>
+<span id="cb327-11"><a href="advanced-statistical-tests.html#cb327-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_RT =</span> <span class="fu">log</span>(reaction_time)</span>
+<span id="cb327-12"><a href="advanced-statistical-tests.html#cb327-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>To explore simple effects, we’ll create some data that looks at the effects of a drug intervention on blood oxygen levels (outcome) for smokers. We have a control condition (placebo) where the oxygen level is on average 80mm Hg, “drug_one,” which on average should be no different to the placebo, and “drug_two,” which increases blood oxygen to around 100mm Hg. Here, we simply want to know if either of the drugs perform any better than the control condition. (Note, I have no idea if these are realistic values, but that’s not the point of this exercise!)</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="advanced-statistical-tests.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set parameters</span></span>
-<span id="cb325-2"><a href="advanced-statistical-tests.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
-<span id="cb325-3"><a href="advanced-statistical-tests.html#cb325-3" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">80</span>, <span class="dv">100</span>), <span class="dv">100</span>)</span>
-<span id="cb325-4"><a href="advanced-statistical-tests.html#cb325-4" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)</span>
-<span id="cb325-5"><a href="advanced-statistical-tests.html#cb325-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb325-6"><a href="advanced-statistical-tests.html#cb325-6" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate data</span></span>
-<span id="cb325-7"><a href="advanced-statistical-tests.html#cb325-7" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>), <span class="dv">100</span>)</span>
-<span id="cb325-8"><a href="advanced-statistical-tests.html#cb325-8" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>)</span>
-<span id="cb325-9"><a href="advanced-statistical-tests.html#cb325-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb325-10"><a href="advanced-statistical-tests.html#cb325-10" aria-hidden="true" tabindex="-1"></a>smoking_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb325-11"><a href="advanced-statistical-tests.html#cb325-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> subject,</span>
-<span id="cb325-12"><a href="advanced-statistical-tests.html#cb325-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> <span class="fu">as.factor</span>(cond),</span>
-<span id="cb325-13"><a href="advanced-statistical-tests.html#cb325-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">300</span>, <span class="at">mean =</span> means, <span class="at">sd =</span> sds)</span>
-<span id="cb325-14"><a href="advanced-statistical-tests.html#cb325-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="advanced-statistical-tests.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set parameters</span></span>
+<span id="cb328-2"><a href="advanced-statistical-tests.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb328-3"><a href="advanced-statistical-tests.html#cb328-3" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">80</span>, <span class="dv">100</span>), <span class="dv">100</span>)</span>
+<span id="cb328-4"><a href="advanced-statistical-tests.html#cb328-4" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)</span>
+<span id="cb328-5"><a href="advanced-statistical-tests.html#cb328-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-6"><a href="advanced-statistical-tests.html#cb328-6" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate data</span></span>
+<span id="cb328-7"><a href="advanced-statistical-tests.html#cb328-7" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>), <span class="dv">100</span>)</span>
+<span id="cb328-8"><a href="advanced-statistical-tests.html#cb328-8" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>)</span>
+<span id="cb328-9"><a href="advanced-statistical-tests.html#cb328-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-10"><a href="advanced-statistical-tests.html#cb328-10" aria-hidden="true" tabindex="-1"></a>smoking_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb328-11"><a href="advanced-statistical-tests.html#cb328-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> subject,</span>
+<span id="cb328-12"><a href="advanced-statistical-tests.html#cb328-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> <span class="fu">as.factor</span>(cond),</span>
+<span id="cb328-13"><a href="advanced-statistical-tests.html#cb328-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">300</span>, <span class="at">mean =</span> means, <span class="at">sd =</span> sds)</span>
+<span id="cb328-14"><a href="advanced-statistical-tests.html#cb328-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <div id="preparation-of-data" class="section level3" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> Preparation of Data</h3>
 <div id="factors" class="section level4" number="7.2.1.1">
 <h4><span class="header-section-number">7.2.1.1</span> Factors</h4>
 <p>In the above examples, we’ve created data sets where our condition column is stored as a factor. Take a look at this:</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="advanced-statistical-tests.html#cb326-1" aria-hidden="true" tabindex="-1"></a>stroop_dat</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="advanced-statistical-tests.html#cb329-1" aria-hidden="true" tabindex="-1"></a>stroop_dat</span></code></pre></div>
 <pre><code>## # A tibble: 180 × 4
 ##    subject cond      reaction_time log_RT
 ##      &lt;int&gt; &lt;fct&gt;             &lt;dbl&gt;  &lt;dbl&gt;
@@ -602,7 +602,7 @@ div.csl-indent {
 ##  9       9 congruent          399.   5.99
 ## 10      10 congruent          359.   5.88
 ## # … with 170 more rows</code></pre>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="advanced-statistical-tests.html#cb328-1" aria-hidden="true" tabindex="-1"></a>smoking_dat</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="advanced-statistical-tests.html#cb331-1" aria-hidden="true" tabindex="-1"></a>smoking_dat</span></code></pre></div>
 <pre><code>## # A tibble: 300 × 3
 ##    subject cond     outcome
 ##      &lt;int&gt; &lt;fct&gt;      &lt;dbl&gt;
@@ -618,9 +618,9 @@ div.csl-indent {
 ## 10      10 control     73.1
 ## # … with 290 more rows</code></pre>
 <p>This is because I used <code>mutate()</code> to change the column from a character data type, to a factor data type. The nice thing about storing your factors this way is that we can see the levels that make up our factor:</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="advanced-statistical-tests.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="advanced-statistical-tests.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>## [1] &quot;congruent&quot;   &quot;incongruent&quot; &quot;neutral&quot;</code></pre>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="advanced-statistical-tests.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(smoking_dat<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="advanced-statistical-tests.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(smoking_dat<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>## [1] &quot;control&quot;  &quot;drug_one&quot; &quot;drug_two&quot;</code></pre>
 <p>If your data isn’t stored as a factor, you can convert it to one using <code>as.factor()</code> or <code>factor()</code> on your column (e.g. <code>data$factor &lt;- as.factor(data$factor)</code>).</p>
 </div>
@@ -628,19 +628,19 @@ div.csl-indent {
 <h4><span class="header-section-number">7.2.1.2</span> Contrast Matrices</h4>
 <p>We can see how we specify our contrasts for our tests by using the <code>contrasts()</code> function any any factors.</p>
 <p>Let’s look back at the Stroop data when we only had two levels of condition, congruent and incongruent. Here, we’ll subset the data and then use the <code>contrasts()</code> function to look at the contrast matrix. We’ll also mutate the cond column to itself as a factor so we drop the level that is no longer present (i.e. neutral) ; this is just a little R trick!</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="advanced-statistical-tests.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make data 2 levels and convert condition to a factor</span></span>
-<span id="cb334-2"><a href="advanced-statistical-tests.html#cb334-2" aria-hidden="true" tabindex="-1"></a>stroop_subset <span class="ot">&lt;-</span> stroop_dat <span class="sc">%&gt;%</span> </span>
-<span id="cb334-3"><a href="advanced-statistical-tests.html#cb334-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cond <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb334-4"><a href="advanced-statistical-tests.html#cb334-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cond =</span> <span class="fu">factor</span>(cond))</span>
-<span id="cb334-5"><a href="advanced-statistical-tests.html#cb334-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb334-6"><a href="advanced-statistical-tests.html#cb334-6" aria-hidden="true" tabindex="-1"></a><span class="co"># see your contrasts</span></span>
-<span id="cb334-7"><a href="advanced-statistical-tests.html#cb334-7" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_subset<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="advanced-statistical-tests.html#cb337-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make data 2 levels and convert condition to a factor</span></span>
+<span id="cb337-2"><a href="advanced-statistical-tests.html#cb337-2" aria-hidden="true" tabindex="-1"></a>stroop_subset <span class="ot">&lt;-</span> stroop_dat <span class="sc">%&gt;%</span> </span>
+<span id="cb337-3"><a href="advanced-statistical-tests.html#cb337-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cond <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb337-4"><a href="advanced-statistical-tests.html#cb337-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cond =</span> <span class="fu">factor</span>(cond))</span>
+<span id="cb337-5"><a href="advanced-statistical-tests.html#cb337-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb337-6"><a href="advanced-statistical-tests.html#cb337-6" aria-hidden="true" tabindex="-1"></a><span class="co"># see your contrasts</span></span>
+<span id="cb337-7"><a href="advanced-statistical-tests.html#cb337-7" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_subset<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>##             incongruent
 ## congruent             0
 ## incongruent           1</code></pre>
 <p>We can see from our contrast matrix that the congruent condition is assigned a value of 0, and the incongruent condition is assigned a value of 1. What this means is that our intercept in our linear model is the congruent condition, and we evaluate the effect of a shift in condition by 1 point (i.e. to the incongruent condition) against this reference level. Remember that in a linear model, the intercept is the point on the y-axis where x is 0.</p>
 <p>Let’s fit a linear model to see how this works. Notice that we fit the model and then (<code>%&gt;%</code>) use the <code>summary()</code> function to see the output of the model:</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="advanced-statistical-tests.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, stroop_subset) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="advanced-statistical-tests.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, stroop_subset) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_subset)
@@ -660,9 +660,9 @@ div.csl-indent {
 ## Multiple R-squared:  0.5158, Adjusted R-squared:  0.5117 
 ## F-statistic: 125.7 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>We can see that our parameter estimate for the intercept is 5.979, and being in the congruent condition adds 0.145 to the intercept value of 5.979, which sums to 6.124. How does this equate to our mean scores?</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="advanced-statistical-tests.html#cb338-1" aria-hidden="true" tabindex="-1"></a>stroop_subset <span class="sc">%&gt;%</span> </span>
-<span id="cb338-2"><a href="advanced-statistical-tests.html#cb338-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> </span>
-<span id="cb338-3"><a href="advanced-statistical-tests.html#cb338-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="advanced-statistical-tests.html#cb341-1" aria-hidden="true" tabindex="-1"></a>stroop_subset <span class="sc">%&gt;%</span> </span>
+<span id="cb341-2"><a href="advanced-statistical-tests.html#cb341-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> </span>
+<span id="cb341-3"><a href="advanced-statistical-tests.html#cb341-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 2
 ##   cond         mean
 ##   &lt;fct&gt;       &lt;dbl&gt;
@@ -671,13 +671,13 @@ div.csl-indent {
 <p>Great, our intercept corresponds to the mean of the congruent condition, and our effect of condition is the difference between the two means! That’s because we used treatment coding, which is the default in R. This means that the intercept is alwasy the first alphabetic level of our conditions.</p>
 <p>But what if we want to change the reference level of our intercept? This is important if we want to look at different contrasts when we have more than 1 level in a factor, or more than 2 factors in a model.</p>
 <p>To change our intercept, we must change our contrast matrix. To change this we use the <code>contrasts()</code> function on our condition factor, to see what our contrasts are, and we can then define the contrasts we’d like using some inbuilt functions in R. Here, we’ll change the coding to sum coding using <code>contr.sum</code>. (Others are available, such as <code>contr.helmert</code>, etc.)</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="advanced-statistical-tests.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_subset<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.sum</span>
-<span id="cb340-2"><a href="advanced-statistical-tests.html#cb340-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_subset<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="advanced-statistical-tests.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_subset<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.sum</span>
+<span id="cb343-2"><a href="advanced-statistical-tests.html#cb343-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_subset<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>##             [,1]
 ## congruent      1
 ## incongruent   -1</code></pre>
 <p>Now, our contrast matrix sums to 0. Remember that our intercept is 0, so the intercept is now the mid-point between the 2 conditions, or the mean across both conditions. Let’s refit our model and see this in action.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="advanced-statistical-tests.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, stroop_subset) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="advanced-statistical-tests.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, stroop_subset) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_subset)
@@ -698,7 +698,7 @@ div.csl-indent {
 ## F-statistic: 125.7 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Now our intercept is 6.052, and the effect of condition (now labelled <code>cond1</code>; the first (and only) contrast in our contrast matrix for condition) is -0.073. Crucially, since we only have 2 levels of condition, our interpretation of all of the statistics in this model remains the same, only our intercept paramter estimate is different to before. Further, the parameter estimate for condition (and the standard error of this estimate) are half as large as before, but this is just due to the scale on which our factor is evaluated; the <em>t</em>- and <em>p</em>-values remain the same.</p>
 <p>How does the intercept relate to our means? Check it out!</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="advanced-statistical-tests.html#cb344-1" aria-hidden="true" tabindex="-1"></a>stroop_subset <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="advanced-statistical-tests.html#cb347-1" aria-hidden="true" tabindex="-1"></a>stroop_subset <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##    mean
 ##   &lt;dbl&gt;
@@ -709,13 +709,13 @@ div.csl-indent {
 <div id="multilevel-regression" class="section level3" number="7.2.2">
 <h3><span class="header-section-number">7.2.2</span> Multilevel Regression</h3>
 <p>What happens if we have some more complex data? Let’s look at the contrast matrix for the full Stroop data:</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="advanced-statistical-tests.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="advanced-statistical-tests.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>##             incongruent neutral
 ## congruent             0       0
 ## incongruent           1       0
 ## neutral               0       1</code></pre>
 <p>You can see that right now, the first row for the congruent condition sums to 0. Whereas the incongruent and neutral condition rows sum to 1. This means that the congruent condition will be the intercept in our model, and the incongruent and neutral conditions will be the other parameters in our model. Let’s see this in action.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="advanced-statistical-tests.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat) <span class="sc">%&gt;%</span> summary</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="advanced-statistical-tests.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat) <span class="sc">%&gt;%</span> summary</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_dat)
@@ -736,7 +736,7 @@ div.csl-indent {
 ## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
 ## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Again, we’ll check how these parameters correspond to our means for each group.</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="advanced-statistical-tests.html#cb350-1" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="advanced-statistical-tests.html#cb353-1" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   cond         mean
 ##   &lt;fct&gt;       &lt;dbl&gt;
@@ -745,14 +745,14 @@ div.csl-indent {
 ## 3 neutral      6.05</code></pre>
 <p>Great, the intercept is indeed the mean for the congruent condition, and the incongruent condition (cond2) and neutral (cond3) are the difference between the intercept mean and that reference level’s mean.</p>
 <p>Instead, we could get sum coded effects as before.</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="advanced-statistical-tests.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.sum</span>
-<span id="cb352-2"><a href="advanced-statistical-tests.html#cb352-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="advanced-statistical-tests.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.sum</span>
+<span id="cb355-2"><a href="advanced-statistical-tests.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>##             [,1] [,2]
 ## congruent      1    0
 ## incongruent    0    1
 ## neutral       -1   -1</code></pre>
 <p>Now the first 2 rows sum to 1, which together makes 2, and the final row sums to -2. Together, the intercept or 0 is the average across these contrasts. How does this affect our model?</p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="advanced-statistical-tests.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat) <span class="sc">%&gt;%</span> summary</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="advanced-statistical-tests.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat) <span class="sc">%&gt;%</span> summary</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_dat)
@@ -773,7 +773,7 @@ div.csl-indent {
 ## Multiple R-squared:  0.4094, Adjusted R-squared:  0.4027 
 ## F-statistic: 61.35 on 2 and 177 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Now we can see that the intercept has changed, and now the congruent and incongruent condition are considered against the grand mean across all levels, so their terms have changed too.</p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="advanced-statistical-tests.html#cb356-1" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="advanced-statistical-tests.html#cb359-1" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##    mean
 ##   &lt;dbl&gt;
@@ -781,17 +781,17 @@ div.csl-indent {
 <p>Check the following values against the group means above: 6.0516 - 0.073 = 5.978613 and 6.0516 + 0.0728 = 6.124421, you can see that the group means for the congruent and incongruent condition equate to the intercept + the new paramter estimates.</p>
 <p>Again, however, the main effect of our model remains unchanged regardless of the coding scheme used.</p>
 <p>For now, we’ll return to using treatment coding and we’ll explore changing the order for the intercept. If we want to change the order, or determine exactly which level will be the intercept, we simply have to relevel our factor before defining our contrasts:</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="advanced-statistical-tests.html#cb358-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.treatment</span>
-<span id="cb358-2"><a href="advanced-statistical-tests.html#cb358-2" aria-hidden="true" tabindex="-1"></a>stroop_dat<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">factor</span>(stroop_dat<span class="sc">$</span>cond, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="advanced-statistical-tests.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.treatment</span>
+<span id="cb361-2"><a href="advanced-statistical-tests.html#cb361-2" aria-hidden="true" tabindex="-1"></a>stroop_dat<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">factor</span>(stroop_dat<span class="sc">$</span>cond, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;neutral&quot;</span>, <span class="st">&quot;congruent&quot;</span>, <span class="st">&quot;incongruent&quot;</span>))</span></code></pre></div>
 <p>Here, we simply asked R to remake our condition column from a factor of our condition column, but with specifically ordered levels.</p>
 <p>Now when we specify our treatment contrasts, the reference level (i.e. 0) will be the first level that we specified above (neutral, in this instance).</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="advanced-statistical-tests.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="advanced-statistical-tests.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(stroop_dat<span class="sc">$</span>cond)</span></code></pre></div>
 <pre><code>##             congruent incongruent
 ## neutral             0           0
 ## congruent           1           0
 ## incongruent         0           1</code></pre>
 <p>We’ll rerun the model to see how our intercept has changed.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="advanced-statistical-tests.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat) <span class="sc">%&gt;%</span> summary</span></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="advanced-statistical-tests.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat) <span class="sc">%&gt;%</span> summary</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ cond, data = stroop_dat)
@@ -817,8 +817,8 @@ div.csl-indent {
 <h3><span class="header-section-number">7.2.3</span> Multilevel ANOVA</h3>
 <p>Let’s say we’re interested in main effects and we want to see if there is a main effect of condition in the numerical stroop task. Nicely, the <code>aov()</code> function defaults to give us main effects in the form of a traditional ANOVA output.</p>
 <p>Let’s see how this works.</p>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="advanced-statistical-tests.html#cb363-1" aria-hidden="true" tabindex="-1"></a>stroop_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat)</span>
-<span id="cb363-2"><a href="advanced-statistical-tests.html#cb363-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stroop_aov)</span></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="advanced-statistical-tests.html#cb366-1" aria-hidden="true" tabindex="-1"></a>stroop_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(log_RT <span class="sc">~</span> cond, <span class="at">data =</span> stroop_dat)</span>
+<span id="cb366-2"><a href="advanced-statistical-tests.html#cb366-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(stroop_aov)</span></code></pre></div>
 <pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)    
 ## cond          2 0.6378  0.3189   61.35 &lt;2e-16 ***
 ## Residuals   177 0.9201  0.0052                   
@@ -826,7 +826,7 @@ div.csl-indent {
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Now, our model corresponds to the model output that we got using the <code>lm()</code> function. Look at the bottom of the results from the linear model in the previous section, the F, df, and <em>p</em>-values are the same. This is because the <code>aov()</code> function is simply a wrapper for our linear model that gives us main effects! Under the hood, <code>aov()</code> is just <code>lm()</code>, only without the additional model coefficients from the linear model.</p>
 <p>However, if we’ve already fitted a model using the <code>aov()</code> function, but we want to retrieve the model coefficients, we can use a different type of <code>summary()</code> function, <code>summary.lm()</code>. This makes R give us our model with a linear model output.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="advanced-statistical-tests.html#cb365-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(stroop_aov)</span></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="advanced-statistical-tests.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.lm</span>(stroop_aov)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## aov(formula = log_RT ~ cond, data = stroop_dat)
@@ -852,8 +852,8 @@ div.csl-indent {
 <div id="multiple-contrasts" class="section level3" number="7.2.4">
 <h3><span class="header-section-number">7.2.4</span> Multiple Contrasts</h3>
 <p>Let’s say we have the smoking data set, and we’re interested in whether two drugs differ from a placebo. We can fit the model with a treatment coded contrast matrix so that the intercept is the placebo (control group), and the other conditions are compared against this reference value. We’ll fit this with a linear model, seeing as we care about the model coefficients.</p>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="advanced-statistical-tests.html#cb367-1" aria-hidden="true" tabindex="-1"></a>smoking_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(outcome <span class="sc">~</span> cond, <span class="at">data =</span> smoking_dat)</span>
-<span id="cb367-2"><a href="advanced-statistical-tests.html#cb367-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(smoking_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="advanced-statistical-tests.html#cb370-1" aria-hidden="true" tabindex="-1"></a>smoking_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(outcome <span class="sc">~</span> cond, <span class="at">data =</span> smoking_dat)</span>
+<span id="cb370-2"><a href="advanced-statistical-tests.html#cb370-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(smoking_lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = outcome ~ cond, data = smoking_dat)
@@ -880,9 +880,9 @@ div.csl-indent {
 <li>Calculate the differences in the parameter estimates for the two rows in the table.</li>
 </ol>
 <p>The first option is easiest if we only have a few levels in a factor. The second is handy if we have a lot of levels, but requires us to specify a complex contrast matrix. For the first option, we simply need to do something like this:</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="advanced-statistical-tests.html#cb369-1" aria-hidden="true" tabindex="-1"></a>smoking_dat<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">factor</span>(smoking_dat<span class="sc">$</span>cond, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>, <span class="st">&quot;control&quot;</span>))</span>
-<span id="cb369-2"><a href="advanced-statistical-tests.html#cb369-2" aria-hidden="true" tabindex="-1"></a>smoking_lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(outcome <span class="sc">~</span> cond, <span class="at">data =</span> smoking_dat)</span>
-<span id="cb369-3"><a href="advanced-statistical-tests.html#cb369-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(smoking_lm2)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="advanced-statistical-tests.html#cb372-1" aria-hidden="true" tabindex="-1"></a>smoking_dat<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">factor</span>(smoking_dat<span class="sc">$</span>cond, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;drug_one&quot;</span>, <span class="st">&quot;drug_two&quot;</span>, <span class="st">&quot;control&quot;</span>))</span>
+<span id="cb372-2"><a href="advanced-statistical-tests.html#cb372-2" aria-hidden="true" tabindex="-1"></a>smoking_lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(outcome <span class="sc">~</span> cond, <span class="at">data =</span> smoking_dat)</span>
+<span id="cb372-3"><a href="advanced-statistical-tests.html#cb372-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(smoking_lm2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = outcome ~ cond, data = smoking_dat)
@@ -916,16 +916,16 @@ div.csl-indent {
 </ul>
 <p>Most importantly, supplement is a factor with 2 levels, and dose is a numeric variable with 3 levels, but the same principles apply to more complex designs.</p>
 <p>Load the data, and save it as a tibble with the columns saved as factors:</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="advanced-statistical-tests.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
-<span id="cb371-2"><a href="advanced-statistical-tests.html#cb371-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)</span>
-<span id="cb371-3"><a href="advanced-statistical-tests.html#cb371-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-4"><a href="advanced-statistical-tests.html#cb371-4" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to tibble and make dose a factor</span></span>
-<span id="cb371-5"><a href="advanced-statistical-tests.html#cb371-5" aria-hidden="true" tabindex="-1"></a>tooth <span class="ot">&lt;-</span> ToothGrowth <span class="sc">%&gt;%</span></span>
-<span id="cb371-6"><a href="advanced-statistical-tests.html#cb371-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose =</span> <span class="fu">factor</span>(dose)) <span class="sc">%&gt;%</span></span>
-<span id="cb371-7"><a href="advanced-statistical-tests.html#cb371-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.tibble</span>()</span>
-<span id="cb371-8"><a href="advanced-statistical-tests.html#cb371-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-9"><a href="advanced-statistical-tests.html#cb371-9" aria-hidden="true" tabindex="-1"></a><span class="co"># see the output</span></span>
-<span id="cb371-10"><a href="advanced-statistical-tests.html#cb371-10" aria-hidden="true" tabindex="-1"></a>tooth</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="advanced-statistical-tests.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data</span></span>
+<span id="cb374-2"><a href="advanced-statistical-tests.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ToothGrowth&quot;</span>)</span>
+<span id="cb374-3"><a href="advanced-statistical-tests.html#cb374-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-4"><a href="advanced-statistical-tests.html#cb374-4" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to tibble and make dose a factor</span></span>
+<span id="cb374-5"><a href="advanced-statistical-tests.html#cb374-5" aria-hidden="true" tabindex="-1"></a>tooth <span class="ot">&lt;-</span> ToothGrowth <span class="sc">%&gt;%</span></span>
+<span id="cb374-6"><a href="advanced-statistical-tests.html#cb374-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose =</span> <span class="fu">factor</span>(dose)) <span class="sc">%&gt;%</span></span>
+<span id="cb374-7"><a href="advanced-statistical-tests.html#cb374-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.tibble</span>()</span>
+<span id="cb374-8"><a href="advanced-statistical-tests.html#cb374-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb374-9"><a href="advanced-statistical-tests.html#cb374-9" aria-hidden="true" tabindex="-1"></a><span class="co"># see the output</span></span>
+<span id="cb374-10"><a href="advanced-statistical-tests.html#cb374-10" aria-hidden="true" tabindex="-1"></a>tooth</span></code></pre></div>
 <pre><code>## # A tibble: 60 × 3
 ##      len supp  dose 
 ##    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;
@@ -949,19 +949,19 @@ div.csl-indent {
 <p>Or, to save on typing, like so (these two are equivalent):</p>
 <p><code>dependent variable ~ factor_one * factor_two</code></p>
 <p>First, we’ll check how our factors are instantiated (i.e. what are the contrasts)?</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="advanced-statistical-tests.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth<span class="sc">$</span>supp) </span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="advanced-statistical-tests.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth<span class="sc">$</span>supp) </span></code></pre></div>
 <pre><code>##    VC
 ## OJ  0
 ## VC  1</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="advanced-statistical-tests.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth<span class="sc">$</span>dose)</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="advanced-statistical-tests.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth<span class="sc">$</span>dose)</span></code></pre></div>
 <pre><code>##     1 2
 ## 0.5 0 0
 ## 1   1 0
 ## 2   0 1</code></pre>
 <p>Here, we’re interested in the main effects of both factors, and whether there’s an interaction between them. Since we aren’t going to get the parameter estimates from this model using the <code>summary.lm()</code> function, we don’t need to specify the contrast matrix required for the ANOVA here.</p>
 <p>We’ll save this as <strong>tooth_aov</strong> as we want to do some follow up tests later on.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="advanced-statistical-tests.html#cb377-1" aria-hidden="true" tabindex="-1"></a>tooth_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth)</span>
-<span id="cb377-2"><a href="advanced-statistical-tests.html#cb377-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tooth_aov)</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="advanced-statistical-tests.html#cb380-1" aria-hidden="true" tabindex="-1"></a>tooth_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth)</span>
+<span id="cb380-2"><a href="advanced-statistical-tests.html#cb380-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tooth_aov)</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## supp         1  205.4   205.4  15.572 0.000231 ***
 ## dose         2 2426.4  1213.2  92.000  &lt; 2e-16 ***
@@ -970,14 +970,14 @@ div.csl-indent {
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>As you can see, we have a significant main effect of both factors, and a significant interaction. As such, we need to do some follow up tests to see where our effect lies in the interaction. A quick check with a plot always helps:</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="advanced-statistical-tests.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> tooth, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> len, <span class="at">colour =</span> supp)) <span class="sc">+</span></span>
-<span id="cb379-2"><a href="advanced-statistical-tests.html#cb379-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="advanced-statistical-tests.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> tooth, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> len, <span class="at">colour =</span> supp)) <span class="sc">+</span></span>
+<span id="cb382-2"><a href="advanced-statistical-tests.html#cb382-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="R-for-Psych_files/figure-html/7_tooth_plot-1.png" width="672" /></p>
 <p>It looks like there’s a main effect of dose overall, but also that supplement type probably only matters for lower doses. Let’s check these using some pairwise tests. As such, perform pairwise comparisons to see where our differences lie.</p>
 <div id="multiple-comparisons" class="section level4" number="7.3.1.1">
 <h4><span class="header-section-number">7.3.1.1</span> Multiple Comparisons</h4>
 <p>One option is to perform multiple comparisons using Tukey Honest Significant Difference. We do this by applying the <code>TukeyHSD()</code> function to our fitted model <strong>tooth_aov</strong>. Here, we also have to specify the confidence level, which is by default 95%.</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="advanced-statistical-tests.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(tooth_aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="advanced-statistical-tests.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(tooth_aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -1011,8 +1011,8 @@ div.csl-indent {
 ## VC:2-VC:1      9.37   4.571876 14.1681238 0.0000058
 ## VC:2-OJ:2      0.08  -4.718124  4.8781238 1.0000000</code></pre>
 <p>We get a lot of output here corresponding to every possible comparison we could ever want. We can remedy this by saving the output of TukeyHSD to an object, and selecting only the relevant information, <strong>supp:dose</strong>. Notice that we put this name in backticks so we can use the special character <code>:</code> without R interpreting it as something else.</p>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="advanced-statistical-tests.html#cb382-1" aria-hidden="true" tabindex="-1"></a>tukey_aov <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(tooth_aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb382-2"><a href="advanced-statistical-tests.html#cb382-2" aria-hidden="true" tabindex="-1"></a>tukey_aov<span class="sc">$</span><span class="st">`</span><span class="at">supp:dose</span><span class="st">`</span></span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="advanced-statistical-tests.html#cb385-1" aria-hidden="true" tabindex="-1"></a>tukey_aov <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(tooth_aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb385-2"><a href="advanced-statistical-tests.html#cb385-2" aria-hidden="true" tabindex="-1"></a>tukey_aov<span class="sc">$</span><span class="st">`</span><span class="at">supp:dose</span><span class="st">`</span></span></code></pre></div>
 <pre><code>##                diff        lwr        upr        p adj
 ## VC:0.5-OJ:0.5 -5.25 -10.048124 -0.4518762 2.425209e-02
 ## OJ:1-OJ:0.5    9.47   4.671876 14.2681238 4.612304e-06
@@ -1037,13 +1037,13 @@ div.csl-indent {
 <h4><span class="header-section-number">7.3.2.1</span> Three-Level Factors</h4>
 <p>If you want to see whether there’s a main effect or interaction for 3 level factors, the easiest way is to simply run an ANOVA. With the <code>lm()</code> function, comparisons for the contribution of each factor in our model starts to become more difficult when we have factors with more than 2 levels. That’s because we have to construct some numeric variables for these factors, and we need to perform model comparisons on a full model (with interactions) and reduced models (without) to see which model best fits our data.</p>
 <p>To do this, we simply have to centre our two factors, with these stored as numeric variables.</p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="advanced-statistical-tests.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code new centered variables</span></span>
-<span id="cb384-2"><a href="advanced-statistical-tests.html#cb384-2" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>supp_dev <span class="ot">&lt;-</span> (tooth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;VC&quot;</span>) <span class="sc">-</span> <span class="fu">mean</span>(tooth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;VC&quot;</span>)</span>
-<span id="cb384-3"><a href="advanced-statistical-tests.html#cb384-3" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>dose_dev_one <span class="ot">&lt;-</span> (tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;0.5&quot;</span>) <span class="sc">-</span> <span class="fu">mean</span>(tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;0.5&quot;</span>)</span>
-<span id="cb384-4"><a href="advanced-statistical-tests.html#cb384-4" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>dose_dev_two <span class="ot">&lt;-</span> (tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;1&quot;</span>) <span class="sc">-</span> <span class="fu">mean</span>(tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;1&quot;</span>)</span>
-<span id="cb384-5"><a href="advanced-statistical-tests.html#cb384-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb384-6"><a href="advanced-statistical-tests.html#cb384-6" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect changes</span></span>
-<span id="cb384-7"><a href="advanced-statistical-tests.html#cb384-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tooth)</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="advanced-statistical-tests.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code new centered variables</span></span>
+<span id="cb387-2"><a href="advanced-statistical-tests.html#cb387-2" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>supp_dev <span class="ot">&lt;-</span> (tooth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;VC&quot;</span>) <span class="sc">-</span> <span class="fu">mean</span>(tooth<span class="sc">$</span>supp <span class="sc">==</span> <span class="st">&quot;VC&quot;</span>)</span>
+<span id="cb387-3"><a href="advanced-statistical-tests.html#cb387-3" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>dose_dev_one <span class="ot">&lt;-</span> (tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;0.5&quot;</span>) <span class="sc">-</span> <span class="fu">mean</span>(tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;0.5&quot;</span>)</span>
+<span id="cb387-4"><a href="advanced-statistical-tests.html#cb387-4" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>dose_dev_two <span class="ot">&lt;-</span> (tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;1&quot;</span>) <span class="sc">-</span> <span class="fu">mean</span>(tooth<span class="sc">$</span>dose <span class="sc">==</span> <span class="st">&quot;1&quot;</span>)</span>
+<span id="cb387-5"><a href="advanced-statistical-tests.html#cb387-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb387-6"><a href="advanced-statistical-tests.html#cb387-6" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect changes</span></span>
+<span id="cb387-7"><a href="advanced-statistical-tests.html#cb387-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tooth)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##     len supp  dose  supp_dev dose_dev_one dose_dev_two
 ##   &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
@@ -1056,10 +1056,10 @@ div.csl-indent {
 <p>This centering works similarly to the contrast matrices we used before. In fact, it is often the better option if we have unbalanced data sets, as it accounts for the mismatch in the number of observations in each level of a factor. The centering used in this case is called <strong>deviation coding</strong> and is just like sum coding, only the parameter estimates and standard errors are half as large (but all other interpretations, e.g. <em>t</em>- and <em>p</em>-values remain the same).</p>
 <p>Now, when we fit a model with <strong>supp_dev</strong>, the intercept will be the mean of the two conditions.</p>
 <p>When it comes to fitting a 3 level factor, we need to do the same thing for only two of the levels. When we then add this to a model and test for an interaction, we test for the interaction for <strong>supp_dev</strong> across both columns for our deviation coded doses.</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="advanced-statistical-tests.html#cb386-1" aria-hidden="true" tabindex="-1"></a>tooth_lm_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp_dev <span class="sc">*</span> (dose_dev_one <span class="sc">+</span> dose_dev_two), <span class="at">data =</span> tooth)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="advanced-statistical-tests.html#cb389-1" aria-hidden="true" tabindex="-1"></a>tooth_lm_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp_dev <span class="sc">*</span> (dose_dev_one <span class="sc">+</span> dose_dev_two), <span class="at">data =</span> tooth)</span></code></pre></div>
 <p>Next, we construct a reduced model, and use the <code>anova()</code> function to compare the two models against one another.</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="advanced-statistical-tests.html#cb387-1" aria-hidden="true" tabindex="-1"></a>tooth_lm_reduced <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp_dev <span class="sc">+</span> (dose_dev_one <span class="sc">+</span> dose_dev_two), <span class="at">data =</span> tooth)</span>
-<span id="cb387-2"><a href="advanced-statistical-tests.html#cb387-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(tooth_lm_full, tooth_lm_reduced)</span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="advanced-statistical-tests.html#cb390-1" aria-hidden="true" tabindex="-1"></a>tooth_lm_reduced <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp_dev <span class="sc">+</span> (dose_dev_one <span class="sc">+</span> dose_dev_two), <span class="at">data =</span> tooth)</span>
+<span id="cb390-2"><a href="advanced-statistical-tests.html#cb390-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(tooth_lm_full, tooth_lm_reduced)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: len ~ supp_dev * (dose_dev_one + dose_dev_two)
@@ -1072,14 +1072,14 @@ div.csl-indent {
 <p>This checks for how much variance is explainedby each model. As you can see, the interaction term in our model makes a significant contribution to the variance explained, so this indicates that there’s an interaction in our model, and as such we should explore this.</p>
 <p>A quick and easy way to do so is to run a number of <em>t</em>-tests or linear models on subsets of the data, adjusting for the <em>p</em>-values where necessary.</p>
 <p>One way to achieve this for multifactorial designs is to create a new column which is a combination of the two factors.</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="advanced-statistical-tests.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create combined factor column</span></span>
-<span id="cb389-2"><a href="advanced-statistical-tests.html#cb389-2" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>interact <span class="ot">&lt;-</span> <span class="fu">interaction</span>(tooth<span class="sc">$</span>supp, tooth<span class="sc">$</span>dose)</span>
-<span id="cb389-3"><a href="advanced-statistical-tests.html#cb389-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb389-4"><a href="advanced-statistical-tests.html#cb389-4" aria-hidden="true" tabindex="-1"></a><span class="co"># check levels of our new factor</span></span>
-<span id="cb389-5"><a href="advanced-statistical-tests.html#cb389-5" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(tooth<span class="sc">$</span>interact)</span></code></pre></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="advanced-statistical-tests.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create combined factor column</span></span>
+<span id="cb392-2"><a href="advanced-statistical-tests.html#cb392-2" aria-hidden="true" tabindex="-1"></a>tooth<span class="sc">$</span>interact <span class="ot">&lt;-</span> <span class="fu">interaction</span>(tooth<span class="sc">$</span>supp, tooth<span class="sc">$</span>dose)</span>
+<span id="cb392-3"><a href="advanced-statistical-tests.html#cb392-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb392-4"><a href="advanced-statistical-tests.html#cb392-4" aria-hidden="true" tabindex="-1"></a><span class="co"># check levels of our new factor</span></span>
+<span id="cb392-5"><a href="advanced-statistical-tests.html#cb392-5" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(tooth<span class="sc">$</span>interact)</span></code></pre></div>
 <pre><code>## [1] &quot;OJ.0.5&quot; &quot;VC.0.5&quot; &quot;OJ.1&quot;   &quot;VC.1&quot;   &quot;OJ.2&quot;   &quot;VC.2&quot;</code></pre>
 <p>Then we simply use the <code>pairwise.t.test()</code> function, and supply it our dependent variable and our grouping factor. This method defaults to Holm’s sequential bonerroni, which is like bonferroni adjustment of <em>p</em>-values, but rather than multiplying them all by the total number of comparisons, we instead multiply them incrementally, so the largest <em>p</em>-value is multiplied by 1, the next smallest by 2, the next smallest by 3, etc.</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="advanced-statistical-tests.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(tooth<span class="sc">$</span>len, tooth<span class="sc">$</span>interact)</span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="advanced-statistical-tests.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(tooth<span class="sc">$</span>len, tooth<span class="sc">$</span>interact)</span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -1099,25 +1099,25 @@ div.csl-indent {
 <h4><span class="header-section-number">7.3.2.2</span> Two-Level Factors</h4>
 <p>Things are a lot easier when we have factors with only 2 levels. Let’s assume our data had only 2 factors with 2 levels each. How would we test for main effects and interactions with a linear model?</p>
 <p>To explore this question, we’ll subset our data to only 2 levels for dose, and we’ll keep only the original columns. (We use <code>dplyr::select</code> to be specific that we want select from the <code>dplyr</code> package, not another loaded package.). Remember, we want to recreate dose as a factor again so it doesn’t remember our old level.</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="advanced-statistical-tests.html#cb393-1" aria-hidden="true" tabindex="-1"></a>tooth_sub <span class="ot">&lt;-</span> tooth <span class="sc">%&gt;%</span> </span>
-<span id="cb393-2"><a href="advanced-statistical-tests.html#cb393-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span> <span class="sc">:</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb393-3"><a href="advanced-statistical-tests.html#cb393-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dose <span class="sc">%in%</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb393-4"><a href="advanced-statistical-tests.html#cb393-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose =</span> <span class="fu">factor</span>(dose))</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="advanced-statistical-tests.html#cb396-1" aria-hidden="true" tabindex="-1"></a>tooth_sub <span class="ot">&lt;-</span> tooth <span class="sc">%&gt;%</span> </span>
+<span id="cb396-2"><a href="advanced-statistical-tests.html#cb396-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span> <span class="sc">:</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb396-3"><a href="advanced-statistical-tests.html#cb396-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dose <span class="sc">%in%</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb396-4"><a href="advanced-statistical-tests.html#cb396-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose =</span> <span class="fu">factor</span>(dose))</span></code></pre></div>
 <p>Now, we should check our contrasts as usual.</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="advanced-statistical-tests.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp)</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="advanced-statistical-tests.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp)</span></code></pre></div>
 <pre><code>##    VC
 ## OJ  0
 ## VC  1</code></pre>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="advanced-statistical-tests.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>dose)</span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="advanced-statistical-tests.html#cb399-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>dose)</span></code></pre></div>
 <pre><code>##     1
 ## 0.5 0
 ## 1   1</code></pre>
 <p>We should make these sum coded contrasts so we can then get main effects from our model.</p>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="advanced-statistical-tests.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp) <span class="ot">&lt;-</span> contr.sum</span>
-<span id="cb398-2"><a href="advanced-statistical-tests.html#cb398-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>dose) <span class="ot">&lt;-</span> contr.sum</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="advanced-statistical-tests.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp) <span class="ot">&lt;-</span> contr.sum</span>
+<span id="cb401-2"><a href="advanced-statistical-tests.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>dose) <span class="ot">&lt;-</span> contr.sum</span></code></pre></div>
 <p>Then we can fit the model again.</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="advanced-statistical-tests.html#cb399-1" aria-hidden="true" tabindex="-1"></a>tooth_sub_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth_sub)</span>
-<span id="cb399-2"><a href="advanced-statistical-tests.html#cb399-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tooth_sub_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="advanced-statistical-tests.html#cb402-1" aria-hidden="true" tabindex="-1"></a>tooth_sub_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth_sub)</span>
+<span id="cb402-2"><a href="advanced-statistical-tests.html#cb402-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tooth_sub_lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = len ~ supp * dose, data = tooth_sub)
@@ -1140,14 +1140,14 @@ div.csl-indent {
 ## F-statistic: 31.18 on 3 and 36 DF,  p-value: 4.098e-10</code></pre>
 <p>The only thing to note here is that we’ve used sum coding other than deviation coding with the 3-level case. Our interpretation of effects stays the same here, only our paramter estimates and standard errors will be twice as large with sum coding when compared to deviation coding.</p>
 <p>If your factors are not sum/deviation coded, then you won’t observe main effects. So we can test for the effect of dose at the first level of supplement as follows:</p>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="advanced-statistical-tests.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp) <span class="ot">&lt;-</span> contr.treatment</span>
-<span id="cb401-2"><a href="advanced-statistical-tests.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp)</span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="advanced-statistical-tests.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp) <span class="ot">&lt;-</span> contr.treatment</span>
+<span id="cb404-2"><a href="advanced-statistical-tests.html#cb404-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(tooth_sub<span class="sc">$</span>supp)</span></code></pre></div>
 <pre><code>##    2
 ## OJ 0
 ## VC 1</code></pre>
 <p>OJ will now be our reference value for the intercept. Additionally, the effect of dose will be compared at this intercept value, so we now have simple effects of dose, and main effects of supplement. The interpretation for our interaction terms remains the same regardless of our coding approach.</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="advanced-statistical-tests.html#cb403-1" aria-hidden="true" tabindex="-1"></a>tooth_sub_lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth_sub)</span>
-<span id="cb403-2"><a href="advanced-statistical-tests.html#cb403-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tooth_sub_lm2)</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="advanced-statistical-tests.html#cb406-1" aria-hidden="true" tabindex="-1"></a>tooth_sub_lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth_sub)</span>
+<span id="cb406-2"><a href="advanced-statistical-tests.html#cb406-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tooth_sub_lm2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = len ~ supp * dose, data = tooth_sub)
@@ -1174,29 +1174,29 @@ div.csl-indent {
 <div id="mixed-analyses" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> Mixed Analyses</h2>
 <p>Mixed factorial analyses are just a special form of factorial analyses. Here, one factor is between subjects and another factor is within subjects. Here, we’ll create some new data based on our smoking data that reflects a mixed design.</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="advanced-statistical-tests.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set parameters</span></span>
-<span id="cb405-2"><a href="advanced-statistical-tests.html#cb405-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
-<span id="cb405-3"><a href="advanced-statistical-tests.html#cb405-3" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">85</span>), <span class="dv">100</span>)</span>
-<span id="cb405-4"><a href="advanced-statistical-tests.html#cb405-4" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)</span>
-<span id="cb405-5"><a href="advanced-statistical-tests.html#cb405-5" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>), <span class="dv">100</span>)</span>
-<span id="cb405-6"><a href="advanced-statistical-tests.html#cb405-6" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)</span>
-<span id="cb405-7"><a href="advanced-statistical-tests.html#cb405-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb405-8"><a href="advanced-statistical-tests.html#cb405-8" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate data</span></span>
-<span id="cb405-9"><a href="advanced-statistical-tests.html#cb405-9" aria-hidden="true" tabindex="-1"></a>smoking_dat_extra <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb405-10"><a href="advanced-statistical-tests.html#cb405-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> subject,</span>
-<span id="cb405-11"><a href="advanced-statistical-tests.html#cb405-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> <span class="fu">as.factor</span>(cond),</span>
-<span id="cb405-12"><a href="advanced-statistical-tests.html#cb405-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_one =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> means, <span class="at">sd =</span> sds),</span>
-<span id="cb405-13"><a href="advanced-statistical-tests.html#cb405-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_two =</span> time_one <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> sds)</span>
-<span id="cb405-14"><a href="advanced-statistical-tests.html#cb405-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb405-15"><a href="advanced-statistical-tests.html#cb405-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> test_time,</span>
-<span id="cb405-16"><a href="advanced-statistical-tests.html#cb405-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">value =</span> recovery,</span>
-<span id="cb405-17"><a href="advanced-statistical-tests.html#cb405-17" aria-hidden="true" tabindex="-1"></a>         <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span></span>
-<span id="cb405-18"><a href="advanced-statistical-tests.html#cb405-18" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span></span>
-<span id="cb405-19"><a href="advanced-statistical-tests.html#cb405-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_time =</span> <span class="fu">as.factor</span>(test_time)) <span class="sc">%&gt;%</span></span>
-<span id="cb405-20"><a href="advanced-statistical-tests.html#cb405-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(subject)</span>
-<span id="cb405-21"><a href="advanced-statistical-tests.html#cb405-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb405-22"><a href="advanced-statistical-tests.html#cb405-22" aria-hidden="true" tabindex="-1"></a><span class="co"># view the data</span></span>
-<span id="cb405-23"><a href="advanced-statistical-tests.html#cb405-23" aria-hidden="true" tabindex="-1"></a>smoking_dat_extra</span></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="advanced-statistical-tests.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set parameters</span></span>
+<span id="cb408-2"><a href="advanced-statistical-tests.html#cb408-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb408-3"><a href="advanced-statistical-tests.html#cb408-3" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">85</span>), <span class="dv">100</span>)</span>
+<span id="cb408-4"><a href="advanced-statistical-tests.html#cb408-4" aria-hidden="true" tabindex="-1"></a>sds <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="dv">100</span>)</span>
+<span id="cb408-5"><a href="advanced-statistical-tests.html#cb408-5" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;drug_one&quot;</span>), <span class="dv">100</span>)</span>
+<span id="cb408-6"><a href="advanced-statistical-tests.html#cb408-6" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>)</span>
+<span id="cb408-7"><a href="advanced-statistical-tests.html#cb408-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb408-8"><a href="advanced-statistical-tests.html#cb408-8" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate data</span></span>
+<span id="cb408-9"><a href="advanced-statistical-tests.html#cb408-9" aria-hidden="true" tabindex="-1"></a>smoking_dat_extra <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb408-10"><a href="advanced-statistical-tests.html#cb408-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> subject,</span>
+<span id="cb408-11"><a href="advanced-statistical-tests.html#cb408-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> <span class="fu">as.factor</span>(cond),</span>
+<span id="cb408-12"><a href="advanced-statistical-tests.html#cb408-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_one =</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> means, <span class="at">sd =</span> sds),</span>
+<span id="cb408-13"><a href="advanced-statistical-tests.html#cb408-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_two =</span> time_one <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> sds)</span>
+<span id="cb408-14"><a href="advanced-statistical-tests.html#cb408-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb408-15"><a href="advanced-statistical-tests.html#cb408-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> test_time,</span>
+<span id="cb408-16"><a href="advanced-statistical-tests.html#cb408-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">value =</span> recovery,</span>
+<span id="cb408-17"><a href="advanced-statistical-tests.html#cb408-17" aria-hidden="true" tabindex="-1"></a>         <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb408-18"><a href="advanced-statistical-tests.html#cb408-18" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span></span>
+<span id="cb408-19"><a href="advanced-statistical-tests.html#cb408-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">test_time =</span> <span class="fu">as.factor</span>(test_time)) <span class="sc">%&gt;%</span></span>
+<span id="cb408-20"><a href="advanced-statistical-tests.html#cb408-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(subject)</span>
+<span id="cb408-21"><a href="advanced-statistical-tests.html#cb408-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb408-22"><a href="advanced-statistical-tests.html#cb408-22" aria-hidden="true" tabindex="-1"></a><span class="co"># view the data</span></span>
+<span id="cb408-23"><a href="advanced-statistical-tests.html#cb408-23" aria-hidden="true" tabindex="-1"></a>smoking_dat_extra</span></code></pre></div>
 <pre><code>## # A tibble: 400 × 4
 ##    subject cond     test_time recovery
 ##      &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;        &lt;dbl&gt;
@@ -1215,12 +1215,12 @@ div.csl-indent {
 <div id="mixed-linear-models" class="section level3" number="7.4.1">
 <h3><span class="header-section-number">7.4.1</span> Mixed Linear Models</h3>
 <p>First, we’ll make sure our factors are sum coded so that we can obtain main effects of both factors.</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="advanced-statistical-tests.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(smoking_dat_extra<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.sum</span>
-<span id="cb407-2"><a href="advanced-statistical-tests.html#cb407-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(smoking_dat_extra<span class="sc">$</span>test_time) <span class="ot">&lt;-</span> contr.sum</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="advanced-statistical-tests.html#cb410-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(smoking_dat_extra<span class="sc">$</span>cond) <span class="ot">&lt;-</span> contr.sum</span>
+<span id="cb410-2"><a href="advanced-statistical-tests.html#cb410-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(smoking_dat_extra<span class="sc">$</span>test_time) <span class="ot">&lt;-</span> contr.sum</span></code></pre></div>
 <p>Then, we’ll refit the model as before.</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="advanced-statistical-tests.html#cb408-1" aria-hidden="true" tabindex="-1"></a>mixed_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(recovery <span class="sc">~</span> cond <span class="sc">*</span> test_time, </span>
-<span id="cb408-2"><a href="advanced-statistical-tests.html#cb408-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> smoking_dat_extra)</span>
-<span id="cb408-3"><a href="advanced-statistical-tests.html#cb408-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mixed_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="advanced-statistical-tests.html#cb411-1" aria-hidden="true" tabindex="-1"></a>mixed_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(recovery <span class="sc">~</span> cond <span class="sc">*</span> test_time, </span>
+<span id="cb411-2"><a href="advanced-statistical-tests.html#cb411-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> smoking_dat_extra)</span>
+<span id="cb411-3"><a href="advanced-statistical-tests.html#cb411-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mixed_lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = recovery ~ cond * test_time, data = smoking_dat_extra)
@@ -1248,10 +1248,10 @@ div.csl-indent {
 <h3><span class="header-section-number">7.4.2</span> Mixed ANOVA</h3>
 <p>With a mixed ANOVA, we are simply just including an error term for our within-subjects factor. We do this in the same way as for within-subjects ANOVAs, only leaving the error term off the between-subjects factor.</p>
 <p>In this case, subjects take part in both test time conditions, so we need to nest this within our data.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="advanced-statistical-tests.html#cb410-1" aria-hidden="true" tabindex="-1"></a>mixed_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(recovery <span class="sc">~</span> cond <span class="sc">*</span> test_time <span class="sc">+</span> </span>
-<span id="cb410-2"><a href="advanced-statistical-tests.html#cb410-2" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">Error</span>(subject<span class="sc">/</span>test_time), </span>
-<span id="cb410-3"><a href="advanced-statistical-tests.html#cb410-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> smoking_dat_extra)</span>
-<span id="cb410-4"><a href="advanced-statistical-tests.html#cb410-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mixed_aov)</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="advanced-statistical-tests.html#cb413-1" aria-hidden="true" tabindex="-1"></a>mixed_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(recovery <span class="sc">~</span> cond <span class="sc">*</span> test_time <span class="sc">+</span> </span>
+<span id="cb413-2"><a href="advanced-statistical-tests.html#cb413-2" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">Error</span>(subject<span class="sc">/</span>test_time), </span>
+<span id="cb413-3"><a href="advanced-statistical-tests.html#cb413-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> smoking_dat_extra)</span>
+<span id="cb413-4"><a href="advanced-statistical-tests.html#cb413-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mixed_aov)</span></code></pre></div>
 <pre><code>## 
 ## Error: subject
 ##      Df Sum Sq Mean Sq
@@ -1277,9 +1277,9 @@ div.csl-indent {
 <p>In some cases, you might notice that the output of your ANOVA models does not correspond to the output of that from SPSS or other statistical packages. That’s because R defaults to type-I sum of squares, and SPSS defaults to type-III sum of squares.</p>
 <p>Put simply, when you have an unbalanced design, such as when you have an unequal number of participants in each group, the way in which the sum of squares is calculated will affect the output and interpretation of your ANOVA.</p>
 <p>With type-I sum of squares, which is R’s default, the order in which you specify factors in your model will determine how much variance is explained by each factor. With type-I sum of squares, the terms are considered in the model in a sequential order. Take a look at this in action below. We’ll use the <strong>tooth_sub</strong> data from before, but we’ll remove the first observation.</p>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="advanced-statistical-tests.html#cb412-1" aria-hidden="true" tabindex="-1"></a>tooth_sub_unbalanced <span class="ot">&lt;-</span> tooth_sub[<span class="dv">2</span><span class="sc">:</span><span class="dv">40</span>,]</span></code></pre></div>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="advanced-statistical-tests.html#cb413-1" aria-hidden="true" tabindex="-1"></a>supp_first <span class="ot">&lt;-</span> <span class="fu">aov</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth_sub_unbalanced)</span>
-<span id="cb413-2"><a href="advanced-statistical-tests.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(supp_first)</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="advanced-statistical-tests.html#cb415-1" aria-hidden="true" tabindex="-1"></a>tooth_sub_unbalanced <span class="ot">&lt;-</span> tooth_sub[<span class="dv">2</span><span class="sc">:</span><span class="dv">40</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="advanced-statistical-tests.html#cb416-1" aria-hidden="true" tabindex="-1"></a>supp_first <span class="ot">&lt;-</span> <span class="fu">aov</span>(len <span class="sc">~</span> supp <span class="sc">*</span> dose, <span class="at">data =</span> tooth_sub_unbalanced)</span>
+<span id="cb416-2"><a href="advanced-statistical-tests.html#cb416-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(supp_first)</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## supp         1  259.4   259.4  21.331 5.05e-05 ***
 ## dose         1  777.3   777.3  63.920 2.09e-09 ***
@@ -1287,8 +1287,8 @@ div.csl-indent {
 ## Residuals   35  425.6    12.2                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="advanced-statistical-tests.html#cb415-1" aria-hidden="true" tabindex="-1"></a>dose_first <span class="ot">&lt;-</span> <span class="fu">aov</span>(len <span class="sc">~</span> dose <span class="sc">*</span> supp, <span class="at">data =</span> tooth_sub_unbalanced)</span>
-<span id="cb415-2"><a href="advanced-statistical-tests.html#cb415-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dose_first)</span></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="advanced-statistical-tests.html#cb418-1" aria-hidden="true" tabindex="-1"></a>dose_first <span class="ot">&lt;-</span> <span class="fu">aov</span>(len <span class="sc">~</span> dose <span class="sc">*</span> supp, <span class="at">data =</span> tooth_sub_unbalanced)</span>
+<span id="cb418-2"><a href="advanced-statistical-tests.html#cb418-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dose_first)</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## dose         1  753.3   753.3  61.948 2.98e-09 ***
 ## supp         1  283.4   283.4  23.304 2.70e-05 ***
@@ -1301,9 +1301,9 @@ div.csl-indent {
 <p>In Psychology, we typically use type-III sum of squares, where main effects are computed while taking the interaction into account. This method is recommended for unbalanced designs, although there is some debate on this. However, type-III sum of squares only work with orthogonal contrast matrices (i.e. sum/helmert coding), so make sure you pay attention to how you’ve coded your factors prior to fitting a model.</p>
 <p>The way to refit our model with type-III sum of squares is to use the <code>Anova()</code> (notice the capital A) function from the <strong>car</strong> package, specifying the type for your sum of squares. This function takes the object of your model fitted by <code>aov()</code> and the type for the sum of squares you would like to compute. Note that this function defaults to type-II sum of squares, so we need to be specific in our function call.</p>
 <p>First, install this package and load it, then run the function on the two model fits from above.</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="advanced-statistical-tests.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;car&quot;) # install once per machine</span></span>
-<span id="cb417-2"><a href="advanced-statistical-tests.html#cb417-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># load each time you open R</span></span></code></pre></div>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="advanced-statistical-tests.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(supp_first, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="advanced-statistical-tests.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;car&quot;) # install once per machine</span></span>
+<span id="cb420-2"><a href="advanced-statistical-tests.html#cb420-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># load each time you open R</span></span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="advanced-statistical-tests.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(supp_first, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: len
@@ -1315,7 +1315,7 @@ div.csl-indent {
 ## Residuals    425.6 35                      
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="advanced-statistical-tests.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(dose_first, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="advanced-statistical-tests.html#cb423-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(dose_first, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <pre><code>## Anova Table (Type III tests)
 ## 
 ## Response: len
@@ -1332,13 +1332,14 @@ div.csl-indent {
 </div>
 <div id="exercises-6" class="section level2" number="7.6">
 <h2><span class="header-section-number">7.6</span> Exercises</h2>
-<p>For these exercises, we will look at the core concepts from this lesson. Here, we’ll use a simulated data set that’s saved as a .csv in the inputs folder for this class.</p>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="advanced-statistical-tests.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb422-2"><a href="advanced-statistical-tests.html#cb422-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;car&quot;) # install if necessary (once per machine)</span></span>
-<span id="cb422-3"><a href="advanced-statistical-tests.html#cb422-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb422-4"><a href="advanced-statistical-tests.html#cb422-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpirate)</span></code></pre></div>
+<p>For these exercises, we will look at the core concepts from this lesson. Here, we’ll use a simulated data set that’s saved as a .csv in the inputs folder.</p>
+<p>If you don’t have access to these, please <a href="https://github.com/gpwilliams/r4psych">download the repository from GitHub</a> and open the <strong>lesson_materials</strong> folder. Open the relevant folder for this lesson. If you work out of the file <strong>07_advanced_statistical_tests.Rmd</strong> the code below will work to load the data set. If this fails then quit R and open it up from the .Rmd file above so your working directory is in the correct folder.</p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="advanced-statistical-tests.html#cb425-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb425-2"><a href="advanced-statistical-tests.html#cb425-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;car&quot;) # install if necessary (once per machine)</span></span>
+<span id="cb425-3"><a href="advanced-statistical-tests.html#cb425-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb425-4"><a href="advanced-statistical-tests.html#cb425-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpirate)</span></code></pre></div>
 <p>Next, we’ll load the data set for this exercise.</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="advanced-statistical-tests.html#cb423-1" aria-hidden="true" tabindex="-1"></a>factorial_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/factorial_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="advanced-statistical-tests.html#cb426-1" aria-hidden="true" tabindex="-1"></a>factorial_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/factorial_data.csv&quot;</span>)</span></code></pre></div>
 <div id="question-1-6" class="section level3" number="7.6.1">
 <h3><span class="header-section-number">7.6.1</span> Question 1</h3>
 <p>Aggregate the data by subject such that you have 1 score per subject for the mean of the column Y across both A and B columns. Call the Y column mean_Y. Assign this to the object <strong>data_agg</strong>.</p>

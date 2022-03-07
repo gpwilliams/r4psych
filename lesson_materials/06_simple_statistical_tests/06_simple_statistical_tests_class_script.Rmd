@@ -9,20 +9,15 @@ library(tidyverse)
 
 # Lesson Code
 
-First, we'll load and clean up the correlational data set from the Open Stats Lab Google Drive folder.
-
-Note that the `sprintf()` function just replaces text of %s with whatever variable you also provide to the function. So the %s in "id=" becomes the id variable string.
+First, we'll load and clean up the correlational data set from the Open Stats Lab. For simplicity, we'll load this data directly from a csv file stored on GitHub. (To get a link for this, you must view the raw file on GitHub online.)
 
 ```{r 6_clean_correlation_data}
 # variables
 scale_max <- 6
-id <- "0Bz-rhZ21ShvOMGxnYUJfYmR5d2M" # google file ID
 
 # loading and filtering
 corr_data <- read_csv(
-  sprintf(
-    "https://docs.google.com/uc?id=%s&export=download", 
-    id)
+  "https://raw.githubusercontent.com/gpwilliams/r4psych/master/lesson_materials/06_simple_statistical_tests/inputs/dawtry-et-al_2015.csv"
   ) %>%
   mutate(redist2 = (scale_max + 1) - redist2,
          redist4 = (scale_max + 1) - redist4) %>%

@@ -38,7 +38,7 @@ lex_dec_items <- lex_dec %>%
   )
 
 # ensure same values for gender and age columns
-set.seed(88)
+set.seed(1892)
 
 # create demographic information
 # here, I've simulated gender and age data

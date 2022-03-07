@@ -545,14 +545,14 @@ div.csl-indent {
 <div id="getting-started-3" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Getting Started</h2>
 <p>As always, we first need to load the <code>tidyverse</code> set of packages for this Chapter.</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="simple-statistical-tests.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<p>In this session, we’ll use simulated data, and data from real studies using the the <a href="https://sites.trinity.edu/osl">Open Stats Lab (OSL)</a> resources. For each section/analysis, we’ll just load the data as and when we need it.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="simple-statistical-tests.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<p>In this session, we’ll use simulated data, and data from real studies using the the <a href="https://sites.trinity.edu/osl">Open Stats Lab (OSL)</a> resources (hosted on my GitHub account). For each section/analysis, we’ll just load the data as and when we need it.</p>
 </div>
 <div id="correlation" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Correlation</h2>
 <p>We use correlations when we want to see if there’s a significant relationship between some observed variables.</p>
 <p>More specifically, we have to know a little bit about variance, covariance, and correlation coefficients to grasp correlation and other tests.</p>
-<p><strong>Variance</strong> tells you how much your data is spread out from the mean, it’s the average of the squared differences from the mean. Why do we square the differences? That’s so negative values don’t cancel out positve values, so we can still have an idea of how much our scores vary.</p>
+<p><strong>Variance</strong> tells you how much your data is spread out from the mean, it’s the average of the squared differences from the mean. Why do we square the differences? That’s so negative values don’t cancel out positive values, so we can still have an idea of how much our scores vary.</p>
 <p>No variance (i.e. all values are the same) is 0, and larger numbers represent more variance in your data. The square root of the variance is the standard deviation, which we can use to get exact distances of our data from the mean. Your mean +- your standard deviation multiplied by 1.96 represents 95% of the coverage of your data.</p>
 <p><strong>Covariance</strong> is similar to the variance, but rather than telling you how much one variable varies, it tells you how much two variables vary together. If we have a positive number for the covariance, we know that our variables are related to one-another. However, covariance is sensitive to the scale you have, so if you have big numbers for each variable, your covariance will also be a big number. This magnitude doesn’t tell you much about how strong the relationship is between two variables. FOr that, we need the correlation coefficient.</p>
 <p>The <strong>correlation coefficient</strong> is the covariance divided by the standard deviation. This just puts the covariance on a standard scale between -1 and 1, so we now have an idea of how strongly related two variables are. A correlation of 1 shows that the two are perfectly positively correlated, so an increase in one variable is followed by an increase in the other. A correlation of 0 is no relationship, and a correlation of -1 is a perfect negative relationship, where an increase in one variable is followed by a decrease in the other.</p>
@@ -560,24 +560,24 @@ div.csl-indent {
 <h3><span class="header-section-number">6.2.1</span> Analysing Real Data</h3>
 <p>In this example, we’ll look at a study by Dawtry, Sutton, and Sibley (2015). In this study, they were interested in why people’s attitudes towards increasing wealth inequality differs within developed nations. They hypothesised that wealthy people will be less supportive of wealth distribution if their social circle is primarily made up of wealthy people. This is because they should see society as being already wealthy, and thus not requiring of wealth distribution.</p>
 <p>Our aim here is to test the simple hypothesis that people who see society as fair and are thus satisfied with the current state of affairs will less supportive of wealth redistribution.</p>
-<p>Below, we will load their raw data from the Google Drive link from the OSL, and clean it up to only look at the relevant sources of information.</p>
+<p>We’ll load and clean up the data set from the Open Stats Lab. For simplicity, we’ll load this data directly from a csv file stored on GitHub. (To get a link for this, you must view the raw file on GitHub online.)</p>
 <p>First, we’ll load the data using <code>read_csv()</code>, then we’ll recode the reverse-scores questions of <strong>redist2</strong> and <strong>redist4</strong> so all of the questions assessing redistribution are on the same scale.</p>
-<p>Then we’ll transmute the data, keeping only the columns we need, and calculating the mean scores for perceptions of fairness and satisfaction with distribution of wealth in society (i.e. one factor), and mean support for redistribution (our second factor).</p>
-<p>During this process, we’ll also keep the participant IDs. Finally, we’ll make everything lowercase, because it looks better!</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="simple-statistical-tests.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variables</span></span>
-<span id="cb270-2"><a href="simple-statistical-tests.html#cb270-2" aria-hidden="true" tabindex="-1"></a>scale_max <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb270-3"><a href="simple-statistical-tests.html#cb270-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb270-4"><a href="simple-statistical-tests.html#cb270-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load and clean data</span></span>
-<span id="cb270-5"><a href="simple-statistical-tests.html#cb270-5" aria-hidden="true" tabindex="-1"></a>corr_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb270-6"><a href="simple-statistical-tests.html#cb270-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://raw.githubusercontent.com/gpwilliams/r4psych/master/lesson_materials/06_simple_statistical_tests/inputs/dawtry-et-al_2015.csv&quot;</span></span>
-<span id="cb270-7"><a href="simple-statistical-tests.html#cb270-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb270-8"><a href="simple-statistical-tests.html#cb270-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">redist2 =</span> (scale_max <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">-</span> redist2,</span>
-<span id="cb270-9"><a href="simple-statistical-tests.html#cb270-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">redist4 =</span> (scale_max <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">-</span> redist4) <span class="sc">%&gt;%</span></span>
-<span id="cb270-10"><a href="simple-statistical-tests.html#cb270-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(PS, </span>
-<span id="cb270-11"><a href="simple-statistical-tests.html#cb270-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">Fair_Satisfied =</span> (fairness <span class="sc">+</span> satisfaction) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb270-12"><a href="simple-statistical-tests.html#cb270-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">Support =</span> (redist1 <span class="sc">+</span> redist2 <span class="sc">+</span> redist3 <span class="sc">+</span> redist4) <span class="sc">/</span> <span class="dv">4</span></span>
-<span id="cb270-13"><a href="simple-statistical-tests.html#cb270-13" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
-<span id="cb270-14"><a href="simple-statistical-tests.html#cb270-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower)</span></code></pre></div>
+<p>Then we’ll transmute the data, keeping only the columns we need, and calculating the mean scores for perceptions of fairness and satisfaction with distribution of wealth in society (i.e. one factor), and mean support for redistribution (our second factor).
+During this process, we’ll also keep the participant IDs. Finally, we’ll make everything lowercase, because it looks better!</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="simple-statistical-tests.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="co"># variables</span></span>
+<span id="cb273-2"><a href="simple-statistical-tests.html#cb273-2" aria-hidden="true" tabindex="-1"></a>scale_max <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb273-3"><a href="simple-statistical-tests.html#cb273-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb273-4"><a href="simple-statistical-tests.html#cb273-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load and clean data</span></span>
+<span id="cb273-5"><a href="simple-statistical-tests.html#cb273-5" aria-hidden="true" tabindex="-1"></a>corr_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb273-6"><a href="simple-statistical-tests.html#cb273-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://raw.githubusercontent.com/gpwilliams/r4psych/master/lesson_materials/06_simple_statistical_tests/inputs/dawtry-et-al_2015.csv&quot;</span></span>
+<span id="cb273-7"><a href="simple-statistical-tests.html#cb273-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb273-8"><a href="simple-statistical-tests.html#cb273-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">redist2 =</span> (scale_max <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">-</span> redist2,</span>
+<span id="cb273-9"><a href="simple-statistical-tests.html#cb273-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">redist4 =</span> (scale_max <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">-</span> redist4) <span class="sc">%&gt;%</span></span>
+<span id="cb273-10"><a href="simple-statistical-tests.html#cb273-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(PS, </span>
+<span id="cb273-11"><a href="simple-statistical-tests.html#cb273-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">Fair_Satisfied =</span> (fairness <span class="sc">+</span> satisfaction) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb273-12"><a href="simple-statistical-tests.html#cb273-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">Support =</span> (redist1 <span class="sc">+</span> redist2 <span class="sc">+</span> redist3 <span class="sc">+</span> redist4) <span class="sc">/</span> <span class="dv">4</span></span>
+<span id="cb273-13"><a href="simple-statistical-tests.html#cb273-13" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
+<span id="cb273-14"><a href="simple-statistical-tests.html#cb273-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower)</span></code></pre></div>
 <pre><code>## Rows: 305 Columns: 37
 ## ── Column specification ──────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -585,7 +585,7 @@ div.csl-indent {
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="simple-statistical-tests.html#cb272-1" aria-hidden="true" tabindex="-1"></a>corr_data</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="simple-statistical-tests.html#cb275-1" aria-hidden="true" tabindex="-1"></a>corr_data</span></code></pre></div>
 <pre><code>## # A tibble: 305 × 3
 ##       ps fair_satisfied support
 ##    &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt;
@@ -601,10 +601,10 @@ div.csl-indent {
 ## 10   104            4.5    3.5 
 ## # … with 295 more rows</code></pre>
 <p>Next, we’ll calculate some means and standard deviations for these two factors of interest. We’ve used the <code>summarise_at()</code> version of the <code>summarise()</code> function, as this allows us to pass two column names, and a list of functions by which to produce our statistics. We can either just pass the functions in a list, or as here give names to these functions which will be appended to the names of the variables in the table.</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="simple-statistical-tests.html#cb274-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span> <span class="fu">summarise_at</span>(</span>
-<span id="cb274-2"><a href="simple-statistical-tests.html#cb274-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;fair_satisfied&quot;</span>, <span class="st">&quot;support&quot;</span>), </span>
-<span id="cb274-3"><a href="simple-statistical-tests.html#cb274-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd)</span>
-<span id="cb274-4"><a href="simple-statistical-tests.html#cb274-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="simple-statistical-tests.html#cb277-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span> <span class="fu">summarise_at</span>(</span>
+<span id="cb277-2"><a href="simple-statistical-tests.html#cb277-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;fair_satisfied&quot;</span>, <span class="st">&quot;support&quot;</span>), </span>
+<span id="cb277-3"><a href="simple-statistical-tests.html#cb277-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd)</span>
+<span id="cb277-4"><a href="simple-statistical-tests.html#cb277-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 4
 ##   fair_satisfied_mean support_mean fair_satisfied_sd support_sd
 ##                 &lt;dbl&gt;        &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;
@@ -618,21 +618,21 @@ div.csl-indent {
 <li>Visual inspection of the quantile-quantile plot which plotsthe correlation between our sample (observed values) and the normal distribution.</li>
 <li>The Shapiro-Wilk test, which is a statistical test of normality. Significant results indicate that the data are <strong>non-normal</strong>.</li>
 </ol>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="simple-statistical-tests.html#cb276-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span></span>
-<span id="cb276-2"><a href="simple-statistical-tests.html#cb276-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> fair_satisfied)) <span class="sc">+</span></span>
-<span id="cb276-3"><a href="simple-statistical-tests.html#cb276-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_qq</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="simple-statistical-tests.html#cb279-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span></span>
+<span id="cb279-2"><a href="simple-statistical-tests.html#cb279-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> fair_satisfied)) <span class="sc">+</span></span>
+<span id="cb279-3"><a href="simple-statistical-tests.html#cb279-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_qq</span>()</span></code></pre></div>
 <p><img src="R-for-Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-1.png" width="672" /></p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="simple-statistical-tests.html#cb277-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span></span>
-<span id="cb277-2"><a href="simple-statistical-tests.html#cb277-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> support)) <span class="sc">+</span></span>
-<span id="cb277-3"><a href="simple-statistical-tests.html#cb277-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_qq</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="simple-statistical-tests.html#cb280-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span></span>
+<span id="cb280-2"><a href="simple-statistical-tests.html#cb280-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> support)) <span class="sc">+</span></span>
+<span id="cb280-3"><a href="simple-statistical-tests.html#cb280-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_qq</span>()</span></code></pre></div>
 <p><img src="R-for-Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-2.png" width="672" /></p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="simple-statistical-tests.html#cb278-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(corr_data<span class="sc">$</span>fair_satisfied)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="simple-statistical-tests.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(corr_data<span class="sc">$</span>fair_satisfied)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  corr_data$fair_satisfied
 ## W = 0.92602, p-value = 3.697e-11</code></pre>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="simple-statistical-tests.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(corr_data<span class="sc">$</span>support)</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="simple-statistical-tests.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(corr_data<span class="sc">$</span>support)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -646,10 +646,10 @@ div.csl-indent {
 <p>Here, we’ll use <code>cor.test()</code>, which takes as an argument two columns from a data.frame or matrix, which are your two factors to compare, and produces test statistics, including <em>t</em>-values, <em>p</em>-values, and 95% confidence intervals.</p>
 <p>This test defaults to use Pearson’s R, and to a two-sided test of significance (i.e. you had no predictions for the direction of effect), but you can change this to “greater,” a positive relationship, or “less,” a negative relationship, which will adjust <em>p</em>-values accordingly.</p>
 <p>We’ll use Kendall’s Tau here. Note that you simply have to replace “kendall” with “pearson” if your data do not violate any test assumptions. Also, we’ll specify that we had a directional hypothesis, where there was a negative relationship between our factors (“less”).</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="simple-statistical-tests.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(corr_data<span class="sc">$</span>fair_satisfied, corr_data<span class="sc">$</span>support,</span>
-<span id="cb282-2"><a href="simple-statistical-tests.html#cb282-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">&quot;kendall&quot;</span>,</span>
-<span id="cb282-3"><a href="simple-statistical-tests.html#cb282-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span></span>
-<span id="cb282-4"><a href="simple-statistical-tests.html#cb282-4" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="simple-statistical-tests.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(corr_data<span class="sc">$</span>fair_satisfied, corr_data<span class="sc">$</span>support,</span>
+<span id="cb285-2"><a href="simple-statistical-tests.html#cb285-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">&quot;kendall&quot;</span>,</span>
+<span id="cb285-3"><a href="simple-statistical-tests.html#cb285-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span></span>
+<span id="cb285-4"><a href="simple-statistical-tests.html#cb285-4" aria-hidden="true" tabindex="-1"></a>         )</span></code></pre></div>
 <pre><code>## 
 ##  Kendall&#39;s rank correlation tau
 ## 
@@ -669,8 +669,8 @@ div.csl-indent {
 <p><em>t</em>-tests allow us to see whether two means are significantly different from one another. Here, we’ll get a <em>t</em>-value and <em>p</em>-value. The <em>t</em>-value is the ratio of the difference between two groups of scores and the difference within the groups of scores. A larger <em>t</em>-value tells us the difference between the groups is large, and a smaller value tells us the difference is small (i.e. they are similar to one another). Nicely, a <em>t</em>-value of 10 tells us that the groups are 10 times as different from one another as they are within each other.</p>
 <p>For this next analysis, we’ll look at the <strong>lexdec</strong> data set from the <code>languageR</code> library that we’ve used in previous sessions. We’ll do this to save time on filtering the data too much, as above. The only thing we have to do is to remove the subjects we simulated for the other exercises (i.e. 22-30), so we only have real data.</p>
 <p>Can you understand the code below? Ask yourself, why might we use <code>as.character(22:30)</code> to state which subjects we should drop?</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="simple-statistical-tests.html#cb284-1" aria-hidden="true" tabindex="-1"></a>lexdec <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb284-2"><a href="simple-statistical-tests.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>subject <span class="sc">%in%</span> (<span class="fu">as.character</span>(<span class="dv">22</span><span class="sc">:</span><span class="dv">30</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="simple-statistical-tests.html#cb287-1" aria-hidden="true" tabindex="-1"></a>lexdec <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/lexical_decision_raw_data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb287-2"><a href="simple-statistical-tests.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>subject <span class="sc">%in%</span> (<span class="fu">as.character</span>(<span class="dv">22</span><span class="sc">:</span><span class="dv">30</span>)))</span></code></pre></div>
 <div id="one-sample-t-tests" class="section level3" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> One-Sample <em>t</em>-tests</h3>
 <p>Here, we want to assess whether the frequencies of words in the study (i.e. how often people use these words) differed significantly from some baseline value of word frequency.</p>
@@ -679,14 +679,14 @@ div.csl-indent {
 <div id="preparing-the-data" class="section level4" number="6.3.1.1">
 <h4><span class="header-section-number">6.3.1.1</span> Preparing the Data</h4>
 <p>First, we have to subset our raw data, which contains information on the subjects and items tested, and only get scores for the word frequencies.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="simple-statistical-tests.html#cb285-1" aria-hidden="true" tabindex="-1"></a>lexdec_onesamp <span class="ot">&lt;-</span> lexdec <span class="sc">%&gt;%</span> </span>
-<span id="cb285-2"><a href="simple-statistical-tests.html#cb285-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
-<span id="cb285-3"><a href="simple-statistical-tests.html#cb285-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">freq =</span> <span class="fu">mean</span>(frequency))</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="simple-statistical-tests.html#cb288-1" aria-hidden="true" tabindex="-1"></a>lexdec_onesamp <span class="ot">&lt;-</span> lexdec <span class="sc">%&gt;%</span> </span>
+<span id="cb288-2"><a href="simple-statistical-tests.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb288-3"><a href="simple-statistical-tests.html#cb288-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">freq =</span> <span class="fu">mean</span>(frequency))</span></code></pre></div>
 <p>Below, we’ll use the <code>t.test()</code> function to run a <em>t</em>-test. Here, we input as the first value the data or scores we want to test, and in the second part, we specify the mean score in the population (mu) by which to compare the scores.</p>
 </div>
 <div id="running-the-test" class="section level4" number="6.3.1.2">
 <h4><span class="header-section-number">6.3.1.2</span> Running the Test</h4>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="simple-statistical-tests.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(lexdec_onesamp<span class="sc">$</span>freq, <span class="at">mu =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="simple-statistical-tests.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(lexdec_onesamp<span class="sc">$</span>freq, <span class="at">mu =</span> <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
@@ -709,17 +709,17 @@ div.csl-indent {
 <h4><span class="header-section-number">6.3.2.1</span> Preparing the Data</h4>
 <p>We need to create scores aggregated by subject, as our raw data contains information on each subject and the items they responded to. To do this, we just need to calcualte a mean score over all items for each subject in the study. We’ll use the <code>group_by()</code> and <code>summarise()</code> functions from <strong>dplyr</strong> to do this.</p>
 <p>Additionally, we’ll calculate log-transformed mean reaction times. This is because reaction times are typically not normally distributed, so we should transform them to make them more normal prior to analysis. The log transformation is one way to achieve this.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="simple-statistical-tests.html#cb288-1" aria-hidden="true" tabindex="-1"></a>lexdec_ind <span class="ot">&lt;-</span> lexdec <span class="sc">%&gt;%</span> </span>
-<span id="cb288-2"><a href="simple-statistical-tests.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(subject, native_language) <span class="sc">%&gt;%</span></span>
-<span id="cb288-3"><a href="simple-statistical-tests.html#cb288-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">log_RT =</span> <span class="fu">mean</span>(<span class="fu">log</span>(RT), <span class="at">na.rm =</span> T))</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="simple-statistical-tests.html#cb291-1" aria-hidden="true" tabindex="-1"></a>lexdec_ind <span class="ot">&lt;-</span> lexdec <span class="sc">%&gt;%</span> </span>
+<span id="cb291-2"><a href="simple-statistical-tests.html#cb291-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(subject, native_language) <span class="sc">%&gt;%</span></span>
+<span id="cb291-3"><a href="simple-statistical-tests.html#cb291-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">log_RT =</span> <span class="fu">mean</span>(<span class="fu">log</span>(RT), <span class="at">na.rm =</span> T))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can override using the `.groups`
 ## argument.</code></pre>
 <p>We’ll quickly calculate some descriptives for our study to see how the two groups look.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="simple-statistical-tests.html#cb290-1" aria-hidden="true" tabindex="-1"></a>lexdec_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb290-2"><a href="simple-statistical-tests.html#cb290-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(native_language) <span class="sc">%&gt;%</span></span>
-<span id="cb290-3"><a href="simple-statistical-tests.html#cb290-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_log_RT =</span> <span class="fu">mean</span>(log_RT, <span class="at">na.rm =</span> T),</span>
-<span id="cb290-4"><a href="simple-statistical-tests.html#cb290-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_log_RT =</span> <span class="fu">sd</span>(log_RT, <span class="at">na.rm =</span> T),</span>
-<span id="cb290-5"><a href="simple-statistical-tests.html#cb290-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="simple-statistical-tests.html#cb293-1" aria-hidden="true" tabindex="-1"></a>lexdec_ind <span class="sc">%&gt;%</span> </span>
+<span id="cb293-2"><a href="simple-statistical-tests.html#cb293-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(native_language) <span class="sc">%&gt;%</span></span>
+<span id="cb293-3"><a href="simple-statistical-tests.html#cb293-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_log_RT =</span> <span class="fu">mean</span>(log_RT, <span class="at">na.rm =</span> T),</span>
+<span id="cb293-4"><a href="simple-statistical-tests.html#cb293-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_log_RT =</span> <span class="fu">sd</span>(log_RT, <span class="at">na.rm =</span> T),</span>
+<span id="cb293-5"><a href="simple-statistical-tests.html#cb293-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 4
 ##   native_language mean_log_RT sd_log_RT     n
 ##   &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
@@ -732,7 +732,7 @@ div.csl-indent {
 <p><code>dependent variable ~ condition</code></p>
 <p>The <code>~</code> (read: <a href="https://www.youtube.com/watch?v=InPByzCDoA4">tilde</a>) simply says that the thing on the left is a function of the thing on the right; i.e. our scores are a function of our conditions.</p>
 <p>Additionally, we specify where the data is stored (lexdec_ind), and whether the data are paired (i.e. paired-samples test) or not (i.e. independent-samples test). Here, we specify <code>FALSE</code>, as we want an independent samples <em>t</em>-test.</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="simple-statistical-tests.html#cb292-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind, <span class="at">paired =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="simple-statistical-tests.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind, <span class="at">paired =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -751,7 +751,7 @@ div.csl-indent {
 <h4><span class="header-section-number">6.3.2.3</span> Checking Assumptions</h4>
 <p>As with many tests <em>t</em>-tests make a number of assumptions, some of which are easily handled (e.g. are the data scalar or ordinal and randomly sampled with a large sample size?). However, these tests also assume that the data are normally distributed. We’ve done this for the correlation above, so we won’t do it again here. However, a final assumption is homogeneity of variance, in which the variance across our samples should be roughly equal. To test for this, we can run a Barlett test for parametric data, or a Fligner test for non-parametric data (using <code>fligner.test()</code>).</p>
 <p>Here, we’ll run the Barlett test:</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="simple-statistical-tests.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="simple-statistical-tests.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind)</span></code></pre></div>
 <pre><code>## 
 ##  Bartlett test of homogeneity of variances
 ## 
@@ -767,23 +767,23 @@ div.csl-indent {
 <p>We’ll quickly simulate some data to show how this might work. Here, we’ll simulate data for a stroop task, where subjects name words (colour names; e.g. green, blue, red) which are in different colours. Our hypothesis is that they will say the name more quickly if the word and colour are the same (congruent), and they will be slower if they mismatch (incongruent).</p>
 <p>We’ll generate 60 subjects, with the congruent reaction time being around 400ms, and the incongruent reaction time being on average 30ms slower than this.</p>
 <p>Finally, we’ll gather the data together, assuming you’ll often have your data in a long format.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="simple-statistical-tests.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
-<span id="cb296-2"><a href="simple-statistical-tests.html#cb296-2" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb296-3"><a href="simple-statistical-tests.html#cb296-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
-<span id="cb296-4"><a href="simple-statistical-tests.html#cb296-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">congruent =</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">30</span>, <span class="at">n =</span> <span class="dv">60</span>),</span>
-<span id="cb296-5"><a href="simple-statistical-tests.html#cb296-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">incongruent =</span> congruent <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">30</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">60</span>)</span>
-<span id="cb296-6"><a href="simple-statistical-tests.html#cb296-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb296-7"><a href="simple-statistical-tests.html#cb296-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> condition, <span class="at">value =</span> reaction_time, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb296-8"><a href="simple-statistical-tests.html#cb296-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb296-9"><a href="simple-statistical-tests.html#cb296-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_RT =</span> <span class="fu">log</span>(reaction_time)</span>
-<span id="cb296-10"><a href="simple-statistical-tests.html#cb296-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="simple-statistical-tests.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb299-2"><a href="simple-statistical-tests.html#cb299-2" aria-hidden="true" tabindex="-1"></a>stroop_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb299-3"><a href="simple-statistical-tests.html#cb299-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
+<span id="cb299-4"><a href="simple-statistical-tests.html#cb299-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">congruent =</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">400</span>, <span class="at">sd =</span> <span class="dv">30</span>, <span class="at">n =</span> <span class="dv">60</span>),</span>
+<span id="cb299-5"><a href="simple-statistical-tests.html#cb299-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">incongruent =</span> congruent <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">mean =</span> <span class="dv">30</span>, <span class="at">sd =</span> <span class="dv">10</span>, <span class="at">n =</span> <span class="dv">60</span>)</span>
+<span id="cb299-6"><a href="simple-statistical-tests.html#cb299-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb299-7"><a href="simple-statistical-tests.html#cb299-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> condition, <span class="at">value =</span> reaction_time, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb299-8"><a href="simple-statistical-tests.html#cb299-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb299-9"><a href="simple-statistical-tests.html#cb299-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_RT =</span> <span class="fu">log</span>(reaction_time)</span>
+<span id="cb299-10"><a href="simple-statistical-tests.html#cb299-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p>Note that if your data is in a wide format, you specify the model formula like so:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="simple-statistical-tests.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data<span class="sc">$</span>dependent_variable_one, data<span class="sc">$</span>dependent_variable_two, <span class="at">data =</span> data_name, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="simple-statistical-tests.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(data<span class="sc">$</span>dependent_variable_one, data<span class="sc">$</span>dependent_variable_two, <span class="at">data =</span> data_name, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>In this format, you simply give the column names for where your data is stored for each condition, and R will compare the first entry against the second. However, I typically keep my data in long format, so we will mainly use the formula format for specifying our models. Using the formula notation is also useful for more complex designs where wide formatted data is unrealistic, so we’ll stick to this as our default way to specify our models.</p>
 <div id="running-the-test-2" class="section level4" number="6.3.3.1">
 <h4><span class="header-section-number">6.3.3.1</span> Running the Test</h4>
 <p>The paired-samples <em>t</em>-test formula takes the same form as the independent sampels <em>t</em>-test, only with <code>paired = TRUE</code>.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="simple-statistical-tests.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(log_RT <span class="sc">~</span> condition, <span class="at">data =</span> stroop_dat, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="simple-statistical-tests.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(log_RT <span class="sc">~</span> condition, <span class="at">data =</span> stroop_dat, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -810,8 +810,8 @@ div.csl-indent {
 <div id="indpendent-samples-anova" class="section level4" number="6.4.1.1">
 <h4><span class="header-section-number">6.4.1.1</span> Indpendent-Samples ANOVA</h4>
 <p>We’ll simply refit the same data from the <code>lexdec</code> data set to get an idea of how similar <em>t</em>-tests and ANOVAs are. Again, we just need to specify our DV to the left of the condition.</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="simple-statistical-tests.html#cb300-1" aria-hidden="true" tabindex="-1"></a>anova_ind <span class="ot">&lt;-</span> <span class="fu">aov</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind)</span>
-<span id="cb300-2"><a href="simple-statistical-tests.html#cb300-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_ind)</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="simple-statistical-tests.html#cb303-1" aria-hidden="true" tabindex="-1"></a>anova_ind <span class="ot">&lt;-</span> <span class="fu">aov</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind)</span>
+<span id="cb303-2"><a href="simple-statistical-tests.html#cb303-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_ind)</span></code></pre></div>
 <pre><code>##                 Df Sum Sq Mean Sq F value Pr(&gt;F)  
 ## native_language  1 0.1070 0.10702   5.523 0.0304 *
 ## Residuals       18 0.3488 0.01938                 
@@ -825,8 +825,8 @@ div.csl-indent {
 <p><code>Error(observation_unit/factor)</code></p>
 <p>We always need to specify that this is an error term we’re adding, hence the name <code>Error()</code>. We then need to specify what our error term is. Since we’re using a paired-samples test, where the same people ttake part in both conditions, we need to tell R that our error term is for the condition factor within subjects, i.e. different people might react differently to the conditions. Finally, as always we need to specify where our data lies.</p>
 <p>Below, we’ll just refit the stroop data from the <em>t</em>-test example above.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="simple-statistical-tests.html#cb302-1" aria-hidden="true" tabindex="-1"></a>anova_paired <span class="ot">&lt;-</span> <span class="fu">aov</span>(log_RT <span class="sc">~</span> condition <span class="sc">+</span> <span class="fu">Error</span>(subject<span class="sc">/</span>condition), <span class="at">data =</span> stroop_dat)</span>
-<span id="cb302-2"><a href="simple-statistical-tests.html#cb302-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_paired)</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="simple-statistical-tests.html#cb305-1" aria-hidden="true" tabindex="-1"></a>anova_paired <span class="ot">&lt;-</span> <span class="fu">aov</span>(log_RT <span class="sc">~</span> condition <span class="sc">+</span> <span class="fu">Error</span>(subject<span class="sc">/</span>condition), <span class="at">data =</span> stroop_dat)</span>
+<span id="cb305-2"><a href="simple-statistical-tests.html#cb305-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_paired)</span></code></pre></div>
 <pre><code>## 
 ## Error: subject
 ##           Df   Sum Sq  Mean Sq F value Pr(&gt;F)
@@ -863,8 +863,8 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 <div id="running-the-test-3" class="section level5" number="6.5.1.1.1">
 <h5><span class="header-section-number">6.5.1.1.1</span> Running the Test</h5>
 <p>As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the <code>~</code>, and our conditions to the right. Here, we’ll assign this to the object <code>lm_ind</code>, and we’ll get a summary of the data using the <code>summary()</code> function.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="simple-statistical-tests.html#cb304-1" aria-hidden="true" tabindex="-1"></a>lm_ind <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind)</span>
-<span id="cb304-2"><a href="simple-statistical-tests.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_ind)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="simple-statistical-tests.html#cb307-1" aria-hidden="true" tabindex="-1"></a>lm_ind <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_RT <span class="sc">~</span> native_language, <span class="at">data =</span> lexdec_ind)</span>
+<span id="cb307-2"><a href="simple-statistical-tests.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_ind)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ native_language, data = lexdec_ind)
@@ -886,17 +886,17 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 <p>Nicely, we get a lot of information from this model. As with the ANOVA, we have a test statistic (this time a <em>t</em>-value) and a <em>p</em>-value, under the heading <code>Pr(&gt;|t|)</code>.</p>
 <p>The <em>t</em>-value is the intercept term for our condition, divided by the standard error. The <em>p</em>-value here is the proportion of the <em>t</em> distribution which is greater than the <em>t</em> statistic. The <em>p</em>-value is just the proportion of the t distribution which is greater than the value of the t statistic (hence the weird notation).</p>
 <p>We also get some information that is more informative than the ANOVA. We get our intercept term (<code>(Intercept)</code>), which here is mean score for the English language group. Let’s see how that matches our mean scores:</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="simple-statistical-tests.html#cb306-1" aria-hidden="true" tabindex="-1"></a>lexdec_means <span class="ot">&lt;-</span> lexdec_ind <span class="sc">%&gt;%</span> </span>
-<span id="cb306-2"><a href="simple-statistical-tests.html#cb306-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(native_language) <span class="sc">%&gt;%</span> </span>
-<span id="cb306-3"><a href="simple-statistical-tests.html#cb306-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span>
-<span id="cb306-4"><a href="simple-statistical-tests.html#cb306-4" aria-hidden="true" tabindex="-1"></a>lexdec_means</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="simple-statistical-tests.html#cb309-1" aria-hidden="true" tabindex="-1"></a>lexdec_means <span class="ot">&lt;-</span> lexdec_ind <span class="sc">%&gt;%</span> </span>
+<span id="cb309-2"><a href="simple-statistical-tests.html#cb309-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(native_language) <span class="sc">%&gt;%</span> </span>
+<span id="cb309-3"><a href="simple-statistical-tests.html#cb309-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span>
+<span id="cb309-4"><a href="simple-statistical-tests.html#cb309-4" aria-hidden="true" tabindex="-1"></a>lexdec_means</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 2
 ##   native_language  mean
 ##   &lt;chr&gt;           &lt;dbl&gt;
 ## 1 English          6.33
 ## 2 Other            6.47</code></pre>
 <p>Under this, we have the difference from this intercept for the Other language group (<code>native_languageOther</code>). How does this relate to the means? Below, we’ll subtract the congruent scores from the incongruent scores.</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="simple-statistical-tests.html#cb308-1" aria-hidden="true" tabindex="-1"></a>lexdec_means<span class="sc">$</span>mean[<span class="dv">2</span>] <span class="sc">-</span> lexdec_means<span class="sc">$</span>mean[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="simple-statistical-tests.html#cb311-1" aria-hidden="true" tabindex="-1"></a>lexdec_means<span class="sc">$</span>mean[<span class="dv">2</span>] <span class="sc">-</span> lexdec_means<span class="sc">$</span>mean[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 0.1470395</code></pre>
 <p>As you can see, this value relates to the score for <code>native_languageOther</code>, which shows how the Other language group differs from the baseline, English language group.</p>
 <p>You might ask now, how did R know which condition to set as the intercept? R defaults to going alphabetically, so English comes before Other, hence it is the baseline. In simple cases like this, where we have only 2 levels, this is not a concern. But when we have more levels or factors, we need to pay attention to how we specify our contrasts in R.</p>
@@ -909,8 +909,8 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 <div id="running-the-test-4" class="section level5" number="6.5.1.2.1">
 <h5><span class="header-section-number">6.5.1.2.1</span> Running the Test</h5>
 <p>As with the ANOVA, we need to specify our model using the formula, with our dependent variable to the left of the <code>~</code>, and our conditions to the right. Here, we’ll assign this to the object <code>lm_ind', and we'll get a summary of the data using the</code>summary()` function. Unlike with <em>t</em>-tests and ANOVA, we do not need to specify an error term if our data are within-subjects (or paired-samples), so we simply use the same formula for independent- and paried-samples tests. Note that this means that our model doesn’t account for how much of our outcome variable is predicted by subject-specific factors (i.e. variation between people). Some might respond more or less strongly to the effect of condition than others. As such, we can do a bit better with these models by fitting a mixed-effects model that can account for subject level effects. For now, we’ll leave that for another lesson. If you want to get linear model output while accounting for by-subjects effects like in an ANOVA, head over to the next lesson!</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="simple-statistical-tests.html#cb310-1" aria-hidden="true" tabindex="-1"></a>lm_pair <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_RT <span class="sc">~</span> condition, <span class="at">data =</span> stroop_dat)</span>
-<span id="cb310-2"><a href="simple-statistical-tests.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_pair)</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="simple-statistical-tests.html#cb313-1" aria-hidden="true" tabindex="-1"></a>lm_pair <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_RT <span class="sc">~</span> condition, <span class="at">data =</span> stroop_dat)</span>
+<span id="cb313-2"><a href="simple-statistical-tests.html#cb313-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_pair)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = log_RT ~ condition, data = stroop_dat)
@@ -930,17 +930,17 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 ## Multiple R-squared:  0.221,  Adjusted R-squared:  0.2144 
 ## F-statistic: 33.47 on 1 and 118 DF,  p-value: 6.066e-08</code></pre>
 <p>As before, we get our intercept term (<code>(Intercept)</code>), which here is mean score for the congruent condition. Let’s see how that matches our mean scores:</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="simple-statistical-tests.html#cb312-1" aria-hidden="true" tabindex="-1"></a>stroop_means <span class="ot">&lt;-</span> stroop_dat <span class="sc">%&gt;%</span> </span>
-<span id="cb312-2"><a href="simple-statistical-tests.html#cb312-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span> </span>
-<span id="cb312-3"><a href="simple-statistical-tests.html#cb312-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span>
-<span id="cb312-4"><a href="simple-statistical-tests.html#cb312-4" aria-hidden="true" tabindex="-1"></a>stroop_means</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="simple-statistical-tests.html#cb315-1" aria-hidden="true" tabindex="-1"></a>stroop_means <span class="ot">&lt;-</span> stroop_dat <span class="sc">%&gt;%</span> </span>
+<span id="cb315-2"><a href="simple-statistical-tests.html#cb315-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span> </span>
+<span id="cb315-3"><a href="simple-statistical-tests.html#cb315-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(log_RT))</span>
+<span id="cb315-4"><a href="simple-statistical-tests.html#cb315-4" aria-hidden="true" tabindex="-1"></a>stroop_means</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 2
 ##   condition    mean
 ##   &lt;chr&gt;       &lt;dbl&gt;
 ## 1 congruent    5.98
 ## 2 incongruent  6.06</code></pre>
 <p>Under this, we have the difference from this intercept for the congruent condition (<code>conditionincongruent</code>). How does this relate to the means? Below, we’ll subtract the congruent scores from the incongruent scores.</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="simple-statistical-tests.html#cb314-1" aria-hidden="true" tabindex="-1"></a>stroop_means<span class="sc">$</span>mean[<span class="dv">2</span>] <span class="sc">-</span> stroop_means<span class="sc">$</span>mean[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="simple-statistical-tests.html#cb317-1" aria-hidden="true" tabindex="-1"></a>stroop_means<span class="sc">$</span>mean[<span class="dv">2</span>] <span class="sc">-</span> stroop_means<span class="sc">$</span>mean[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 0.07771698</code></pre>
 <p>As you can see, this value relates to the score for <code>conditionincongruent</code>, which shows how the incongruent condition differs from the baseline, congruent condition.</p>
 <p>Aside from this, we have a whole host of other information that we might want to consider, including an adjusted <span class="math inline">\(R^2\)</span>, which tells us about how much our explanatory predictors (e.g. condition) accounts for changes in the dependent variable. For now, this is all we need.</p>
@@ -966,18 +966,18 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 <div id="preparing-the-data-2" class="section level4" number="6.5.2.1">
 <h4><span class="header-section-number">6.5.2.1</span> Preparing the Data</h4>
 <p>Below, we’ll simulate some data looking at the effectiveness of a smoking intervention on smoking cessation rates. We have a simple outcome, 0 if people still smoke after the experiment (i.e. a failure), and 1 if they quit smoking (i.e. a success).</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="simple-statistical-tests.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
-<span id="cb316-2"><a href="simple-statistical-tests.html#cb316-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>), <span class="dv">50</span>)</span>
-<span id="cb316-3"><a href="simple-statistical-tests.html#cb316-3" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;intervention&quot;</span>), <span class="dv">50</span>)</span>
-<span id="cb316-4"><a href="simple-statistical-tests.html#cb316-4" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
-<span id="cb316-5"><a href="simple-statistical-tests.html#cb316-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb316-6"><a href="simple-statistical-tests.html#cb316-6" aria-hidden="true" tabindex="-1"></a>smoking_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb316-7"><a href="simple-statistical-tests.html#cb316-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> subject,</span>
-<span id="cb316-8"><a href="simple-statistical-tests.html#cb316-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> cond,</span>
-<span id="cb316-9"><a href="simple-statistical-tests.html#cb316-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> prob)</span>
-<span id="cb316-10"><a href="simple-statistical-tests.html#cb316-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="simple-statistical-tests.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb319-2"><a href="simple-statistical-tests.html#cb319-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>), <span class="dv">50</span>)</span>
+<span id="cb319-3"><a href="simple-statistical-tests.html#cb319-3" aria-hidden="true" tabindex="-1"></a>cond <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;control&quot;</span>, <span class="st">&quot;intervention&quot;</span>), <span class="dv">50</span>)</span>
+<span id="cb319-4"><a href="simple-statistical-tests.html#cb319-4" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)</span>
+<span id="cb319-5"><a href="simple-statistical-tests.html#cb319-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb319-6"><a href="simple-statistical-tests.html#cb319-6" aria-hidden="true" tabindex="-1"></a>smoking_dat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb319-7"><a href="simple-statistical-tests.html#cb319-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> subject,</span>
+<span id="cb319-8"><a href="simple-statistical-tests.html#cb319-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cond =</span> cond,</span>
+<span id="cb319-9"><a href="simple-statistical-tests.html#cb319-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> prob)</span>
+<span id="cb319-10"><a href="simple-statistical-tests.html#cb319-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Let’s see what the rates of smoking look like:</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="simple-statistical-tests.html#cb317-1" aria-hidden="true" tabindex="-1"></a>smoking_dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(outcome))</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="simple-statistical-tests.html#cb320-1" aria-hidden="true" tabindex="-1"></a>smoking_dat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cond) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(outcome))</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 2
 ##   cond          mean
 ##   &lt;chr&gt;        &lt;dbl&gt;
@@ -988,8 +988,8 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 <div id="running-the-test-5" class="section level4" number="6.5.2.2">
 <h4><span class="header-section-number">6.5.2.2</span> Running the Test</h4>
 <p>The generalised linear model is specified using the <code>glm()</code> function. Here, we can specify a few extra details about our model or accept the defaults. We’ll overspecify to show these things work. Here, we’ve asked to fit the model using a binomial link function, using the <code>family = "binomial"</code> argument since our data come from a binomial decision and follow a binomial distribution.</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="simple-statistical-tests.html#cb319-1" aria-hidden="true" tabindex="-1"></a>glm_ind <span class="ot">&lt;-</span> <span class="fu">glm</span>(outcome <span class="sc">~</span> cond, <span class="at">data =</span> smoking_dat, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
-<span id="cb319-2"><a href="simple-statistical-tests.html#cb319-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_ind)</span></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="simple-statistical-tests.html#cb322-1" aria-hidden="true" tabindex="-1"></a>glm_ind <span class="ot">&lt;-</span> <span class="fu">glm</span>(outcome <span class="sc">~</span> cond, <span class="at">data =</span> smoking_dat, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb322-2"><a href="simple-statistical-tests.html#cb322-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(glm_ind)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = outcome ~ cond, family = &quot;binomial&quot;, data = smoking_dat)
@@ -1026,15 +1026,15 @@ Where <span class="math inline">\(Y\)</span>, the outcome or dependent variable,
 </div>
 <div id="exercises-5" class="section level2" number="6.6">
 <h2><span class="header-section-number">6.6</span> Exercises</h2>
-<p>For these exercises, we will look at the core concepts from this lesson.</p>
-<p>For these exercises we’ll use simulated data sets from the <strong>inputs</strong> folder. This data was saved as a .csv, so we need to use <code>read_csv()</code> to load the data into R.</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="simple-statistical-tests.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<p>If you don’t have access to these, please <a href="https://github.com/gpwilliams/r4psych">download the repository from GitHub</a> and open the <strong>lesson_materials</strong> folder. Open the relevant folder for this lesson. If you work out of the file <strong>06_simple_statistical_tests.Rmd</strong> the code below will work to load the data set. If this fails then quit R and open it up from the .Rmd file above so your working directory is in the correct folder.</p>
+<p>This data was saved as a .csv, so we need to use <code>read_csv()</code> to load the data into R.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="simple-statistical-tests.html#cb324-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <p>Next, we’ll load all of the data sets.</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="simple-statistical-tests.html#cb322-1" aria-hidden="true" tabindex="-1"></a>binom_b_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/binom_between_data.csv&quot;</span>)</span>
-<span id="cb322-2"><a href="simple-statistical-tests.html#cb322-2" aria-hidden="true" tabindex="-1"></a>binom_w_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/binom_within_data.csv&quot;</span>)</span>
-<span id="cb322-3"><a href="simple-statistical-tests.html#cb322-3" aria-hidden="true" tabindex="-1"></a>bsubj_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/bsubj_data.csv&quot;</span>)</span>
-<span id="cb322-4"><a href="simple-statistical-tests.html#cb322-4" aria-hidden="true" tabindex="-1"></a>wsubj_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/wsubj_data.csv&quot;</span>)</span>
-<span id="cb322-5"><a href="simple-statistical-tests.html#cb322-5" aria-hidden="true" tabindex="-1"></a>corr_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/corr_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="simple-statistical-tests.html#cb325-1" aria-hidden="true" tabindex="-1"></a>binom_b_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/binom_between_data.csv&quot;</span>)</span>
+<span id="cb325-2"><a href="simple-statistical-tests.html#cb325-2" aria-hidden="true" tabindex="-1"></a>binom_w_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/binom_within_data.csv&quot;</span>)</span>
+<span id="cb325-3"><a href="simple-statistical-tests.html#cb325-3" aria-hidden="true" tabindex="-1"></a>bsubj_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/bsubj_data.csv&quot;</span>)</span>
+<span id="cb325-4"><a href="simple-statistical-tests.html#cb325-4" aria-hidden="true" tabindex="-1"></a>wsubj_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/wsubj_data.csv&quot;</span>)</span>
+<span id="cb325-5"><a href="simple-statistical-tests.html#cb325-5" aria-hidden="true" tabindex="-1"></a>corr_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/corr_data.csv&quot;</span>)</span></code></pre></div>
 <div id="question-1-5" class="section level3" number="6.6.1">
 <h3><span class="header-section-number">6.6.1</span> Question 1</h3>
 <p>Using the <code>corr_data</code> data set, prepare to run a correlation for the height and weights of the participants. First, you have to check all of the assumptions are met for a parametric test. Do a visual inspection of the normality of the variables, and check that the two are linearly related.</p>
