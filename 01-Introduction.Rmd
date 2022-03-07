@@ -407,15 +407,16 @@ What if we want to add a new row to our data? This may be less common than addin
 
 First, we need to know what should go in each cell. Remember that we have to keep the data square, so you can't have missing values when you add a row. If you don't have any data, you can just put `NA` (with **no quotations**) to keep the data square but to show that you don't have any value for a given cell. 
 
-Let's assume we want to add a new participant, 101, who has a dog but an unknown IQ. 
+Let's assume we want to add a new participant, 101, who has a dog but an unknown IQ. We must define a list of data where we assign values to the columns that match up with our IQ data column headings. We do this like so:
 
 ```{r 1_add_new_row}
-IQ_data[101, ] <- c(101, "dog", NA) # add new row with values
+# add new row with values
+IQ_data[101, ] <- list(participant_number = 101, pet_id = "dog", IQ = NA) 
 
 tail(IQ_data) # see last 6 rows
 ```
 
-Here, we have to define all our values to be added in parentheses, using the `c()` function:
+Here, we have to define all our values to be added in parentheses, using the `list()` function:
 
 - participant number is `101`
 - pet_id is `"dog"`
@@ -424,6 +425,8 @@ Here, we have to define all our values to be added in parentheses, using the `c(
 We then assign this to our data frame using the assignment operator (`<-`). 
 
 We have to tell R where these values should go in our data frame. Because we're adding a new row, we specify the data frame, with row 101, and all columns (remember, an empty value after the comma = all columns).
+
+Note, this is a little more complicated than assigning a new row to our data in a data.frame, but makes us be more specific about what we are adding and where. For more details on lists, keep reading this section.
 
 We can then remove this row again setting our data frame to itself, minus the 101st row:
 

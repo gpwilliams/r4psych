@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>R for Psych</title>
-  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Data Visualisation 2 | R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R for Psych" />
+  <meta property="og:title" content="Chapter 3 Data Visualisation 2 | R for Psych" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  <meta property="og:url" content="https://glennwilliams.me/r4psych/" />
   
   <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
   <meta name="github-repo" content="gpwilliams/r4psych" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R for Psych" />
+  <meta name="twitter:title" content="Chapter 3 Data Visualisation 2 | R for Psych" />
   
   <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
   
 
-<meta name="author" content="Glenn Williams">
+<meta name="author" content="Glenn Williams" />
 
 
-<meta name="date" content="2018-08-31">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="data-visualisation-1.html">
-<link rel="next" href="data-manipulation-1.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link rel="prev" href="data-visualisation-1.html"/>
+<link rel="next" href="data-manipulation-1.html"/>
+<script src="assets/header-attrs-2.11/header-attrs.js"></script>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,6 +49,9 @@
 
 
 
+
+<link href="assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117777827-1"></script>
 <script>
@@ -59,41 +64,91 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -113,17 +168,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
-<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a>
+<ul>
 <li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
 <li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a><ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#question-1"><i class="fa fa-check"></i><b>1.7.1</b> Question 1</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#question-2"><i class="fa fa-check"></i><b>1.7.2</b> Question 2</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#question-3"><i class="fa fa-check"></i><b>1.7.3</b> Question 3</a></li>
@@ -138,21 +196,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.7.12" data-path="introduction.html"><a href="introduction.html#question-12"><i class="fa fa-check"></i><b>1.7.12</b> Question 12</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
 <li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
 <li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
 <li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
 <li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
 <li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
 <li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
 <li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
 <li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-1-1"><i class="fa fa-check"></i><b>2.3.2</b> Question 1</a></li>
 <li class="chapter" data-level="2.3.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-2-1"><i class="fa fa-check"></i><b>2.3.3</b> Question 2</a></li>
@@ -167,20 +229,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.3.12" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.12</b> Additional Exercise</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
 <li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
-<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a>
+<ul>
 <li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
 <li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a>
+<ul>
 <li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
 <li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
 <li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
-<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
 <li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-1-2"><i class="fa fa-check"></i><b>3.7.2</b> Question 1</a></li>
 <li class="chapter" data-level="3.7.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-2-2"><i class="fa fa-check"></i><b>3.7.3</b> Question 2</a></li>
@@ -194,24 +260,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.7.11" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.11</b> Additional Exercise</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a><ul>
+<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#getting-started-1"><i class="fa fa-check"></i><b>4.1</b> Getting Started</a></li>
-<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a><ul>
+<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a>
+<ul>
 <li class="chapter" data-level="4.2.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#loading-data"><i class="fa fa-check"></i><b>4.2.1</b> Loading Data</a></li>
 <li class="chapter" data-level="4.2.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#wide-and-long-data"><i class="fa fa-check"></i><b>4.2.2</b> Wide and Long Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a><ul>
+<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#gathering-data"><i class="fa fa-check"></i><b>4.3.1</b> Gathering Data</a></li>
 <li class="chapter" data-level="4.3.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#separating-columns"><i class="fa fa-check"></i><b>4.3.2</b> Separating Columns</a></li>
 <li class="chapter" data-level="4.3.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#spreading-data"><i class="fa fa-check"></i><b>4.3.3</b> Spreading Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a><ul>
+<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a>
+<ul>
 <li class="chapter" data-level="4.4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins"><i class="fa fa-check"></i><b>4.4.1</b> Mutating Joins</a></li>
 <li class="chapter" data-level="4.4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins"><i class="fa fa-check"></i><b>4.4.2</b> Filtering Joins</a></li>
 <li class="chapter" data-level="4.4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins"><i class="fa fa-check"></i><b>4.4.3</b> Binding Joins</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-unique-and-duplicate-information"><i class="fa fa-check"></i><b>4.5</b> Checking for Unique and Duplicate Information</a></li>
-<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="4.6.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#introduction-and-setup"><i class="fa fa-check"></i><b>4.6.1</b> Introduction and Setup</a></li>
 <li class="chapter" data-level="4.6.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#long-and-wide-data"><i class="fa fa-check"></i><b>4.6.2</b> Long and Wide Data</a></li>
 <li class="chapter" data-level="4.6.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#uniting-and-separating-columns"><i class="fa fa-check"></i><b>4.6.3</b> Uniting and Separating Columns</a></li>
@@ -221,15 +292,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.6.7" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-duplicates"><i class="fa fa-check"></i><b>4.6.7</b> Checking for Duplicates</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a><ul>
+<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#getting-started-2"><i class="fa fa-check"></i><b>5.1</b> Getting Started</a></li>
 <li class="chapter" data-level="5.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#understanding-our-data"><i class="fa fa-check"></i><b>5.2</b> Understanding our Data</a></li>
 <li class="chapter" data-level="5.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#preparing-our-data"><i class="fa fa-check"></i><b>5.3</b> Preparing our Data</a></li>
-<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a><ul>
+<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#renaming-and-reordering-columns"><i class="fa fa-check"></i><b>5.4.1</b> Renaming and Reordering Columns</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#creating-and-changing-columns"><i class="fa fa-check"></i><b>5.5</b> Creating and Changing Columns</a></li>
-<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a><ul>
+<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a>
+<ul>
 <li class="chapter" data-level="5.6.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-with-logical-operations"><i class="fa fa-check"></i><b>5.6.1</b> Filtering with Logical Operations</a></li>
 <li class="chapter" data-level="5.6.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#combining-filtering-criteria"><i class="fa fa-check"></i><b>5.6.2</b> Combining Filtering Criteria</a></li>
 <li class="chapter" data-level="5.6.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#removing-by-ceriteria"><i class="fa fa-check"></i><b>5.6.3</b> Removing by Ceriteria</a></li>
@@ -237,15 +311,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="5.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#arranging-data"><i class="fa fa-check"></i><b>5.7</b> Arranging Data</a></li>
 <li class="chapter" data-level="5.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#summarising-data"><i class="fa fa-check"></i><b>5.8</b> Summarising Data</a></li>
-<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a><ul>
+<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a>
+<ul>
 <li class="chapter" data-level="5.9.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#ungrouping-data"><i class="fa fa-check"></i><b>5.9.1</b> Ungrouping Data</a></li>
 </ul></li>
 <li class="chapter" data-level="5.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#chaining-many-functions"><i class="fa fa-check"></i><b>5.10</b> Chaining Many Functions</a></li>
-<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a><ul>
+<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a>
+<ul>
 <li class="chapter" data-level="5.11.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#csv-files"><i class="fa fa-check"></i><b>5.11.1</b> CSV Files</a></li>
 <li class="chapter" data-level="5.11.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#r-data-files"><i class="fa fa-check"></i><b>5.11.2</b> R Data Files</a></li>
 </ul></li>
-<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a><ul>
+<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="5.12.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-1-4"><i class="fa fa-check"></i><b>5.12.1</b> Question 1</a></li>
 <li class="chapter" data-level="5.12.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-2-4"><i class="fa fa-check"></i><b>5.12.2</b> Question 2</a></li>
 <li class="chapter" data-level="5.12.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-3-4"><i class="fa fa-check"></i><b>5.12.3</b> Question 3</a></li>
@@ -259,26 +336,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.12.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-11-1"><i class="fa fa-check"></i><b>5.12.11</b> Question 11</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a><ul>
+<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#getting-started-3"><i class="fa fa-check"></i><b>6.1</b> Getting Started</a></li>
-<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a><ul>
+<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#analysing-real-data"><i class="fa fa-check"></i><b>6.2.1</b> Analysing Real Data</a></li>
 <li class="chapter" data-level="6.2.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#checking-assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Checking Assumptions</a></li>
 <li class="chapter" data-level="6.2.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#running-a-correlation"><i class="fa fa-check"></i><b>6.2.3</b> Running a Correlation</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-sample-t-tests"><i class="fa fa-check"></i><b>6.3.1</b> One-Sample <em>t</em>-tests</a></li>
 <li class="chapter" data-level="6.3.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#independent-samples-t-tests"><i class="fa fa-check"></i><b>6.3.2</b> Independent-Samples <em>t</em>-tests</a></li>
 <li class="chapter" data-level="6.3.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#paired-samples-t-tests"><i class="fa fa-check"></i><b>6.3.3</b> Paired-Samples <em>t</em>-tests</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a><ul>
+<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a>
+<ul>
 <li class="chapter" data-level="6.4.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-way-anova"><i class="fa fa-check"></i><b>6.4.1</b> One-Way ANOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a>
+<ul>
 <li class="chapter" data-level="6.5.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#general-linear-model"><i class="fa fa-check"></i><b>6.5.1</b> General Linear Model</a></li>
 <li class="chapter" data-level="6.5.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#generalised-linear-model"><i class="fa fa-check"></i><b>6.5.2</b> Generalised Linear Model</a></li>
 </ul></li>
-<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="6.6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-1-5"><i class="fa fa-check"></i><b>6.6.1</b> Question 1</a></li>
 <li class="chapter" data-level="6.6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-2-5"><i class="fa fa-check"></i><b>6.6.2</b> Question 2</a></li>
 <li class="chapter" data-level="6.6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-3-5"><i class="fa fa-check"></i><b>6.6.3</b> Question 3</a></li>
@@ -291,24 +374,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.6.10" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-10-4"><i class="fa fa-check"></i><b>6.6.10</b> Question 10</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests</a><ul>
+<li class="chapter" data-level="7" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#getting-started-4"><i class="fa fa-check"></i><b>7.1</b> Getting Started</a></li>
-<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-analyses"><i class="fa fa-check"></i><b>7.2</b> Multilevel Analyses</a><ul>
+<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-analyses"><i class="fa fa-check"></i><b>7.2</b> Multilevel Analyses</a>
+<ul>
 <li class="chapter" data-level="7.2.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#preparation-of-data"><i class="fa fa-check"></i><b>7.2.1</b> Preparation of Data</a></li>
 <li class="chapter" data-level="7.2.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-regression"><i class="fa fa-check"></i><b>7.2.2</b> Multilevel Regression</a></li>
 <li class="chapter" data-level="7.2.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-anova"><i class="fa fa-check"></i><b>7.2.3</b> Multilevel ANOVA</a></li>
 <li class="chapter" data-level="7.2.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-contrasts"><i class="fa fa-check"></i><b>7.2.4</b> Multiple Contrasts</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.3</b> Multifactorial Analyses</a><ul>
+<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.3</b> Multifactorial Analyses</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-anova"><i class="fa fa-check"></i><b>7.3.1</b> Multifactorial ANOVA</a></li>
 <li class="chapter" data-level="7.3.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-regression"><i class="fa fa-check"></i><b>7.3.2</b> Multiple Regression</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-analyses"><i class="fa fa-check"></i><b>7.4</b> Mixed Analyses</a><ul>
+<li class="chapter" data-level="7.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-analyses"><i class="fa fa-check"></i><b>7.4</b> Mixed Analyses</a>
+<ul>
 <li class="chapter" data-level="7.4.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-linear-models"><i class="fa fa-check"></i><b>7.4.1</b> Mixed Linear Models</a></li>
 <li class="chapter" data-level="7.4.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-anova"><i class="fa fa-check"></i><b>7.4.2</b> Mixed ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#a-note-on-sum-of-squares"><i class="fa fa-check"></i><b>7.5</b> A Note on Sum of Squares</a></li>
-<li class="chapter" data-level="7.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#exercises-6"><i class="fa fa-check"></i><b>7.6</b> Exercises</a><ul>
+<li class="chapter" data-level="7.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#exercises-6"><i class="fa fa-check"></i><b>7.6</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="7.6.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-1-6"><i class="fa fa-check"></i><b>7.6.1</b> Question 1</a></li>
 <li class="chapter" data-level="7.6.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-2-6"><i class="fa fa-check"></i><b>7.6.2</b> Question 2</a></li>
 <li class="chapter" data-level="7.6.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-3-6"><i class="fa fa-check"></i><b>7.6.3</b> Question 3</a></li>
@@ -317,21 +405,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="7.6.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-6-6"><i class="fa fa-check"></i><b>7.6.6</b> Question 6</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a><ul>
+<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#getting-started-5"><i class="fa fa-check"></i><b>8.1</b> Getting Started</a></li>
-<li class="chapter" data-level="8.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#simulating-data"><i class="fa fa-check"></i><b>8.2</b> Simulating Data</a><ul>
+<li class="chapter" data-level="8.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#simulating-data"><i class="fa fa-check"></i><b>8.2</b> Simulating Data</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-uniform-distribution"><i class="fa fa-check"></i><b>8.2.1</b> The Uniform Distribution</a></li>
 <li class="chapter" data-level="8.2.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-normal-distribution"><i class="fa fa-check"></i><b>8.2.2</b> The Normal Distribution</a></li>
 <li class="chapter" data-level="8.2.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-binomial-distribution"><i class="fa fa-check"></i><b>8.2.3</b> The Binomial Distribution</a></li>
 <li class="chapter" data-level="8.2.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-sampling"><i class="fa fa-check"></i><b>8.2.4</b> Flexible Sampling</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#sampling-for-inference"><i class="fa fa-check"></i><b>8.3</b> Sampling for Inference</a><ul>
+<li class="chapter" data-level="8.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#sampling-for-inference"><i class="fa fa-check"></i><b>8.3</b> Sampling for Inference</a>
+<ul>
 <li class="chapter" data-level="8.3.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-p-values-and-type-i-errors"><i class="fa fa-check"></i><b>8.3.1</b> Understanding p-values and Type-I Errors</a></li>
 <li class="chapter" data-level="8.3.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-power-and-type-ii-errors"><i class="fa fa-check"></i><b>8.3.2</b> Understanding Power and Type-II Errors</a></li>
 <li class="chapter" data-level="8.3.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-power-analyses-with-simulation"><i class="fa fa-check"></i><b>8.3.3</b> Flexible Power Analyses with Simulation</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#performing-power-analyses-from-packages"><i class="fa fa-check"></i><b>8.4</b> Performing Power Analyses from Packages</a></li>
-<li class="chapter" data-level="8.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#exercises-7"><i class="fa fa-check"></i><b>8.5</b> Exercises</a><ul>
+<li class="chapter" data-level="8.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#exercises-7"><i class="fa fa-check"></i><b>8.5</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="8.5.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#introduction-and-setup-1"><i class="fa fa-check"></i><b>8.5.1</b> Introduction and Setup</a></li>
 <li class="chapter" data-level="8.5.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-1-7"><i class="fa fa-check"></i><b>8.5.2</b> Question 1</a></li>
 <li class="chapter" data-level="8.5.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-2-7"><i class="fa fa-check"></i><b>8.5.3</b> Question 2</a></li>
@@ -344,27 +436,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.5.10" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-9-6"><i class="fa fa-check"></i><b>8.5.10</b> Question 9</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a><ul>
+<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#getting-started-6"><i class="fa fa-check"></i><b>9.1</b> Getting Started</a></li>
 <li class="chapter" data-level="9.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#why-mixed-effects-models"><i class="fa fa-check"></i><b>9.2</b> Why Mixed Effects Models</a></li>
-<li class="chapter" data-level="9.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#how-do-mixed-effects-models-work"><i class="fa fa-check"></i><b>9.3</b> How Do Mixed Effects Models Work?</a><ul>
+<li class="chapter" data-level="9.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#how-do-mixed-effects-models-work"><i class="fa fa-check"></i><b>9.3</b> How Do Mixed Effects Models Work?</a>
+<ul>
 <li class="chapter" data-level="9.3.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#fixed-and-random-effects"><i class="fa fa-check"></i><b>9.3.1</b> Fixed and Random Effects</a></li>
 <li class="chapter" data-level="9.3.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#specifying-your-random-effects-structure"><i class="fa fa-check"></i><b>9.3.2</b> Specifying your Random Effects Structure</a></li>
 <li class="chapter" data-level="9.3.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#partial-pooling-of-data"><i class="fa fa-check"></i><b>9.3.3</b> Partial-Pooling of Data</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#interpreting-mixed-effects-model-output"><i class="fa fa-check"></i><b>9.4</b> Interpreting Mixed Effects Model Output</a><ul>
+<li class="chapter" data-level="9.4" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#interpreting-mixed-effects-model-output"><i class="fa fa-check"></i><b>9.4</b> Interpreting Mixed Effects Model Output</a>
+<ul>
 <li class="chapter" data-level="9.4.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#calculating-p-values-for-parameter-estimates"><i class="fa fa-check"></i><b>9.4.1</b> Calculating p-values for Parameter Estimates</a></li>
 <li class="chapter" data-level="9.4.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#model-selection"><i class="fa fa-check"></i><b>9.4.2</b> Model Selection</a></li>
 <li class="chapter" data-level="9.4.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#failure-to-converge-what-should-i-do"><i class="fa fa-check"></i><b>9.4.3</b> Failure to Converge: What Should I Do?</a></li>
 </ul></li>
 <li class="chapter" data-level="9.5" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#test-assumptions"><i class="fa fa-check"></i><b>9.5</b> Test Assumptions</a></li>
 <li class="chapter" data-level="9.6" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#generalised-mixed-effects-models"><i class="fa fa-check"></i><b>9.6</b> Generalised Mixed Effects Models</a></li>
-<li class="chapter" data-level="9.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#a-note-on-power-effect-sizes-and-pairwise-comparisons"><i class="fa fa-check"></i><b>9.7</b> A Note on Power, Effect Sizes, and Pairwise Comparisons</a><ul>
+<li class="chapter" data-level="9.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#a-note-on-power-effect-sizes-and-pairwise-comparisons"><i class="fa fa-check"></i><b>9.7</b> A Note on Power, Effect Sizes, and Pairwise Comparisons</a>
+<ul>
 <li class="chapter" data-level="9.7.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#power"><i class="fa fa-check"></i><b>9.7.1</b> Power</a></li>
 <li class="chapter" data-level="9.7.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#effect-sizes"><i class="fa fa-check"></i><b>9.7.2</b> Effect Sizes</a></li>
 <li class="chapter" data-level="9.7.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#pairwise-comparisons"><i class="fa fa-check"></i><b>9.7.3</b> Pairwise Comparisons</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#exercises-8"><i class="fa fa-check"></i><b>9.8</b> Exercises</a><ul>
+<li class="chapter" data-level="9.8" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#exercises-8"><i class="fa fa-check"></i><b>9.8</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="9.8.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-1-8"><i class="fa fa-check"></i><b>9.8.1</b> Question 1</a></li>
 <li class="chapter" data-level="9.8.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-2-8"><i class="fa fa-check"></i><b>9.8.2</b> Question 2</a></li>
 <li class="chapter" data-level="9.8.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-3-8"><i class="fa fa-check"></i><b>9.8.3</b> Question 3</a></li>
@@ -374,29 +471,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.8.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-7-7"><i class="fa fa-check"></i><b>9.8.7</b> Question 7</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html"><i class="fa fa-check"></i><b>10</b> Reporting Reproducible Research</a><ul>
+<li class="chapter" data-level="10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html"><i class="fa fa-check"></i><b>10</b> Reporting Reproducible Research</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#getting-started-7"><i class="fa fa-check"></i><b>10.1</b> Getting Started</a></li>
-<li class="chapter" data-level="10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-reproducible-documents"><i class="fa fa-check"></i><b>10.2</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-reproducible-documents"><i class="fa fa-check"></i><b>10.2</b> Creating Reproducible Documents</a>
+<ul>
 <li class="chapter" data-level="10.2.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-a-reproducible-report"><i class="fa fa-check"></i><b>10.2.1</b> Creating a Reproducible Report</a></li>
 <li class="chapter" data-level="10.2.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#folder-structure-for-reproducible-analyses"><i class="fa fa-check"></i><b>10.2.2</b> Folder Structure for Reproducible Analyses</a></li>
 <li class="chapter" data-level="10.2.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#using-r-markdown-templates"><i class="fa fa-check"></i><b>10.2.3</b> Using R Markdown Templates</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#open-science"><i class="fa fa-check"></i><b>10.3</b> Open Science</a></li>
 <li class="chapter" data-level="10.4" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#what-to-report"><i class="fa fa-check"></i><b>10.4</b> What to Report</a></li>
-<li class="chapter" data-level="10.5" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#effect-sizes-1"><i class="fa fa-check"></i><b>10.5</b> Effect Sizes</a><ul>
+<li class="chapter" data-level="10.5" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#effect-sizes-1"><i class="fa fa-check"></i><b>10.5</b> Effect Sizes</a>
+<ul>
 <li class="chapter" data-level="10.5.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#cohens-d-and-pearsons-r"><i class="fa fa-check"></i><b>10.5.1</b> Cohen’s d and Pearson’s r</a></li>
 <li class="chapter" data-level="10.5.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#calculating-effect-sizes"><i class="fa fa-check"></i><b>10.5.2</b> Calculating Effect Sizes</a></li>
 </ul></li>
 <li class="chapter" data-level="10.6" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#confidence-intervals"><i class="fa fa-check"></i><b>10.6</b> Confidence Intervals</a></li>
-<li class="chapter" data-level="10.7" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#evaluating-evidence-for-the-null-hypothesis"><i class="fa fa-check"></i><b>10.7</b> Evaluating Evidence for the Null Hypothesis</a><ul>
+<li class="chapter" data-level="10.7" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#evaluating-evidence-for-the-null-hypothesis"><i class="fa fa-check"></i><b>10.7</b> Evaluating Evidence for the Null Hypothesis</a>
+<ul>
 <li class="chapter" data-level="10.7.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#independent-samples-tost"><i class="fa fa-check"></i><b>10.7.1</b> Independent Samples TOST</a></li>
 </ul></li>
-<li class="chapter" data-level="10.8" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#understanding-problematic-design-choices"><i class="fa fa-check"></i><b>10.8</b> Understanding Problematic Design Choices</a><ul>
+<li class="chapter" data-level="10.8" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#understanding-problematic-design-choices"><i class="fa fa-check"></i><b>10.8</b> Understanding Problematic Design Choices</a>
+<ul>
 <li class="chapter" data-level="10.8.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#optional-stopping-without-correction"><i class="fa fa-check"></i><b>10.8.1</b> Optional Stopping (Without Correction)</a></li>
 <li class="chapter" data-level="10.8.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#bad-hypotheses"><i class="fa fa-check"></i><b>10.8.2</b> Bad Hypotheses</a></li>
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#the-final-lesson"><i class="fa fa-check"></i><b>10.9</b> The Final Lesson</a></li>
-<li class="chapter" data-level="10.10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#exercises-9"><i class="fa fa-check"></i><b>10.10</b> Exercises</a><ul>
+<li class="chapter" data-level="10.10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#exercises-9"><i class="fa fa-check"></i><b>10.10</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="10.10.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-1-9"><i class="fa fa-check"></i><b>10.10.1</b> Question 1</a></li>
 <li class="chapter" data-level="10.10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-2-9"><i class="fa fa-check"></i><b>10.10.2</b> Question 2</a></li>
 <li class="chapter" data-level="10.10.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-3-9"><i class="fa fa-check"></i><b>10.10.3</b> Question 3</a></li>
@@ -427,72 +530,73 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-visualisation-2" class="section level1">
+<div id="data-visualisation-2" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data Visualisation 2</h1>
 <p>In this section we’ll cover more advanced plotting methods in ggplot2. We’ll look at customising plots, making <strong>pirate plots</strong>, installing packages from GitHub, faceting, and stitching plots together.</p>
 <p>To get started, as always we’ll load our packages and saved data from the previous lesson.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</code></pre></div>
-<div id="customising-your-plots" class="section level2">
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="data-visualisation-2.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="data-visualisation-2.html#cb103-1" aria-hidden="true" tabindex="-1"></a>rt_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</span></code></pre></div>
+<div id="customising-your-plots" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Customising Your Plots</h2>
 <p>Take the desnity plot below, this is functional, but it’s pretty ugly.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
-                     <span class="dt">fill =</span> response_condition
-                     )
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>)</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_density_plot_boring-1.png" width="672" /></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="data-visualisation-2.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb104-2"><a href="data-visualisation-2.html#cb104-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time, </span>
+<span id="cb104-3"><a href="data-visualisation-2.html#cb104-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> response_condition</span>
+<span id="cb104-4"><a href="data-visualisation-2.html#cb104-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
+<span id="cb104-5"><a href="data-visualisation-2.html#cb104-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb104-6"><a href="data-visualisation-2.html#cb104-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_density_plot_boring-1.png" width="672" /></p>
 <p>You already know how to change the colours of your aesthetics across all conditions and split by condition, so now we’ll look at other ways to improve the plot.</p>
 <p>In this version of the plot, we use the same code as before, but we add labels to the axes using <code>labs()</code>, assigning a nicer looking version of our variables to the x and y axes.</p>
 <p>Additionally, we change the scale of the x-axis using the <code>scale_x_continuous</code> function. To this function, we pass the <strong>limits</strong> that we want for our axis (between 200 and 600ms), and we identify the breaks, or where we want the ticks along the axis. We pass another function that we learned in the Lesson One, called <code>seq()</code>. This sets up a sequence of numbers for us without us having to type them all out. Here, it goes <code>from</code> 200 <code>to</code> 600 <code>by</code> ticks every 100ms; as a result, our axis gets labels of 200, 300, 400, 500, and 600.</p>
-<p>On top of this, we also improved the label for our legend using the <code>guides()</code> function. As our legend is only there to identify different parts of the graph with a different colour (from <code>fill = response_condition</code> in <code>aes()</code>), then we have to tell the guide to change the legend that pops up because of the differnt coloured parts of the plot. So, we change our guide, and change the legend that comes up because of the change in colour (<code>guides(fill = guide_legend())</code>) and within the guide legend, we change the title (<code>title = &quot;Response Condition&quot;</code>. I know this sounds like a lot to take in, and you’re very likely to forget how this works (I do all the time), but hopefully you can get a grip of it by seeing it in action.</p>
+<p>On top of this, we also improved the label for our legend using the <code>guides()</code> function. As our legend is only there to identify different parts of the graph with a different colour (from <code>fill = response_condition</code> in <code>aes()</code>), then we have to tell the guide to change the legend that pops up because of the differnt coloured parts of the plot. So, we change our guide, and change the legend that comes up because of the change in colour (<code>guides(fill = guide_legend())</code>) and within the guide legend, we change the title (<code>title = "Response Condition"</code>. I know this sounds like a lot to take in, and you’re very likely to forget how this works (I do all the time), but hopefully you can get a grip of it by seeing it in action.</p>
 <p>Finally, we’ve changed the theme of our plot to <code>theme_bw()</code>. This is one of many inbuilt themes in ggplot2, but I find it one of the cleanest.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
-                     <span class="dt">fill =</span> response_condition
-                     )
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, 
-       <span class="dt">y =</span> <span class="st">&quot;Density&quot;</span>
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">600</span>), 
-                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, 
-                                  <span class="dt">to =</span> <span class="dv">600</span>, 
-                                  <span class="dt">by =</span> <span class="dv">100</span>
-                                  )
-                     ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="dt">title =</span> <span class="st">&quot;Response Condition&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_bw</span>()</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_density_plot_improved-1.png" width="672" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="data-visualisation-2.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb105-2"><a href="data-visualisation-2.html#cb105-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time, </span>
+<span id="cb105-3"><a href="data-visualisation-2.html#cb105-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> response_condition</span>
+<span id="cb105-4"><a href="data-visualisation-2.html#cb105-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
+<span id="cb105-5"><a href="data-visualisation-2.html#cb105-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb105-6"><a href="data-visualisation-2.html#cb105-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb105-7"><a href="data-visualisation-2.html#cb105-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, </span>
+<span id="cb105-8"><a href="data-visualisation-2.html#cb105-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Density&quot;</span></span>
+<span id="cb105-9"><a href="data-visualisation-2.html#cb105-9" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb105-10"><a href="data-visualisation-2.html#cb105-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">600</span>), </span>
+<span id="cb105-11"><a href="data-visualisation-2.html#cb105-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">200</span>, </span>
+<span id="cb105-12"><a href="data-visualisation-2.html#cb105-12" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">to =</span> <span class="dv">600</span>, </span>
+<span id="cb105-13"><a href="data-visualisation-2.html#cb105-13" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="dv">100</span></span>
+<span id="cb105-14"><a href="data-visualisation-2.html#cb105-14" aria-hidden="true" tabindex="-1"></a>                                  )</span>
+<span id="cb105-15"><a href="data-visualisation-2.html#cb105-15" aria-hidden="true" tabindex="-1"></a>                     ) <span class="sc">+</span></span>
+<span id="cb105-16"><a href="data-visualisation-2.html#cb105-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">&quot;Response Condition&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb105-17"><a href="data-visualisation-2.html#cb105-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_density_plot_improved-1.png" width="672" /></p>
 <p>With the histrogram below, we don’t have much new to introduce, expect this time we use <code>theme_classic()</code> instead of <code>theme_bw()</code>. This gets rid of the major and minor grid lines from the previous plot, and also keeps only the lines for the axes. However, we added the argument <code>expand</code> to the <code>scale_y_continuous()</code> function, and pass this the values 0 and 0. This makes removes the spacing between the plotted elements and the axes. These values simply indicate how much extra space should be added to the top and bottom of the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
-                 <span class="dt">fill =</span> <span class="st">&quot;#bcbddc&quot;</span>,
-                 <span class="dt">colour =</span> <span class="st">&quot;#756bb1&quot;</span>
-                 ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">600</span>),
-                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">200</span>, 
-                                  <span class="dt">to =</span> <span class="dv">600</span>, 
-                                  <span class="dt">by =</span> <span class="dv">25</span>
-                                  )
-                     ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_classic</span>()</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_histogram_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="data-visualisation-2.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb106-2"><a href="data-visualisation-2.html#cb106-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time)) <span class="sc">+</span></span>
+<span id="cb106-3"><a href="data-visualisation-2.html#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, </span>
+<span id="cb106-4"><a href="data-visualisation-2.html#cb106-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;#bcbddc&quot;</span>,</span>
+<span id="cb106-5"><a href="data-visualisation-2.html#cb106-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;#756bb1&quot;</span></span>
+<span id="cb106-6"><a href="data-visualisation-2.html#cb106-6" aria-hidden="true" tabindex="-1"></a>                 ) <span class="sc">+</span></span>
+<span id="cb106-7"><a href="data-visualisation-2.html#cb106-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">200</span>, <span class="dv">600</span>),</span>
+<span id="cb106-8"><a href="data-visualisation-2.html#cb106-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">200</span>, </span>
+<span id="cb106-9"><a href="data-visualisation-2.html#cb106-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">to =</span> <span class="dv">600</span>, </span>
+<span id="cb106-10"><a href="data-visualisation-2.html#cb106-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="dv">25</span></span>
+<span id="cb106-11"><a href="data-visualisation-2.html#cb106-11" aria-hidden="true" tabindex="-1"></a>                                  )</span>
+<span id="cb106-12"><a href="data-visualisation-2.html#cb106-12" aria-hidden="true" tabindex="-1"></a>                     ) <span class="sc">+</span></span>
+<span id="cb106-13"><a href="data-visualisation-2.html#cb106-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb106-14"><a href="data-visualisation-2.html#cb106-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">+</span></span>
+<span id="cb106-15"><a href="data-visualisation-2.html#cb106-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
+<p><img src="R-for-Psych_files/figure-html/3_histogram_plot-1.png" width="672" /></p>
 </div>
-<div id="pirate-plots" class="section level2">
+<div id="pirate-plots" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Pirate Plots</h2>
 <p>Now we’ll look at a new plot type that takes a bit of extra work to generate; pirate plots. Pirate plots are a great choice of plot for the indecisive. They are essentially the individual points of data, a bar plot, a violin plot, and a confidence interval interval all in one. This way, you get to see the raw, descriptive, and inferential data on one plot!</p>
 <p>This is a nice way to show data that are grouped by categories but with a continuous dependent variable.</p>
 <p>We could make these ourselves by doing some calculations and combining <code>geoms</code> in ggplot2. Or, we could just install a package from <a href="https://github.com/mikabr/ggpirate">Github</a> which will do that for us. First, we’ll have to install <code>devtools</code> in R which will allow us to install packages from Github. (For packages on CRAN, this isn’t necessary, but unfortunately ggpirate isn’t on CRAN at the time of writing.)</p>
 <p>To install <code>devtools</code> and the <code>ggpirate</code> package, uncomment and run the code below. Then as always, use <code>library(ggpirate)</code> to load the package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
-<span class="co"># devtools::install_github(&quot;mikabr/ggpirate&quot;)</span>
-<span class="kw">library</span>(ggpirate)</code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="data-visualisation-2.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb108-2"><a href="data-visualisation-2.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;mikabr/ggpirate&quot;)</span></span>
+<span id="cb108-3"><a href="data-visualisation-2.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpirate)</span></code></pre></div>
 <p>Below, we’ll make a pirate plot. Note that you only need the first two calls (lines 1-6) to create the plot: The first to set up how you’re going to map your data (and the source of your data), and the second to add the <code>geom</code> for the pirate plot itself. We added the aethetics of colour and fill to match our conditions within this call, so the two levels of <code>response_condition</code> have different colours.</p>
 <p>For the additional lines:</p>
 <ul>
@@ -503,106 +607,107 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Next, <code>theme</code> allows you to manually specify other aspects of how your plot should look. Here, we used <code>panel.grid.major.x</code> and set this to nothing (<code>element_blank()</code>) because we don’t need vertical lines in our plot.</li>
 <li>Finally, we define the colour and fill for our plot using manual hex values using the <code>scale_colour_manual()</code> and <code>scale_fill_manual()</code> functions.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
-                     <span class="dt">y =</span> reaction_time,
-                     <span class="dt">colour =</span> response_condition,
-                     <span class="dt">fill =</span> response_condition)
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_pirate</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Motor Skill&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Impaired&quot;</span>, <span class="st">&quot;Intact&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">600</span>), 
-                     <span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">0</span>, <span class="dt">to =</span> <span class="dv">600</span>, <span class="dt">by =</span> <span class="dv">100</span>)
-                     ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major.x =</span> <span class="kw">element_blank</span>()) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#af8dc3&quot;</span>, <span class="st">&quot;#7fbf7b&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#af8dc3&quot;</span>, <span class="st">&quot;#7fbf7b&quot;</span>))</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_pirate_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="data-visualisation-2.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb109-2"><a href="data-visualisation-2.html#cb109-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> response_condition, </span>
+<span id="cb109-3"><a href="data-visualisation-2.html#cb109-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> reaction_time,</span>
+<span id="cb109-4"><a href="data-visualisation-2.html#cb109-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">colour =</span> response_condition,</span>
+<span id="cb109-5"><a href="data-visualisation-2.html#cb109-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> response_condition)</span>
+<span id="cb109-6"><a href="data-visualisation-2.html#cb109-6" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb109-7"><a href="data-visualisation-2.html#cb109-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pirate</span>() <span class="sc">+</span></span>
+<span id="cb109-8"><a href="data-visualisation-2.html#cb109-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Motor Skill&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Reaction Time (ms)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb109-9"><a href="data-visualisation-2.html#cb109-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Impaired&quot;</span>, <span class="st">&quot;Intact&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb109-10"><a href="data-visualisation-2.html#cb109-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">600</span>), </span>
+<span id="cb109-11"><a href="data-visualisation-2.html#cb109-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">600</span>, <span class="at">by =</span> <span class="dv">100</span>)</span>
+<span id="cb109-12"><a href="data-visualisation-2.html#cb109-12" aria-hidden="true" tabindex="-1"></a>                     ) <span class="sc">+</span></span>
+<span id="cb109-13"><a href="data-visualisation-2.html#cb109-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb109-14"><a href="data-visualisation-2.html#cb109-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb109-15"><a href="data-visualisation-2.html#cb109-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#af8dc3&quot;</span>, <span class="st">&quot;#7fbf7b&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb109-16"><a href="data-visualisation-2.html#cb109-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#af8dc3&quot;</span>, <span class="st">&quot;#7fbf7b&quot;</span>))</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_pirate_plot-1.png" width="672" /></p>
 <p>In this plot, we have coloured bars and lines indicating the mean scores, a box representing the 95% confidence interval assuming a normal sampling distribution, violins indicating density, and the raw data points.</p>
 <p>If the 95% confidence interval between the two groups doesn’t overlap, we can be fairly sure there is a significant difference between the groups. So, here we can be fairly certain the two groups differ in reaction times.</p>
 </div>
-<div id="faceting" class="section level2">
+<div id="faceting" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Faceting</h2>
 <p>Another useful part of plotting in ggplot2 is that you can make facets of plots, or subplots. This is a good way to display your data if you have multiple categorical variables. Essentially, you’ll get a plot for each category in your data.</p>
-<div id="facet-wrap" class="section level3">
+<div id="facet-wrap" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Facet Wrap</h3>
 <p>If you want to create facets from one variable then use <code>facet_wrap()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
-                 <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
-                 ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>response_condition)</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_facet_wrap-1.png" width="672" /></p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="data-visualisation-2.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time)) <span class="sc">+</span></span>
+<span id="cb110-2"><a href="data-visualisation-2.html#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, </span>
+<span id="cb110-3"><a href="data-visualisation-2.html#cb110-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb110-4"><a href="data-visualisation-2.html#cb110-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb110-5"><a href="data-visualisation-2.html#cb110-5" aria-hidden="true" tabindex="-1"></a>                 ) <span class="sc">+</span></span>
+<span id="cb110-6"><a href="data-visualisation-2.html#cb110-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> response_condition)</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_facet_wrap-1.png" width="672" /></p>
 <p>In this plot, we’ve specified a histogram as we normally would. However, we use <code>facet_wrap()</code> and a tilde (<code>~</code>) to create a formula for how to display our plots. We define our variable with which to split our plots to the right of the <code>~</code>, and ggplot automatically plots the two separately at the same time. Notice that we get useful labels at the top of these plots, too.</p>
 </div>
-<div id="facet-grid" class="section level3">
+<div id="facet-grid" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Facet Grid</h3>
 <p>If we wanted to make a facet by two variables, then we would use <code>facet_grid()</code> instead. In this case, we just add each variable to either side of the <code>~</code> and ggplot will do the splitting for us.</p>
 <p>Let’s see how this works if we split our data by gender and response condition.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
-                 <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
-                 ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">facet_grid</span>(gender <span class="op">~</span><span class="st"> </span>response_condition)</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_facet_grid-1.png" width="672" /></p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="data-visualisation-2.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time)) <span class="sc">+</span></span>
+<span id="cb111-2"><a href="data-visualisation-2.html#cb111-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, </span>
+<span id="cb111-3"><a href="data-visualisation-2.html#cb111-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb111-4"><a href="data-visualisation-2.html#cb111-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb111-5"><a href="data-visualisation-2.html#cb111-5" aria-hidden="true" tabindex="-1"></a>                 ) <span class="sc">+</span></span>
+<span id="cb111-6"><a href="data-visualisation-2.html#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(gender <span class="sc">~</span> response_condition)</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_facet_grid-1.png" width="672" /></p>
 <p>The order in which you specify the two variables matters. Try swapping around between <code>facet_wrap(gender ~ response_condition)</code> and <code>facet_wrap(response_condition ~ gender)</code> to see how this works.</p>
 </div>
 </div>
-<div id="calculating-statisitcs-in-ggplot2" class="section level2">
+<div id="calculating-statisitcs-in-ggplot2" class="section level2" number="3.4">
 <h2><span class="header-section-number">3.4</span> Calculating Statisitcs in ggplot2</h2>
 <p>Sometimes, plotting just the means isn’t enough. We saw how useful the 95% confidence interval from <code>ggpirate</code> is for making inferences about the differences between groups. Nicely, we can get standard errors or confidence intervals around our data points within ggplot for other geoms.</p>
-<div id="means-and-error-bars" class="section level3">
+<div id="means-and-error-bars" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Means and Error Bars</h3>
 <p>Let’s say you wanted a bar plot with error bars showing the standard error. You can create this in ggplot using the <code>stat_summary()</code> function. In the first instance here, we tell it that we want to run the function <code>mean</code> over our data that make up the y-axis; hence <code>fun.y = mean</code>. We also need to specify which geom we want to return from this.</p>
-<p>Try changing the geom to <code>point</code> in the first <code>stat_summary()</code> call to see what happens when you run this plot with <code>geom = &quot;point&quot;</code>.</p>
-<p>Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is <code>fun.data = &quot;mean_se&quot;</code>. That’s because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the <code>width</code> argument to stop ggplot returning super wide error bars.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(
-         <span class="dt">x =</span> response_condition,
-         <span class="dt">y =</span> reaction_time, 
-         <span class="dt">fill =</span> response_condition
-         )
-       ) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> <span class="st">&quot;mean&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;bar&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.data =</span> <span class="st">&quot;mean_se&quot;</span>, <span class="dt">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="dt">width =</span> <span class="fl">0.25</span>)</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_error_bars-1.png" width="672" /></p>
+<p>Try changing the geom to <code>point</code> in the first <code>stat_summary()</code> call to see what happens when you run this plot with <code>geom = "point"</code>.</p>
+<p>Finally, we ask for another summary, but this time we want an error bar. So, for the geom call we request an error bar. Crucially, the function we require to get this errorbar is <code>fun.data = "mean_se"</code>. That’s because we need the mean to know where the centre the errorbar, and the standard error to get the limits of the bar. We manually changed the width of the bar to a quarter of the bar size using the <code>width</code> argument to stop ggplot returning super wide error bars.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="data-visualisation-2.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb112-2"><a href="data-visualisation-2.html#cb112-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb112-3"><a href="data-visualisation-2.html#cb112-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> response_condition,</span>
+<span id="cb112-4"><a href="data-visualisation-2.html#cb112-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> reaction_time, </span>
+<span id="cb112-5"><a href="data-visualisation-2.html#cb112-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> response_condition</span>
+<span id="cb112-6"><a href="data-visualisation-2.html#cb112-6" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb112-7"><a href="data-visualisation-2.html#cb112-7" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb112-8"><a href="data-visualisation-2.html#cb112-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">geom =</span> <span class="st">&quot;bar&quot;</span>) <span class="sc">+</span></span>
+<span id="cb112-9"><a href="data-visualisation-2.html#cb112-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">&quot;mean_se&quot;</span>, <span class="at">geom =</span> <span class="st">&quot;errorbar&quot;</span>, <span class="at">width =</span> <span class="fl">0.25</span>)</span></code></pre></div>
+<pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
+<p><img src="R-for-Psych_files/figure-html/3_error_bars-1.png" width="672" /></p>
 <p>I don’t often use <code>stat_summary</code> in my own plots, as I often want to know exactly how I’ve calculated things like the standard error. Doing things by hand allows you to change error bar sizes appropriately for within- and between-subject designs. But, this is useful if you want to create a plot rapidly, or want to avoid the hassle of writing extra code.</p>
 </div>
-<div id="model-fits" class="section level3">
+<div id="model-fits" class="section level3" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> Model Fits</h3>
 <p>Here’ we’ll switch again to a different data set that has two continuous variables. The <code>starwars</code> data set is useful for this exercise.</p>
 <p>We can use the <code>geom_smooth()</code> function to fit a model to our data. This defaults to a loess method, but we can change this to a linear model (or other alternatives) as in the second plot below. By default, these smoothed plots display a ribbon around the fit which indicates the confidence interval (95% by default).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove NA and mass above 1000</span>
-filtered_starwars &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">drop_na</span>(height, mass) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(mass <span class="op">&lt;</span><span class="st"> </span><span class="dv">1000</span>)
-
-<span class="co"># plot</span>
-<span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)
-       ) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>()</code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="data-visualisation-2.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove NA and mass above 1000</span></span>
+<span id="cb114-2"><a href="data-visualisation-2.html#cb114-2" aria-hidden="true" tabindex="-1"></a>filtered_starwars <span class="ot">&lt;-</span> starwars <span class="sc">%&gt;%</span> </span>
+<span id="cb114-3"><a href="data-visualisation-2.html#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(height, mass) <span class="sc">%&gt;%</span> </span>
+<span id="cb114-4"><a href="data-visualisation-2.html#cb114-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(mass <span class="sc">&lt;</span> <span class="dv">1000</span>)</span>
+<span id="cb114-5"><a href="data-visualisation-2.html#cb114-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-6"><a href="data-visualisation-2.html#cb114-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb114-7"><a href="data-visualisation-2.html#cb114-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars, </span>
+<span id="cb114-8"><a href="data-visualisation-2.html#cb114-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, <span class="at">y =</span> height)</span>
+<span id="cb114-9"><a href="data-visualisation-2.html#cb114-9" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb114-10"><a href="data-visualisation-2.html#cb114-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb114-11"><a href="data-visualisation-2.html#cb114-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<p><img src="R_for_Psych_files/figure-html/3_smooth_starwars-1.png" width="672" /></p>
-<p>Next, we’ll change the defaults in order to fit a linear model. We do this in the <code>geom_smooth</code> function, <code>method = &quot;lm&quot;</code>. We can additionally specify a function, so we can change how we fit the data. Currently, our formula is <code>y ~ x</code>, which is a regular linear model. We could, however, fit a quadratic function to the data by using <code>y ~ poly(x, 2)</code>. The function <code>poly(x, 2)</code> calculates orthogonal polynomials to a certain degree. The first being linear, second quadratic (think curved lines with 1 inflection point), the third cubic (think curved lines with 2 inflection points), etc.. For now, we’ll just fit the linear model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)
-       ) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x)</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_linear_starwars-1.png" width="672" /></p>
+<p><img src="R-for-Psych_files/figure-html/3_smooth_starwars-1.png" width="672" /></p>
+<p>Next, we’ll change the defaults in order to fit a linear model. We do this in the <code>geom_smooth</code> function, <code>method = "lm"</code>. We can additionally specify a function, so we can change how we fit the data. Currently, our formula is <code>y ~ x</code>, which is a regular linear model. We could, however, fit a quadratic function to the data by using <code>y ~ poly(x, 2)</code>. The function <code>poly(x, 2)</code> calculates orthogonal polynomials to a certain degree. The first being linear, second quadratic (think curved lines with 1 inflection point), the third cubic (think curved lines with 2 inflection points), etc.. For now, we’ll just fit the linear model.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="data-visualisation-2.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars, </span>
+<span id="cb116-2"><a href="data-visualisation-2.html#cb116-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, <span class="at">y =</span> height)</span>
+<span id="cb116-3"><a href="data-visualisation-2.html#cb116-3" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb116-4"><a href="data-visualisation-2.html#cb116-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb116-5"><a href="data-visualisation-2.html#cb116-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_linear_starwars-1.png" width="672" /></p>
 <p>Alternatively, if we have a fitted model saved from our analyses, we can add the fitted line directly using the <code>stat_summary</code> function. However, this requires some insight into the models fitted, so we’ll save this for later classes.</p>
 <p>Finally, we’ll look at how we can combine these smoothed fits with averages of scores. This is often useful if you’re looking at timecourse data and you want to summarise performance across a whole range of participants. We’ll also look at adding a few of the graphical flourishes from above to make the plot look really nice.</p>
 <p>Next, we’ll look at making the point and line points look a little better. For this, we’ll use the inbuilt <code>ChickWeight</code> data set from R. This is similar to the <code>chickwts</code> data set from the previous session, but crucially this data is not aggregaged across time. Instead, we have several measurements for the chicks at different time points. This makes this data especially nice for plotting changes over time in our sample.</p>
 <p>First, load the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(ChickWeight)</code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="data-visualisation-2.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ChickWeight)</span></code></pre></div>
 <p>Then we can see how the data looks. This data is stored as a data.frame, so we have to be careful when printing it out. We’ll use the <code>head()</code> function to get only the first 6 rows of data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ChickWeight)</code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="data-visualisation-2.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChickWeight)</span></code></pre></div>
 <pre><code>## Grouped Data: weight ~ Time | Chick
 ##   weight Time Chick Diet
 ## 1     42    0     1    1
@@ -623,158 +728,158 @@ filtered_starwars &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%
 <p>We’d expect that as time goes on, chick weights should increase. Also, we might expect that the rate of growth should differ for each diet. As such, we’ll plot this together using our data set.</p>
 <p>First, we’ll plot our chick data, using the <code>stat_summary()</code> function to plot some mean points for the chick weights, and the <code>geom_smooth()</code> function to fit a linear model to the data. We’ll make sure that the points, lines, and ribbons (indicating the confidence interval) are different colours for each level of the diet factor.</p>
 <p>We’re going to build up our plot bit by bit, so this time we can same our plot as an object, before returning the object to see the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chick_time_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> ChickWeight, <span class="co"># data</span>
-                          <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Time, <span class="co"># x-axis</span>
-                                        <span class="dt">y =</span> weight, <span class="co"># y-axis</span>
-                                        <span class="dt">colour =</span> Diet, <span class="co"># colour ID</span>
-                                        <span class="dt">fill =</span> Diet <span class="co"># fill ID</span>
-                                        )
-                          ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_summary</span>(<span class="dt">fun.y =</span> mean, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># point means</span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x) <span class="co"># linear fit</span>
-
-<span class="co"># return the plot</span>
-chick_time_plot</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_continuous_data_simple-1.png" width="672" /></p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="data-visualisation-2.html#cb120-1" aria-hidden="true" tabindex="-1"></a>chick_time_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> ChickWeight, <span class="co"># data</span></span>
+<span id="cb120-2"><a href="data-visualisation-2.html#cb120-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Time, <span class="co"># x-axis</span></span>
+<span id="cb120-3"><a href="data-visualisation-2.html#cb120-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">y =</span> weight, <span class="co"># y-axis</span></span>
+<span id="cb120-4"><a href="data-visualisation-2.html#cb120-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">colour =</span> Diet, <span class="co"># colour ID</span></span>
+<span id="cb120-5"><a href="data-visualisation-2.html#cb120-5" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">fill =</span> Diet <span class="co"># fill ID</span></span>
+<span id="cb120-6"><a href="data-visualisation-2.html#cb120-6" aria-hidden="true" tabindex="-1"></a>                                        )</span>
+<span id="cb120-7"><a href="data-visualisation-2.html#cb120-7" aria-hidden="true" tabindex="-1"></a>                          ) <span class="sc">+</span></span>
+<span id="cb120-8"><a href="data-visualisation-2.html#cb120-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>) <span class="sc">+</span> <span class="co"># point means</span></span>
+<span id="cb120-9"><a href="data-visualisation-2.html#cb120-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="co"># linear fit</span></span></code></pre></div>
+<pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="data-visualisation-2.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># return the plot</span></span>
+<span id="cb122-2"><a href="data-visualisation-2.html#cb122-2" aria-hidden="true" tabindex="-1"></a>chick_time_plot</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_continuous_data_simple-1.png" width="672" /></p>
 <p>We can improve this plot. So, let’s add some further information. What if we had a target weight we’d like our chickens to reach over time, and we want to see when each diet pushes chicks over this line?</p>
 <p>We can add this information by including a horizontal line using <code>geom_hline()</code>. We just need to specify where on the y-axis this line should go (<code>yintercept</code>), and which style we want for the line (<code>linetype</code>). We should also add an annotation to the line indicating what it represents. We can do this by using the <code>annotate</code> function, and specifying that we want a text geom. We need to specify the x and y values for where the text lies, and what the text should say.</p>
 <p>To add this to our original plot, we’ll overwrite the original plot name with itself, plus our additional arguments.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chick_time_plot &lt;-<span class="st"> </span>chick_time_plot <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">150</span>, <span class="dt">linetype =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="co"># horizontal line</span>
-<span class="st">  </span><span class="kw">annotate</span>(<span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="dv">158</span>, <span class="dt">label =</span> <span class="st">&quot;Target Weight&quot;</span>) <span class="co"># line label</span>
-
-<span class="co"># return the plot</span>
-chick_time_plot</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_continuous_data_pretty-1.png" width="672" /></p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="data-visualisation-2.html#cb123-1" aria-hidden="true" tabindex="-1"></a>chick_time_plot <span class="ot">&lt;-</span> chick_time_plot <span class="sc">+</span></span>
+<span id="cb123-2"><a href="data-visualisation-2.html#cb123-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">150</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="co"># horizontal line</span></span>
+<span id="cb123-3"><a href="data-visualisation-2.html#cb123-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">158</span>, <span class="at">label =</span> <span class="st">&quot;Target Weight&quot;</span>) <span class="co"># line label</span></span>
+<span id="cb123-4"><a href="data-visualisation-2.html#cb123-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-5"><a href="data-visualisation-2.html#cb123-5" aria-hidden="true" tabindex="-1"></a><span class="co"># return the plot</span></span>
+<span id="cb123-6"><a href="data-visualisation-2.html#cb123-6" aria-hidden="true" tabindex="-1"></a>chick_time_plot</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_continuous_data_pretty-1.png" width="672" /></p>
 <p>Finally, we can improve the general look of the plot by adding some additional arguments. We’ll specify the labels for the x and y axes using the <code>labs()</code> function.</p>
 <p>We’ll also specify the limits of the y-axis using the <code>coord_cartesian()</code> function and specifying the minimum and maximum values for the limits of the y-axis.</p>
 <p>Next, we’ll specify a general basic theme for the plot using the <code>theme_bw()</code> argument. We’ll change a minor detail of this theme, namely the position and style of the legend by specifying additional <code>theme()</code> arguments. This has to come after <code>theme_bw()</code> so <code>theme_bw()</code> doesn’t overwrite our additional arguments. First, we simply state the x and y locations for the legend by defining the <code>legend.position</code>. Next, we want a black border around our legend, so we do this by changing the <code>legend.background</code>. Here, we set colour (the outline) to black, with a relatively small line size (1), and a solid linetype.</p>
 <p>Finally, we can change the title of our legend if we’d like. The original title is quite informative, but it’s useful to know how to do this. Here, we use the <code>guides</code> function, and specify both the guide legend title using <code>guide_legend()</code> for both the <code>colour</code> and <code>fill</code> properties. It’s important to do this for both properties as our data is identified by colours on both of these properties. If we just change the title of one of the properties (e.g. fill), then we’ll have two legends!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chick_time_plot &lt;-<span class="st"> </span>chick_time_plot <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Trial&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Weight&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="co"># axis labels</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">300</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># range of y-axis</span>
-<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="co"># general theme</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="kw">c</span>(<span class="dt">x =</span> <span class="fl">0.15</span>, <span class="dt">y =</span> <span class="fl">0.8</span>), <span class="co"># position of legend</span>
-        <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">color =</span> <span class="st">&quot;black&quot;</span>,
-                                         <span class="dt">size =</span> <span class="dv">1</span>,
-                                         <span class="dt">linetype =</span> <span class="st">&quot;solid&quot;</span>
-                                         ) <span class="co"># legend styling</span>
-  ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">colour =</span> <span class="kw">guide_legend</span>(<span class="st">&quot;Experimental Diet&quot;</span>),
-         <span class="dt">fill =</span> <span class="kw">guide_legend</span>(<span class="st">&quot;Experimental Diet&quot;</span>)
-         ) <span class="co"># legend title</span>
-
-<span class="co"># return the plot</span>
-chick_time_plot</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_continuous_data_prettiest-1.png" width="672" /></p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="data-visualisation-2.html#cb124-1" aria-hidden="true" tabindex="-1"></a>chick_time_plot <span class="ot">&lt;-</span> chick_time_plot <span class="sc">+</span></span>
+<span id="cb124-2"><a href="data-visualisation-2.html#cb124-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Trial&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Weight&quot;</span>) <span class="sc">+</span> <span class="co"># axis labels</span></span>
+<span id="cb124-3"><a href="data-visualisation-2.html#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">300</span>)) <span class="sc">+</span> <span class="co"># range of y-axis</span></span>
+<span id="cb124-4"><a href="data-visualisation-2.html#cb124-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co"># general theme</span></span>
+<span id="cb124-5"><a href="data-visualisation-2.html#cb124-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="at">x =</span> <span class="fl">0.15</span>, <span class="at">y =</span> <span class="fl">0.8</span>), <span class="co"># position of legend</span></span>
+<span id="cb124-6"><a href="data-visualisation-2.html#cb124-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb124-7"><a href="data-visualisation-2.html#cb124-7" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb124-8"><a href="data-visualisation-2.html#cb124-8" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span></span>
+<span id="cb124-9"><a href="data-visualisation-2.html#cb124-9" aria-hidden="true" tabindex="-1"></a>                                         ) <span class="co"># legend styling</span></span>
+<span id="cb124-10"><a href="data-visualisation-2.html#cb124-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb124-11"><a href="data-visualisation-2.html#cb124-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="st">&quot;Experimental Diet&quot;</span>),</span>
+<span id="cb124-12"><a href="data-visualisation-2.html#cb124-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="st">&quot;Experimental Diet&quot;</span>)</span>
+<span id="cb124-13"><a href="data-visualisation-2.html#cb124-13" aria-hidden="true" tabindex="-1"></a>         ) <span class="co"># legend title</span></span>
+<span id="cb124-14"><a href="data-visualisation-2.html#cb124-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-15"><a href="data-visualisation-2.html#cb124-15" aria-hidden="true" tabindex="-1"></a><span class="co"># return the plot</span></span>
+<span id="cb124-16"><a href="data-visualisation-2.html#cb124-16" aria-hidden="true" tabindex="-1"></a>chick_time_plot</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_continuous_data_prettiest-1.png" width="672" /></p>
 </div>
 </div>
-<div id="combining-plots" class="section level2">
+<div id="combining-plots" class="section level2" number="3.5">
 <h2><span class="header-section-number">3.5</span> Combining Plots</h2>
 <p>Finally, while it’s all well and good plotting one model at a time, often if you’re writing a paper you want several plots together to save space. You could do this by hand in certain image editing packages, but luckily there’s a package for this on CRAN; <code>cowplot</code>. First, we need to install and load the package. Intall this by running the commented out code below. After that, load <code>cowplot</code> each time you want to use it.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;cowplot&quot;)</span>
-<span class="kw">library</span>(cowplot) <span class="co"># run this each time</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="data-visualisation-2.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;cowplot&quot;)</span></span>
+<span id="cb125-2"><a href="data-visualisation-2.html#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot) <span class="co"># run this each time</span></span></code></pre></div>
 <p>In order to stitch two plots together, we need to save our plots as objects so they’re available to the R environment. This is the same process we used above for the <code>ChickWeight</code> plots.</p>
 <p>If we assign our plotting code to an object, then every time we run the name of the object, we’ll get the output of that code back.</p>
 <p>For keeping several plots in my environemnt at once, I often save them to an object. In this instance, we’ll save a plot of just the points to the name <code>point_plot</code>. That’s because we want to overlay a linear fit and a quadratic fit on this plot separately, but we don’t want to type the full code out twice. Instead, we fit the plot of points to <code>point_plot</code>, then add a linear or quadratic fit by adding the <code>geom_smooth</code> argument to <code>point_plot</code> and saving both under new names. We can do this like so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a plot of points</span>
-point_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, 
-                     <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height)
-                     ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">300</span>))
-
-<span class="co"># create a linear plot by adding the fit to the plot of points</span>
-linear_plot &lt;-<span class="st">  </span>point_plot <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>x)</code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="data-visualisation-2.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a plot of points</span></span>
+<span id="cb126-2"><a href="data-visualisation-2.html#cb126-2" aria-hidden="true" tabindex="-1"></a>point_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars, </span>
+<span id="cb126-3"><a href="data-visualisation-2.html#cb126-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, <span class="at">y =</span> height)</span>
+<span id="cb126-4"><a href="data-visualisation-2.html#cb126-4" aria-hidden="true" tabindex="-1"></a>                     ) <span class="sc">+</span></span>
+<span id="cb126-5"><a href="data-visualisation-2.html#cb126-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb126-6"><a href="data-visualisation-2.html#cb126-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">300</span>))</span>
+<span id="cb126-7"><a href="data-visualisation-2.html#cb126-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-8"><a href="data-visualisation-2.html#cb126-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create a linear plot by adding the fit to the plot of points</span></span>
+<span id="cb126-9"><a href="data-visualisation-2.html#cb126-9" aria-hidden="true" tabindex="-1"></a>linear_plot <span class="ot">&lt;-</span>  point_plot <span class="sc">+</span> </span>
+<span id="cb126-10"><a href="data-visualisation-2.html#cb126-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span></code></pre></div>
 <p>When you do this, you won’t automatically see the plot once you run the code unless you run the object assigned to the plot. Let’s try this for a quadratic fit of the same data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a quadratic plot by adding the fit to the plot of points</span>
-quadratic_plot &lt;-<span class="st"> </span>point_plot <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(x, <span class="dv">2</span>)) <span class="co"># fit quadratic</span>
-  
-<span class="co"># return the plot</span>
-quadratic_plot</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_save_quadratic_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="data-visualisation-2.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a quadratic plot by adding the fit to the plot of points</span></span>
+<span id="cb127-2"><a href="data-visualisation-2.html#cb127-2" aria-hidden="true" tabindex="-1"></a>quadratic_plot <span class="ot">&lt;-</span> point_plot <span class="sc">+</span> </span>
+<span id="cb127-3"><a href="data-visualisation-2.html#cb127-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>)) <span class="co"># fit quadratic</span></span>
+<span id="cb127-4"><a href="data-visualisation-2.html#cb127-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb127-5"><a href="data-visualisation-2.html#cb127-5" aria-hidden="true" tabindex="-1"></a><span class="co"># return the plot</span></span>
+<span id="cb127-6"><a href="data-visualisation-2.html#cb127-6" aria-hidden="true" tabindex="-1"></a>quadratic_plot</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_save_quadratic_plot-1.png" width="672" /></p>
 <p>You can see that we’ve got the quadratic fit and the 95% confidence interval around this fit from the above code. Why does the plot look different to the base plots in ggplot2? <code>cowplot</code> loads some defaults for all plots outputted by <code>ggplot</code> to save you on typing out your own theme arguments.</p>
 <p>Now, we can combine these two plots into a single plot using the new functionalities from <code>cowplot</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">combined_plots &lt;-<span class="st"> </span><span class="kw">plot_grid</span>(linear_plot, 
-                            quadratic_plot, 
-                            <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="co"># label plots</span>
-                            <span class="dt">align =</span> <span class="st">&quot;h&quot;</span> <span class="co"># align axes</span>
-                            ) 
-combined_plots</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_combine_plots-1.png" width="672" /></p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="data-visualisation-2.html#cb128-1" aria-hidden="true" tabindex="-1"></a>combined_plots <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(linear_plot, </span>
+<span id="cb128-2"><a href="data-visualisation-2.html#cb128-2" aria-hidden="true" tabindex="-1"></a>                            quadratic_plot, </span>
+<span id="cb128-3"><a href="data-visualisation-2.html#cb128-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="co"># label plots</span></span>
+<span id="cb128-4"><a href="data-visualisation-2.html#cb128-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">align =</span> <span class="st">&quot;h&quot;</span> <span class="co"># align axes</span></span>
+<span id="cb128-5"><a href="data-visualisation-2.html#cb128-5" aria-hidden="true" tabindex="-1"></a>                            ) </span>
+<span id="cb128-6"><a href="data-visualisation-2.html#cb128-6" aria-hidden="true" tabindex="-1"></a>combined_plots</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_combine_plots-1.png" width="672" /></p>
 <p>What if we want a title for our plots? We first have to define our title with a combination of <code>ggdraw()</code> and <code>draw_label()</code>. Inside <code>draw_label()</code> we used a new function, <code>paste()</code> to paste two strings of text together (with a space between the two strings). We could simply input the entire string, but we broke it down into two bits so we don’t exceed the 80 character width limit from our style guide!</p>
 <p>We further specify a bold <code>fontface</code> in the <code>draw_label()</code> command outside our pasted title.</p>
 <p>Finally, we display the plot by creating a <code>plot_grid()</code> of our plot and the title in this order so the title displays underneath the plot. We specify that we just want 1 column so the plot and title are stacked together, and we specify the relative heights of the title and plot separately so that the title is smaller than the plot so it doesn’t take up an equal amount of space as the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create title</span>
-title &lt;-<span class="st"> </span><span class="kw">ggdraw</span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">draw_label</span>(<span class="kw">paste</span>(<span class="st">&quot;Linear (A) and Quadratic&quot;</span>,
-                   <span class="st">&quot;(B) fits of Height and Weight&quot;</span>
-                   ), 
-             <span class="dt">fontface =</span> <span class="st">&quot;bold&quot;</span>
-             )
-
-<span class="co"># print plot as a grid</span>
-combined_plots &lt;-<span class="st"> </span><span class="kw">plot_grid</span>(combined_plots, 
-                            title, 
-                            <span class="dt">ncol =</span> <span class="dv">1</span>, 
-                            <span class="dt">rel_heights =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.1</span>)
-                            )
-
-<span class="co"># return the combined plots</span>
-combined_plots</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/3_add_plot_title-1.png" width="672" /></p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="data-visualisation-2.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create title</span></span>
+<span id="cb129-2"><a href="data-visualisation-2.html#cb129-2" aria-hidden="true" tabindex="-1"></a>title <span class="ot">&lt;-</span> <span class="fu">ggdraw</span>() <span class="sc">+</span> </span>
+<span id="cb129-3"><a href="data-visualisation-2.html#cb129-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">draw_label</span>(<span class="fu">paste</span>(<span class="st">&quot;Linear (A) and Quadratic&quot;</span>,</span>
+<span id="cb129-4"><a href="data-visualisation-2.html#cb129-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;(B) fits of Height and Weight&quot;</span></span>
+<span id="cb129-5"><a href="data-visualisation-2.html#cb129-5" aria-hidden="true" tabindex="-1"></a>                   ), </span>
+<span id="cb129-6"><a href="data-visualisation-2.html#cb129-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span></span>
+<span id="cb129-7"><a href="data-visualisation-2.html#cb129-7" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb129-8"><a href="data-visualisation-2.html#cb129-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-9"><a href="data-visualisation-2.html#cb129-9" aria-hidden="true" tabindex="-1"></a><span class="co"># print plot as a grid</span></span>
+<span id="cb129-10"><a href="data-visualisation-2.html#cb129-10" aria-hidden="true" tabindex="-1"></a>combined_plots <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(combined_plots, </span>
+<span id="cb129-11"><a href="data-visualisation-2.html#cb129-11" aria-hidden="true" tabindex="-1"></a>                            title, </span>
+<span id="cb129-12"><a href="data-visualisation-2.html#cb129-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ncol =</span> <span class="dv">1</span>, </span>
+<span id="cb129-13"><a href="data-visualisation-2.html#cb129-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb129-14"><a href="data-visualisation-2.html#cb129-14" aria-hidden="true" tabindex="-1"></a>                            )</span>
+<span id="cb129-15"><a href="data-visualisation-2.html#cb129-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-16"><a href="data-visualisation-2.html#cb129-16" aria-hidden="true" tabindex="-1"></a><span class="co"># return the combined plots</span></span>
+<span id="cb129-17"><a href="data-visualisation-2.html#cb129-17" aria-hidden="true" tabindex="-1"></a>combined_plots</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/3_add_plot_title-1.png" width="672" /></p>
 <p>You can find further information on adding joint titles, annotations, etc. in <a href="https://htmlpreview.github.io/?https://github.com/wilkelab/cowplot/blob/master/inst/doc/plot_annotations.html">this article</a> by Claus O. Wilke.</p>
 <p>Note that you can reset the the default styles inherited by cowplot so that your plots return to their defaults with the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">theme_set</span>(<span class="kw">theme_gray</span>())</code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="data-visualisation-2.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_gray</span>())</span></code></pre></div>
 </div>
-<div id="saving-plots" class="section level2">
+<div id="saving-plots" class="section level2" number="3.6">
 <h2><span class="header-section-number">3.6</span> Saving Plots</h2>
 <p>Finally, if you’ve went to the work of producing a nice plot, then it’ll be useful to know how to save it somewhere. To save our combined plot of the linear and quadratic fits, we’ll use <code>ggsave()</code>. You can name your plot anything you like, but remember to add a file extension at the end. I’ve used .png as this format suffers from fewer artifacts when comapred to JPEG, and it’s a pretty common filetype.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggsave</span>(<span class="dt">filename =</span> <span class="st">&quot;outputs/starwars_mass_by_height.png&quot;</span>, 
-       <span class="dt">plot =</span> combined_plots
-       )</code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="data-visualisation-2.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;outputs/starwars_mass_by_height.png&quot;</span>, </span>
+<span id="cb131-2"><a href="data-visualisation-2.html#cb131-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot =</span> combined_plots</span>
+<span id="cb131-3"><a href="data-visualisation-2.html#cb131-3" aria-hidden="true" tabindex="-1"></a>       )</span></code></pre></div>
 <p>You can do a whole bunch of other things with ggplot, like adding vertical and horizontal lines (often useful for identifying chance performance in participants), and annotating plots directly (useful for adding statistics, or commenting on interesting sections of the data). We’ll cover these in the exercises, however, as these are just additional flavour to our plots!</p>
 </div>
-<div id="exercises-2" class="section level2">
+<div id="exercises-2" class="section level2" number="3.7">
 <h2><span class="header-section-number">3.7</span> Exercises</h2>
-<div id="main-exercises-1" class="section level3">
+<div id="main-exercises-1" class="section level3" number="3.7.1">
 <h3><span class="header-section-number">3.7.1</span> Main Exercises</h3>
 <p>If all this complexity hasn’t given you <a href="https://youtu.be/JidJV1ue1lI">nausea</a>, try out the exercises below. We’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary.</p>
 </div>
-<div id="question-1-2" class="section level3">
+<div id="question-1-2" class="section level3" number="3.7.2">
 <h3><span class="header-section-number">3.7.2</span> Question 1</h3>
 <p>Let’s assume we want to know if the density of the mean reaction times differs across word class within our items.</p>
 <p>Using the <code>lex_dec_items</code> data set, make a density plot of the word frequency by class. Save this plot as <code>lexical_density</code>, and output the plot.</p>
 </div>
-<div id="question-2-2" class="section level3">
+<div id="question-2-2" class="section level3" number="3.7.3">
 <h3><span class="header-section-number">3.7.3</span> Question 2</h3>
 <p>Add a black and white theme to your <code>lexical_density</code> plot. Next, give the axis labels and legend labels uppercase names. Finally, give your legend title the name Word Class. Assign all of this to a new object <code>lexical_density_improved</code>, and output your plot below.</p>
 <p><em>Note</em>: To change the legend labels, you need to use both <code>scale_fill_discrete</code> and <code>scale_colour_discrete</code>. Why do you think this is? Why don’t we just use <code>scale_x_discrete</code> as we did in class?</p>
 </div>
-<div id="question-3-2" class="section level3">
+<div id="question-3-2" class="section level3" number="3.7.4">
 <h3><span class="header-section-number">3.7.4</span> Question 3</h3>
 <p>There’s some repetition in the code for the plot above. Can you improve your code to remove that?</p>
 </div>
-<div id="question-4-2" class="section level3">
+<div id="question-4-2" class="section level3" number="3.7.5">
 <h3><span class="header-section-number">3.7.5</span> Question 4</h3>
 <p>Now we want to check the distribution of the reaction times depending on word class and the language spoken by our participants.</p>
 <p>Using the <code>lex_dec</code> data set, create a faceted plot that looks at the density of reaction times. This should be made up of a grid of densities split by native language and word class.</p>
 <p>Assign this to the object <code>rt_density</code> and output your plot.</p>
 </div>
-<div id="question-5-2" class="section level3">
+<div id="question-5-2" class="section level3" number="3.7.6">
 <h3><span class="header-section-number">3.7.6</span> Question 5</h3>
 <p>Now we want to explore if there’s any relationship between the mean reaction time to our items and the frequency of the item.</p>
 <p>Using the <code>lex_dec_items</code> data set, plot the relationship between word frequency and mean reaction time as a scatter plot. We want a fitted line and points for the mean reaction time.</p>
 </div>
-<div id="question-6-2" class="section level3">
+<div id="question-6-2" class="section level3" number="3.7.7">
 <h3><span class="header-section-number">3.7.7</span> Question 6</h3>
 <p>Now we want to know how many males and females took part in our experiment.</p>
 <p>Using the <code>lex_demog</code> data set, create a count of the number of males and females who took part in the experiment. Make all text in the plot uppercase, and make the plot theme black and white.</p>
 <p>Assign this to the object <code>gender_count</code> and output your plot.</p>
 </div>
-<div id="question-7-2" class="section level3">
+<div id="question-7-2" class="section level3" number="3.7.8">
 <h3><span class="header-section-number">3.7.8</span> Question 7</h3>
 <p>What if we want to know the mean age and distribution of ages split by language spoken and gender?</p>
 <p>Using the <code>lex_demog</code> data set, create a pirate plot of the ages by each gender. You can set the colour and fill to gender to have more colourful plot if you’d prefer.</p>
@@ -782,21 +887,21 @@ combined_plots</code></pre></div>
 <p>Assign this all to the object <code>demographic_age</code>, and output your plot.</p>
 <p>Can you see how a bar plot of the average ages might be misleading in this instance? Pay particular attention to the male bar for the other language group.</p>
 </div>
-<div id="question-8-2" class="section level3">
+<div id="question-8-2" class="section level3" number="3.7.9">
 <h3><span class="header-section-number">3.7.9</span> Question 8</h3>
 <p>Next, we want to see the mean (and standard error) of reaction times to words with different word frequencies.</p>
 <p>Using the <code>lex_dec</code> data set, create a scatter plot of the reaction time by word frequency. We would like this split by word class.</p>
 <p><em>Hint</em>: Be sure to use the <code>stat_summary</code> function to get pointranges that represent the mean and standard error.</p>
 <p>Assign this to the object <code>rt_pointrange</code>, and output your plot.</p>
 </div>
-<div id="question-9-2" class="section level3">
+<div id="question-9-2" class="section level3" number="3.7.10">
 <h3><span class="header-section-number">3.7.10</span> Question 9</h3>
 <p>Finally, we want to show a few of our graphs in one display.</p>
 <p>Using the cowplot library, stitch together the plots for question 6, 7, 4, and 8.</p>
 <p>Add the labels A-D to identify each plot.</p>
 <p>Save these plots under the object <code>combined_plots</code> and return your combined plots.</p>
 </div>
-<div id="additional-exercise-1" class="section level3">
+<div id="additional-exercise-1" class="section level3" number="3.7.11">
 <h3><span class="header-section-number">3.7.11</span> Additional Exercise</h3>
 <p>We can improve the combined plots above.</p>
 <p>Add a (short) simple title to your combined plots, and save this plot in the outputs folder.</p>
@@ -814,13 +919,14 @@ combined_plots</code></pre></div>
 <a href="data-manipulation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -828,12 +934,12 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -844,9 +950,24 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
 }
 });
 });
@@ -857,10 +978,11 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

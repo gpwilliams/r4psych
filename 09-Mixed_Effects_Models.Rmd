@@ -562,9 +562,22 @@ However, to avoid loading more packages, we can use the normal approximation to 
 
 Here, we look up the *p*-value that matches the absolute (non-signed) *t*-value for our parameters in the normal distribution. Then we subtract that value from 1 to get the probability of a *t*-value exceeding the one we have, and multiply that by 2 to get a two-tailed *p*-value.
 
+We'll first ensure we have the `broom.mixed` function loaded to tidy up our model results from `lme4`. This can be installed like all packages from CRAN using:
+
+```{r install-broom-mixed, eval = FALSE}
+install.packages("broom.mixed") # install broom.mixed
+library(broom.mixed) # load broom.mixed
+```
+
+```{r load-broom-mixed, echo = FALSE}
+library(broom.mixed) # load broom.mixed
+```
+
+Then we can tidy up our `lme4` output and calculate *p*-values using the normal approximation as follows:
+
 ```{r}
 lexdec_mod %>% 
-  broom::tidy("fixed") %>% 
+  tidy("fixed") %>% 
   mutate(p_value = 2*(1 - pnorm(abs(statistic))))
 ```
 

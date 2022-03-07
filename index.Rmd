@@ -1,15 +1,23 @@
 --- 
 title: "R for Psych"
 author: "Glenn Williams"
-date: "`r Sys.Date()`"
+date: "2018-08-31 (last updated: `r Sys.Date()`)"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+output: 
+  bookdown::pdf_book:
+      template: null
+  bookdown::gitbook:
+    lib_dir: assets
+    config:
+      toolbar:
+        position: static
+  output:
 documentclass: book
 bibliography: [references.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: gpwilliams/r4psych
-url: 'http\://glennwilliams.me/r4psych/'
+url: 'https\://glennwilliams.me/r4psych/'
 description: "An introduction to data management and analysis for psychological research using R."
 ---
 

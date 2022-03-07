@@ -1,45 +1,47 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>R for Psych</title>
-  <meta name="description" content="An introduction to data management and analysis for psychological research using R.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Data Visualisation 1 | R for Psych</title>
+  <meta name="description" content="An introduction to data management and analysis for psychological research using R." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R for Psych" />
+  <meta property="og:title" content="Chapter 2 Data Visualisation 1 | R for Psych" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="http://glennwilliams.me/r4psych/" />
+  <meta property="og:url" content="https://glennwilliams.me/r4psych/" />
   
   <meta property="og:description" content="An introduction to data management and analysis for psychological research using R." />
   <meta name="github-repo" content="gpwilliams/r4psych" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R for Psych" />
+  <meta name="twitter:title" content="Chapter 2 Data Visualisation 1 | R for Psych" />
   
   <meta name="twitter:description" content="An introduction to data management and analysis for psychological research using R." />
   
 
-<meta name="author" content="Glenn Williams">
+<meta name="author" content="Glenn Williams" />
 
 
-<meta name="date" content="2018-08-31">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="introduction.html">
-<link rel="next" href="data-visualisation-2.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="data-visualisation-2.html"/>
+<script src="assets/header-attrs-2.11/header-attrs.js"></script>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,6 +49,9 @@
 
 
 
+
+<link href="assets/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117777827-1"></script>
 <script>
@@ -59,41 +64,91 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -113,17 +168,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface &amp; Overview</a></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#installation-and-setup"><i class="fa fa-check"></i><b>1.1</b> Installation and Setup</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#working-directory-and-file-paths"><i class="fa fa-check"></i><b>1.2</b> Working Directory and File Paths</a></li>
 <li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#packages"><i class="fa fa-check"></i><b>1.3</b> Packages</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction.html"><a href="introduction.html#objects-and-functions"><i class="fa fa-check"></i><b>1.4</b> Objects and Functions</a></li>
 <li class="chapter" data-level="1.5" data-path="introduction.html"><a href="introduction.html#creating-and-accessing-data"><i class="fa fa-check"></i><b>1.5</b> Creating and Accessing Data</a></li>
-<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a><ul>
+<li class="chapter" data-level="1.6" data-path="introduction.html"><a href="introduction.html#good-practice"><i class="fa fa-check"></i><b>1.6</b> Good Practice</a>
+<ul>
 <li class="chapter" data-level="1.6.1" data-path="introduction.html"><a href="introduction.html#data-checking-tips"><i class="fa fa-check"></i><b>1.6.1</b> Data Checking Tips</a></li>
 <li class="chapter" data-level="1.6.2" data-path="introduction.html"><a href="introduction.html#style"><i class="fa fa-check"></i><b>1.6.2</b> Style</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a><ul>
+<li class="chapter" data-level="1.7" data-path="introduction.html"><a href="introduction.html#exercises"><i class="fa fa-check"></i><b>1.7</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="1.7.1" data-path="introduction.html"><a href="introduction.html#question-1"><i class="fa fa-check"></i><b>1.7.1</b> Question 1</a></li>
 <li class="chapter" data-level="1.7.2" data-path="introduction.html"><a href="introduction.html#question-2"><i class="fa fa-check"></i><b>1.7.2</b> Question 2</a></li>
 <li class="chapter" data-level="1.7.3" data-path="introduction.html"><a href="introduction.html#question-3"><i class="fa fa-check"></i><b>1.7.3</b> Question 3</a></li>
@@ -138,21 +196,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.7.12" data-path="introduction.html"><a href="introduction.html#question-12"><i class="fa fa-check"></i><b>1.7.12</b> Question 12</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html"><i class="fa fa-check"></i><b>2</b> Data Visualisation 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#getting-started"><i class="fa fa-check"></i><b>2.1</b> Getting Started</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#the-star-wars-tibble"><i class="fa fa-check"></i><b>2.1.1</b> The Star Wars Tibble</a></li>
 <li class="chapter" data-level="2.1.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#plotting-in-ggplot2"><i class="fa fa-check"></i><b>2.1.2</b> Plotting in ggplot2</a></li>
 <li class="chapter" data-level="2.1.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#cleaning-before-plotting"><i class="fa fa-check"></i><b>2.1.3</b> Cleaning Before Plotting</a></li>
 <li class="chapter" data-level="2.1.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#changing-your-aesthetics"><i class="fa fa-check"></i><b>2.1.4</b> Changing Your Aesthetics</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a><ul>
+<li class="chapter" data-level="2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exploring-different-geoms"><i class="fa fa-check"></i><b>2.2</b> Exploring Different Geoms</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#bar-plots"><i class="fa fa-check"></i><b>2.2.1</b> Bar Plots</a></li>
 <li class="chapter" data-level="2.2.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#box-plots"><i class="fa fa-check"></i><b>2.2.2</b> Box Plots</a></li>
 <li class="chapter" data-level="2.2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#violin-plots"><i class="fa fa-check"></i><b>2.2.3</b> Violin Plots</a></li>
 <li class="chapter" data-level="2.2.4" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#density-plots"><i class="fa fa-check"></i><b>2.2.4</b> Density Plots</a></li>
 <li class="chapter" data-level="2.2.5" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#histograms"><i class="fa fa-check"></i><b>2.2.5</b> Histograms</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a><ul>
+<li class="chapter" data-level="2.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#exercises-1"><i class="fa fa-check"></i><b>2.3</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="2.3.1" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#main-exercises"><i class="fa fa-check"></i><b>2.3.1</b> Main Exercises</a></li>
 <li class="chapter" data-level="2.3.2" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-1-1"><i class="fa fa-check"></i><b>2.3.2</b> Question 1</a></li>
 <li class="chapter" data-level="2.3.3" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#question-2-1"><i class="fa fa-check"></i><b>2.3.3</b> Question 2</a></li>
@@ -167,20 +229,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.3.12" data-path="data-visualisation-1.html"><a href="data-visualisation-1.html#additional-exercise"><i class="fa fa-check"></i><b>2.3.12</b> Additional Exercise</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a><ul>
+<li class="chapter" data-level="3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html"><i class="fa fa-check"></i><b>3</b> Data Visualisation 2</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#customising-your-plots"><i class="fa fa-check"></i><b>3.1</b> Customising Your Plots</a></li>
 <li class="chapter" data-level="3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#pirate-plots"><i class="fa fa-check"></i><b>3.2</b> Pirate Plots</a></li>
-<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a><ul>
+<li class="chapter" data-level="3.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#faceting"><i class="fa fa-check"></i><b>3.3</b> Faceting</a>
+<ul>
 <li class="chapter" data-level="3.3.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-wrap"><i class="fa fa-check"></i><b>3.3.1</b> Facet Wrap</a></li>
 <li class="chapter" data-level="3.3.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#facet-grid"><i class="fa fa-check"></i><b>3.3.2</b> Facet Grid</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a><ul>
+<li class="chapter" data-level="3.4" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#calculating-statisitcs-in-ggplot2"><i class="fa fa-check"></i><b>3.4</b> Calculating Statisitcs in ggplot2</a>
+<ul>
 <li class="chapter" data-level="3.4.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#means-and-error-bars"><i class="fa fa-check"></i><b>3.4.1</b> Means and Error Bars</a></li>
 <li class="chapter" data-level="3.4.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#model-fits"><i class="fa fa-check"></i><b>3.4.2</b> Model Fits</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#combining-plots"><i class="fa fa-check"></i><b>3.5</b> Combining Plots</a></li>
 <li class="chapter" data-level="3.6" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#saving-plots"><i class="fa fa-check"></i><b>3.6</b> Saving Plots</a></li>
-<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a><ul>
+<li class="chapter" data-level="3.7" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#exercises-2"><i class="fa fa-check"></i><b>3.7</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="3.7.1" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#main-exercises-1"><i class="fa fa-check"></i><b>3.7.1</b> Main Exercises</a></li>
 <li class="chapter" data-level="3.7.2" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-1-2"><i class="fa fa-check"></i><b>3.7.2</b> Question 1</a></li>
 <li class="chapter" data-level="3.7.3" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#question-2-2"><i class="fa fa-check"></i><b>3.7.3</b> Question 2</a></li>
@@ -194,24 +260,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.7.11" data-path="data-visualisation-2.html"><a href="data-visualisation-2.html#additional-exercise-1"><i class="fa fa-check"></i><b>3.7.11</b> Additional Exercise</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a><ul>
+<li class="chapter" data-level="4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html"><i class="fa fa-check"></i><b>4</b> Data Manipulation 1</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#getting-started-1"><i class="fa fa-check"></i><b>4.1</b> Getting Started</a></li>
-<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a><ul>
+<li class="chapter" data-level="4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#data-formats"><i class="fa fa-check"></i><b>4.2</b> Data Formats</a>
+<ul>
 <li class="chapter" data-level="4.2.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#loading-data"><i class="fa fa-check"></i><b>4.2.1</b> Loading Data</a></li>
 <li class="chapter" data-level="4.2.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#wide-and-long-data"><i class="fa fa-check"></i><b>4.2.2</b> Wide and Long Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a><ul>
+<li class="chapter" data-level="4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#reformatting-data"><i class="fa fa-check"></i><b>4.3</b> Reformatting Data</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#gathering-data"><i class="fa fa-check"></i><b>4.3.1</b> Gathering Data</a></li>
 <li class="chapter" data-level="4.3.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#separating-columns"><i class="fa fa-check"></i><b>4.3.2</b> Separating Columns</a></li>
 <li class="chapter" data-level="4.3.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#spreading-data"><i class="fa fa-check"></i><b>4.3.3</b> Spreading Data</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a><ul>
+<li class="chapter" data-level="4.4" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#joins"><i class="fa fa-check"></i><b>4.4</b> Joins</a>
+<ul>
 <li class="chapter" data-level="4.4.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#mutating-joins"><i class="fa fa-check"></i><b>4.4.1</b> Mutating Joins</a></li>
 <li class="chapter" data-level="4.4.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#filtering-joins"><i class="fa fa-check"></i><b>4.4.2</b> Filtering Joins</a></li>
 <li class="chapter" data-level="4.4.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#binding-joins"><i class="fa fa-check"></i><b>4.4.3</b> Binding Joins</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-unique-and-duplicate-information"><i class="fa fa-check"></i><b>4.5</b> Checking for Unique and Duplicate Information</a></li>
-<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#exercises-3"><i class="fa fa-check"></i><b>4.6</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="4.6.1" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#introduction-and-setup"><i class="fa fa-check"></i><b>4.6.1</b> Introduction and Setup</a></li>
 <li class="chapter" data-level="4.6.2" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#long-and-wide-data"><i class="fa fa-check"></i><b>4.6.2</b> Long and Wide Data</a></li>
 <li class="chapter" data-level="4.6.3" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#uniting-and-separating-columns"><i class="fa fa-check"></i><b>4.6.3</b> Uniting and Separating Columns</a></li>
@@ -221,15 +292,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.6.7" data-path="data-manipulation-1.html"><a href="data-manipulation-1.html#checking-for-duplicates"><i class="fa fa-check"></i><b>4.6.7</b> Checking for Duplicates</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a><ul>
+<li class="chapter" data-level="5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html"><i class="fa fa-check"></i><b>5</b> Data Manipulation 2</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#getting-started-2"><i class="fa fa-check"></i><b>5.1</b> Getting Started</a></li>
 <li class="chapter" data-level="5.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#understanding-our-data"><i class="fa fa-check"></i><b>5.2</b> Understanding our Data</a></li>
 <li class="chapter" data-level="5.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#preparing-our-data"><i class="fa fa-check"></i><b>5.3</b> Preparing our Data</a></li>
-<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a><ul>
+<li class="chapter" data-level="5.4" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#selecting-columns"><i class="fa fa-check"></i><b>5.4</b> Selecting Columns</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#renaming-and-reordering-columns"><i class="fa fa-check"></i><b>5.4.1</b> Renaming and Reordering Columns</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#creating-and-changing-columns"><i class="fa fa-check"></i><b>5.5</b> Creating and Changing Columns</a></li>
-<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a><ul>
+<li class="chapter" data-level="5.6" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-to-observations"><i class="fa fa-check"></i><b>5.6</b> Filtering to Observations</a>
+<ul>
 <li class="chapter" data-level="5.6.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#filtering-with-logical-operations"><i class="fa fa-check"></i><b>5.6.1</b> Filtering with Logical Operations</a></li>
 <li class="chapter" data-level="5.6.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#combining-filtering-criteria"><i class="fa fa-check"></i><b>5.6.2</b> Combining Filtering Criteria</a></li>
 <li class="chapter" data-level="5.6.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#removing-by-ceriteria"><i class="fa fa-check"></i><b>5.6.3</b> Removing by Ceriteria</a></li>
@@ -237,15 +311,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="5.7" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#arranging-data"><i class="fa fa-check"></i><b>5.7</b> Arranging Data</a></li>
 <li class="chapter" data-level="5.8" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#summarising-data"><i class="fa fa-check"></i><b>5.8</b> Summarising Data</a></li>
-<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a><ul>
+<li class="chapter" data-level="5.9" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#grouping-data"><i class="fa fa-check"></i><b>5.9</b> Grouping Data</a>
+<ul>
 <li class="chapter" data-level="5.9.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#ungrouping-data"><i class="fa fa-check"></i><b>5.9.1</b> Ungrouping Data</a></li>
 </ul></li>
 <li class="chapter" data-level="5.10" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#chaining-many-functions"><i class="fa fa-check"></i><b>5.10</b> Chaining Many Functions</a></li>
-<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a><ul>
+<li class="chapter" data-level="5.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#saving-data"><i class="fa fa-check"></i><b>5.11</b> Saving Data</a>
+<ul>
 <li class="chapter" data-level="5.11.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#csv-files"><i class="fa fa-check"></i><b>5.11.1</b> CSV Files</a></li>
 <li class="chapter" data-level="5.11.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#r-data-files"><i class="fa fa-check"></i><b>5.11.2</b> R Data Files</a></li>
 </ul></li>
-<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a><ul>
+<li class="chapter" data-level="5.12" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#exercises-4"><i class="fa fa-check"></i><b>5.12</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="5.12.1" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-1-4"><i class="fa fa-check"></i><b>5.12.1</b> Question 1</a></li>
 <li class="chapter" data-level="5.12.2" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-2-4"><i class="fa fa-check"></i><b>5.12.2</b> Question 2</a></li>
 <li class="chapter" data-level="5.12.3" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-3-4"><i class="fa fa-check"></i><b>5.12.3</b> Question 3</a></li>
@@ -259,26 +336,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.12.11" data-path="data-manipulation-2.html"><a href="data-manipulation-2.html#question-11-1"><i class="fa fa-check"></i><b>5.12.11</b> Question 11</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a><ul>
+<li class="chapter" data-level="6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html"><i class="fa fa-check"></i><b>6</b> Simple Statistical Tests</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#getting-started-3"><i class="fa fa-check"></i><b>6.1</b> Getting Started</a></li>
-<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a><ul>
+<li class="chapter" data-level="6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#correlation"><i class="fa fa-check"></i><b>6.2</b> Correlation</a>
+<ul>
 <li class="chapter" data-level="6.2.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#analysing-real-data"><i class="fa fa-check"></i><b>6.2.1</b> Analysing Real Data</a></li>
 <li class="chapter" data-level="6.2.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#checking-assumptions"><i class="fa fa-check"></i><b>6.2.2</b> Checking Assumptions</a></li>
 <li class="chapter" data-level="6.2.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#running-a-correlation"><i class="fa fa-check"></i><b>6.2.3</b> Running a Correlation</a></li>
 </ul></li>
-<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a><ul>
+<li class="chapter" data-level="6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#t-tests"><i class="fa fa-check"></i><b>6.3</b> <em>t</em>-tests</a>
+<ul>
 <li class="chapter" data-level="6.3.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-sample-t-tests"><i class="fa fa-check"></i><b>6.3.1</b> One-Sample <em>t</em>-tests</a></li>
 <li class="chapter" data-level="6.3.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#independent-samples-t-tests"><i class="fa fa-check"></i><b>6.3.2</b> Independent-Samples <em>t</em>-tests</a></li>
 <li class="chapter" data-level="6.3.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#paired-samples-t-tests"><i class="fa fa-check"></i><b>6.3.3</b> Paired-Samples <em>t</em>-tests</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a><ul>
+<li class="chapter" data-level="6.4" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#anova"><i class="fa fa-check"></i><b>6.4</b> ANOVA</a>
+<ul>
 <li class="chapter" data-level="6.4.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#one-way-anova"><i class="fa fa-check"></i><b>6.4.1</b> One-Way ANOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a><ul>
+<li class="chapter" data-level="6.5" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#linear-regression"><i class="fa fa-check"></i><b>6.5</b> Linear Regression</a>
+<ul>
 <li class="chapter" data-level="6.5.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#general-linear-model"><i class="fa fa-check"></i><b>6.5.1</b> General Linear Model</a></li>
 <li class="chapter" data-level="6.5.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#generalised-linear-model"><i class="fa fa-check"></i><b>6.5.2</b> Generalised Linear Model</a></li>
 </ul></li>
-<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#exercises-5"><i class="fa fa-check"></i><b>6.6</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="6.6.1" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-1-5"><i class="fa fa-check"></i><b>6.6.1</b> Question 1</a></li>
 <li class="chapter" data-level="6.6.2" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-2-5"><i class="fa fa-check"></i><b>6.6.2</b> Question 2</a></li>
 <li class="chapter" data-level="6.6.3" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-3-5"><i class="fa fa-check"></i><b>6.6.3</b> Question 3</a></li>
@@ -291,24 +374,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="6.6.10" data-path="simple-statistical-tests.html"><a href="simple-statistical-tests.html#question-10-4"><i class="fa fa-check"></i><b>6.6.10</b> Question 10</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests</a><ul>
+<li class="chapter" data-level="7" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html"><i class="fa fa-check"></i><b>7</b> Advanced Statistical Tests</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#getting-started-4"><i class="fa fa-check"></i><b>7.1</b> Getting Started</a></li>
-<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-analyses"><i class="fa fa-check"></i><b>7.2</b> Multilevel Analyses</a><ul>
+<li class="chapter" data-level="7.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-analyses"><i class="fa fa-check"></i><b>7.2</b> Multilevel Analyses</a>
+<ul>
 <li class="chapter" data-level="7.2.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#preparation-of-data"><i class="fa fa-check"></i><b>7.2.1</b> Preparation of Data</a></li>
 <li class="chapter" data-level="7.2.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-regression"><i class="fa fa-check"></i><b>7.2.2</b> Multilevel Regression</a></li>
 <li class="chapter" data-level="7.2.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multilevel-anova"><i class="fa fa-check"></i><b>7.2.3</b> Multilevel ANOVA</a></li>
 <li class="chapter" data-level="7.2.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-contrasts"><i class="fa fa-check"></i><b>7.2.4</b> Multiple Contrasts</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.3</b> Multifactorial Analyses</a><ul>
+<li class="chapter" data-level="7.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-analyses"><i class="fa fa-check"></i><b>7.3</b> Multifactorial Analyses</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multifactorial-anova"><i class="fa fa-check"></i><b>7.3.1</b> Multifactorial ANOVA</a></li>
 <li class="chapter" data-level="7.3.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#multiple-regression"><i class="fa fa-check"></i><b>7.3.2</b> Multiple Regression</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-analyses"><i class="fa fa-check"></i><b>7.4</b> Mixed Analyses</a><ul>
+<li class="chapter" data-level="7.4" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-analyses"><i class="fa fa-check"></i><b>7.4</b> Mixed Analyses</a>
+<ul>
 <li class="chapter" data-level="7.4.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-linear-models"><i class="fa fa-check"></i><b>7.4.1</b> Mixed Linear Models</a></li>
 <li class="chapter" data-level="7.4.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#mixed-anova"><i class="fa fa-check"></i><b>7.4.2</b> Mixed ANOVA</a></li>
 </ul></li>
 <li class="chapter" data-level="7.5" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#a-note-on-sum-of-squares"><i class="fa fa-check"></i><b>7.5</b> A Note on Sum of Squares</a></li>
-<li class="chapter" data-level="7.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#exercises-6"><i class="fa fa-check"></i><b>7.6</b> Exercises</a><ul>
+<li class="chapter" data-level="7.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#exercises-6"><i class="fa fa-check"></i><b>7.6</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="7.6.1" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-1-6"><i class="fa fa-check"></i><b>7.6.1</b> Question 1</a></li>
 <li class="chapter" data-level="7.6.2" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-2-6"><i class="fa fa-check"></i><b>7.6.2</b> Question 2</a></li>
 <li class="chapter" data-level="7.6.3" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-3-6"><i class="fa fa-check"></i><b>7.6.3</b> Question 3</a></li>
@@ -317,21 +405,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="7.6.6" data-path="advanced-statistical-tests.html"><a href="advanced-statistical-tests.html#question-6-6"><i class="fa fa-check"></i><b>7.6.6</b> Question 6</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a><ul>
+<li class="chapter" data-level="8" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html"><i class="fa fa-check"></i><b>8</b> Simulation and Calculating Power</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#getting-started-5"><i class="fa fa-check"></i><b>8.1</b> Getting Started</a></li>
-<li class="chapter" data-level="8.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#simulating-data"><i class="fa fa-check"></i><b>8.2</b> Simulating Data</a><ul>
+<li class="chapter" data-level="8.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#simulating-data"><i class="fa fa-check"></i><b>8.2</b> Simulating Data</a>
+<ul>
 <li class="chapter" data-level="8.2.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-uniform-distribution"><i class="fa fa-check"></i><b>8.2.1</b> The Uniform Distribution</a></li>
 <li class="chapter" data-level="8.2.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-normal-distribution"><i class="fa fa-check"></i><b>8.2.2</b> The Normal Distribution</a></li>
 <li class="chapter" data-level="8.2.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#the-binomial-distribution"><i class="fa fa-check"></i><b>8.2.3</b> The Binomial Distribution</a></li>
 <li class="chapter" data-level="8.2.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-sampling"><i class="fa fa-check"></i><b>8.2.4</b> Flexible Sampling</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#sampling-for-inference"><i class="fa fa-check"></i><b>8.3</b> Sampling for Inference</a><ul>
+<li class="chapter" data-level="8.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#sampling-for-inference"><i class="fa fa-check"></i><b>8.3</b> Sampling for Inference</a>
+<ul>
 <li class="chapter" data-level="8.3.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-p-values-and-type-i-errors"><i class="fa fa-check"></i><b>8.3.1</b> Understanding p-values and Type-I Errors</a></li>
 <li class="chapter" data-level="8.3.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#understanding-power-and-type-ii-errors"><i class="fa fa-check"></i><b>8.3.2</b> Understanding Power and Type-II Errors</a></li>
 <li class="chapter" data-level="8.3.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#flexible-power-analyses-with-simulation"><i class="fa fa-check"></i><b>8.3.3</b> Flexible Power Analyses with Simulation</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#performing-power-analyses-from-packages"><i class="fa fa-check"></i><b>8.4</b> Performing Power Analyses from Packages</a></li>
-<li class="chapter" data-level="8.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#exercises-7"><i class="fa fa-check"></i><b>8.5</b> Exercises</a><ul>
+<li class="chapter" data-level="8.5" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#exercises-7"><i class="fa fa-check"></i><b>8.5</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="8.5.1" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#introduction-and-setup-1"><i class="fa fa-check"></i><b>8.5.1</b> Introduction and Setup</a></li>
 <li class="chapter" data-level="8.5.2" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-1-7"><i class="fa fa-check"></i><b>8.5.2</b> Question 1</a></li>
 <li class="chapter" data-level="8.5.3" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-2-7"><i class="fa fa-check"></i><b>8.5.3</b> Question 2</a></li>
@@ -344,27 +436,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.5.10" data-path="simulation-and-calculating-power.html"><a href="simulation-and-calculating-power.html#question-9-6"><i class="fa fa-check"></i><b>8.5.10</b> Question 9</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a><ul>
+<li class="chapter" data-level="9" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html"><i class="fa fa-check"></i><b>9</b> Mixed Effects Models</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#getting-started-6"><i class="fa fa-check"></i><b>9.1</b> Getting Started</a></li>
 <li class="chapter" data-level="9.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#why-mixed-effects-models"><i class="fa fa-check"></i><b>9.2</b> Why Mixed Effects Models</a></li>
-<li class="chapter" data-level="9.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#how-do-mixed-effects-models-work"><i class="fa fa-check"></i><b>9.3</b> How Do Mixed Effects Models Work?</a><ul>
+<li class="chapter" data-level="9.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#how-do-mixed-effects-models-work"><i class="fa fa-check"></i><b>9.3</b> How Do Mixed Effects Models Work?</a>
+<ul>
 <li class="chapter" data-level="9.3.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#fixed-and-random-effects"><i class="fa fa-check"></i><b>9.3.1</b> Fixed and Random Effects</a></li>
 <li class="chapter" data-level="9.3.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#specifying-your-random-effects-structure"><i class="fa fa-check"></i><b>9.3.2</b> Specifying your Random Effects Structure</a></li>
 <li class="chapter" data-level="9.3.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#partial-pooling-of-data"><i class="fa fa-check"></i><b>9.3.3</b> Partial-Pooling of Data</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#interpreting-mixed-effects-model-output"><i class="fa fa-check"></i><b>9.4</b> Interpreting Mixed Effects Model Output</a><ul>
+<li class="chapter" data-level="9.4" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#interpreting-mixed-effects-model-output"><i class="fa fa-check"></i><b>9.4</b> Interpreting Mixed Effects Model Output</a>
+<ul>
 <li class="chapter" data-level="9.4.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#calculating-p-values-for-parameter-estimates"><i class="fa fa-check"></i><b>9.4.1</b> Calculating p-values for Parameter Estimates</a></li>
 <li class="chapter" data-level="9.4.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#model-selection"><i class="fa fa-check"></i><b>9.4.2</b> Model Selection</a></li>
 <li class="chapter" data-level="9.4.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#failure-to-converge-what-should-i-do"><i class="fa fa-check"></i><b>9.4.3</b> Failure to Converge: What Should I Do?</a></li>
 </ul></li>
 <li class="chapter" data-level="9.5" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#test-assumptions"><i class="fa fa-check"></i><b>9.5</b> Test Assumptions</a></li>
 <li class="chapter" data-level="9.6" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#generalised-mixed-effects-models"><i class="fa fa-check"></i><b>9.6</b> Generalised Mixed Effects Models</a></li>
-<li class="chapter" data-level="9.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#a-note-on-power-effect-sizes-and-pairwise-comparisons"><i class="fa fa-check"></i><b>9.7</b> A Note on Power, Effect Sizes, and Pairwise Comparisons</a><ul>
+<li class="chapter" data-level="9.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#a-note-on-power-effect-sizes-and-pairwise-comparisons"><i class="fa fa-check"></i><b>9.7</b> A Note on Power, Effect Sizes, and Pairwise Comparisons</a>
+<ul>
 <li class="chapter" data-level="9.7.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#power"><i class="fa fa-check"></i><b>9.7.1</b> Power</a></li>
 <li class="chapter" data-level="9.7.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#effect-sizes"><i class="fa fa-check"></i><b>9.7.2</b> Effect Sizes</a></li>
 <li class="chapter" data-level="9.7.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#pairwise-comparisons"><i class="fa fa-check"></i><b>9.7.3</b> Pairwise Comparisons</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#exercises-8"><i class="fa fa-check"></i><b>9.8</b> Exercises</a><ul>
+<li class="chapter" data-level="9.8" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#exercises-8"><i class="fa fa-check"></i><b>9.8</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="9.8.1" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-1-8"><i class="fa fa-check"></i><b>9.8.1</b> Question 1</a></li>
 <li class="chapter" data-level="9.8.2" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-2-8"><i class="fa fa-check"></i><b>9.8.2</b> Question 2</a></li>
 <li class="chapter" data-level="9.8.3" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-3-8"><i class="fa fa-check"></i><b>9.8.3</b> Question 3</a></li>
@@ -374,29 +471,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9.8.7" data-path="mixed-effects-models.html"><a href="mixed-effects-models.html#question-7-7"><i class="fa fa-check"></i><b>9.8.7</b> Question 7</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html"><i class="fa fa-check"></i><b>10</b> Reporting Reproducible Research</a><ul>
+<li class="chapter" data-level="10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html"><i class="fa fa-check"></i><b>10</b> Reporting Reproducible Research</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#getting-started-7"><i class="fa fa-check"></i><b>10.1</b> Getting Started</a></li>
-<li class="chapter" data-level="10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-reproducible-documents"><i class="fa fa-check"></i><b>10.2</b> Creating Reproducible Documents</a><ul>
+<li class="chapter" data-level="10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-reproducible-documents"><i class="fa fa-check"></i><b>10.2</b> Creating Reproducible Documents</a>
+<ul>
 <li class="chapter" data-level="10.2.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#creating-a-reproducible-report"><i class="fa fa-check"></i><b>10.2.1</b> Creating a Reproducible Report</a></li>
 <li class="chapter" data-level="10.2.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#folder-structure-for-reproducible-analyses"><i class="fa fa-check"></i><b>10.2.2</b> Folder Structure for Reproducible Analyses</a></li>
 <li class="chapter" data-level="10.2.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#using-r-markdown-templates"><i class="fa fa-check"></i><b>10.2.3</b> Using R Markdown Templates</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#open-science"><i class="fa fa-check"></i><b>10.3</b> Open Science</a></li>
 <li class="chapter" data-level="10.4" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#what-to-report"><i class="fa fa-check"></i><b>10.4</b> What to Report</a></li>
-<li class="chapter" data-level="10.5" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#effect-sizes-1"><i class="fa fa-check"></i><b>10.5</b> Effect Sizes</a><ul>
+<li class="chapter" data-level="10.5" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#effect-sizes-1"><i class="fa fa-check"></i><b>10.5</b> Effect Sizes</a>
+<ul>
 <li class="chapter" data-level="10.5.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#cohens-d-and-pearsons-r"><i class="fa fa-check"></i><b>10.5.1</b> Cohen’s d and Pearson’s r</a></li>
 <li class="chapter" data-level="10.5.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#calculating-effect-sizes"><i class="fa fa-check"></i><b>10.5.2</b> Calculating Effect Sizes</a></li>
 </ul></li>
 <li class="chapter" data-level="10.6" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#confidence-intervals"><i class="fa fa-check"></i><b>10.6</b> Confidence Intervals</a></li>
-<li class="chapter" data-level="10.7" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#evaluating-evidence-for-the-null-hypothesis"><i class="fa fa-check"></i><b>10.7</b> Evaluating Evidence for the Null Hypothesis</a><ul>
+<li class="chapter" data-level="10.7" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#evaluating-evidence-for-the-null-hypothesis"><i class="fa fa-check"></i><b>10.7</b> Evaluating Evidence for the Null Hypothesis</a>
+<ul>
 <li class="chapter" data-level="10.7.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#independent-samples-tost"><i class="fa fa-check"></i><b>10.7.1</b> Independent Samples TOST</a></li>
 </ul></li>
-<li class="chapter" data-level="10.8" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#understanding-problematic-design-choices"><i class="fa fa-check"></i><b>10.8</b> Understanding Problematic Design Choices</a><ul>
+<li class="chapter" data-level="10.8" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#understanding-problematic-design-choices"><i class="fa fa-check"></i><b>10.8</b> Understanding Problematic Design Choices</a>
+<ul>
 <li class="chapter" data-level="10.8.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#optional-stopping-without-correction"><i class="fa fa-check"></i><b>10.8.1</b> Optional Stopping (Without Correction)</a></li>
 <li class="chapter" data-level="10.8.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#bad-hypotheses"><i class="fa fa-check"></i><b>10.8.2</b> Bad Hypotheses</a></li>
 </ul></li>
 <li class="chapter" data-level="10.9" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#the-final-lesson"><i class="fa fa-check"></i><b>10.9</b> The Final Lesson</a></li>
-<li class="chapter" data-level="10.10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#exercises-9"><i class="fa fa-check"></i><b>10.10</b> Exercises</a><ul>
+<li class="chapter" data-level="10.10" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#exercises-9"><i class="fa fa-check"></i><b>10.10</b> Exercises</a>
+<ul>
 <li class="chapter" data-level="10.10.1" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-1-9"><i class="fa fa-check"></i><b>10.10.1</b> Question 1</a></li>
 <li class="chapter" data-level="10.10.2" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-2-9"><i class="fa fa-check"></i><b>10.10.2</b> Question 2</a></li>
 <li class="chapter" data-level="10.10.3" data-path="reporting-reproducible-research.html"><a href="reporting-reproducible-research.html#question-3-9"><i class="fa fa-check"></i><b>10.10.3</b> Question 3</a></li>
@@ -427,43 +530,43 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-visualisation-1" class="section level1">
+<div id="data-visualisation-1" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data Visualisation 1</h1>
-<p>In this session we’ll look at data visualisation using the <strong>ggplot2</strong> package <span class="citation">(Wickham <a href="#ref-R-ggplot2">2009</a>)</span> from the tidyverse <span class="citation">(Wickham <a href="#ref-R-tidyverse">2017</a>)</span>. As with most R stats courses, we’re focusing on data visualisation early on as this allows you to get a good grasp of your data and any general patterns within those data prior running any inferential tests.</p>
+<p>In this session we’ll look at data visualisation using the <strong>ggplot2</strong> package <span class="citation">(<a href="#ref-R-ggplot2" role="doc-biblioref">Wickham et al. 2021</a>)</span> from the tidyverse <span class="citation">(<a href="#ref-R-tidyverse" role="doc-biblioref">Wickham 2021</a>)</span>. As with most R stats courses, we’re focusing on data visualisation early on as this allows you to get a good grasp of your data and any general patterns within those data prior running any inferential tests.</p>
 <p>We’ll follow Hadley Wickham’s approach in <a href="http://r4ds.had.co.nz/data-visualisation.html">R for Data Science</a> by getting you working on producing some pretty graphs from the outset to see how <code>ggplot()</code> works. After that, we’ll look at how ggplot can handle several data types. Along the way, we’ll add some customisation to our graphs so you can see the flexibility of this package.</p>
-<div id="getting-started" class="section level2">
+<div id="getting-started" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Getting Started</h2>
 <p>First, we’ll load the packages necessary for this class. Nicely, ggplot2 is part of the tidyverse family, so we don’t need to load this separately to the other packages in our library.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="data-visualisation-1.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <p>Sorry to have made you create your own data frames before, but R and it’s packages often come with in-built data sets. We’ll use the <code>starwars</code> data set from <code>dplyr()</code> which loaded with the <code>tidyverse</code> package. Why star wars? It’s convenient, and I’m a big nerd, so indulge me. Because this is built into R, you won’t see it in your Data pane in the <strong>Global Environment</strong>. That doesn’t matter for us, but rest assured it is there. Let’s get a sense of how this data looks. How about printing the first 10 entries?</p>
-<div id="the-star-wars-tibble" class="section level3">
+<div id="the-star-wars-tibble" class="section level3" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> The Star Wars Tibble</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># look at first 10 entries</span>
-starwars</code></pre></div>
-<pre><code>## # A tibble: 87 x 13
-##    name     height  mass hair_color skin_color eye_color birth_year gender
-##    &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Luke Sk~    172    77 blond      fair       blue            19   male  
-##  2 C-3PO       167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-##  3 R2-D2        96    32 &lt;NA&gt;       white, bl~ red             33   &lt;NA&gt;  
-##  4 Darth V~    202   136 none       white      yellow          41.9 male  
-##  5 Leia Or~    150    49 brown      light      brown           19   female
-##  6 Owen La~    178   120 brown, gr~ light      blue            52   male  
-##  7 Beru Wh~    165    75 brown      light      blue            47   female
-##  8 R5-D4        97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-##  9 Biggs D~    183    84 black      light      brown           24   male  
-## 10 Obi-Wan~    182    77 auburn, w~ fair       blue-gray       57   male  
-## # ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
-## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="data-visualisation-1.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># look at first 10 entries</span></span>
+<span id="cb81-2"><a href="data-visualisation-1.html#cb81-2" aria-hidden="true" tabindex="-1"></a>starwars</span></code></pre></div>
+<pre><code>## # A tibble: 87 × 14
+##    name     height  mass hair_color skin_color eye_color birth_year sex   gender homeworld
+##    &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    
+##  1 Luke Sk…    172    77 blond      fair       blue            19   male  mascu… Tatooine 
+##  2 C-3PO       167    75 &lt;NA&gt;       gold       yellow         112   none  mascu… Tatooine 
+##  3 R2-D2        96    32 &lt;NA&gt;       white, bl… red             33   none  mascu… Naboo    
+##  4 Darth V…    202   136 none       white      yellow          41.9 male  mascu… Tatooine 
+##  5 Leia Or…    150    49 brown      light      brown           19   fema… femin… Alderaan 
+##  6 Owen La…    178   120 brown, gr… light      blue            52   male  mascu… Tatooine 
+##  7 Beru Wh…    165    75 brown      light      blue            47   fema… femin… Tatooine 
+##  8 R5-D4        97    32 &lt;NA&gt;       white, red red             NA   none  mascu… Tatooine 
+##  9 Biggs D…    183    84 black      light      brown           24   male  mascu… Tatooine 
+## 10 Obi-Wan…    182    77 auburn, w… fair       blue-gray       57   male  mascu… Stewjon  
+## # … with 77 more rows, and 4 more variables: species &lt;chr&gt;, films &lt;list&gt;,
+## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
 <p>I know that the starwars data set is saved as a tibble. That allowed me to just print its name to see the first 10 entries. But be wary of this with large data sets where you don’t know how it’s stored. You don’t want to flood your console if your data is stored as a <code>data.frame</code>!</p>
 <p>Let’s plot the mass and height of our characters against each other to see if there’s a trend.</p>
 </div>
-<div id="plotting-in-ggplot2" class="section level3">
+<div id="plotting-in-ggplot2" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Plotting in ggplot2</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> starwars) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, <span class="dt">y =</span> height))</code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="data-visualisation-1.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> starwars) <span class="sc">+</span></span>
+<span id="cb83-2"><a href="data-visualisation-1.html#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, <span class="at">y =</span> height))</span></code></pre></div>
 <pre><code>## Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
-<p><img src="R_for_Psych_files/figure-html/2_simple_point_plot-1.png" width="672" /></p>
+<p><img src="R-for-Psych_files/figure-html/2_simple_point_plot-1.png" width="672" /></p>
 <p>So, we can see just how easy it is to create a plot of points in ggplot. Well done! There seems to be a positive relationship between mass and height in the starwars data set. We also got a couple of surprises:</p>
 <ol style="list-style-type: decimal">
 <li>A warning about 28 rows that contain missing values;</li>
@@ -481,59 +584,58 @@ starwars</code></pre></div>
 </ol>
 <p>Let’s see the flexibility of your aesthetics in action.</p>
 </div>
-<div id="cleaning-before-plotting" class="section level3">
+<div id="cleaning-before-plotting" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Cleaning Before Plotting</h3>
 <p>We saw before that R gave us a warning that we have rows containing missing values. In this instance, this just means that 28 people weren’t plotted because they didn’t have height and/or mass values. I’ll save filtering data properly (and what the <code>%&gt;%</code> (read pipe) symbol does) for another lesson, but we’ll get rid of them for now by running this code, below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars &lt;-<span class="st"> </span>starwars <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">drop_na</span>(height, mass)</code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="data-visualisation-1.html#cb85-1" aria-hidden="true" tabindex="-1"></a>filtered_starwars <span class="ot">&lt;-</span> starwars <span class="sc">%&gt;%</span> </span>
+<span id="cb85-2"><a href="data-visualisation-1.html#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(height, mass)</span></code></pre></div>
 </div>
-<div id="changing-your-aesthetics" class="section level3">
+<div id="changing-your-aesthetics" class="section level3" number="2.1.4">
 <h3><span class="header-section-number">2.1.4</span> Changing Your Aesthetics</h3>
 <p>Let’s say we’re interested in showing the relationship between mass and height within genders. How can we do this? One way would be to add colour to our the points on the plot in order to highlight the different genders.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
-                           <span class="dt">y =</span> height, 
-                           <span class="dt">colour =</span> gender
-                           )
-             )</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_simple_point_plot_with_colour-1.png" width="672" /></p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="data-visualisation-1.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars) <span class="sc">+</span></span>
+<span id="cb86-2"><a href="data-visualisation-1.html#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, </span>
+<span id="cb86-3"><a href="data-visualisation-1.html#cb86-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> height, </span>
+<span id="cb86-4"><a href="data-visualisation-1.html#cb86-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> gender</span>
+<span id="cb86-5"><a href="data-visualisation-1.html#cb86-5" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb86-6"><a href="data-visualisation-1.html#cb86-6" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_simple_point_plot_with_colour-1.png" width="672" /></p>
 <p>We don’t get that warning now that we removed the NAs and passed the filtered data as an argument. That wasn’t really necessary as ggplot can handle that for us, but it stops the horrible warning from popping up!</p>
 <p>Warnings in R are there to tell you that the output of your code may not contain what you wanted it to contain. In the previous plot, ggplot dropped those with missing heights and masses, even though we didn’t explictly tell it to do so. Here, because we filtered those entried with missing values before plotting, we don’t get a warning.</p>
 <p>Warnings are different to errors in that your code will still work, but you need to check out whether it did what you wanted it to do. On the other hand, errors indicate you did something wrong and your code will fail to run.</p>
 <p>Now, we now have colour to see the relationship between mass and height across the genders in the data set. But it’s a little difficult to see this relationship given the outlier. Let’s see what that outlier is, and whether we should remove it from our data.</p>
 <p>Again, you’ll learn how this filtering works in later lessons. But for now, I just want to show you how it’s useful to understand your data prior to creating a final plot of your data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_starwars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 13
-##   name     height  mass hair_color skin_color  eye_color birth_year gender
-##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-## 1 Jabba D~    175  1358 &lt;NA&gt;       green-tan,~ orange           600 herma~
-## # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
-## #   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># overwrite data to remove outlier (keep all with mass below 1000)</span>
-<span class="co"># filtered_starwars &lt;- filtered_starwars %&gt;% filter(mass &lt; 1000) # not run</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="data-visualisation-1.html#cb87-1" aria-hidden="true" tabindex="-1"></a>filtered_starwars <span class="sc">%&gt;%</span> <span class="fu">filter</span>(mass <span class="sc">&gt;</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 14
+##   name      height  mass hair_color skin_color eye_color birth_year sex   gender homeworld
+##   &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    
+## 1 Jabba De…    175  1358 &lt;NA&gt;       green-tan… orange           600 herm… mascu… Nal Hutta
+## # … with 4 more variables: species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="data-visualisation-1.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overwrite data to remove outlier (keep all with mass below 1000)</span></span>
+<span id="cb89-2"><a href="data-visualisation-1.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="co"># filtered_starwars &lt;- filtered_starwars %&gt;% filter(mass &lt; 1000) # not run</span></span></code></pre></div>
 <p>Of course, it’s Jabba the Hutt. We could choose to throw Jabba out of our data by using the code above to overwrite the data (commented out), but for now, we’ll see just how powerful ggplot is without throwing away our data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
-                           <span class="dt">y =</span> height, 
-                           <span class="dt">colour =</span> gender
-                           )
-             ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_replot_point_plot_with_colour-1.png" width="672" /></p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="data-visualisation-1.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars) <span class="sc">+</span></span>
+<span id="cb90-2"><a href="data-visualisation-1.html#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, </span>
+<span id="cb90-3"><a href="data-visualisation-1.html#cb90-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> height, </span>
+<span id="cb90-4"><a href="data-visualisation-1.html#cb90-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> gender</span>
+<span id="cb90-5"><a href="data-visualisation-1.html#cb90-5" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb90-6"><a href="data-visualisation-1.html#cb90-6" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
+<span id="cb90-7"><a href="data-visualisation-1.html#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_replot_point_plot_with_colour-1.png" width="672" /></p>
 <p>This time we added a function <code>coord_cartesian()</code> to the end of our <code>ggplot()</code> call. We defined the limits of the x axis to be between 0 and 180. This way, we can get a better look at the trends in our data.</p>
 <p>Why do we define limits inside this function? Well, we could have also manually defined the scale with <code>scale_x_continuous(limits = c(0, 180))</code>. This may seem more inuitive, but it throws out the data points outside the limits prior to plotting. Why is this a problem? ggplot has some nice functionalities such as drawing lines of best fit for you based on the data in the plot. If you throw data away while plotting, your line of best fit will shift. So, if you decide that you want to change your scale but keep your model fits for all data, use <code>coord_cartesian()</code>.</p>
 <p>Given this is an outlier, your choice doesn’t matter if you’re just trying to show trends like this, but your choice is important if you want to show any inferential statistics associated with the data.</p>
 <p>Next up, we’ll look at changing a few components of the points on the plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
-                           <span class="dt">y =</span> height, 
-                           <span class="dt">colour =</span> gender
-                           ),
-             <span class="dt">alpha =</span> <span class="fl">0.7</span>, <span class="co"># opacity</span>
-             <span class="dt">shape =</span> <span class="dv">17</span>, <span class="co"># triangles</span>
-             <span class="dt">size =</span> <span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="co"># bigger points</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_adding_constant_visual_changes_to_plots-1.png" width="672" /></p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="data-visualisation-1.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars) <span class="sc">+</span></span>
+<span id="cb91-2"><a href="data-visualisation-1.html#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, </span>
+<span id="cb91-3"><a href="data-visualisation-1.html#cb91-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> height, </span>
+<span id="cb91-4"><a href="data-visualisation-1.html#cb91-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> gender</span>
+<span id="cb91-5"><a href="data-visualisation-1.html#cb91-5" aria-hidden="true" tabindex="-1"></a>                           ),</span>
+<span id="cb91-6"><a href="data-visualisation-1.html#cb91-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="co"># opacity</span></span>
+<span id="cb91-7"><a href="data-visualisation-1.html#cb91-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">17</span>, <span class="co"># triangles</span></span>
+<span id="cb91-8"><a href="data-visualisation-1.html#cb91-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span> <span class="co"># bigger points</span></span>
+<span id="cb91-9"><a href="data-visualisation-1.html#cb91-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_adding_constant_visual_changes_to_plots-1.png" width="672" /></p>
 <p>We’ve added 3 variables outside of the <code>aes()</code> mapping. This means that all of the points within the plot are changed in the same way:</p>
 <ol style="list-style-type: decimal">
 <li>They all become a little bit transparent through the <code>alpha</code> variable definition;</li>
@@ -542,14 +644,14 @@ starwars</code></pre></div>
 </ol>
 <p>If we put these variables within the <code>aes()</code> mappings and associated them with a variable within the data set, such as <code>gender</code>, then each point would be affected differently depending on which level of the gender factor the individual data points belong to. It’s important to remember that everything within <code>aes()</code> is mapped onto variables with which to display your data. So, the x location, y location, and anything else that you define within <code>aes()</code> can vary by your data set. Everything outside of it will affect all levels of your data.</p>
 <p>Here, we’ll define colour both within and outside the <code>aes()</code> mapping, causing a clash. Try this plot below to see how clashes are resolved in ggplot:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
-                           <span class="dt">y =</span> height, 
-                           <span class="dt">colour =</span> gender
-                           ),
-             <span class="dt">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_clashes_with_aes_and_constants_within_plots-1.png" width="672" /></p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="data-visualisation-1.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars) <span class="sc">+</span></span>
+<span id="cb92-2"><a href="data-visualisation-1.html#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, </span>
+<span id="cb92-3"><a href="data-visualisation-1.html#cb92-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> height, </span>
+<span id="cb92-4"><a href="data-visualisation-1.html#cb92-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> gender</span>
+<span id="cb92-5"><a href="data-visualisation-1.html#cb92-5" aria-hidden="true" tabindex="-1"></a>                           ),</span>
+<span id="cb92-6"><a href="data-visualisation-1.html#cb92-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb92-7"><a href="data-visualisation-1.html#cb92-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_clashes_with_aes_and_constants_within_plots-1.png" width="672" /></p>
 <p>The different colours for each level of gender are now gone, along with the legend! Our variable definition for <code>colour</code> outside of the <code>aes()</code> mappings overrides that within <code>aes()</code>. This is because we’ve manually set the aesthetic properties of our plot by defining colour as an argument of the geom function, rather than of the aethetic mapping.</p>
 <p>R has some built in shapes that we can define within our plots. For shapes, these are divided into three categories:</p>
 <ul>
@@ -559,57 +661,57 @@ starwars</code></pre></div>
 </ul>
 <p>Bear in mind that colour and fill are different properties that we can control within our plots. Below, I’ve used hex values to specify the exact colours that I’d like for the colour (around the border) and the fill for our points. You can find a nice hex selector at <a href="http://htmlcolorcodes.com/">htmlcolorcodes.com</a> which will allow you to customise your plot colours to your liking. Just change the letters and numbers after the <code>#</code> in the <code>colour</code> call, and you can change the colours to your liking.</p>
 <p>In the example below I chose my colours based on the diverging colourblind safe selection of colours from <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">Color Brewer</a>. I’d recommend that you use this if you’re going to include colour in any plots for papers/presentations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
-                           <span class="dt">y =</span> height, 
-                           <span class="dt">colour =</span> gender
-                           ),
-             <span class="dt">colour =</span> <span class="st">&quot;#af8dc3&quot;</span>,
-             <span class="dt">fill =</span> <span class="st">&quot;#7fbf7b&quot;</span>,
-             <span class="dt">shape =</span> <span class="dv">21</span>,
-             <span class="dt">size =</span> <span class="dv">8</span>,
-             <span class="dt">stroke =</span> <span class="dv">3</span>
-             ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_colour_and_fill-1.png" width="672" /></p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="data-visualisation-1.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars, <span class="at">na.rm =</span> T) <span class="sc">+</span></span>
+<span id="cb93-2"><a href="data-visualisation-1.html#cb93-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, </span>
+<span id="cb93-3"><a href="data-visualisation-1.html#cb93-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> height, </span>
+<span id="cb93-4"><a href="data-visualisation-1.html#cb93-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> gender</span>
+<span id="cb93-5"><a href="data-visualisation-1.html#cb93-5" aria-hidden="true" tabindex="-1"></a>                           ),</span>
+<span id="cb93-6"><a href="data-visualisation-1.html#cb93-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;#af8dc3&quot;</span>,</span>
+<span id="cb93-7"><a href="data-visualisation-1.html#cb93-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">&quot;#7fbf7b&quot;</span>,</span>
+<span id="cb93-8"><a href="data-visualisation-1.html#cb93-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb93-9"><a href="data-visualisation-1.html#cb93-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">8</span>,</span>
+<span id="cb93-10"><a href="data-visualisation-1.html#cb93-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">stroke =</span> <span class="dv">3</span></span>
+<span id="cb93-11"><a href="data-visualisation-1.html#cb93-11" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
+<span id="cb93-12"><a href="data-visualisation-1.html#cb93-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_colour_and_fill-1.png" width="672" /></p>
 <p>Try to mess about with the different definitions that we provided above. Change the colour, size, and stroke values to see how these variables work.</p>
 <p>We’ve used the aesthetics above to define categorical data by colour. But what happens if we use continuous data?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> filtered_starwars, <span class="dt">na.rm =</span> T) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> mass, 
-                           <span class="dt">y =</span> height, 
-                           <span class="dt">colour =</span> birth_year
-                           )
-             ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_colour_gradient-1.png" width="672" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="data-visualisation-1.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars, <span class="at">na.rm =</span> T) <span class="sc">+</span></span>
+<span id="cb94-2"><a href="data-visualisation-1.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, </span>
+<span id="cb94-3"><a href="data-visualisation-1.html#cb94-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> height, </span>
+<span id="cb94-4"><a href="data-visualisation-1.html#cb94-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> birth_year</span>
+<span id="cb94-5"><a href="data-visualisation-1.html#cb94-5" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb94-6"><a href="data-visualisation-1.html#cb94-6" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
+<span id="cb94-7"><a href="data-visualisation-1.html#cb94-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_colour_gradient-1.png" width="672" /></p>
 <p>You can see that we get a sliding scale for the hue of the points. Pretty neat, but also quite difficult to get a real idea of where on the scale the points lie.</p>
 <p>There are many inbuilt plots that you can create with ggplot2 by mapping your data to different geoms. To get an idea of all of different types of geoms, type <code>??geom</code>. This should give you an index of all of the geom types available to ggplot2 in your Help pane of RStudio.</p>
 </div>
 </div>
-<div id="exploring-different-geoms" class="section level2">
+<div id="exploring-different-geoms" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Exploring Different Geoms</h2>
 <p>You’ve already learned about <code>geom_point()</code> above, but now we’ll explore the other geom types.</p>
 <p>For this exploration, we’ll use a different data set with a limited number of groups for ease of visualisation. I’ve simulated some data for this exercise. You can find this data in the inputs folder for this lesson. (If you’re interested, you can also find the script for generating this data in the data_generation folder).</p>
 <p>Let’s load this data into R. Here, we use the function <code>read_csv</code> rather than the base R <code>read.csv</code>. This is because <code>read_csv</code> is faster, typically does a better job at guessing the data types for your columns of data, and saves the output as a tibble.</p>
 <p><em>Note</em>: <code>read_csv</code> will try to guess the types of data in each column for a data set loaded into R, but sometimes it can fail. We’ll cover instances where this fails, and how to remedy it, in the next lesson.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rt_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="data-visualisation-1.html#cb95-1" aria-hidden="true" tabindex="-1"></a>rt_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/rt_data.csv&quot;</span>)</span></code></pre></div>
 <p>How should we interpret this data? Imagine that we ran a lexical decision task on two groups of participants. In one condition, participants responded to sentences such as <em>“Eric turned down the volume”</em>, and had to indicate whether this sentence made sense by turning a knob. In the match condition, agreement matched the motion indicated in the sentence (e.g. left = yes, it makes sense), and in the mismatch condition agreement did not match the motion indicated in the sentence (e.g. right = yes, it makes sense). <a href="http://psycnet.apa.org/record/2006-01956-001">Zwaan and Taylor (2006, Experiment 4)</a> hypothesised that when the action and response are matched, resposne times should be quicker than if they do not match.</p>
 <p>The <code>participant</code> column indicates individual participants, the <code>gender</code> column indicates the gender of our participants, <code>response_condition</code> indicates whether participants took part in the match or mismatch conditions, and <code>reaction_time</code>, our dependent variable, represents the average reaction time in milliseconds for each participant to respond to whether or not the sentences made sense.</p>
-<div id="bar-plots" class="section level3">
+<div id="bar-plots" class="section level3" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Bar Plots</h3>
 <p>Bar plots are one of the most common plots you’ll come across in Psychology. They’re most useful for representing counts of data that are divided into categories. For example, you could use a bar plot to show the number of male and female participants in your study. Using our simulated data set, we can use a bar plot to show the counts of males and females in our data set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> gender)
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_bar_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="data-visualisation-1.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb96-2"><a href="data-visualisation-1.html#cb96-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender)</span>
+<span id="cb96-3"><a href="data-visualisation-1.html#cb96-3" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb96-4"><a href="data-visualisation-1.html#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_bar_plot-1.png" width="672" /></p>
 <p>You’ll often find that psychologists like to plot continuous data in a bar plot. I’ve done this myself, but we can do better. One alternative would be to use a boxplot, a violin plot, or even a pirate plot which we’ll explore in the next lesson (well, we are plotting with Rrrrrrrrr…).</p>
 <p>Since we’ve got data which represents mean scores for each participant, this will be suitable for plotting straight away. If, however, you have raw data, remember to aggregate by participants or items prior to plotting. We’ll cover this in later classes.</p>
 </div>
-<div id="box-plots" class="section level3">
+<div id="box-plots" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Box Plots</h3>
 <p>Box plots provide a better way to represent continuous outcomes (such as reaction times) than bar plots as they give you more information about the variance within your data set.</p>
-<div id="how-to-read-a-box-plot" class="section level4">
+<div id="how-to-read-a-box-plot" class="section level4" number="2.2.2.1">
 <h4><span class="header-section-number">2.2.2.1</span> How to read a box plot</h4>
 <ul>
 <li>The middle line represents the median</li>
@@ -619,106 +721,107 @@ starwars</code></pre></div>
 <li>The limits of the whiskers (black lines) for the upper and lower parts of the graph represent the smallest and largest observations that are equal to the upper or lower quartiles minus or plus 1.5 times the interquartile range. Effectively, this is most of the rest of the data, apart from outliers.</li>
 <li>The dots represent outliers (i.e. those values outside of the whiskers)</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
-                     <span class="dt">y =</span> reaction_time
-                     )
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_boxplot</span>()</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_box_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="data-visualisation-1.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb97-2"><a href="data-visualisation-1.html#cb97-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> response_condition, </span>
+<span id="cb97-3"><a href="data-visualisation-1.html#cb97-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> reaction_time</span>
+<span id="cb97-4"><a href="data-visualisation-1.html#cb97-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
+<span id="cb97-5"><a href="data-visualisation-1.html#cb97-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb97-6"><a href="data-visualisation-1.html#cb97-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_box_plot-1.png" width="672" /></p>
 <p>We can see that the median reaction time is highest for those in the mismatch condition. Notice also that the interquartile range is larger, and so is the upper limit of the whiskers. This all suggests that those in the mismatch group vary more from each other than those in the match condition.</p>
 <p>Also, notice the outlier in the match group. Someone obviously has a very slow reaction time compared to the rest of the cohort. I wonder why that could be? Perhaps it’s because they misinterpreted the instructions, accidentally putting themselves into the mismatch condition. Or, it could be because I simulated this data and didn’t control for how outliers were distributed.</p>
 </div>
 </div>
-<div id="violin-plots" class="section level3">
+<div id="violin-plots" class="section level3" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Violin Plots</h3>
 <p>Additionally, we have violin plots which show you the density of the mean scores. The wider the section of the violin, the more scores around that area. We set <code>trim</code> to <code>FALSE</code> within the violin plot so that we see the full tails of the data. If we set this to <code>TRUE</code>, then the tails are trimmed to the range of the data.</p>
 <p>It’s also useful to draw quantiles on the violin plot, so we can see the quantiles as with the box plot using <code>draw_quantiles</code> and by specifying where we want these quantiles. Here, we chose the upper and lower 25% and the interquartile range.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> response_condition, 
-                     <span class="dt">y =</span> reaction_time
-                     )
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_violin</span>(
-    <span class="dt">trim =</span> <span class="ot">FALSE</span>,
-    <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)
-    )</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_violin_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="data-visualisation-1.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb98-2"><a href="data-visualisation-1.html#cb98-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> response_condition, </span>
+<span id="cb98-3"><a href="data-visualisation-1.html#cb98-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> reaction_time</span>
+<span id="cb98-4"><a href="data-visualisation-1.html#cb98-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
+<span id="cb98-5"><a href="data-visualisation-1.html#cb98-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb98-6"><a href="data-visualisation-1.html#cb98-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(</span>
+<span id="cb98-7"><a href="data-visualisation-1.html#cb98-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">trim =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb98-8"><a href="data-visualisation-1.html#cb98-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)</span>
+<span id="cb98-9"><a href="data-visualisation-1.html#cb98-9" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_violin_plot-1.png" width="672" /></p>
 </div>
-<div id="density-plots" class="section level3">
+<div id="density-plots" class="section level3" number="2.2.4">
 <h3><span class="header-section-number">2.2.4</span> Density Plots</h3>
 <p>Now we’ll look at ways to check for the distribution of your continuous variables. This is a good way to get an eye for whether or not your data are skewed and require a transformation on the data, or a non-parametric test when it comes to inferential statistics. Again, we’ll return to what this means in regards to statistics later in this course, but for now it’s a good idea to understand how you can check the distribution of your data prior to computing any statistics.</p>
 <p>We’ve added the additional argument <code>fill</code> to the aethetic mapping, to specify that we wanted different colours for our groups. We also specified the additional argument <code>alpha</code> in our density plot to specify that we wanted some opacity to the densities.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, 
-       <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time, 
-                     <span class="dt">fill =</span> response_condition
-                     )
-       ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="co"># alpha = opacity</span></code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_density_plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="data-visualisation-1.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, </span>
+<span id="cb99-2"><a href="data-visualisation-1.html#cb99-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time, </span>
+<span id="cb99-3"><a href="data-visualisation-1.html#cb99-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> response_condition</span>
+<span id="cb99-4"><a href="data-visualisation-1.html#cb99-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
+<span id="cb99-5"><a href="data-visualisation-1.html#cb99-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb99-6"><a href="data-visualisation-1.html#cb99-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="co"># alpha = opacity</span></span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_density_plot-1.png" width="672" /></p>
 </div>
-<div id="histograms" class="section level3">
+<div id="histograms" class="section level3" number="2.2.5">
 <h3><span class="header-section-number">2.2.5</span> Histograms</h3>
-<p>If you have relatively few observations, a histogram may be more appropriate than a density plot. But, we’ll just stick to the same data as before to see how this works. Here, it’s often useful to set the <code>binwidth</code> prior to plotting. ggplot will try to set it to a default if it can, but this may not be what you want. Here, we’ve set the <code>binwidth</code> to 50, so we count how many observations we have for reaction times in 50ms bins, i.e. from 225 to 275ms, from 275 to 325ms etc. We also set the <code>fill</code> of the bars to white, and the <code>colour</code> to black so we get white bars with a black outline.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> rt_data, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> reaction_time)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">50</span>, 
-                 <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>, 
-                 <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>
-                 )</code></pre></div>
-<p><img src="R_for_Psych_files/figure-html/2_histogram_plot-1.png" width="672" /></p>
+<p>If you have relatively few observations, a histogram may be more appropriate than a density plot. But, we’ll just stick to the same data as before to see how this works.
+Here, it’s often useful to set the <code>binwidth</code> prior to plotting. ggplot will try to set it to a default if it can, but this may not be what you want. Here, we’ve set the <code>binwidth</code> to 50, so we count how many observations we have for reaction times in 50ms bins, i.e. from 225 to 275ms, from 275 to 325ms etc. We also set the <code>fill</code> of the bars to white, and the <code>colour</code> to black so we get white bars with a black outline.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="data-visualisation-1.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> rt_data, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reaction_time)) <span class="sc">+</span></span>
+<span id="cb100-2"><a href="data-visualisation-1.html#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>, </span>
+<span id="cb100-3"><a href="data-visualisation-1.html#cb100-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb100-4"><a href="data-visualisation-1.html#cb100-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb100-5"><a href="data-visualisation-1.html#cb100-5" aria-hidden="true" tabindex="-1"></a>                 )</span></code></pre></div>
+<p><img src="R-for-Psych_files/figure-html/2_histogram_plot-1.png" width="672" /></p>
 </div>
 </div>
-<div id="exercises-1" class="section level2">
+<div id="exercises-1" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Exercises</h2>
 <p>If that’s not enough to make you fall <a href="https://youtu.be/hO-UyFL5cxY">asleep</a>, try out the exercises below. We’ll cover these in the class with the solutions uploaded at the beginning of each session in a separate downloadable link. Try to solve these questions before resorting to the solutions. I’ll be there to help out where necessary.</p>
 <p>In this section, we’ll use some new data from the pre-packaged data sets in R. First off, we’ll load the <code>chickwts</code> data set, which looks at chicken weights by different feed types.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(chickwts)</code></pre></div>
-<div id="main-exercises" class="section level3">
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="data-visualisation-1.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(chickwts)</span></code></pre></div>
+<div id="main-exercises" class="section level3" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Main Exercises</h3>
 </div>
-<div id="question-1-1" class="section level3">
+<div id="question-1-1" class="section level3" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> Question 1</h3>
 <p>Take a look at the first 6 rows of the data set. How does the data look? Is this appropriate for plotting?</p>
 </div>
-<div id="question-2-1" class="section level3">
+<div id="question-2-1" class="section level3" number="2.3.3">
 <h3><span class="header-section-number">2.3.3</span> Question 2</h3>
 <p>Calculate the overall means for the chick weights.</p>
 </div>
-<div id="question-3-1" class="section level3">
+<div id="question-3-1" class="section level3" number="2.3.4">
 <h3><span class="header-section-number">2.3.4</span> Question 3</h3>
 <p>Calculate the overall SD for the chick weights.</p>
 </div>
-<div id="question-4-1" class="section level3">
+<div id="question-4-1" class="section level3" number="2.3.5">
 <h3><span class="header-section-number">2.3.5</span> Question 4</h3>
 <p>Create the basis of a ggplot by defining the <code>chickwts</code> data as the data argument. Assign this all to the object <code>chick_plot</code>.</p>
 </div>
-<div id="question-5-1" class="section level3">
+<div id="question-5-1" class="section level3" number="2.3.6">
 <h3><span class="header-section-number">2.3.6</span> Question 5</h3>
 <p>Make a box plot of the chick weights by feed. To do this, use your <code>chick_plot</code> object and add the function for creating a boxplot.</p>
 </div>
-<div id="question-6-1" class="section level3">
+<div id="question-6-1" class="section level3" number="2.3.7">
 <h3><span class="header-section-number">2.3.7</span> Question 6</h3>
 <p>Add colour to your box plot by the feed type.</p>
 </div>
-<div id="question-7-1" class="section level3">
+<div id="question-7-1" class="section level3" number="2.3.8">
 <h3><span class="header-section-number">2.3.8</span> Question 7</h3>
 <p>Create a density distribution of the chick weights by feed type. Set different colours and fills by the feed type. To make all densities visible, set the transparency for all distributions to 0.4.</p>
 </div>
-<div id="question-8-1" class="section level3">
+<div id="question-8-1" class="section level3" number="2.3.9">
 <h3><span class="header-section-number">2.3.9</span> Question 8</h3>
 <p>Make a bar plot to show the counts of each feed type.</p>
 </div>
-<div id="question-9-1" class="section level3">
+<div id="question-9-1" class="section level3" number="2.3.10">
 <h3><span class="header-section-number">2.3.10</span> Question 9</h3>
 <p>Pick 6 hex colours from the <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">Color Brewer</a> website. Put these together in a variable, <code>bar_colours</code>. Create your bar plot again, but this time make the fill of the bars the same as those stored in <code>bar_colours</code>.</p>
 <p>Why do we not get a legend when we specify colours this way, but we do if we specify colours as in <strong>Question 7</strong>?</p>
 <p>We’ll return to adding colour to bars while keeping the legend labels in the next lesson.</p>
 </div>
-<div id="question-10-1" class="section level3">
+<div id="question-10-1" class="section level3" number="2.3.11">
 <h3><span class="header-section-number">2.3.11</span> Question 10</h3>
 <p>Make a histogram showing the overall distribution of the chick weights. Set the bin width to 50, and make the bars have a white fill and black border.</p>
 </div>
-<div id="additional-exercise" class="section level3">
+<div id="additional-exercise" class="section level3" number="2.3.12">
 <h3><span class="header-section-number">2.3.12</span> Additional Exercise</h3>
 <p>Make a point plot from a data set of your choosing. Check out the inbuilt data sets in R by typing <code>data()</code> in the console. Customise this plot to your liking.</p>
 
@@ -726,12 +829,12 @@ starwars</code></pre></div>
 </div>
 </div>
 <h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-R-ggplot2">
-<p>Wickham, Hadley. 2009. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="http://ggplot2.org" class="uri">http://ggplot2.org</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-tidyverse" class="csl-entry">
+Wickham, Hadley. 2021. <em>Tidyverse: Easily Install and Load the Tidyverse</em>. <a href="https://CRAN.R-project.org/package=tidyverse">https://CRAN.R-project.org/package=tidyverse</a>.
 </div>
-<div id="ref-R-tidyverse">
-<p>Wickham, Hadley. 2017. <em>Tidyverse: Easily Install and Load the ’Tidyverse’</em>. <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a>.</p>
+<div id="ref-R-ggplot2" class="csl-entry">
+Wickham, Hadley, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani, and Dewey Dunnington. 2021. <em>Ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>.
 </div>
 </div>
             </section>
@@ -743,13 +846,14 @@ starwars</code></pre></div>
 <a href="data-visualisation-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -757,12 +861,12 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -773,9 +877,24 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
 }
 });
 });
@@ -786,10 +905,11 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

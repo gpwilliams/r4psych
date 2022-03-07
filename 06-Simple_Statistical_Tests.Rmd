@@ -58,13 +58,10 @@ During this process, we'll also keep the participant IDs. Finally, we'll make ev
 ```{r 6_load_online_csv_data}
 # variables
 scale_max <- 6
-id <- "0Bz-rhZ21ShvOMGxnYUJfYmR5d2M" # google file ID
 
 # load and clean data
 corr_data <- read_csv(
-  sprintf(
-    "https://docs.google.com/uc?id=%s&export=download", 
-    id)
+  "https://raw.githubusercontent.com/gpwilliams/r4psych/master/lesson_materials/06_simple_statistical_tests/inputs/dawtry-et-al_2015.csv"
   ) %>%
   mutate(redist2 = (scale_max + 1) - redist2,
          redist4 = (scale_max + 1) - redist4) %>%
@@ -76,12 +73,13 @@ corr_data <- read_csv(
 corr_data
 ```
 
-Next, we'll calculate some means and standard deviations for these two factors of interest. We've used the `summarise_at()` version of the `summarise()` function, as this allows us to pass two column names, and functions (`vars`) by which to produce our statistics.
+Next, we'll calculate some means and standard deviations for these two factors of interest. We've used the `summarise_at()` version of the `summarise()` function, as this allows us to pass two column names, and a list of functions by which to produce our statistics. We can either just pass the functions in a list, or as here give names to these functions which will be appended to the names of the variables in the table.
 
 ```{r 6_summarise_online_corr_data}
-corr_data %>% summarise_at(c("fair_satisfied", "support"), 
-                           vars(mean, sd)
-                           )
+corr_data %>% summarise_at(
+  c("fair_satisfied", "support"), 
+  list(mean = mean, sd = sd)
+)
 ```
 
 ### Checking Assumptions
