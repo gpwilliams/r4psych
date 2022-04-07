@@ -13,14 +13,14 @@ In R, you don't want to type commands directly to the console. Instead, you shou
 One of the most popular ways to work on your R scripts is to use an Integrated Development Environment (IDE). The most popular IDE for R is RStudio, which you can download from the [RStudio website](https://www.rstudio.com/). In the navigation panel, select **products** and choose **RStudio**. Scroll down until you see **Download RStudio Desktop**. Finally, for the Free tier, click the **Download** button and select the correct installer for your operating system. For Windows users, you should select RStudio **[version number]** - Windows Vista/7/8/10. Follow the prompts on the installer, and your system should automatically pick up that you already have R on your system. From there, be sure to open the RStudio program to get started. This is the logo that looks like this:
 
 <div class="figure" style="text-align:center">
-  <img style="width:30%;" src="img\r_studio_logo.png" alt="An image of the RStudio logo">
+  <img style="width:30%;" src="img/r_studio_logo.png" alt="An image of the RStudio logo">
   <p class="caption">The RStudio logo</p>
 </div>
 
 Once open, you'll see something that should look like this. Only, you won't have the top pane unless you choose to start a new script (File, New File, R script) or if you've opened an existing script already.
 
 <div class="figure" style="text-align:center">
-  <img style="width:100%;" src="img\r_studio.png" alt="An image of the RStudio environment, with colour highlights around the sections of the IDE">
+  <img style="width:100%;" src="img/r_studio.png" alt="An image of the RStudio environment, with colour highlights around the sections of the IDE">
   <p class="caption">The RStudio environment, with added highlights</p>
 </div>
 
@@ -52,7 +52,7 @@ However, I recommend against this. That's because if you change computers or pas
 If you want to keep your folder from getting cluttered, keep your R script(s) in a folder, with an Inputs and Outputs folder at that same level, like so:
 
 <div class="figure" style="text-align:center">
-  <img style="width:100%;" src="img\folder_structure.png" alt="An image showing a folder structure with an R file and an inputs and outputs folder">
+  <img style="width:100%;" src="img/folder_structure.png" alt="An image showing a folder structure with an R file and an inputs and outputs folder">
   <p class="caption">Potential Folder Structure for Your Projects</p>
 </div>
 

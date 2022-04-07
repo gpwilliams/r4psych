@@ -4,8 +4,6 @@ author: "Glenn Williams"
 date: "2018-08-31 (last updated: `r Sys.Date()`)"
 site: bookdown::bookdown_site
 output: 
-  bookdown::pdf_book:
-      template: null
   bookdown::gitbook:
     lib_dir: assets
     config:
@@ -30,7 +28,7 @@ By the time you're finished, you will be able to tell R how (and where) to read 
 We will rely on the [R for Data Science (R4DS)](http://r4ds.had.co.nz/) textbook by Garrett Grolemund and Hadley Wickham as a core text. Follow the link for a free online version of the book uploaded by the authors.
 
 <div class="figure" style="text-align:center">
-  <img style="width:30%;" src="img\R4DS_cover.png" alt="Front cover of the R for Data Science book by Wickham & Grolemund">
+  <img style="width:30%;" src="img/R4DS_cover.png" alt="Front cover of the R for Data Science book by Wickham & Grolemund">
   <p class="caption">R4DS by Wickham & Grolemund</p>
 </div>
 

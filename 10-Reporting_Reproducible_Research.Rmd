@@ -41,14 +41,14 @@ The advantage of this over simple scripts to conduct your analyses and a separat
 We've already used one method for producing reproducible reports in R; the R Notebook. This updates every time you save your document, without rerunning your code. However, we can also produce a similar R Markdown report which requires you to compile your code before it produces output. Here, you include text and code chunks like in your R Notebooks, but you use the Knit button create an output which translates your code into an HTML, PDF, or Word document. I've shown you how to do this below.
 
 <div class="figure" style="text-align:center">
-  <img style="width:50%;" src="img\R_markdown.png" alt="Creating an R Markdown Document in New File, then R Markdown... ">
+  <img style="width:50%;" src="img/R_markdown.png" alt="Creating an R Markdown Document in New File, then R Markdown... ">
   <p class="caption">Creating R Markdown Document</p>
 </div>
 
 Once you've elected to create an R Markdown document, you can choose your output type. For documents, we have the options discussed above. But you can also create presentation slides in R. For the slides in this course, I used the ioslides option. This is nice if you want to include code or the outputs of code directly in your presentations; no more dragging and resizing images by hand!
 
 <div class="figure" style="text-align:center">
-  <img style="width:50%;" src="img\markdown_menus.png" alt="Options for Creating Different R Markdown Documents">
+  <img style="width:50%;" src="img/markdown_menus.png" alt="Options for Creating Different R Markdown Documents">
   <p class="caption">R Markdown Document Options</p>
 </div>
 
@@ -57,14 +57,14 @@ For this example, I'll create an HTML document from our code, but all of the sam
 First off, you need to pick a name for your document. Here, I've set it to `test_html_document`. This will be the title of your document once you've saved and rendered it. 
 
 <div class="figure" style="text-align:center">
-  <img style="width:50%;" src="img\setting_markdown_options.png" alt="Defining Your Title and Author in the R Markdown Options">
+  <img style="width:50%;" src="img/setting_markdown_options.png" alt="Defining Your Title and Author in the R Markdown Options">
   <p class="caption">Defining Your Title and Author in the R Markdown Options</p>
 </div>
 
 Just save your document somewhere, preferably in its own folder, and you're good to go. Once you've done that, you can change your code and text. Any time you want to render the HTML (or Word, or PDF file) just click the Knit button, and you'll see a preview of your output once it is done making the document. You can use this to work on the fly, or just look at the output itself (i.e. double clicking the HTML file in your folder) to see how it looks on completion. R turns script like this below into a nice output!
 
 <div class="figure" style="text-align:center">
-  <img style="width:75%;" src="img\script_rmarkdown.png" alt="Code and Text in an R Markdown Document">
+  <img style="width:75%;" src="img/script_rmarkdown.png" alt="Code and Text in an R Markdown Document">
   <p class="caption">The Markdown Environment</p>
 </div>
 
@@ -461,8 +461,8 @@ Congratulations, you've made it! Now watch this video and follow Jeff's advice.
 
 If you ever get stuck with anything, these two book covers always help me.
 
-<img src="..\img\Cat.jpg"; style="max-width:350px"; align="left">
-<img src="..\img\Frog.jpg"; style="max-width:350px"; align="right>
+<img src="..\img/Cat.jpg"; style="max-width:350px"; align="left">
+<img src="..\img/Frog.jpg"; style="max-width:350px"; align="right>
 
 ## Exercises
 
