@@ -581,12 +581,12 @@ Potential Folder Structure for Your Projects
 <p>Next, while you can do a lot in base R, if you can think of some task that is reasonably laborious there’s probably a package out there that can help you to achieve a certain goal. For us, the whole data processing, analysis, and presentation workflow can be made so much simpler by using a set of packages from the tidyverse library <span class="citation">(<a href="#ref-R-tidyverse" role="doc-biblioref">Wickham 2017</a>)</span>. This package is required for what we’re about to do next, so install tidyverse (using <code>install.packages("tidyverse")</code>). Once installed, you needn’t do it again. But on each new session you have to define which packages you want to load into R using the <code>library()</code> command. Make sure to uncomment the <code>install.packages("tidyverse")</code> line if you haven’t installed this package yet.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;tidyverse&quot;) # do this only once to install the package</span></span>
 <span id="cb3-2"><a href="introduction.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># do this to load your package every time you open R</span></span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+<pre><code>## ── Attaching packages ─── tidyverse 1.3.2 ──
 ## ✔ ggplot2 3.3.6      ✔ purrr   0.3.4 
 ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
 ## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
 ## ✔ readr   2.1.2      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <p>By default, R installs packages from CRAN, which is essentially a centralised network for all things R. However, some useful packages may not have been submitted here, and you can install them from other places, like <a href="https://github.com/">GitHub</a>. We won’t install packages from github or other repositories in this course. But it’s worth knowing that you can install packages from just about anywhere!</p>
@@ -608,8 +608,9 @@ Potential Folder Structure for Your Projects
 <p>R also parses text if included in quotes. The same rule applies about finishing expressions here; if you don’t close your quote, then R will wait for you to do so. This means you can spread your text over several lines (by pressing Enter) and R will parse that as one expression. Note with our output we get which indicates that a new line follows the comma.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="introduction.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Hello, world!&quot;</span></span></code></pre></div>
 <pre><code>## [1] &quot;Hello, world!&quot;</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="introduction.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;How are you doing today? Things certainly have been interesting these past few years.&quot;</span></span></code></pre></div>
-<pre><code>## [1] &quot;How are you doing today? Things certainly have been interesting these past few years.&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="introduction.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;How are you doing today? </span></span>
+<span id="cb11-2"><a href="introduction.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">Things certainly have been interesting these past few years.&quot;</span></span></code></pre></div>
+<pre><code>## [1] &quot;How are you doing today? \nThings certainly have been interesting these past few years.&quot;</code></pre>
 <p>Crucially, you can store this sort of information in a variable. Variables are useful because you may want to use the results of a calculation and do some further operations on that result. This is especially useful if you’re not sure what that first result could be. We assign values to a variable using the assignment operator <code>&lt;-</code> (read this as create from).</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="introduction.html#cb13-1" aria-hidden="true" tabindex="-1"></a>summed_numbers <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">8</span></span></code></pre></div>
 <p>We can then output this variable later on, like so: (This is often useful for checking that your variables store what you think they store.)</p>

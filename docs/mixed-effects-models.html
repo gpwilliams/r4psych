@@ -568,7 +568,7 @@ div.csl-indent {
 <p>This just makes three groups within our data, and we can look at this like conducting our study in three phases, with three different groups of people. As with the <code>sleepstudy</code> data set, this data set looks at the effect of days without sleep on reaction times.</p>
 <div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="mixed-effects-models.html#cb516-1" aria-hidden="true" tabindex="-1"></a>sleep_groups <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/sleep_study_with_sim_groups.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 540 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (1): Group
 ## dbl (3): Reaction, Days, Subject
@@ -840,7 +840,7 @@ div.csl-indent {
 <p>We’ll use the same data set as in TJ’s article, the <code>sleepstudy</code> data set from the <code>lme4</code> package. I’ve already made some changes to this data set by convering it to a tibble and adding a few participants with missing data at the end by simulating new values based on the old participants, and simply deleting a few cells. Load the .csv file from the lesson materials folder to take a look at the data.</p>
 <div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="mixed-effects-models.html#cb552-1" aria-hidden="true" tabindex="-1"></a>sleep_study <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/sleep_study_with_sim.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 210 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl (3): Subject, Days, Reaction
 ## 
