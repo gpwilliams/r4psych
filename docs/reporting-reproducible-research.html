@@ -879,7 +879,7 @@ The Markdown Environment
 <pre><code>## </code></pre>
 <pre><code>## NHST: reject null significance hypothesis that the effect is equal to 0 
 ## TOST: reject null equivalence hypothesis</code></pre>
-<p><img src="R-for-Psych_files/figure-html/10_tost_raw-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/10_tost_raw-1.png" width="672" /></p>
 <p>Here, we get an output telling us the result of our test in regards to a normal <em>t</em>-test (NHST), and under the TOST procedure. We also get reminder of our equivalence bounds, and we get some confidence intervals around our scores. In this case, the normal <em>t</em>-test (NHST) was significant, as was the TOST in both directions. This means that although we found a statistically significant difference between the groups, they are statistically equivalent with our criteria. As you can see, differences between groups can be statistically significant, but the effect is so small that we don’t care.</p>
 </div>
 <div id="tost-for-effect-sizes" class="section level4 hasAnchor" number="10.7.1.2">
@@ -928,7 +928,7 @@ The Markdown Environment
 <pre><code>## </code></pre>
 <pre><code>## NHST: don&#39;t reject null significance hypothesis that the effect is equal to 0 
 ## TOST: reject null equivalence hypothesis</code></pre>
-<p><img src="R-for-Psych_files/figure-html/10_tost_effect_size-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/10_tost_effect_size-1.png" width="672" /></p>
 <p>Here, we can see that the Welch’s independent samples <em>t</em>-test was non-significant, but the TOST was significant. This means that we didn’t find a significant difference between groups and the groups are statistically equivalent.</p>
 <p>This pacakge covers TOST for meta-analysis, one- independent- and paired-samples <em>t</em>-tests. Check out these functions by typing <code>??TOST</code> in the console. There’s a lot more to understanding this procedure than I can cover here, but if you’re interested in equivalence tests, you should check out <a href="http://journals.sagepub.com/doi/abs/10.1177/1948550617697177">this primer</a> by the package author, Daniel Lakens.</p>
 <p>Next, we’ll cover how we can use R to understand just why we need other open science practices along with the statistics that we calculate and report in R.</p>
@@ -998,7 +998,7 @@ The Markdown Environment
 <span id="cb636-11"><a href="reporting-reproducible-research.html#cb636-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="sc">+</span></span>
 <span id="cb636-12"><a href="reporting-reproducible-research.html#cb636-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span>
 <span id="cb636-13"><a href="reporting-reproducible-research.html#cb636-13" aria-hidden="true" tabindex="-1"></a>p_plot</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/10_optional_stopping_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/10_optional_stopping_plot-1.png" width="672" /></p>
 <p>One way to remedy this situation is through optional stopping with a <em>p</em>-value correction. If you specify how many times you will look at your data and run a test before deciding whether or not to test more participants, you can correct your <em>p</em>-value to account for the infaltion in type-I error rate. One simple way is with the Bonferroni correction. Take your <em>p</em>-value, and multiply it by how many times you tested the data. There are less conservative procedures out there, but this is one simple method.</p>
 </div>
 <div id="bad-hypotheses" class="section level3 hasAnchor" number="10.8.2">
@@ -1032,8 +1032,8 @@ The Markdown Environment
 <iframe width="560" height="315" align="center" src="https://www.youtube.com/embed/HuYUoLM8BNA?rel=0&amp;showinfo=0&amp;start=12" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
 </iframe>
 <p>If you ever get stuck with anything, these two book covers always help me.</p>
-<p>&lt;img src=“../Cat.jpg”; style=“max-width:350px”; align=“left”&gt;
-&lt;img src=“../Frog.jpg”; style=“max-width:350px”; align=“right&gt;</p>
+<p>&lt;img src=“..img/Cat.jpg”; style=“max-width:350px”; align=“left”&gt;
+&lt;img src=“..img/Frog.jpg”; style=“max-width:350px”; align=“right&gt;</p>
 </div>
 <div id="exercises-9" class="section level2 hasAnchor" number="10.10">
 <h2><span class="header-section-number">10.10</span> Exercises<a href="reporting-reproducible-research.html#exercises-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1136,7 +1136,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["r4psych.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

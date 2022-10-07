@@ -570,7 +570,7 @@ During this process, we’ll also keep the participant IDs. Finally, we’ll mak
 <span id="cb276-13"><a href="simple-statistical-tests.html#cb276-13" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span></span>
 <span id="cb276-14"><a href="simple-statistical-tests.html#cb276-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower)</span></code></pre></div>
 <pre><code>## Rows: 305 Columns: 37
-## ── Column specification ────────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl (37): PS, PD_15, PD_30, PD_45, PD_60, PD_75, PD_90, PD_105, PD_120, PD_1...
 ## 
@@ -612,11 +612,11 @@ During this process, we’ll also keep the participant IDs. Finally, we’ll mak
 <div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="simple-statistical-tests.html#cb282-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span></span>
 <span id="cb282-2"><a href="simple-statistical-tests.html#cb282-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> fair_satisfied)) <span class="sc">+</span></span>
 <span id="cb282-3"><a href="simple-statistical-tests.html#cb282-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_qq</span>()</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/6_check_online_corr_data_assumptions_plot-1.png" width="672" /></p>
 <div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="simple-statistical-tests.html#cb283-1" aria-hidden="true" tabindex="-1"></a>corr_data <span class="sc">%&gt;%</span></span>
 <span id="cb283-2"><a href="simple-statistical-tests.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> support)) <span class="sc">+</span></span>
 <span id="cb283-3"><a href="simple-statistical-tests.html#cb283-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_qq</span>()</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/6_check_online_corr_data_assumptions_plot-2.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/6_check_online_corr_data_assumptions_plot-2.png" width="672" /></p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="simple-statistical-tests.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(corr_data<span class="sc">$</span>fair_satisfied)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
@@ -703,8 +703,7 @@ During this process, we’ll also keep the participant IDs. Finally, we’ll mak
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="simple-statistical-tests.html#cb294-1" aria-hidden="true" tabindex="-1"></a>lexdec_ind <span class="ot">&lt;-</span> lexdec <span class="sc">%&gt;%</span> </span>
 <span id="cb294-2"><a href="simple-statistical-tests.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(subject, native_language) <span class="sc">%&gt;%</span></span>
 <span id="cb294-3"><a href="simple-statistical-tests.html#cb294-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">log_RT =</span> <span class="fu">mean</span>(<span class="fu">log</span>(RT), <span class="at">na.rm =</span> T))</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by
-## &#39;subject&#39;. You can override using the
+<pre><code>## `summarise()` has grouped output by &#39;subject&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <p>We’ll quickly calculate some descriptives for our study to see how the two groups look.</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="simple-statistical-tests.html#cb296-1" aria-hidden="true" tabindex="-1"></a>lexdec_ind <span class="sc">%&gt;%</span> </span>
@@ -1124,7 +1123,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["r4psych.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

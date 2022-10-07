@@ -558,7 +558,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="data-visualisation-1.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> starwars) <span class="sc">+</span></span>
 <span id="cb84-2"><a href="data-visualisation-1.html#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> mass, <span class="at">y =</span> height))</span></code></pre></div>
 <pre><code>## Warning: Removed 28 rows containing missing values (geom_point).</code></pre>
-<p><img src="R-for-Psych_files/figure-html/2_simple_point_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_simple_point_plot-1.png" width="672" /></p>
 <p>So, we can see just how easy it is to create a plot of points in ggplot. Well done! There seems to be a positive relationship between mass and height in the starwars data set. We also got a couple of surprises:</p>
 <ol style="list-style-type: decimal">
 <li>A warning about 28 rows that contain missing values;</li>
@@ -591,7 +591,7 @@ div.csl-indent {
 <span id="cb87-4"><a href="data-visualisation-1.html#cb87-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">colour =</span> gender</span>
 <span id="cb87-5"><a href="data-visualisation-1.html#cb87-5" aria-hidden="true" tabindex="-1"></a>                           )</span>
 <span id="cb87-6"><a href="data-visualisation-1.html#cb87-6" aria-hidden="true" tabindex="-1"></a>             )</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_simple_point_plot_with_colour-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_simple_point_plot_with_colour-1.png" width="672" /></p>
 <p>We don’t get that warning now that we removed the NAs and passed the filtered data as an argument. That wasn’t really necessary as ggplot can handle that for us, but it stops the horrible warning from popping up!</p>
 <p>Warnings in R are there to tell you that the output of your code may not contain what you wanted it to contain. In the previous plot, ggplot dropped those with missing heights and masses, even though we didn’t explictly tell it to do so. Here, because we filtered those entried with missing values before plotting, we don’t get a warning.</p>
 <p>Warnings are different to errors in that your code will still work, but you need to check out whether it did what you wanted it to do. On the other hand, errors indicate you did something wrong and your code will fail to run.</p>
@@ -615,7 +615,7 @@ div.csl-indent {
 <span id="cb91-5"><a href="data-visualisation-1.html#cb91-5" aria-hidden="true" tabindex="-1"></a>                           )</span>
 <span id="cb91-6"><a href="data-visualisation-1.html#cb91-6" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
 <span id="cb91-7"><a href="data-visualisation-1.html#cb91-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_replot_point_plot_with_colour-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_replot_point_plot_with_colour-1.png" width="672" /></p>
 <p>This time we added a function <code>coord_cartesian()</code> to the end of our <code>ggplot()</code> call. We defined the limits of the x axis to be between 0 and 180. This way, we can get a better look at the trends in our data.</p>
 <p>Why do we define limits inside this function? Well, we could have also manually defined the scale with <code>scale_x_continuous(limits = c(0, 180))</code>. This may seem more inuitive, but it throws out the data points outside the limits prior to plotting. Why is this a problem? ggplot has some nice functionalities such as drawing lines of best fit for you based on the data in the plot. If you throw data away while plotting, your line of best fit will shift. So, if you decide that you want to change your scale but keep your model fits for all data, use <code>coord_cartesian()</code>.</p>
 <p>Given this is an outlier, your choice doesn’t matter if you’re just trying to show trends like this, but your choice is important if you want to show any inferential statistics associated with the data.</p>
@@ -629,7 +629,7 @@ div.csl-indent {
 <span id="cb92-7"><a href="data-visualisation-1.html#cb92-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">17</span>, <span class="co"># triangles</span></span>
 <span id="cb92-8"><a href="data-visualisation-1.html#cb92-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span> <span class="co"># bigger points</span></span>
 <span id="cb92-9"><a href="data-visualisation-1.html#cb92-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_adding_constant_visual_changes_to_plots-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_adding_constant_visual_changes_to_plots-1.png" width="672" /></p>
 <p>We’ve added 3 variables outside of the <code>aes()</code> mapping. This means that all of the points within the plot are changed in the same way:</p>
 <ol style="list-style-type: decimal">
 <li>They all become a little bit transparent through the <code>alpha</code> variable definition;</li>
@@ -645,7 +645,7 @@ div.csl-indent {
 <span id="cb93-5"><a href="data-visualisation-1.html#cb93-5" aria-hidden="true" tabindex="-1"></a>                           ),</span>
 <span id="cb93-6"><a href="data-visualisation-1.html#cb93-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb93-7"><a href="data-visualisation-1.html#cb93-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_clashes_with_aes_and_constants_within_plots-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_clashes_with_aes_and_constants_within_plots-1.png" width="672" /></p>
 <p>The different colours for each level of gender are now gone, along with the legend! Our variable definition for <code>colour</code> outside of the <code>aes()</code> mappings overrides that within <code>aes()</code>. This is because we’ve manually set the aesthetic properties of our plot by defining colour as an argument of the geom function, rather than of the aethetic mapping.</p>
 <p>R has some built in shapes that we can define within our plots. For shapes, these are divided into three categories:</p>
 <ul>
@@ -667,7 +667,7 @@ div.csl-indent {
 <span id="cb94-10"><a href="data-visualisation-1.html#cb94-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">stroke =</span> <span class="dv">3</span></span>
 <span id="cb94-11"><a href="data-visualisation-1.html#cb94-11" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
 <span id="cb94-12"><a href="data-visualisation-1.html#cb94-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_colour_and_fill-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_colour_and_fill-1.png" width="672" /></p>
 <p>Try to mess about with the different definitions that we provided above. Change the colour, size, and stroke values to see how these variables work.</p>
 <p>We’ve used the aesthetics above to define categorical data by colour. But what happens if we use continuous data?</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="data-visualisation-1.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> filtered_starwars, <span class="at">na.rm =</span> T) <span class="sc">+</span></span>
@@ -677,7 +677,7 @@ div.csl-indent {
 <span id="cb95-5"><a href="data-visualisation-1.html#cb95-5" aria-hidden="true" tabindex="-1"></a>                           )</span>
 <span id="cb95-6"><a href="data-visualisation-1.html#cb95-6" aria-hidden="true" tabindex="-1"></a>             ) <span class="sc">+</span></span>
 <span id="cb95-7"><a href="data-visualisation-1.html#cb95-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_colour_gradient-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_colour_gradient-1.png" width="672" /></p>
 <p>You can see that we get a sliding scale for the hue of the points. Pretty neat, but also quite difficult to get a real idea of where on the scale the points lie.</p>
 <p>There are many inbuilt plots that you can create with ggplot2 by mapping your data to different geoms. To get an idea of all of different types of geoms, type <code>??geom</code>. This should give you an index of all of the geom types available to ggplot2 in your Help pane of RStudio.</p>
 </div>
@@ -698,7 +698,7 @@ div.csl-indent {
 <span id="cb97-2"><a href="data-visualisation-1.html#cb97-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gender)</span>
 <span id="cb97-3"><a href="data-visualisation-1.html#cb97-3" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
 <span id="cb97-4"><a href="data-visualisation-1.html#cb97-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_bar_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_bar_plot-1.png" width="672" /></p>
 <p>You’ll often find that psychologists like to plot continuous data in a bar plot. I’ve done this myself, but we can do better. One alternative would be to use a boxplot, a violin plot, or even a pirate plot which we’ll explore in the next lesson (well, we are plotting with Rrrrrrrrr…).</p>
 <p>Since we’ve got data which represents mean scores for each participant, this will be suitable for plotting straight away. If, however, you have raw data, remember to aggregate by participants or items prior to plotting. We’ll cover this in later classes.</p>
 </div>
@@ -721,7 +721,7 @@ div.csl-indent {
 <span id="cb98-4"><a href="data-visualisation-1.html#cb98-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
 <span id="cb98-5"><a href="data-visualisation-1.html#cb98-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
 <span id="cb98-6"><a href="data-visualisation-1.html#cb98-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_box_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_box_plot-1.png" width="672" /></p>
 <p>We can see that the median reaction time is highest for those in the mismatch condition. Notice also that the interquartile range is larger, and so is the upper limit of the whiskers. This all suggests that those in the mismatch group vary more from each other than those in the match condition.</p>
 <p>Also, notice the outlier in the match group. Someone obviously has a very slow reaction time compared to the rest of the cohort. I wonder why that could be? Perhaps it’s because they misinterpreted the instructions, accidentally putting themselves into the mismatch condition. Or, it could be because I simulated this data and didn’t control for how outliers were distributed.</p>
 </div>
@@ -739,7 +739,7 @@ div.csl-indent {
 <span id="cb99-7"><a href="data-visualisation-1.html#cb99-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">trim =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb99-8"><a href="data-visualisation-1.html#cb99-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>)</span>
 <span id="cb99-9"><a href="data-visualisation-1.html#cb99-9" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_violin_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_violin_plot-1.png" width="672" /></p>
 </div>
 <div id="density-plots" class="section level3 hasAnchor" number="2.2.4">
 <h3><span class="header-section-number">2.2.4</span> Density Plots<a href="data-visualisation-1.html#density-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -751,7 +751,7 @@ div.csl-indent {
 <span id="cb100-4"><a href="data-visualisation-1.html#cb100-4" aria-hidden="true" tabindex="-1"></a>                     )</span>
 <span id="cb100-5"><a href="data-visualisation-1.html#cb100-5" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
 <span id="cb100-6"><a href="data-visualisation-1.html#cb100-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="co"># alpha = opacity</span></span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_density_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_density_plot-1.png" width="672" /></p>
 </div>
 <div id="histograms" class="section level3 hasAnchor" number="2.2.5">
 <h3><span class="header-section-number">2.2.5</span> Histograms<a href="data-visualisation-1.html#histograms" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -762,7 +762,7 @@ Here, it’s often useful to set the <code>binwidth</code> prior to plotting. gg
 <span id="cb101-3"><a href="data-visualisation-1.html#cb101-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, </span>
 <span id="cb101-4"><a href="data-visualisation-1.html#cb101-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
 <span id="cb101-5"><a href="data-visualisation-1.html#cb101-5" aria-hidden="true" tabindex="-1"></a>                 )</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/2_histogram_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/2_histogram_plot-1.png" width="672" /></p>
 </div>
 </div>
 <div id="exercises-1" class="section level2 hasAnchor" number="2.3">
@@ -879,7 +879,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["r4psych.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

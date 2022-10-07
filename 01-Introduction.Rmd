@@ -19,10 +19,13 @@ One of the most popular ways to work on your R scripts is to use an Integrated D
 
 Once open, you'll see something that should look like this. Only, you won't have the top pane unless you choose to start a new script (File, New File, R script) or if you've opened an existing script already.
 
-<div class="figure" style="text-align:center">
-  <img style="width:100%;" src="img/r_studio.png" alt="An image of the RStudio environment, with colour highlights around the sections of the IDE">
-  <p class="caption">The RStudio environment, with added highlights</p>
-</div>
+```{r}
+#| echo: false
+#| alt: "An image of the RStudio environment, with colour highlights around the sections of the IDE"
+#| caption: "The RStudio environment, with added highlights"
+#| fig.align: "center"
+knitr::include_graphics("img/r_studio.png")
+```
 
 RStudio can be split into 4 main panes:
 
@@ -106,7 +109,7 @@ R always waits for you to finish an expression before it runs your code. So, if 
 
 Watch the console when you type this out. You'll notice that if you press enter after typing `7 +` on the new line you will no longer see `>` but you'll see +. The same happens even if you pass a different mathematical operator (e.g. `-`, `%`, `^`). This is there to tell you that R is not waiting for a new statement, but is waiting for you to finish off the current statement. If you see `>` it means that whatever you can start a new statement.
 
-R also parses text if included in quotes. The same rule applies about finishing expressions here; if you don't close your quote, then R will wait for you to do so. This means you can spread your text over several lines (by pressing Enter) and R will parse that as one expression. Note with our output we get \n which indicates that a new line follows the comma.
+R also parses text if included in quotes. The same rule applies about finishing expressions here; if you don't close your quote, then R will wait for you to do so. This means you can spread your text over several lines (by pressing Enter) and R will parse that as one expression. Note with our output we get \\n which indicates that a new line follows the comma.
 
 ```{r 1_parsing_text}
 "Hello, world!"

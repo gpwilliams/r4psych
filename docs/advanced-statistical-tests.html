@@ -963,7 +963,7 @@ div.csl-indent {
 <p>As you can see, we have a significant main effect of both factors, and a significant interaction. As such, we need to do some follow up tests to see where our effect lies in the interaction. A quick check with a plot always helps:</p>
 <div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="advanced-statistical-tests.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> tooth, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> dose, <span class="at">y =</span> len, <span class="at">colour =</span> supp)) <span class="sc">+</span></span>
 <span id="cb385-2"><a href="advanced-statistical-tests.html#cb385-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/7_tooth_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/7_tooth_plot-1.png" width="672" /></p>
 <p>It looks like there’s a main effect of dose overall, but also that supplement type probably only matters for lower doses. Let’s check these using some pairwise tests. As such, perform pairwise comparisons to see where our differences lie.</p>
 <div id="multiple-comparisons" class="section level4 hasAnchor" number="7.3.1.1">
 <h4><span class="header-section-number">7.3.1.1</span> Multiple Comparisons<a href="advanced-statistical-tests.html#multiple-comparisons" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -1416,7 +1416,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["r4psych.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

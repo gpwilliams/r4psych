@@ -585,18 +585,18 @@ div.csl-indent {
 <span id="cb451-3"><a href="simulation-and-calculating-power.html#cb451-3" aria-hidden="true" tabindex="-1"></a>large_samp <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span>
 <span id="cb451-4"><a href="simulation-and-calculating-power.html#cb451-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb451-5"><a href="simulation-and-calculating-power.html#cb451-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(small_samp)) <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_norm_sample_sizes-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_norm_sample_sizes-1.png" width="672" /></p>
 <div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="simulation-and-calculating-power.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(large_samp)) <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_norm_sample_sizes-2.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_norm_sample_sizes-2.png" width="672" /></p>
 <p>As before, the data seem to fit the population distribution better when we have larger sample sizes. Let’s change the standard deviation to see how variance in our samples influences the distribution of effects. Here, we’ll just focus on the larger sample size:</p>
 <div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="simulation-and-calculating-power.html#cb453-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
 <span id="cb453-2"><a href="simulation-and-calculating-power.html#cb453-2" aria-hidden="true" tabindex="-1"></a>large_sd_samp <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span>
 <span id="cb453-3"><a href="simulation-and-calculating-power.html#cb453-3" aria-hidden="true" tabindex="-1"></a>small_sd_samp <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="fl">1.5</span>)</span>
 <span id="cb453-4"><a href="simulation-and-calculating-power.html#cb453-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb453-5"><a href="simulation-and-calculating-power.html#cb453-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(large_sd_samp)) <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_norm_standard_deviation-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_norm_standard_deviation-1.png" width="672" /></p>
 <div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="simulation-and-calculating-power.html#cb454-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="fu">aes</span>(small_sd_samp)) <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_norm_standard_deviation-2.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_norm_standard_deviation-2.png" width="672" /></p>
 <p>As you can see, as we sample from a population with a smaller standard deviation, our samples will be closer to the mean score. This has important implications for our statistical tests; the larger the standard deviation within our samples, the more samples we’ll need to detect an effect.</p>
 </div>
 <div id="the-binomial-distribution" class="section level3 hasAnchor" number="8.2.3">
@@ -739,7 +739,7 @@ div.csl-indent {
 <span id="cb483-10"><a href="simulation-and-calculating-power.html#cb483-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.05</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb483-11"><a href="simulation-and-calculating-power.html#cb483-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="sc">+</span></span>
 <span id="cb483-12"><a href="simulation-and-calculating-power.html#cb483-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_simulate_function_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_simulate_function_plot-1.png" width="672" /></p>
 <p>The red cut-off line shows the number of values that fall below our 0.05 cut-off point for our <em>p</em>-values. That looks like roughly 3 in 100 samples, or 3% of our simulated studies.</p>
 <p>Try increasing the number of replications for the experiment to see how the <em>p</em>-values change. How does it look with 10,000 simulated studies?</p>
 <div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="simulation-and-calculating-power.html#cb484-1" aria-hidden="true" tabindex="-1"></a>simulations <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">10000</span>, </span>
@@ -759,7 +759,7 @@ div.csl-indent {
 <span id="cb485-10"><a href="simulation-and-calculating-power.html#cb485-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.05</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb485-11"><a href="simulation-and-calculating-power.html#cb485-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="sc">+</span></span>
 <span id="cb485-12"><a href="simulation-and-calculating-power.html#cb485-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_simulate_function_replications_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_simulate_function_replications_plot-1.png" width="672" /></p>
 <p>Here we have roughly 500 studies showing <em>p</em>-values below 0.05. Thats 5% of the 10,000 studies. Is that surprising? Even when there’s no effect in the population, with repeated sampling we’re bound to find some cases where we have <em>p</em>-values below 0.05. That’s why replications are so important for our research!</p>
 <p>This false-positive rate is the type-I error rate of our study, and is determined by our <em>p</em>-value. This determines the amount of time we will incorrectly reject the null hypothesis in the long run (i.e. if we run several studies over time).</p>
 </div>
@@ -796,7 +796,7 @@ div.csl-indent {
 <span id="cb488-10"><a href="simulation-and-calculating-power.html#cb488-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.05</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb488-11"><a href="simulation-and-calculating-power.html#cb488-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="sc">+</span></span>
 <span id="cb488-12"><a href="simulation-and-calculating-power.html#cb488-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_function_type_II_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_function_type_II_plot-1.png" width="672" /></p>
 <p>Now it looks like we have a much larger proportion of studies that give us <em>p</em>-values below 0.05. Actually, it’s 211, or 21.1%.</p>
 <p>What does this tell us? Actually, this is the power of our study, or the probability for us to detect a true effect when it is present in the population. As such, 1-power is the type-II error rate, or the probability to reject the alternative hypothesis when a true effect is present in the population.</p>
 <p>At only 21.1%, this is inadequate for our purposes. We generally aim for at least 80% in psychological research. Here we have a much larger chance of committing a type-II error, or incorrectly rejecting the alternative hypothesis when there is a true effect in the population.</p>
@@ -819,7 +819,7 @@ div.csl-indent {
 <span id="cb490-10"><a href="simulation-and-calculating-power.html#cb490-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.05</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb490-11"><a href="simulation-and-calculating-power.html#cb490-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;p-value&quot;</span>) <span class="sc">+</span></span>
 <span id="cb490-12"><a href="simulation-and-calculating-power.html#cb490-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>))</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/8_do_function_type_II_power_plot-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/8_do_function_type_II_power_plot-1.png" width="672" /></p>
 <p>That looks better! Now, in most experiments, we’ll get a <em>p</em>-value below 0.05. How many studies detected this true effect? Our power for this study is:</p>
 <div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="simulation-and-calculating-power.html#cb491-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(true_effect_simulations <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div>
 <pre><code>## [1] 0.821</code></pre>
@@ -1114,7 +1114,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["r4psych.pdf"],
 "search": {
 "engine": "fuse",
 "options": null

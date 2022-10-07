@@ -461,8 +461,8 @@ Congratulations, you've made it! Now watch this video and follow Jeff's advice.
 
 If you ever get stuck with anything, these two book covers always help me.
 
-<img src="..\img/Cat.jpg"; style="max-width:350px"; align="left">
-<img src="..\img/Frog.jpg"; style="max-width:350px"; align="right>
+<img src="..img/Cat.jpg"; style="max-width:350px"; align="left">
+<img src="..img/Frog.jpg"; style="max-width:350px"; align="right>
 
 ## Exercises
 

@@ -568,7 +568,7 @@ div.csl-indent {
 <p>This just makes three groups within our data, and we can look at this like conducting our study in three phases, with three different groups of people. As with the <code>sleepstudy</code> data set, this data set looks at the effect of days without sleep on reaction times.</p>
 <div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="mixed-effects-models.html#cb516-1" aria-hidden="true" tabindex="-1"></a>sleep_groups <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/sleep_study_with_sim_groups.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 540 Columns: 4
-## ── Column specification ────────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (1): Group
 ## dbl (3): Reaction, Days, Subject
@@ -592,7 +592,7 @@ div.csl-indent {
 <span id="cb520-5"><a href="mixed-effects-models.html#cb520-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb520-6"><a href="mixed-effects-models.html#cb520-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="R-for-Psych_files/figure-html/plot-lm-reaction-days-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-lm-reaction-days-1.png" width="672" /></p>
 <p>But, you can see from the colour of the points that we have 3 distinct groups of participants in our model. It’s clear that the three groups have different intercepts, and group 3 has a much steeper slope than the other two groups. Perhaps, then, we should model this difference across groups, even if it’s not the main factor of interest in our study.</p>
 </div>
 <div id="random-intercepts" class="section level4 hasAnchor" number="9.3.1.2">
@@ -637,7 +637,7 @@ div.csl-indent {
 <span id="cb526-16"><a href="mixed-effects-models.html#cb526-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb526-17"><a href="mixed-effects-models.html#cb526-17" aria-hidden="true" tabindex="-1"></a><span class="co"># see the plot</span></span>
 <span id="cb526-18"><a href="mixed-effects-models.html#cb526-18" aria-hidden="true" tabindex="-1"></a>model_coef_plot</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/plot-random-intercepts-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-random-intercepts-1.png" width="672" /></p>
 <p>Now you can see that we fit a model where the intercept (the y value at x = 0) differs across the 3 groups, but the slope of the lines is the same.</p>
 <p>You might pick a random effects structure with random intercepts for data like this if you expect the three groups to differ from one another at the start of testing, but the effect of days on reaction times is the same across groups.</p>
 </div>
@@ -663,7 +663,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="mixed-effects-models.html#cb529-1" aria-hidden="true" tabindex="-1"></a>sleep_groups_rans <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sleep_groups, model_coefs, <span class="at">by =</span> <span class="st">&quot;Group&quot;</span>)</span></code></pre></div>
 <p>Then we’ll plot our original data with our new, random intercepts model. Here, we’ll use a new, cheat function from ggplot, <code>%+%</code> (read: add components). This takes a fitted plot from ggplot, and replaces the data from that plot with whatever comes to the right of the function.</p>
 <div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="mixed-effects-models.html#cb530-1" aria-hidden="true" tabindex="-1"></a>model_coef_plot <span class="sc">%+%</span> sleep_groups_rans</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/plot-random-slopes-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-random-slopes-1.png" width="672" /></p>
 <p>In the above plot, we can now see that our data has the same intercept across groups, but different slopes. It seems that the effect of days without sleep is greatest for group 3.</p>
 </div>
 <div id="random-intercepts-and-slopes" class="section level4 hasAnchor" number="9.3.1.4">
@@ -689,7 +689,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="mixed-effects-models.html#cb535-1" aria-hidden="true" tabindex="-1"></a>sleep_groups_ranis <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sleep_groups, model_coefs, <span class="at">by =</span> <span class="st">&quot;Group&quot;</span>)</span></code></pre></div>
 <p>Then we’ll plot our original data with our new, random intercepts and random slopes model.</p>
 <div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="mixed-effects-models.html#cb536-1" aria-hidden="true" tabindex="-1"></a>model_coef_plot <span class="sc">%+%</span> sleep_groups_ranis</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/plot-random-intercepts-and-slopes-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-random-intercepts-and-slopes-1.png" width="672" /></p>
 <p>As you can see, our model now fits random intercepts and slopes for each group of our participants.</p>
 </div>
 </div>
@@ -840,7 +840,7 @@ div.csl-indent {
 <p>We’ll use the same data set as in TJ’s article, the <code>sleepstudy</code> data set from the <code>lme4</code> package. I’ve already made some changes to this data set by convering it to a tibble and adding a few participants with missing data at the end by simulating new values based on the old participants, and simply deleting a few cells. Load the .csv file from the lesson materials folder to take a look at the data.</p>
 <div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="mixed-effects-models.html#cb552-1" aria-hidden="true" tabindex="-1"></a>sleep_study <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;inputs/sleep_study_with_sim.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 210 Columns: 3
-## ── Column specification ────────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl (3): Subject, Days, Reaction
 ## 
@@ -867,7 +867,7 @@ div.csl-indent {
 <span id="cb556-9"><a href="mixed-effects-models.html#cb556-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">&quot;pointrange&quot;</span>,</span>
 <span id="cb556-10"><a href="mixed-effects-models.html#cb556-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">na.rm =</span> T,</span>
 <span id="cb556-11"><a href="mixed-effects-models.html#cb556-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">colour =</span> <span class="st">&quot;#F8766D&quot;</span>)</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/plot-complete-pooling-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-complete-pooling-1.png" width="672" /></p>
 <p>You can see that this line fits the mean scores pretty well. But how does the data look at the individual level? Again, we’ll save this plot as an object so we can update it later on. We’ll also join these coefficients with our data so that we can easily update our plot when we explore different pooling choices.</p>
 <div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="mixed-effects-models.html#cb557-1" aria-hidden="true" tabindex="-1"></a>complete <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb557-2"><a href="mixed-effects-models.html#cb557-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Subject =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">21</span>),</span>
@@ -893,7 +893,7 @@ div.csl-indent {
 <span id="cb558-13"><a href="mixed-effects-models.html#cb558-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb558-14"><a href="mixed-effects-models.html#cb558-14" aria-hidden="true" tabindex="-1"></a><span class="co"># see the plot</span></span>
 <span id="cb558-15"><a href="mixed-effects-models.html#cb558-15" aria-hidden="true" tabindex="-1"></a>pooling_plot</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/no-pooling-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/no-pooling-1.png" width="672" /></p>
 <p>Wow, so it looks like the model fits participant 18 very well. But what about participants 1, 2, and 14? Maybe a different model would fit their data better. It doesn’t do a good job of explaining their responses, that’s for sure!</p>
 <p>One alternative to this complete pooling method is the opposite: no pooling. Here, we instead fit an individual intercepts and slopes to each individual in the data. We can do this by using the <code>lmer()</code> function from <strong>lme4</strong>. Here, our formula takes the form where reaction times are a function of the days (of deprived sleep) within each participant.</p>
 <div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="mixed-effects-models.html#cb559-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit the model</span></span>
@@ -923,7 +923,7 @@ div.csl-indent {
 <p>Now we’ve got our data in the correct format for plotting, we can have a look at how our models fit our data. Which do you think best matches the individual? Is this model any good when we have a lot of missing data?</p>
 <p>Take a look at participant 20. Do you think the no pooling model is any better than the complete pooling model? What about participant 2?</p>
 <div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="mixed-effects-models.html#cb562-1" aria-hidden="true" tabindex="-1"></a>pooling_plot <span class="sc">%+%</span> model_coefs</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/plot-pooling-no-pooling-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-pooling-no-pooling-1.png" width="672" /></p>
 <p>Finally, we get to where <strong>lme4</strong> shines; partial pooling of results. Here, we’ll fit a mixed effects model where we have fixed effects of Days, which are assumed to be</p>
 <div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="mixed-effects-models.html#cb563-1" aria-hidden="true" tabindex="-1"></a>partial_pooling <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Reaction <span class="sc">~</span> Days <span class="sc">+</span> (Days <span class="sc">|</span> Subject), <span class="at">data =</span> sleep_study)</span></code></pre></div>
 <div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="mixed-effects-models.html#cb564-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract model coefficients</span></span>
@@ -944,11 +944,11 @@ div.csl-indent {
 <span id="cb564-16"><a href="mixed-effects-models.html#cb564-16" aria-hidden="true" tabindex="-1"></a>all_pools <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(model_coefs, partial)</span></code></pre></div>
 <p>Next, we can plot the different models against one another to see what happens.</p>
 <div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="mixed-effects-models.html#cb565-1" aria-hidden="true" tabindex="-1"></a>pooling_plot <span class="sc">%+%</span> all_pools</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/plot-partial-pooling-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/plot-partial-pooling-1.png" width="672" /></p>
 <p>As with TJ’s article, we’ll also zoom in to some of these participants too see what happens.</p>
 <div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="mixed-effects-models.html#cb566-1" aria-hidden="true" tabindex="-1"></a>subset_pools <span class="ot">&lt;-</span> all_pools <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Subject <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">19</span>, <span class="dv">20</span>))</span>
 <span id="cb566-2"><a href="mixed-effects-models.html#cb566-2" aria-hidden="true" tabindex="-1"></a>pooling_plot <span class="sc">%+%</span> subset_pools</span></code></pre></div>
-<p><img src="R-for-Psych_files/figure-html/subset-partial-pooling-1.png" width="672" /></p>
+<p><img src="r4psych_files/figure-html/subset-partial-pooling-1.png" width="672" /></p>
 <p>Here, you can see that in the first two cases (1 and 2), the coefficients of the partial pooling model closely matches that of the no pooling model, showing that this model closely captures the individual differences within each participant.</p>
 <p>Look at participant 20. You’ll notice that the partial and complete pooling lines are more similar to one another. That’s because while the partial pooling model fits individual intercepts and slopes for each participant, it is pulled towards the mean, i.e. the overall intercept and slope across all participants. That’s called shrinkage, where extreme values are pulled towards the average. This means that in cases where we have missing data, our model takes the best bet based on the grand mean, rather than trying to guess an individual intercept and slope based on that one person’s data.</p>
 <p>If you’d like to learn more about how this works, I really recommend consulting the source of this work, the article by <a href="https://tjmahr.github.io/plotting-partial-pooling-in-mixed-effects-models/">TJ Mahr on partial pooling</a>.</p>
@@ -1336,7 +1336,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["r4psych.pdf"],
 "search": {
 "engine": "fuse",
 "options": null
