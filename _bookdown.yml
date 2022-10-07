@@ -6,16 +6,16 @@ delete_merged_file: true
 repo: https://github.com/gpwilliams/r4psych
 output_dir: docs
 rmd_files: [
-"index.Rmd", 
-"01-Introduction.Rmd", 
-"02-Data_Visualisation_One.Rmd", 
-"03-Data_Visualisation_Two.Rmd", 
-"04-Data_Manipulation_One.Rmd", 
-"05-Data_Manipulation_Two.Rmd", 
-"06-Simple_Statistical_Tests.Rmd", 
-"07-Advanced_Statistical_Tests_and_Evaluating_Null.Rmd", 
-"08-Simulation_and_Calculating_Power.Rmd", 
-"09-Mixed_Effects_Models.Rmd", 
+"index.Rmd",
+"01-Introduction.Rmd",
+"02-Data_Visualisation_One.Rmd",
+"03-Data_Visualisation_Two.Rmd",
+"04-Data_Manipulation_One.Rmd",
+"05-Data_Manipulation_Two.Rmd",
+"06-Simple_Statistical_Tests.Rmd",
+"07-Advanced_Statistical_Tests_and_Evaluating_Null.Rmd",
+"08-Simulation_and_Calculating_Power.Rmd",
+"09-Mixed_Effects_Models.Rmd",
 "10-Reporting_Reproducible_Research.Rmd",
 "11-references.Rmd"
 ]

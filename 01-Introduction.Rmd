@@ -110,8 +110,7 @@ R also parses text if included in quotes. The same rule applies about finishing 
 
 ```{r 1_parsing_text}
 "Hello, world!"
-"Hello, world (except you Donald Trump,
-  nobody want's to talk to you)"
+"How are you doing today? Things certainly have been interesting these past few years."
 ```
 
 Crucially, you can store this sort of information in a variable. Variables are useful because you may want to use the results of a calculation and do some further operations on that result. This is especially useful if you're not sure what that first result could be. We assign values to a variable using the assignment operator `<-` (read this as create from).
